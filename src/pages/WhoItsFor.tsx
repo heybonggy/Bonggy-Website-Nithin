@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-router";
 import {
   ArrowLeft,
@@ -13,8 +14,10 @@ import {
   Quote,
   Moon,
   Sun,
+  Menu,
 } from "lucide-react";
 import { useTheme } from "@/hooks/useTheme";
+import { Sheet, SheetContent } from "@/components/ui/sheet";
 
 // ─── UI Helpers ───
 function Logo() {
@@ -31,12 +34,16 @@ function Logo() {
 
 function FloatingControls() {
   const { theme, toggleTheme } = useTheme();
+  const [mobileOpen, setMobileOpen] = useState(false);
+
   return (
     <div className="fixed top-5 left-5 right-5 z-50 flex items-center justify-between bg-bonggy-surface/80 backdrop-blur-md border border-bonggy-border rounded-full px-4 py-2 shadow-sm">
       <Link to="/" className="flex items-center justify-center shrink-0">
         <Logo />
       </Link>
-      <div className="flex items-center gap-1">
+
+      {/* Desktop nav */}
+      <div className="hidden md:flex items-center gap-1">
         <Link to="/" className="text-[13px] text-bonggy-text-secondary hover:text-bonggy-text-primary transition-colors px-3 py-1.5 rounded-md hover:bg-bonggy-bg">Home</Link>
         <Link to="/who-its-for" className="text-[13px] text-bonggy-text-primary font-medium transition-colors px-3 py-1.5 rounded-md bg-bonggy-bg">Who it's for</Link>
         <Link to="/#cta" className="text-[13px] text-bonggy-text-secondary hover:text-bonggy-text-primary transition-colors px-3 py-1.5 rounded-md hover:bg-bonggy-bg">About Us</Link>
@@ -49,6 +56,34 @@ function FloatingControls() {
           {theme === "light" ? <Moon size={14} /> : <Sun size={14} />}
         </button>
       </div>
+
+      {/* Mobile hamburger */}
+      <button
+        onClick={() => setMobileOpen(true)}
+        className="md:hidden p-2 rounded-full text-bonggy-text-secondary hover:text-bonggy-text-primary hover:bg-bonggy-bg transition-colors"
+        aria-label="Open menu"
+      >
+        <Menu size={20} />
+      </button>
+
+      <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
+        <SheetContent side="right" className="w-[280px] bg-bonggy-surface border-bonggy-border p-0">
+          <div className="flex flex-col gap-1 mt-6 px-4">
+            <p className="px-3 mb-2 text-[11px] font-medium text-bonggy-text-tertiary uppercase tracking-wider">Menu</p>
+            <Link to="/" onClick={() => setMobileOpen(false)} className="text-[14px] text-bonggy-text-secondary hover:text-bonggy-text-primary transition-colors px-3 py-2.5 rounded-lg hover:bg-bonggy-bg">Home</Link>
+            <Link to="/who-its-for" onClick={() => setMobileOpen(false)} className="text-[14px] text-bonggy-text-secondary hover:text-bonggy-text-primary transition-colors px-3 py-2.5 rounded-lg hover:bg-bonggy-bg">Who it's for</Link>
+            <Link to="/#cta" onClick={() => setMobileOpen(false)} className="text-[14px] text-bonggy-text-secondary hover:text-bonggy-text-primary transition-colors px-3 py-2.5 rounded-lg hover:bg-bonggy-bg">About Us</Link>
+            <div className="h-px bg-bonggy-border my-2" />
+            <button
+              onClick={() => { toggleTheme(); }}
+              className="flex items-center gap-2 px-3 py-2.5 rounded-lg hover:bg-bonggy-bg transition-colors text-[14px] text-bonggy-text-secondary hover:text-bonggy-text-primary"
+            >
+              {theme === "light" ? <Moon size={16} /> : <Sun size={16} />}
+              <span>{theme === "light" ? "Dark mode" : "Light mode"}</span>
+            </button>
+          </div>
+        </SheetContent>
+      </Sheet>
     </div>
   );
 }
