@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router";
+import { Analytics } from "@vercel/analytics/react";
 import Landing from "./pages/Landing";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
@@ -19,6 +20,7 @@ import Settings from "./pages/app/Settings";
 
 export default function App() {
   return (
+    <>
     <Routes>
       {/* Landing Page */}
       <Route path="/" element={<Landing />} />
@@ -48,5 +50,7 @@ export default function App() {
         <Route path="/app/settings" element={<Settings />} />
       </Route>
     </Routes>
+    <Analytics />
+    </>
   );
 }
