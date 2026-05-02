@@ -207,7 +207,7 @@ function Hero() {
       />
       <div className="relative max-w-[1120px] mx-auto w-full">
         <div className="max-w-[800px] mx-auto text-center">
-          <h1 className="font-serif-display text-[48px] md:text-[80px] lg:text-[96px] font-normal leading-[0.95] tracking-[-0.02em] text-bonggy-text-primary mb-8 md:mb-10">
+          <h1 className="font-serif-display text-[40px] sm:text-[48px] md:text-[80px] lg:text-[96px] font-normal leading-[0.95] tracking-[-0.02em] text-bonggy-text-primary mb-8 md:mb-10 break-words">
             {headlineWords.map((w, i) => (
               <span key={i} className="hero-word inline-block mr-[0.25em]">{w}</span>
             ))}
@@ -217,7 +217,7 @@ function Hero() {
             Bonggy turns signal into strategy so your reps know exactly what to do.
           </p>
           <div className="hero-cta flex items-center justify-center">
-            <a href="https://cal.com/bonggy/30min?overlayCalendar=true" target="_blank" rel="noopener noreferrer" className="text-base font-normal bg-bonggy-text-primary text-bonggy-surface px-8 py-4 rounded-md hover:opacity-85 transition-opacity inline-flex items-center gap-2">
+            <a href="https://cal.com/bonggy/30min?overlayCalendar=true" target="_blank" rel="noopener noreferrer" className="w-full md:w-auto text-base font-normal bg-bonggy-text-primary text-bonggy-surface px-8 py-4 rounded-md hover:opacity-85 transition-opacity inline-flex items-center justify-center gap-2">
               Strategy Session <ArrowRight size={16} />
             </a>
           </div>
@@ -526,12 +526,12 @@ function HowItWorks() {
           ))}
         </div>
 
-        <div className="flex items-center justify-center gap-2">
+        <div className="flex flex-wrap justify-center gap-2">
           {sets.map((set, i) => (
             <button
               key={set.label}
               onClick={() => setActiveSet(i)}
-              className={`px-5 py-2.5 rounded-md text-[14px] transition-all ${
+              className={`flex-1 min-w-[100px] max-w-[160px] px-3 py-2 md:px-5 md:py-2.5 rounded-md text-[13px] md:text-[14px] transition-all ${
                 activeSet === i
                   ? "bg-bonggy-text-primary text-bonggy-surface font-medium"
                   : "text-bonggy-text-secondary hover:text-bonggy-text-primary hover:bg-bonggy-surface border border-bonggy-border"
