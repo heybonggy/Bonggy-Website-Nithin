@@ -153,7 +153,7 @@ function OrbitingIcons() {
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
         style={{
           width: 28 * s, height: 28 * s,
-          background: "radial-gradient(circle, rgba(196,92,38,0.35) 0%, rgba(196,92,38,0.08) 50%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(124,230,85,0.35) 0%, rgba(124,230,85,0.08) 50%, transparent 70%)",
         }}
       />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-bonggy-accent" />
@@ -219,7 +219,7 @@ function Hero() {
         className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
         style={{
           width: "min(700px, 180vw)", height: "min(500px, 120vh)",
-          background: "radial-gradient(ellipse, rgba(196,92,38,0.05) 0%, transparent 70%)",
+          background: "radial-gradient(ellipse, rgba(124,230,85,0.05) 0%, transparent 70%)",
         }}
       />
       <div className="relative max-w-[1120px] mx-auto w-full">
