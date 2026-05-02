@@ -11,6 +11,41 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 
+// ─── Replace this with your Google Apps Script Web App URL ───
+// Setup instructions:
+// 1. Create a Google Sheet. Row 1 headers: Timestamp | Name | Email | Company | Problem
+// 2. Extensions → Apps Script. Paste the script below. Deploy as Web App (Execute as: Me, Access: Anyone).
+// 3. Copy the Web App URL and paste it here.
+const GOOGLE_SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
+
+/*
+─── Google Apps Script ───
+const SHEET_NAME = "Sheet1";
+
+function doPost(e) {
+  const lock = LockService.getScriptLock();
+  lock.tryLock(10000);
+  try {
+    const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
+    const data = JSON.parse(e.postData.contents);
+    sheet.appendRow([
+      new Date(),
+      data.name || "",
+      data.email || "",
+      data.company || "",
+      data.problem || "",
+    ]);
+    lock.releaseLock();
+    return ContentService.createTextOutput(JSON.stringify({ success: true }))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch (err) {
+    lock.releaseLock();
+    return ContentService.createTextOutput(JSON.stringify({ success: false, error: err.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+*/
+
 interface EarlyAccessModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -18,6 +53,8 @@ interface EarlyAccessModalProps {
 
 export function EarlyAccessModal({ open, onOpenChange }: EarlyAccessModalProps) {
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -25,10 +62,24 @@ export function EarlyAccessModal({ open, onOpenChange }: EarlyAccessModalProps) 
     problem: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Early access request:", form);
-    setSubmitted(true);
+    setLoading(true);
+    setError(null);
+
+    try {
+      await fetch(GOOGLE_SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain" },
+        body: JSON.stringify(form),
+      });
+      setSubmitted(true);
+    } catch {
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleChange = (field: string, value: string) => {
@@ -120,11 +171,16 @@ export function EarlyAccessModal({ open, onOpenChange }: EarlyAccessModalProps) 
                 />
               </div>
 
+              {error && (
+                <p className="text-[12px] text-red-400">{error}</p>
+              )}
+
               <Button
                 type="submit"
-                className="w-full bg-[#5cb82e] text-white hover:bg-[#4a9e22] transition-colors font-medium text-[13px] h-9"
+                disabled={loading}
+                className="w-full bg-[#5cb82e] text-white hover:bg-[#4a9e22] transition-colors font-medium text-[13px] h-9 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Request Early Access
+                {loading ? "Submitting..." : "Request Early Access"}
               </Button>
             </form>
           </div>
