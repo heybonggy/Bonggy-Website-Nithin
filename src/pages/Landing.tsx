@@ -104,27 +104,44 @@ function FloatingControls() {
 
 // ─── ORBITING ICONS ───
 function OrbitingIcons() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [scale, setScale] = useState(1);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const update = () => {
+      const width = el.clientWidth;
+      setScale(Math.min(1, width / 340));
+    };
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  const s = scale;
   const orbits = [
-    { icon: Globe, r: 170, delay: 0, duration: 24, tilt: 0, size: 18 },
-    { icon: Search, r: 170, delay: -12, duration: 24, tilt: 0, size: 18 },
-    { icon: Eye, r: 170, delay: -6, duration: 24, tilt: 0, size: 18 },
-    { icon: Bell, r: 170, delay: -18, duration: 24, tilt: 0, size: 18 },
-    { icon: Radio, r: 135, delay: -2, duration: 18, tilt: 45, size: 20 },
-    { icon: Target, r: 135, delay: -11, duration: 18, tilt: 45, size: 20 },
-    { icon: Users, r: 135, delay: -7, duration: 18, tilt: 45, size: 20 },
-    { icon: MessageSquare, r: 135, delay: -15, duration: 18, tilt: 45, size: 20 },
-    { icon: FileText, r: 95, delay: -1, duration: 13, tilt: -35, size: 18 },
-    { icon: Zap, r: 95, delay: -6.5, duration: 13, tilt: -35, size: 18 },
-    { icon: TrendingUp, r: 95, delay: -4, duration: 13, tilt: -35, size: 18 },
-    { icon: Download, r: 95, delay: -9.5, duration: 13, tilt: -35, size: 18 },
-    { icon: ShieldCheck, r: 58, delay: 0, duration: 9, tilt: 70, size: 18 },
-    { icon: TrendingUp, r: 58, delay: -4.5, duration: 9, tilt: 70, size: 18 },
+    { icon: Globe, r: 170 * s, delay: 0, duration: 24, tilt: 0, size: 18 * s },
+    { icon: Search, r: 170 * s, delay: -12, duration: 24, tilt: 0, size: 18 * s },
+    { icon: Eye, r: 170 * s, delay: -6, duration: 24, tilt: 0, size: 18 * s },
+    { icon: Bell, r: 170 * s, delay: -18, duration: 24, tilt: 0, size: 18 * s },
+    { icon: Radio, r: 135 * s, delay: -2, duration: 18, tilt: 45, size: 20 * s },
+    { icon: Target, r: 135 * s, delay: -11, duration: 18, tilt: 45, size: 20 * s },
+    { icon: Users, r: 135 * s, delay: -7, duration: 18, tilt: 45, size: 20 * s },
+    { icon: MessageSquare, r: 135 * s, delay: -15, duration: 18, tilt: 45, size: 20 * s },
+    { icon: FileText, r: 95 * s, delay: -1, duration: 13, tilt: -35, size: 18 * s },
+    { icon: Zap, r: 95 * s, delay: -6.5, duration: 13, tilt: -35, size: 18 * s },
+    { icon: TrendingUp, r: 95 * s, delay: -4, duration: 13, tilt: -35, size: 18 * s },
+    { icon: Download, r: 95 * s, delay: -9.5, duration: 13, tilt: -35, size: 18 * s },
+    { icon: ShieldCheck, r: 58 * s, delay: 0, duration: 9, tilt: 70, size: 18 * s },
+    { icon: TrendingUp, r: 58 * s, delay: -4.5, duration: 9, tilt: 70, size: 18 * s },
   ];
 
-  const traces = [170, 135, 95, 58];
+  const traces = [170 * s, 135 * s, 95 * s, 58 * s];
 
   return (
-    <div className="relative w-full max-w-[420px] mx-auto aspect-square">
+    <div ref={containerRef} className="relative w-full max-w-[420px] mx-auto aspect-square overflow-hidden">
       {traces.map((r) => (
         <div
           key={r}
@@ -135,7 +152,7 @@ function OrbitingIcons() {
       <div
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
         style={{
-          width: 28, height: 28,
+          width: 28 * s, height: 28 * s,
           background: "radial-gradient(circle, rgba(196,92,38,0.35) 0%, rgba(196,92,38,0.08) 50%, transparent 70%)",
         }}
       />
@@ -168,7 +185,7 @@ function OrbitingIcons() {
                 className="flex items-center justify-center rounded-full bg-bonggy-surface border border-bonggy-border shadow-sm"
                 style={{ width: o.size + 14, height: o.size + 14, transform: `rotate(-${o.tilt}deg)` }}
               >
-                <Icon size={o.size} className="text-bonggy-text-primary" strokeWidth={1.5} />
+                <Icon size={Math.round(o.size)} className="text-bonggy-text-primary" strokeWidth={1.5} />
               </div>
             </div>
           </div>
@@ -201,13 +218,13 @@ function Hero() {
       <div
         className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
         style={{
-          width: 700, height: 500,
+          width: "min(700px, 180vw)", height: "min(500px, 120vh)",
           background: "radial-gradient(ellipse, rgba(196,92,38,0.05) 0%, transparent 70%)",
         }}
       />
       <div className="relative max-w-[1120px] mx-auto w-full">
         <div className="max-w-[800px] mx-auto text-center">
-          <h1 className="font-serif-display text-[40px] sm:text-[48px] md:text-[80px] lg:text-[96px] font-normal leading-[0.95] tracking-[-0.02em] text-bonggy-text-primary mb-8 md:mb-10 break-words">
+          <h1 className="font-serif-display text-[40px] sm:text-[48px] md:text-[80px] lg:text-[96px] font-normal leading-[0.95] tracking-[-0.02em] text-bonggy-text-primary mb-8 md:mb-10 break-words max-w-full">
             {headlineWords.map((w, i) => (
               <span key={i} className="hero-word inline-block mr-[0.25em]">{w}</span>
             ))}
@@ -217,7 +234,7 @@ function Hero() {
             Bonggy turns signal into strategy so your reps know exactly what to do.
           </p>
           <div className="hero-cta w-full flex items-center justify-center">
-            <a href="https://cal.com/bonggy/30min?overlayCalendar=true" target="_blank" rel="noopener noreferrer" className="!w-full md:!w-auto text-base font-normal bg-bonggy-text-primary text-bonggy-surface px-8 py-4 rounded-md hover:opacity-85 transition-opacity flex items-center justify-center gap-2">
+            <a href="https://cal.com/bonggy/30min?overlayCalendar=true" target="_blank" rel="noopener noreferrer" className="w-full md:w-auto text-base font-normal bg-bonggy-text-primary text-bonggy-surface px-8 py-4 rounded-md hover:opacity-85 transition-opacity flex items-center justify-center gap-2">
               Strategy Session <ArrowRight size={16} />
             </a>
           </div>
@@ -576,7 +593,7 @@ function ObjectionHandler() {
             <p className="text-bonggy-text-primary">Your stack is not the problem. The absence of strategic thinking between signal and send is.</p>
           </div>
         </div>
-        <div className="w-full md:w-[380px] flex-shrink-0">
+        <div className="w-full md:w-[380px] flex-shrink-0 overflow-hidden">
           <OrbitingIcons />
         </div>
       </div>
