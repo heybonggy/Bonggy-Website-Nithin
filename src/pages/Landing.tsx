@@ -483,7 +483,7 @@ function HowItWorks() {
   const current = sets[activeSet];
 
   return (
-    <section id="product" className="py-[100px] md:py-[120px] px-5 md:px-10">
+    <section id="how-it-works" className="py-[100px] md:py-[120px] px-5 md:px-10">
       <div className="max-w-[1120px] mx-auto">
         <div ref={headerRef} className="text-center mb-12">
           <SectionLabel>How it works</SectionLabel>
