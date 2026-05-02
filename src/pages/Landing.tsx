@@ -449,7 +449,7 @@ function HowItWorks() {
 
   const sets = [
     {
-      label: "Signal",
+      label: "Agents",
       desc: "Watch and cluster",
       steps: [
         { num: "01", title: "Ingest every signal.", desc: "Job changes, funding, tech shifts, org moves. One feed. Zero tabs." },
@@ -459,23 +459,43 @@ function HowItWorks() {
       ],
     },
     {
-      label: "Create",
+      label: "Drafts",
       desc: "Narrate and arm",
       steps: [
-        { num: "05", title: "Write the narrative.", desc: "Angles that create urgency. Not templates that create eye rolls." },
-        { num: "06", title: "Generate ammo packs.", desc: "Three tones per contact. Export-ready for any sequencer." },
-        { num: "07", title: "Check coherence.", desc: "Catch contradictions before send. Consistency wins." },
-        { num: "08", title: "Learn win patterns.", desc: "Closed-won data teaches what to look for next." },
+        { num: "01", title: "Generate the sequence.", desc: "AI writes a full multi-touch sequence for one specific buyer. Not a template." },
+        { num: "02", title: "Choose your angles.", desc: "Direct, Value-first, Question-led, Social Proof, Competitive, Advisory. Pick the tones that fit." },
+        { num: "03", title: "Review and approve.", desc: "Draft → Approved → Sent. Every email tagged, numbered, and ready." },
+        { num: "04", title: "Export and send.", desc: "Push to Outreach, Apollo, Salesloft. Or grab the CSV and go manual." },
       ],
     },
     {
-      label: "Execute",
-      desc: "Brief and sync",
+      label: "Lists",
+      desc: "Build and prioritize",
       steps: [
-        { num: "09", title: "Brief your team.", desc: "Daily hot accounts, why now, what to say. Zero research." },
-        { num: "10", title: "Sync and execute.", desc: "Push to sequencer. Auto-enroll. Zero manual work." },
-        { num: "11", title: "Learn and iterate.", desc: "Every reply, every meeting, every win feeds back in. The system gets sharper as you use it." },
-        { num: "12", title: "Measure what matters.", desc: "Track narrative quality, thread depth, and pattern match rate. Not vanity metrics. Pipeline truth." },
+        { num: "01", title: "Build smart lists.", desc: "Aggregate contacts by signal cluster, playbook match, or territory. Not static CSVs." },
+        { num: "02", title: "Rank by urgency.", desc: "Intent score surfaces who to call today versus next quarter." },
+        { num: "03", title: "Segment by motion.", desc: "Match each list to the right playbook, tone DNA, and outreach strategy." },
+        { num: "04", title: "Monitor continuously.", desc: "Auto-refresh as signals change. Lists stay alive while you sleep." },
+      ],
+    },
+    {
+      label: "Enrich",
+      desc: "Research and verify",
+      steps: [
+        { num: "01", title: "Enrich every profile.", desc: "Job history, content themes, communication style. More than a data dump." },
+        { num: "02", title: "Analyze personality.", desc: "Tone matching based on traits and social activity. Know how they talk." },
+        { num: "03", title: "Map social signals.", desc: "LinkedIn posts, X activity, news mentions. Real context, not guesswork." },
+        { num: "04", title: "Verify thread gaps.", desc: "Missing committee members that kill deals. Flagged before you send." },
+      ],
+    },
+    {
+      label: "Playbooks",
+      desc: "Strategy and position",
+      steps: [
+        { num: "01", title: "Define the ICP.", desc: "Ideal customer profile rooted in real win data. Not demographic fiction." },
+        { num: "02", title: "Map persona pain points.", desc: "What each buyer cares about, when they care, and why." },
+        { num: "03", title: "Position against competitors.", desc: "Why you win in a bake-off. Competitor angles built into every draft." },
+        { num: "04", title: "Build win patterns.", desc: "Closed-won data teaches what to look for next. The system gets sharper." },
       ],
     },
   ];
@@ -487,7 +507,7 @@ function HowItWorks() {
       <div className="max-w-[1120px] mx-auto">
         <div ref={headerRef} className="text-center mb-12">
           <SectionLabel>How it works</SectionLabel>
-          <h2 className="font-serif-display text-[36px] md:text-[48px] font-normal leading-[1.05] tracking-[-0.02em] text-bonggy-text-primary">From signal to send in 10 steps.</h2>
+          <h2 className="font-serif-display text-[36px] md:text-[48px] font-normal leading-[1.05] tracking-[-0.02em] text-bonggy-text-primary">Five modules. One revenue system.</h2>
         </div>
 
         <div ref={gridRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
