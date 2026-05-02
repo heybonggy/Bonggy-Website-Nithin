@@ -72,7 +72,7 @@ export function EarlyAccessModal({ open, onOpenChange }: EarlyAccessModalProps) 
                     value={form.name}
                     onChange={(e) => handleChange("name", e.target.value)}
                     placeholder="Your name"
-                    className="h-8 text-[13px] bg-bonggy-bg border-bonggy-border text-bonggy-text-primary placeholder:text-bonggy-text-tertiary focus-visible:border-bonggy-accent focus-visible:ring-bonggy-accent/30"
+                    className="h-8 text-[13px] bg-bonggy-bg border-bonggy-border text-bonggy-text-primary placeholder:text-bonggy-text-tertiary focus-visible:border-[#5cb82e] focus-visible:ring-[#5cb82e]/30"
                   />
                 </div>
                 <div className="space-y-1">
@@ -86,7 +86,7 @@ export function EarlyAccessModal({ open, onOpenChange }: EarlyAccessModalProps) 
                     value={form.email}
                     onChange={(e) => handleChange("email", e.target.value)}
                     placeholder="you@company.com"
-                    className="h-8 text-[13px] bg-bonggy-bg border-bonggy-border text-bonggy-text-primary placeholder:text-bonggy-text-tertiary focus-visible:border-bonggy-accent focus-visible:ring-bonggy-accent/30"
+                    className="h-8 text-[13px] bg-bonggy-bg border-bonggy-border text-bonggy-text-primary placeholder:text-bonggy-text-tertiary focus-visible:border-[#5cb82e] focus-visible:ring-[#5cb82e]/30"
                   />
                 </div>
               </div>
@@ -101,7 +101,7 @@ export function EarlyAccessModal({ open, onOpenChange }: EarlyAccessModalProps) 
                   value={form.company}
                   onChange={(e) => handleChange("company", e.target.value)}
                   placeholder="Company name"
-                  className="h-8 text-[13px] bg-bonggy-bg border-bonggy-border text-bonggy-text-primary placeholder:text-bonggy-text-tertiary focus-visible:border-bonggy-accent focus-visible:ring-bonggy-accent/30"
+                  className="h-8 text-[13px] bg-bonggy-bg border-bonggy-border text-bonggy-text-primary placeholder:text-bonggy-text-tertiary focus-visible:border-[#5cb82e] focus-visible:ring-[#5cb82e]/30"
                 />
               </div>
 
@@ -116,13 +116,13 @@ export function EarlyAccessModal({ open, onOpenChange }: EarlyAccessModalProps) 
                   onChange={(e) => handleChange("problem", e.target.value)}
                   placeholder="Tell us where your outbound workflow breaks..."
                   rows={2}
-                  className="text-[13px] bg-bonggy-bg border-bonggy-border text-bonggy-text-primary placeholder:text-bonggy-text-tertiary focus-visible:border-bonggy-accent focus-visible:ring-bonggy-accent/30 resize-none min-h-0"
+                  className="text-[13px] bg-bonggy-bg border-bonggy-border text-bonggy-text-primary placeholder:text-bonggy-text-tertiary focus-visible:border-[#5cb82e] focus-visible:ring-[#5cb82e]/30 resize-none min-h-0"
                 />
               </div>
 
               <Button
                 type="submit"
-                className="w-full bg-bonggy-accent text-bonggy-surface hover:bg-bonggy-accent-hover transition-colors font-medium text-[13px] h-9"
+                className="w-full bg-[#5cb82e] text-white hover:bg-[#4a9e22] transition-colors font-medium text-[13px] h-9"
               >
                 Request Early Access
               </Button>
