@@ -644,7 +644,7 @@ function WhoItsFor() {
         </p>
 
         {/* Founder Quote */}
-        <div className="bg-bonggy-bg border border-bonggy-border rounded-xl p-6 md:p-8 mb-10 max-w-[800px]">
+        <div className="bg-bonggy-bg border border-bonggy-border rounded-xl p-6 md:p-8 mb-10">
           <Quote size={20} className="text-bonggy-accent mb-3" />
           <p className="text-[16px] md:text-[18px] text-bonggy-text-primary leading-[1.6] font-serif-display mb-4">
             &ldquo;We built Bonggy because we lived this. The SDR who spends 70% of her week researching and 30% selling, not because she is lazy, but because she is not equipped. The AE who doubts every call because the data behind it is three days old. The manager who cannot coach because the CRM is a mess of conflicting sources. The RevOps lead who spends Monday mornings reconciling what Apollo, Salesforce, and Outreach each think is true. This is not a talent problem. This is not a strategy problem. This is a friction problem. And the friction is not between you and your prospects. It is between your SDRs, your AEs, your managers, and your RevOps team, all working from different versions of the truth. We are done pretending this is normal.&rdquo;
