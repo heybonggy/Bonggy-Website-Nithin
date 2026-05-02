@@ -4,6 +4,7 @@ import CookieConsent from "@/components/CookieConsent";
 import Landing from "./pages/Landing";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
+import FAQ from "./pages/FAQ";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Onboarding from "./pages/Onboarding";
@@ -31,6 +32,7 @@ export default function App() {
       <Route path="/privacy.html" element={<Privacy />} />
       <Route path="/terms" element={<Terms />} />
       <Route path="/terms.html" element={<Terms />} />
+      <Route path="/faq" element={<FAQ />} />
 
       {/* Auth */}
       <Route path="/login" element={<Login />} />

@@ -61,6 +61,7 @@ function FloatingControls() {
         <a href="#" className="text-[13px] text-bonggy-text-secondary hover:text-bonggy-text-primary transition-colors px-3 py-1.5 rounded-md hover:bg-bonggy-bg">Home</a>
         <a href="#how-it-works" className="text-[13px] text-bonggy-text-secondary hover:text-bonggy-text-primary transition-colors px-3 py-1.5 rounded-md hover:bg-bonggy-bg">How it works</a>
         <a href="#who-its-for" className="text-[13px] text-bonggy-text-secondary hover:text-bonggy-text-primary transition-colors px-3 py-1.5 rounded-md hover:bg-bonggy-bg">Who it's for</a>
+        <a href="/faq" className="text-[13px] text-bonggy-text-secondary hover:text-bonggy-text-primary transition-colors px-3 py-1.5 rounded-md hover:bg-bonggy-bg">FAQ</a>
         <a href="#cta" className="text-[13px] text-bonggy-text-secondary hover:text-bonggy-text-primary transition-colors px-3 py-1.5 rounded-md hover:bg-bonggy-bg">About Us</a>
         <button
           onClick={() => setEarlyAccessOpen(true)}
@@ -94,6 +95,7 @@ function FloatingControls() {
             <a href="#" onClick={() => setMobileOpen(false)} className="text-[14px] text-bonggy-text-secondary hover:text-bonggy-text-primary transition-colors px-3 py-2.5 rounded-lg hover:bg-bonggy-bg">Home</a>
             <a href="#how-it-works" onClick={() => setMobileOpen(false)} className="text-[14px] text-bonggy-text-secondary hover:text-bonggy-text-primary transition-colors px-3 py-2.5 rounded-lg hover:bg-bonggy-bg">How it works</a>
             <a href="#who-its-for" onClick={() => setMobileOpen(false)} className="text-[14px] text-bonggy-text-secondary hover:text-bonggy-text-primary transition-colors px-3 py-2.5 rounded-lg hover:bg-bonggy-bg">Who it's for</a>
+            <a href="/faq" onClick={() => setMobileOpen(false)} className="text-[14px] text-bonggy-text-secondary hover:text-bonggy-text-primary transition-colors px-3 py-2.5 rounded-lg hover:bg-bonggy-bg">FAQ</a>
             <a href="#cta" onClick={() => setMobileOpen(false)} className="text-[14px] text-bonggy-text-secondary hover:text-bonggy-text-primary transition-colors px-3 py-2.5 rounded-lg hover:bg-bonggy-bg">About Us</a>
             <button
               onClick={() => { setMobileOpen(false); setEarlyAccessOpen(true); }}
@@ -773,6 +775,7 @@ function Footer() {
         <Logo />
         <p className="text-[14px] text-bonggy-text-tertiary">The strategy layer between signal and send.</p>
         <div className="flex items-center gap-6">
+          <a href="/faq" className="text-[14px] text-bonggy-text-secondary hover:text-bonggy-text-primary transition-colors">FAQ</a>
           <a href="/privacy.html" className="text-[14px] text-bonggy-text-secondary hover:text-bonggy-text-primary transition-colors">Privacy</a>
           <a href="/terms.html" className="text-[13px] text-bonggy-text-secondary hover:text-bonggy-text-primary transition-colors">Terms</a>
         </div>
