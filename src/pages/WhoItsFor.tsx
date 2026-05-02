@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { useTheme } from "@/hooks/useTheme";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
+import { EarlyAccessModal } from "@/components/EarlyAccessModal";
 
 // ─── UI Helpers ───
 function Logo() {
@@ -35,6 +36,7 @@ function Logo() {
 function FloatingControls() {
   const { theme, toggleTheme } = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [earlyAccessOpen, setEarlyAccessOpen] = useState(false);
 
   return (
     <div className="fixed top-5 left-5 right-5 z-50 flex items-center justify-between bg-bonggy-surface/80 backdrop-blur-md border border-bonggy-border rounded-full px-4 py-2 shadow-sm">
@@ -48,6 +50,12 @@ function FloatingControls() {
         <Link to="/#how-it-works" className="text-[13px] text-bonggy-text-secondary hover:text-bonggy-text-primary transition-colors px-3 py-1.5 rounded-md hover:bg-bonggy-bg">How it works</Link>
         <Link to="/who-its-for" className="text-[13px] text-bonggy-text-primary font-medium transition-colors px-3 py-1.5 rounded-md bg-bonggy-bg">Who it's for</Link>
         <Link to="/#cta" className="text-[13px] text-bonggy-text-secondary hover:text-bonggy-text-primary transition-colors px-3 py-1.5 rounded-md hover:bg-bonggy-bg">About Us</Link>
+        <button
+          onClick={() => setEarlyAccessOpen(true)}
+          className="text-[13px] font-medium text-bonggy-accent bg-bonggy-accent/10 border border-bonggy-accent/30 hover:bg-bonggy-accent/20 hover:border-bonggy-accent/50 transition-colors px-3 py-1.5 rounded-md"
+        >
+          Early Access
+        </button>
         <div className="w-px h-4 bg-bonggy-border mx-1" />
         <button
           onClick={toggleTheme}
@@ -75,6 +83,12 @@ function FloatingControls() {
             <Link to="/#how-it-works" onClick={() => setMobileOpen(false)} className="text-[14px] text-bonggy-text-secondary hover:text-bonggy-text-primary transition-colors px-3 py-2.5 rounded-lg hover:bg-bonggy-bg">How it works</Link>
             <Link to="/who-its-for" onClick={() => setMobileOpen(false)} className="text-[14px] text-bonggy-text-secondary hover:text-bonggy-text-primary transition-colors px-3 py-2.5 rounded-lg hover:bg-bonggy-bg">Who it's for</Link>
             <Link to="/#cta" onClick={() => setMobileOpen(false)} className="text-[14px] text-bonggy-text-secondary hover:text-bonggy-text-primary transition-colors px-3 py-2.5 rounded-lg hover:bg-bonggy-bg">About Us</Link>
+            <button
+              onClick={() => { setMobileOpen(false); setEarlyAccessOpen(true); }}
+              className="text-left text-[14px] font-medium text-bonggy-accent bg-bonggy-accent/10 border border-bonggy-accent/30 hover:bg-bonggy-accent/20 hover:border-bonggy-accent/50 transition-colors px-3 py-2.5 rounded-lg"
+            >
+              Early Access
+            </button>
             <div className="h-px bg-bonggy-border my-2" />
             <button
               onClick={() => { toggleTheme(); }}
@@ -86,6 +100,8 @@ function FloatingControls() {
           </div>
         </SheetContent>
       </Sheet>
+
+      <EarlyAccessModal open={earlyAccessOpen} onOpenChange={setEarlyAccessOpen} />
     </div>
   );
 }
