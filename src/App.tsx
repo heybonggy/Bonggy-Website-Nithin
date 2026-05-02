@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router";
 import { Analytics } from "@vercel/analytics/react";
+import CookieConsent from "@/components/CookieConsent";
 import Landing from "./pages/Landing";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
@@ -51,6 +52,7 @@ export default function App() {
       </Route>
     </Routes>
     <Analytics />
+    <CookieConsent />
     </>
   );
 }
