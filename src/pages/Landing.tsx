@@ -216,8 +216,8 @@ function Hero() {
             More data does not mean more pipeline. It means more noise.
             Bonggy turns signal into strategy so your reps know exactly what to do.
           </p>
-          <div className="hero-cta flex items-center justify-center">
-            <a href="https://cal.com/bonggy/30min?overlayCalendar=true" target="_blank" rel="noopener noreferrer" className="w-full md:w-auto text-base font-normal bg-bonggy-text-primary text-bonggy-surface px-8 py-4 rounded-md hover:opacity-85 transition-opacity inline-flex items-center justify-center gap-2">
+          <div className="hero-cta w-full flex items-center justify-center">
+            <a href="https://cal.com/bonggy/30min?overlayCalendar=true" target="_blank" rel="noopener noreferrer" className="!w-full md:!w-auto text-base font-normal bg-bonggy-text-primary text-bonggy-surface px-8 py-4 rounded-md hover:opacity-85 transition-opacity flex items-center justify-center gap-2">
               Strategy Session <ArrowRight size={16} />
             </a>
           </div>
@@ -279,7 +279,7 @@ function Stats() {
   return (
     <section ref={ref} className="py-20 md:py-28 px-5 md:px-10 border-y border-bonggy-border bg-bonggy-surface">
       <div className="max-w-[1120px] mx-auto">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-12 md:gap-8 text-center">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 text-center">
           {stats.map((s, i) => (
             <div key={s.label}>
               <span
