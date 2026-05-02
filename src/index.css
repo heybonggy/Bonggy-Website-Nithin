@@ -33,17 +33,17 @@
     --sidebar-border: 50 4% 88%;
     --sidebar-ring: 18 68% 46%;
 
-    --bonggy-bg: #f0f4f1;
-    --bonggy-surface: #ffffff;
-    --bonggy-text-primary: #0a0f0d;
-    --bonggy-text-secondary: #4a6a5a;
-    --bonggy-text-tertiary: #8aaa9a;
-    --bonggy-border: #d0e0d6;
-    --bonggy-border-hover: #b0d0c0;
-    --bonggy-accent: #22c55e;
-    --bonggy-accent-hover: #16a34a;
-    --bonggy-success: #2d8a4e;
-    --bonggy-warning: #c9a227;
+    --bonggy-bg: #0a0f0d;
+    --bonggy-surface: #0f2e1f;
+    --bonggy-text-primary: #f0f0ee;
+    --bonggy-text-secondary: #a0a0a0;
+    --bonggy-text-tertiary: #5a7a6a;
+    --bonggy-border: #1a3d2e;
+    --bonggy-border-hover: #2a5d3e;
+    --bonggy-accent: #7ce655;
+    --bonggy-accent-hover: #6bd444;
+    --bonggy-success: #3da863;
+    --bonggy-warning: #d4b43e;
   }
 
   .dark {
