@@ -751,7 +751,7 @@ function Footer() {
 // ─── LANDING PAGE ───
 export default function Landing() {
   return (
-    <div className="min-h-screen bg-bonggy-bg text-bonggy-text-primary font-sans antialiased transition-colors duration-300">
+    <div className="min-h-screen bg-bonggy-bg text-bonggy-text-primary font-sans antialiased transition-colors duration-300 overflow-x-hidden">
       <FloatingControls />
       <Hero />
       <Stats />
