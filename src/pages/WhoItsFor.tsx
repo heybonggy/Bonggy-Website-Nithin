@@ -45,6 +45,7 @@ function FloatingControls() {
       {/* Desktop nav */}
       <div className="hidden md:flex items-center gap-1">
         <Link to="/" className="text-[13px] text-bonggy-text-secondary hover:text-bonggy-text-primary transition-colors px-3 py-1.5 rounded-md hover:bg-bonggy-bg">Home</Link>
+        <Link to="/#how-it-works" className="text-[13px] text-bonggy-text-secondary hover:text-bonggy-text-primary transition-colors px-3 py-1.5 rounded-md hover:bg-bonggy-bg">How it works</Link>
         <Link to="/who-its-for" className="text-[13px] text-bonggy-text-primary font-medium transition-colors px-3 py-1.5 rounded-md bg-bonggy-bg">Who it's for</Link>
         <Link to="/#cta" className="text-[13px] text-bonggy-text-secondary hover:text-bonggy-text-primary transition-colors px-3 py-1.5 rounded-md hover:bg-bonggy-bg">About Us</Link>
         <div className="w-px h-4 bg-bonggy-border mx-1" />
@@ -71,6 +72,7 @@ function FloatingControls() {
           <div className="flex flex-col gap-1 mt-6 px-4">
             <p className="px-3 mb-2 text-[11px] font-medium text-bonggy-text-tertiary uppercase tracking-wider">Menu</p>
             <Link to="/" onClick={() => setMobileOpen(false)} className="text-[14px] text-bonggy-text-secondary hover:text-bonggy-text-primary transition-colors px-3 py-2.5 rounded-lg hover:bg-bonggy-bg">Home</Link>
+            <Link to="/#how-it-works" onClick={() => setMobileOpen(false)} className="text-[14px] text-bonggy-text-secondary hover:text-bonggy-text-primary transition-colors px-3 py-2.5 rounded-lg hover:bg-bonggy-bg">How it works</Link>
             <Link to="/who-its-for" onClick={() => setMobileOpen(false)} className="text-[14px] text-bonggy-text-secondary hover:text-bonggy-text-primary transition-colors px-3 py-2.5 rounded-lg hover:bg-bonggy-bg">Who it's for</Link>
             <Link to="/#cta" onClick={() => setMobileOpen(false)} className="text-[14px] text-bonggy-text-secondary hover:text-bonggy-text-primary transition-colors px-3 py-2.5 rounded-lg hover:bg-bonggy-bg">About Us</Link>
             <div className="h-px bg-bonggy-border my-2" />
