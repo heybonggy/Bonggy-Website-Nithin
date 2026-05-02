@@ -16,7 +16,7 @@ import { Label } from "@/components/ui/label";
 // 1. Create a Google Sheet. Row 1 headers: Timestamp | Name | Email | Company | Problem
 // 2. Extensions → Apps Script. Paste the script below. Deploy as Web App (Execute as: Me, Access: Anyone).
 // 3. Copy the Web App URL and paste it here.
-const GOOGLE_SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzdGEKeBiSF4ErB1gKENvNpXwyiYzdJWHeLoZmNlq1nrkTlLHbOh2SdR3DUSn0FYKlvVA/exec";
 
 /*
 ─── Google Apps Script ───
