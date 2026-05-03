@@ -679,9 +679,6 @@ function WhoItsFor() {
         <h2 className="wif-headline font-serif-display text-[32px] md:text-[48px] font-normal leading-[1.05] tracking-[-0.02em] text-bonggy-text-primary mb-4 max-w-[640px]">
           Who Bonggy is actually for
         </h2>
-        <p className="text-base text-bonggy-text-secondary leading-[1.6] mb-10 max-w-[560px]">
-          Series A-C SaaS companies with 10-100 SDR/AE headcount who are currently stitching together 3-4 tools and spending half their week on data plumbing. More broadly: anyone with a sales team, or founder-led teams that do outbound.
-        </p>
 
         {/* Founder Quote */}
         <div className="bg-bonggy-bg border border-bonggy-border rounded-xl p-6 md:p-8 mb-10">
@@ -717,8 +714,8 @@ function WhoItsFor() {
           })}
         </div>
 
-        {/* Titles who benefit */}
-        <h3 className="text-[20px] font-medium text-bonggy-text-primary mb-4">Titles who benefit</h3>
+        {/* Who Bonggy is actually for */}
+        <h3 className="text-[20px] font-medium text-bonggy-text-primary mb-4">Who Bonggy is actually for</h3>
         <div className="space-y-3 mb-10">
           {[
             { role: "VP Sales / Head of Sales", outcome: "Hot accounts ranked by urgency, not alphabetically. Know what to talk about before the call starts." },
