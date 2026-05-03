@@ -672,7 +672,7 @@ function WhoItsFor() {
   return (
     <section ref={ref} id="who-its-for" className="py-[100px] md:py-[120px] px-5 md:px-10 bg-bonggy-surface border-y border-bonggy-border">
       <div className="max-w-[1120px] mx-auto">
-        <p className="text-[13px] text-bonggy-accent uppercase tracking-wide font-medium mb-3">Founder Note</p>
+        <p className="text-[13px] text-bonggy-accent uppercase tracking-wide font-medium mb-3">💚 Founder Note</p>
 
         {/* Founder Quote */}
         <div className="bg-bonggy-bg border border-bonggy-border rounded-xl p-6 md:p-8 mb-10">
