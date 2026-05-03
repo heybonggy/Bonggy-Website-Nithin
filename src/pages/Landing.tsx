@@ -8,7 +8,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useTheme } from "@/hooks/useTheme";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { EarlyAccessModal } from "@/components/EarlyAccessModal";
-import { HalftoneDots } from "@/components/HalftoneDots";
+
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -241,10 +241,7 @@ function Hero() {
           background: "radial-gradient(ellipse, rgba(124,230,85,0.05) 0%, transparent 70%)",
         }}
       />
-      {/* Halftone dot animation — right side */}
-      <div className="absolute right-0 top-0 bottom-0 w-full md:w-[55%] pointer-events-none overflow-hidden">
-        <HalftoneDots />
-      </div>
+
       <div className="relative max-w-[1120px] mx-auto w-full">
         <div className="max-w-[800px] mx-auto text-center">
           <h1 className="font-serif-display text-[40px] sm:text-[48px] md:text-[80px] lg:text-[96px] font-normal leading-[0.95] tracking-[-0.02em] text-bonggy-text-primary mb-8 md:mb-10 break-words max-w-full">
