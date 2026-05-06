@@ -8,6 +8,15 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useTheme } from "@/hooks/useTheme";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { EarlyAccessModal } from "@/components/EarlyAccessModal";
+import {
+  NoiseOverlay,
+  FloatingOrbs,
+  SpotlightCard,
+  MagneticButton,
+  ShimmerText,
+  TiltCard,
+  ScrollSkew,
+} from "@/components/effects";
 
 
 gsap.registerPlugin(ScrollTrigger);
@@ -234,6 +243,7 @@ function Hero() {
 
   return (
     <section ref={sectionRef} className="relative pt-24 md:pt-32 pb-16 md:pb-24 lg:min-h-screen px-5 md:px-10 overflow-hidden flex items-center">
+      <FloatingOrbs />
       <div
         className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
         style={{
@@ -244,19 +254,23 @@ function Hero() {
 
       <div className="relative max-w-[1120px] mx-auto w-full">
         <div className="max-w-[800px] mx-auto text-center">
-          <h1 className="font-serif-display text-[40px] sm:text-[48px] md:text-[80px] lg:text-[96px] font-normal leading-[0.95] tracking-[-0.02em] text-bonggy-text-primary mb-8 md:mb-10 break-words max-w-full">
-            {headlineWords.map((w, i) => (
-              <span key={i} className="hero-word inline-block mr-[0.25em]">{w}</span>
-            ))}
+          <h1 className="font-serif-display text-[40px] sm:text-[48px] md:text-[80px] lg:text-[96px] font-normal leading-[0.95] tracking-[-0.02em] mb-8 md:mb-10 break-words max-w-full">
+            <ShimmerText>
+              {headlineWords.map((w, i) => (
+                <span key={i} className="hero-word inline-block mr-[0.25em]">{w}</span>
+              ))}
+            </ShimmerText>
           </h1>
           <p className="hero-sub text-lg md:text-xl text-bonggy-text-secondary leading-[1.6] mb-10 max-w-[480px] mx-auto">
             More data does not mean more pipeline. It means more noise.
             Bonggy turns signal into strategy so your reps know exactly what to do.
           </p>
           <div className="hero-cta w-full flex items-center justify-center">
-            <a href="https://cal.com/bonggy/30min?overlayCalendar=true" target="_blank" rel="noopener noreferrer" className="w-full md:w-auto text-base font-normal bg-bonggy-text-primary text-bonggy-surface px-8 py-4 rounded-md hover:opacity-85 transition-opacity flex items-center justify-center gap-2">
-              Strategy Session <ArrowRight size={16} />
-            </a>
+            <MagneticButton>
+              <a href="https://cal.com/bonggy/30min?overlayCalendar=true" target="_blank" rel="noopener noreferrer" className="w-full md:w-auto text-base font-normal bg-bonggy-text-primary text-bonggy-surface px-8 py-4 rounded-md hover:opacity-85 transition-opacity flex items-center justify-center gap-2">
+                Strategy Session <ArrowRight size={16} />
+              </a>
+            </MagneticButton>
           </div>
         </div>
       </div>
@@ -453,10 +467,10 @@ function TheInsight() {
             { num: "60%", label: "heard it before" },
             { num: "1%", label: "reply rate" },
           ].map((s) => (
-            <div key={s.label} className="insight-item bg-bonggy-bg border border-bonggy-border rounded-[10px] p-5 text-center">
+            <TiltCard key={s.label} className="insight-item bg-bonggy-bg border border-bonggy-border rounded-[10px] p-5 text-center">
               <p className="text-[28px] md:text-[32px] font-normal text-bonggy-text-primary tracking-[-0.02em]">{s.num}</p>
               <p className="text-[12px] text-bonggy-text-tertiary mt-1">{s.label}</p>
-            </div>
+            </TiltCard>
           ))}
         </div>
         <div className="max-w-[640px] mx-auto text-center">
@@ -549,7 +563,7 @@ function HowItWorks() {
 
         <div ref={gridRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
           {current.steps.map((s) => (
-            <div
+            <SpotlightCard
               key={s.num}
               className="hiw-card group p-6 rounded-[10px] border border-bonggy-border bg-bonggy-surface"
             >
@@ -559,7 +573,7 @@ function HowItWorks() {
               <div className="mt-5 h-px bg-bonggy-border rounded-full overflow-hidden">
                 <div className="h-full bg-bonggy-text-primary w-0 group-hover:w-full transition-all duration-700 ease-out" />
               </div>
-            </div>
+            </SpotlightCard>
           ))}
         </div>
 
@@ -638,8 +652,9 @@ function CTA() {
   }, []);
 
   return (
-    <section ref={sectionRef} id="cta" className="py-[120px] md:py-[160px] px-5 md:px-10 bg-bonggy-surface">
-      <div className="max-w-[720px] mx-auto text-center">
+    <section ref={sectionRef} id="cta" className="relative py-[120px] md:py-[160px] px-5 md:px-10 bg-bonggy-surface overflow-hidden">
+      <FloatingOrbs />
+      <div className="relative max-w-[720px] mx-auto text-center">
         <h2 className="cta-headline font-serif-display text-[32px] md:text-[48px] font-normal leading-[1.05] tracking-[-0.02em] text-bonggy-text-primary mb-5">
           Your best rep&apos;s playbook. Available to everyone.
         </h2>
@@ -647,9 +662,11 @@ function CTA() {
           You are buying back your reps&apos; time. One call to see if your outbound strategy is actually working, or if you are just hoping volume covers the gaps.
         </p>
         <div className="flex items-center justify-center gap-3">
-          <a href="https://cal.com/bonggy/30min?overlayCalendar=true" target="_blank" rel="noopener noreferrer" className="cta-btn text-sm font-normal bg-bonggy-text-primary text-bonggy-surface px-6 py-3 rounded-md hover:opacity-85 transition-opacity inline-flex items-center gap-1.5">
-            Strategy Session <ArrowRight size={14} />
-          </a>
+          <MagneticButton>
+            <a href="https://cal.com/bonggy/30min?overlayCalendar=true" target="_blank" rel="noopener noreferrer" className="cta-btn text-sm font-normal bg-bonggy-text-primary text-bonggy-surface px-6 py-3 rounded-md hover:opacity-85 transition-opacity inline-flex items-center gap-1.5">
+              Strategy Session <ArrowRight size={14} />
+            </a>
+          </MagneticButton>
         </div>
       </div>
     </section>
@@ -699,11 +716,11 @@ function WhoItsFor() {
           ].map((card) => {
             const Icon = card.icon;
             return (
-              <div key={card.title} className="wif-card bg-bonggy-bg border border-bonggy-border rounded-xl p-6 hover:border-bonggy-border-hover transition-colors">
+              <TiltCard key={card.title} className="wif-card bg-bonggy-bg border border-bonggy-border rounded-xl p-6 hover:border-bonggy-border-hover transition-colors">
                 <Icon size={18} className="text-bonggy-accent mb-3" />
                 <h3 className="text-[15px] font-medium text-bonggy-text-primary mb-2">{card.title}</h3>
                 <p className="text-[14px] text-bonggy-text-secondary leading-[1.6]">{card.desc}</p>
-              </div>
+              </TiltCard>
             );
           })}
         </div>
@@ -783,17 +800,20 @@ function Footer() {
 // ─── LANDING PAGE ───
 export default function Landing() {
   return (
-    <div className="min-h-screen bg-bonggy-bg text-bonggy-text-primary font-sans antialiased transition-colors duration-300">
-      <FloatingControls />
-      <Hero />
-      <Stats />
-      <TheReframe />
+    <ScrollSkew>
+      <div className="min-h-screen bg-bonggy-bg text-bonggy-text-primary font-sans antialiased transition-colors duration-300">
+        <NoiseOverlay />
+        <FloatingControls />
+        <Hero />
+        <Stats />
+        <TheReframe />
         <TheInsight />
-      <HowItWorks />
-      <ObjectionHandler />
-      <WhoItsFor />
-      <CTA />
-      <Footer />
-    </div>
+        <HowItWorks />
+        <ObjectionHandler />
+        <WhoItsFor />
+        <CTA />
+        <Footer />
+      </div>
+    </ScrollSkew>
   );
 }
