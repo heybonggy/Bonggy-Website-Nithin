@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   ArrowRight, ShieldCheck, Moon, Sun, Radio, Users, Target, FileText, Zap, TrendingUp,
   MessageSquare, Download, Search, Bell, Globe, Eye, Lightbulb, Quote, Building2, Menu,
@@ -214,45 +214,138 @@ function OrbitingIcons() {
   );
 }
 
+// ─── SIGNAL TICKER (hero atmosphere) ───
+const SIGNALS = [
+  "Acme Corp · VP Sales hired · 2m",
+  "Stripe · Series D · 8m",
+  "Notion · CTO change · 14m",
+  "Figma · headcount +30% · 21m",
+  "Linear · funding round · 32m",
+  "Ramp · pricing change · 41m",
+  "Vercel · enterprise tier · 1h",
+  "Plaid · CFO hired · 1h",
+  "Datadog · APAC expansion · 2h",
+  "Snowflake · partner program · 2h",
+  "Anthropic · Series E · 3h",
+  "Mistral · open source · 4h",
+  "Cursor · ARR milestone · 5h",
+  "Replit · GTM lead · 6h",
+  "Vanta · SOC2 update · 8h",
+  "Brex · merchant launch · 10h",
+  "Mercury · Series B · 12h",
+  "Pylon · seed round · 14h",
+  "Loom · acquired · 18h",
+  "Retool · funding · 20h",
+];
+
+function SignalTicker({ side, duration }: { side: "left" | "right"; duration: number }) {
+  return (
+    <div
+      className={`pointer-events-none absolute top-0 bottom-0 ${side === "left" ? "left-0" : "right-0"} hidden lg:block w-[160px] xl:w-[200px] overflow-hidden z-0`}
+      aria-hidden="true"
+      style={{
+        WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%)",
+        maskImage: "linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%)",
+      }}
+    >
+      <div
+        className="flex flex-col"
+        style={{
+          animation: prefersReduced ? "none" : `ticker-up ${duration}s linear infinite`,
+          willChange: "transform",
+        }}
+      >
+        {[...SIGNALS, ...SIGNALS].map((s, i) => (
+          <div
+            key={i}
+            className={`py-1.5 text-[10px] xl:text-[11px] text-bonggy-text-tertiary font-mono-data whitespace-nowrap ${side === "left" ? "pl-3 xl:pl-5 text-left" : "pr-3 xl:pr-5 text-right"}`}
+            style={{ opacity: 0.4 }}
+          >
+            {s}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 // ─── HERO ───
 function Hero() {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const [glitchActive, setGlitchActive] = useState(prefersReduced);
 
   useEffect(() => {
     if (prefersReduced || !sectionRef.current) return;
     const tl = gsap.timeline({ delay: 0.1 });
-    const words = sectionRef.current.querySelectorAll(".hero-word");
-    tl.from(words, { y: 50, opacity: 0, duration: 0.6, ease: "back.out(1.4)", stagger: 0.04 }, 0.2);
-    const sub = sectionRef.current.querySelector(".hero-sub");
-    if (sub) tl.from(sub, { y: 20, opacity: 0, duration: 0.5, ease: "power2.out" }, 0.6);
+
+    const words1 = sectionRef.current.querySelectorAll(".hero-word-1");
+    tl.from(words1, { y: 50, opacity: 0, duration: 0.6, ease: "back.out(1.4)", stagger: 0.04 }, 0.2);
+
+    const words2 = sectionRef.current.querySelectorAll(".hero-word-2");
+    tl.from(words2, { y: 50, opacity: 0, duration: 0.6, ease: "back.out(1.4)", stagger: 0.04 }, "+=0.4");
+
+    const sub1 = sectionRef.current.querySelector(".hero-sub-1");
+    if (sub1) tl.from(sub1, { y: 20, opacity: 0, duration: 0.5, ease: "power2.out" }, "+=0.2");
+
+    const sub2 = sectionRef.current.querySelector(".hero-sub-2");
+    if (sub2) {
+      tl.from(sub2, { y: 20, opacity: 0, duration: 0.5, ease: "power2.out" }, "+=0.25");
+      tl.call(() => setGlitchActive(true), [], "-=0.4");
+    }
+
+    const sub3 = sectionRef.current.querySelector(".hero-sub-3");
+    if (sub3) tl.from(sub3, { y: 20, opacity: 0, duration: 0.5, ease: "power2.out" }, "+=0.2");
+
     const cta = sectionRef.current.querySelector(".hero-cta");
-    if (cta) tl.from(cta, { y: 15, opacity: 0, duration: 0.4, ease: "power2.out" }, 0.8);
+    if (cta) tl.from(cta, { y: 15, opacity: 0, duration: 0.4, ease: "power2.out" }, "+=0.1");
+
     return () => { tl.kill(); };
   }, []);
 
-  const headlineWords = "Your SDRs aren't lazy. Your stack is lying to you.".split(" ");
+  const headlinePart1 = "Your SDRs aren't lazy.".split(" ");
+  const headlinePart2 = "Your stack is lying to you.".split(" ");
 
   return (
     <section ref={sectionRef} className="relative pt-24 md:pt-32 pb-16 md:pb-24 lg:min-h-screen px-5 md:px-10 overflow-hidden flex items-center">
       <div
-        className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+        className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-0"
         style={{
           width: "min(700px, 180vw)", height: "min(500px, 120vh)",
           background: "radial-gradient(ellipse, rgba(124,230,85,0.05) 0%, transparent 70%)",
         }}
       />
 
-      <div className="relative max-w-[1120px] mx-auto w-full">
+      <SignalTicker side="left" duration={48} />
+      <SignalTicker side="right" duration={62} />
+
+      <div className="relative z-10 max-w-[1120px] mx-auto w-full">
         <div className="max-w-[800px] mx-auto text-center">
           <h1 className="font-serif-display text-[40px] sm:text-[48px] md:text-[80px] lg:text-[96px] font-normal leading-[0.95] tracking-[-0.02em] text-bonggy-text-primary mb-8 md:mb-10 break-words max-w-full">
-            {headlineWords.map((w, i) => (
-              <span key={i} className="hero-word inline-block mr-[0.25em]">{w}</span>
-            ))}
+            <span className="block">
+              {headlinePart1.map((w, i) => (
+                <span key={`p1-${i}`} className="hero-word-1 inline-block mr-[0.25em]">{w}</span>
+              ))}
+            </span>
+            <span className="block">
+              {headlinePart2.map((w, i) => {
+                const isLying = w === "lying";
+                return (
+                  <span key={`p2-${i}`} className={`hero-word-2 inline-block mr-[0.25em] ${isLying ? "italic" : ""}`}>{w}</span>
+                );
+              })}
+            </span>
           </h1>
-          <p className="hero-sub text-lg md:text-xl text-bonggy-text-secondary leading-[1.6] mb-10 max-w-[480px] mx-auto">
-            More data does not mean more pipeline. It means more noise.
-            Bonggy turns signal into strategy so your reps know exactly what to do.
-          </p>
+          <div className="mb-10 max-w-[480px] mx-auto">
+            <p className="hero-sub-1 text-lg md:text-xl text-bonggy-text-secondary leading-[1.6]">
+              More data does not mean more pipeline.
+            </p>
+            <p className="hero-sub-2 text-lg md:text-xl text-bonggy-text-primary leading-[1.6]">
+              It means more <GlitchWord from="-----" to="noise" active={glitchActive} />.
+            </p>
+            <p className="hero-sub-3 text-lg md:text-xl text-bonggy-text-secondary leading-[1.6] mt-3">
+              Bonggy turns signal into strategy so your reps know exactly what to do.
+            </p>
+          </div>
           <div className="hero-cta w-full flex items-center justify-center">
             <a href="https://cal.com/bonggy/30min?overlayCalendar=true" target="_blank" rel="noopener noreferrer" className="w-full md:w-auto text-base font-normal bg-bonggy-text-primary text-bonggy-surface px-8 py-4 rounded-md hover:opacity-85 transition-opacity flex items-center justify-center gap-2">
               Strategy Session <ArrowRight size={16} />
@@ -337,40 +430,49 @@ function Stats() {
 // ─── GLITCH WORD ───
 const GLITCH_CHARS = "-_./|";
 
-function GlitchWord({ from, to, className }: { from: string; to: string; className?: string }) {
-  const [display, setDisplay] = useState(from);
+function GlitchWord({ from, to, className, active }: { from: string; to: string; className?: string; active?: boolean }) {
+  const [display, setDisplay] = useState(prefersReduced ? to : from);
   const elRef = useRef<HTMLSpanElement>(null);
   const hasRun = useRef(false);
 
+  const runGlitch = useCallback(() => {
+    if (hasRun.current || prefersReduced) return;
+    hasRun.current = true;
+    const toChars = to.split("");
+    let step = 0;
+    const interval = setInterval(() => {
+      setDisplay(
+        toChars
+          .map((char, index) => {
+            if (char === " ") return " ";
+            if (index < step) return toChars[index];
+            return GLITCH_CHARS[Math.floor(Math.random() * GLITCH_CHARS.length)];
+          })
+          .join("")
+      );
+      step += 1;
+      if (step >= toChars.length + 1) {
+        clearInterval(interval);
+        setDisplay(to);
+      }
+    }, 30);
+  }, [to]);
+
+  // Manual mode: parent controls trigger via `active` prop
   useEffect(() => {
+    if (active === undefined) return;
+    if (active) runGlitch();
+  }, [active, runGlitch]);
+
+  // Auto mode: trigger via IntersectionObserver when `active` is not provided
+  useEffect(() => {
+    if (active !== undefined) return;
     if (!elRef.current || prefersReduced) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting && !hasRun.current) {
-            hasRun.current = true;
-            const toChars = to.split("");
-            let step = 0;
-
-            const interval = setInterval(() => {
-              setDisplay(
-                toChars
-                  .map((char, index) => {
-                    if (char === " ") return " ";
-                    if (index < step) return toChars[index];
-                    return GLITCH_CHARS[Math.floor(Math.random() * GLITCH_CHARS.length)];
-                  })
-                  .join("")
-              );
-
-              step += 1;
-              if (step >= toChars.length + 1) {
-                clearInterval(interval);
-                setDisplay(to);
-              }
-            }, 30);
-          }
+          if (entry.isIntersecting) runGlitch();
         });
       },
       { threshold: 0.5 }
@@ -378,7 +480,7 @@ function GlitchWord({ from, to, className }: { from: string; to: string; classNa
 
     observer.observe(elRef.current);
     return () => observer.disconnect();
-  }, [to]);
+  }, [active, runGlitch]);
 
   return (
     <span ref={elRef} className={`inline-block tabular-nums ${className || ""}`}>
