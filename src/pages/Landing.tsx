@@ -6,7 +6,6 @@ import {
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useTheme } from "@/hooks/useTheme";
-import { useLenis } from "@/hooks/useLenis";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { EarlyAccessModal } from "@/components/EarlyAccessModal";
 
@@ -838,7 +837,6 @@ function CTA() {
 // ─── WHO IT'S FOR ───
 function WhoItsFor() {
   const ref = useRef<HTMLDivElement>(null);
-  const quoteRef = useRef<HTMLParagraphElement>(null);
   useEffect(() => {
     if (prefersReduced || !ref.current) return;
     const tl = gsap.timeline({ scrollTrigger: { trigger: ref.current, start: "top 80%" } });
@@ -846,19 +844,6 @@ function WhoItsFor() {
     const items = ref.current.querySelectorAll(".wif-card");
     gsap.set(items, { y: 20, opacity: 0 });
     tl.to(items, { y: 0, opacity: 1, duration: 0.4, ease: "power2.out", stagger: 0.08 }, 0.2);
-    return () => { tl.kill(); };
-  }, []);
-
-  useEffect(() => {
-    if (prefersReduced || !quoteRef.current) return;
-    const roles = quoteRef.current.querySelectorAll(".role-pulse");
-    const tl = gsap.timeline({
-      scrollTrigger: { trigger: quoteRef.current, start: "top 70%", toggleActions: "play none none none" },
-    });
-    roles.forEach((role, i) => {
-      tl.to(role, { color: "var(--bonggy-accent)", duration: 0.3, ease: "power2.out" }, i * 0.5);
-      tl.to(role, { color: "var(--bonggy-text-primary)", duration: 0.7, ease: "power2.in" }, i * 0.5 + 0.45);
-    });
     return () => { tl.kill(); };
   }, []);
 
@@ -870,8 +855,8 @@ function WhoItsFor() {
         {/* Founder Quote */}
         <div className="bg-bonggy-bg border border-bonggy-border rounded-xl p-6 md:p-8 mb-10">
           <Quote size={20} className="text-bonggy-accent mb-3" />
-          <p ref={quoteRef} className="text-[16px] md:text-[18px] text-bonggy-text-primary leading-[1.6] font-serif-display mb-4">
-            &ldquo;We built Bonggy because we lived this. The real problem is not that your SDRs are slow, your AEs are cautious, or your managers are stretched. It is that every single one of them is operating from a different version of the truth. The SDR sees one narrative in Apollo. The AE sees another in Salesforce. The manager tries to coach from a dashboard that was stale last Tuesday. And RevOps spends Monday morning reconciling who is even right. The friction is not between you and your prospects. It is between your <span className="role-pulse">SDRs</span>, your <span className="role-pulse">AEs</span>, your <span className="role-pulse">managers</span>, and your <span className="role-pulse">RevOps</span> team &mdash; all surrounded by information, none of it aligned. We are done pretending this is normal.&rdquo;
+          <p className="text-[16px] md:text-[18px] text-bonggy-text-primary leading-[1.6] font-serif-display mb-4">
+            &ldquo;We built Bonggy because we lived this. The real problem is not that your SDRs are slow, your AEs are cautious, or your managers are stretched. It is that every single one of them is operating from a different version of the truth. The SDR sees one narrative in Apollo. The AE sees another in Salesforce. The manager tries to coach from a dashboard that was stale last Tuesday. And RevOps spends Monday morning reconciling who is even right. The friction is not between you and your prospects. It is between your SDRs, your AEs, your managers, and your RevOps team &mdash; all surrounded by information, none of it aligned. We are done pretending this is normal.&rdquo;
           </p>
           <div className="flex items-center gap-3">
             <span className="text-[13px] text-bonggy-text-tertiary">—</span>
@@ -975,7 +960,6 @@ function Footer() {
 
 // ─── LANDING PAGE ───
 export default function Landing() {
-  useLenis();
   return (
     <div className="min-h-screen bg-bonggy-bg text-bonggy-text-primary font-sans antialiased transition-colors duration-300">
       <FloatingControls />
