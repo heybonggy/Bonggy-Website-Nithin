@@ -6,6 +6,7 @@ import {
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useTheme } from "@/hooks/useTheme";
+import { useLenis } from "@/hooks/useLenis";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { EarlyAccessModal } from "@/components/EarlyAccessModal";
 
@@ -125,6 +126,7 @@ function FloatingControls() {
 function OrbitingIcons() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(1);
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
 
   useEffect(() => {
     const el = containerRef.current;
@@ -141,20 +143,20 @@ function OrbitingIcons() {
 
   const s = scale;
   const orbits = [
-    { icon: Globe, r: 170 * s, delay: 0, duration: 24, tilt: 0, size: 18 * s },
-    { icon: Search, r: 170 * s, delay: -12, duration: 24, tilt: 0, size: 18 * s },
-    { icon: Eye, r: 170 * s, delay: -6, duration: 24, tilt: 0, size: 18 * s },
-    { icon: Bell, r: 170 * s, delay: -18, duration: 24, tilt: 0, size: 18 * s },
-    { icon: Radio, r: 135 * s, delay: -2, duration: 18, tilt: 45, size: 20 * s },
-    { icon: Target, r: 135 * s, delay: -11, duration: 18, tilt: 45, size: 20 * s },
-    { icon: Users, r: 135 * s, delay: -7, duration: 18, tilt: 45, size: 20 * s },
-    { icon: MessageSquare, r: 135 * s, delay: -15, duration: 18, tilt: 45, size: 20 * s },
-    { icon: FileText, r: 95 * s, delay: -1, duration: 13, tilt: -35, size: 18 * s },
-    { icon: Zap, r: 95 * s, delay: -6.5, duration: 13, tilt: -35, size: 18 * s },
-    { icon: TrendingUp, r: 95 * s, delay: -4, duration: 13, tilt: -35, size: 18 * s },
-    { icon: Download, r: 95 * s, delay: -9.5, duration: 13, tilt: -35, size: 18 * s },
-    { icon: ShieldCheck, r: 58 * s, delay: 0, duration: 9, tilt: 70, size: 18 * s },
-    { icon: TrendingUp, r: 58 * s, delay: -4.5, duration: 9, tilt: 70, size: 18 * s },
+    { icon: Globe, r: 170 * s, delay: 0, duration: 24, tilt: 0, size: 18 * s, label: "Coverage" },
+    { icon: Search, r: 170 * s, delay: -12, duration: 24, tilt: 0, size: 18 * s, label: "Discover" },
+    { icon: Eye, r: 170 * s, delay: -6, duration: 24, tilt: 0, size: 18 * s, label: "Watch" },
+    { icon: Bell, r: 170 * s, delay: -18, duration: 24, tilt: 0, size: 18 * s, label: "Alerts" },
+    { icon: Radio, r: 135 * s, delay: -2, duration: 18, tilt: 45, size: 20 * s, label: "Signal" },
+    { icon: Target, r: 135 * s, delay: -11, duration: 18, tilt: 45, size: 20 * s, label: "Account" },
+    { icon: Users, r: 135 * s, delay: -7, duration: 18, tilt: 45, size: 20 * s, label: "Committee" },
+    { icon: MessageSquare, r: 135 * s, delay: -15, duration: 18, tilt: 45, size: 20 * s, label: "Outreach" },
+    { icon: FileText, r: 95 * s, delay: -1, duration: 13, tilt: -35, size: 18 * s, label: "Brief" },
+    { icon: Zap, r: 95 * s, delay: -6.5, duration: 13, tilt: -35, size: 18 * s, label: "Action" },
+    { icon: TrendingUp, r: 95 * s, delay: -4, duration: 13, tilt: -35, size: 18 * s, label: "Intent" },
+    { icon: Download, r: 95 * s, delay: -9.5, duration: 13, tilt: -35, size: 18 * s, label: "Export" },
+    { icon: ShieldCheck, r: 58 * s, delay: 0, duration: 9, tilt: 70, size: 18 * s, label: "Trust" },
+    { icon: TrendingUp, r: 58 * s, delay: -4.5, duration: 9, tilt: 70, size: 18 * s, label: "Score" },
   ];
 
   const traces = [170 * s, 135 * s, 95 * s, 58 * s];
@@ -169,15 +171,19 @@ function OrbitingIcons() {
         />
       ))}
       <div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
+        className="absolute top-1/2 left-1/2 rounded-full"
         style={{
           width: 28 * s, height: 28 * s,
           background: "radial-gradient(circle, rgba(124,230,85,0.35) 0%, rgba(124,230,85,0.08) 50%, transparent 70%)",
+          transform: "translate(-50%, -50%)",
+          animation: prefersReduced ? "none" : "glow-breath 4.5s ease-in-out infinite",
         }}
       />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-bonggy-accent" />
       {orbits.map((o, i) => {
         const Icon = o.icon;
+        const isHovered = hoveredIdx === i;
+        const dimmed = hoveredIdx !== null && !isHovered;
         return (
           <div
             key={i}
@@ -187,7 +193,9 @@ function OrbitingIcons() {
               marginLeft: -o.r, marginTop: -o.r,
               animation: `orbit-spin ${o.duration}s linear infinite`,
               animationDelay: `${o.delay}s`,
+              animationPlayState: isHovered ? "paused" : "running",
               transform: `rotate(${o.tilt}deg)`,
+              zIndex: isHovered ? 10 : 1,
             }}
           >
             <div
@@ -198,13 +206,35 @@ function OrbitingIcons() {
                 marginTop: -(o.size + 14) / 2,
                 animation: `orbit-counter ${o.duration}s linear infinite`,
                 animationDelay: `${o.delay}s`,
+                animationPlayState: isHovered ? "paused" : "running",
               }}
             >
               <div
-                className="flex items-center justify-center rounded-full bg-bonggy-surface border border-bonggy-border shadow-sm"
-                style={{ width: o.size + 14, height: o.size + 14, transform: `rotate(-${o.tilt}deg)` }}
+                onMouseEnter={() => setHoveredIdx(i)}
+                onMouseLeave={() => setHoveredIdx(null)}
+                className={`relative flex items-center justify-center rounded-full bg-bonggy-surface shadow-sm cursor-pointer transition-[border-color,box-shadow,opacity] duration-200 ${
+                  isHovered ? "border border-bonggy-accent shadow-md" : "border border-bonggy-border"
+                } ${dimmed ? "opacity-40" : "opacity-100"}`}
+                style={{
+                  width: o.size + 14,
+                  height: o.size + 14,
+                  transform: `rotate(-${o.tilt}deg) scale(${isHovered ? 1.2 : 1})`,
+                  transition: "transform 200ms ease-out, border-color 200ms, box-shadow 200ms, opacity 200ms",
+                }}
               >
-                <Icon size={Math.round(o.size)} className="text-bonggy-text-primary" strokeWidth={1.5} />
+                <Icon
+                  size={Math.round(o.size)}
+                  className={`transition-colors duration-200 ${isHovered ? "text-bonggy-accent" : "text-bonggy-text-primary"}`}
+                  strokeWidth={1.5}
+                />
+                {isHovered && (
+                  <span
+                    className="absolute left-1/2 -translate-x-1/2 px-2 py-0.5 rounded bg-bonggy-text-primary text-bonggy-surface text-[10px] font-medium tracking-wide whitespace-nowrap pointer-events-none font-mono-data shadow-sm"
+                    style={{ top: "calc(100% + 6px)" }}
+                  >
+                    {o.label}
+                  </span>
+                )}
               </div>
             </div>
           </div>
@@ -241,7 +271,7 @@ const SIGNALS = [
 function SignalTicker({ side, duration }: { side: "left" | "right"; duration: number }) {
   return (
     <div
-      className={`pointer-events-none absolute top-0 bottom-0 ${side === "left" ? "left-0" : "right-0"} hidden lg:block w-[160px] xl:w-[200px] overflow-hidden z-0`}
+      className={`hero-ticker pointer-events-none absolute top-0 bottom-0 ${side === "left" ? "left-0" : "right-0"} hidden lg:block w-[160px] xl:w-[200px] overflow-hidden z-0`}
       aria-hidden="true"
       style={{
         WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%)",
@@ -278,6 +308,9 @@ function Hero() {
     if (prefersReduced || !sectionRef.current) return;
     const tl = gsap.timeline({ delay: 0.1 });
 
+    const tickers = sectionRef.current.querySelectorAll(".hero-ticker");
+    if (tickers.length) tl.from(tickers, { opacity: 0, duration: 1.5, ease: "power2.out" }, 0);
+
     const words1 = sectionRef.current.querySelectorAll(".hero-word-1");
     tl.from(words1, { y: 50, opacity: 0, duration: 0.6, ease: "back.out(1.4)", stagger: 0.04 }, 0.2);
 
@@ -308,10 +341,12 @@ function Hero() {
   return (
     <section ref={sectionRef} className="relative pt-24 md:pt-32 pb-16 md:pb-24 lg:min-h-screen px-5 md:px-10 overflow-hidden flex items-center">
       <div
-        className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-0"
+        className="absolute top-1/3 left-1/2 pointer-events-none z-0"
         style={{
           width: "min(700px, 180vw)", height: "min(500px, 120vh)",
           background: "radial-gradient(ellipse, rgba(124,230,85,0.05) 0%, transparent 70%)",
+          transform: "translate(-50%, -50%)",
+          animation: prefersReduced ? "none" : "glow-breath 7s ease-in-out infinite",
         }}
       />
 
@@ -361,6 +396,7 @@ function Hero() {
 function Stats() {
   const ref = useRef<HTMLDivElement>(null);
   const numbersRef = useRef<(HTMLSpanElement | null)[]>([]);
+  const barsRef = useRef<(HTMLDivElement | null)[]>([]);
 
   const stats = [
     { num: 92, suffix: "%", label: "have more signal than last year", decimals: 0 },
@@ -376,24 +412,35 @@ function Stats() {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
+            const duration = 2;
             stats.forEach((stat, i) => {
               const el = numbersRef.current[i];
-              if (!el) return;
+              const bar = barsRef.current[i];
+              const stagger = i * 0.12;
 
-              const duration = 1.5 + Math.random() * 1.5; // 1.5–3s random
-              const obj = { value: 0 };
+              if (el) {
+                const obj = { value: 0 };
+                gsap.to(obj, {
+                  value: stat.num,
+                  duration,
+                  delay: stagger,
+                  ease: "power2.out",
+                  onUpdate: () => {
+                    const val = stat.decimals > 0
+                      ? obj.value.toFixed(stat.decimals)
+                      : Math.round(obj.value).toString();
+                    el.textContent = (stat.prefix || "") + val + stat.suffix;
+                  },
+                });
+              }
 
-              gsap.to(obj, {
-                value: stat.num,
-                duration,
-                ease: "power2.out",
-                onUpdate: () => {
-                  const val = stat.decimals > 0
-                    ? obj.value.toFixed(stat.decimals)
-                    : Math.round(obj.value).toString();
-                  el.textContent = (stat.prefix || "") + val + stat.suffix;
-                },
-              });
+              if (bar) {
+                gsap.fromTo(
+                  bar,
+                  { scaleX: 0 },
+                  { scaleX: 1, duration, delay: stagger, ease: "power2.out" }
+                );
+              }
             });
             observer.disconnect();
           }
@@ -406,6 +453,12 @@ function Stats() {
     return () => observer.disconnect();
   }, []);
 
+  const renderInitial = (s: typeof stats[number]) => {
+    if (!prefersReduced) return (s.prefix || "") + "0" + s.suffix;
+    const val = s.decimals > 0 ? s.num.toFixed(s.decimals) : s.num.toString();
+    return (s.prefix || "") + val + s.suffix;
+  };
+
   return (
     <section ref={ref} className="py-20 md:py-28 px-5 md:px-10 border-y border-bonggy-border bg-bonggy-surface">
       <div className="max-w-[1120px] mx-auto">
@@ -416,9 +469,15 @@ function Stats() {
                 ref={(el) => { numbersRef.current[i] = el; }}
                 className="block text-[36px] md:text-[48px] font-normal font-serif-display text-bonggy-text-primary tracking-[-0.02em] leading-none"
               >
-                {(s.prefix || "") + "0" + s.suffix}
+                {renderInitial(s)}
               </span>
-              <p className="text-[14px] text-bonggy-text-tertiary mt-3 leading-[1.4]">{s.label}</p>
+              <div
+                ref={(el) => { barsRef.current[i] = el; }}
+                aria-hidden="true"
+                className="mx-auto mt-3 h-px w-12 bg-bonggy-accent/60 origin-left"
+                style={{ transform: prefersReduced ? "scaleX(1)" : "scaleX(0)" }}
+              />
+              <p className="text-[14px] text-bonggy-text-tertiary mt-2 leading-[1.4]">{s.label}</p>
             </div>
           ))}
         </div>
@@ -576,6 +635,7 @@ function TheInsight() {
 function HowItWorks() {
   const [activeSet, setActiveSet] = useState(0);
   const gridRef = useRef<HTMLDivElement>(null);
+  const lineRef = useRef<HTMLDivElement>(null);
   const headerRef = useGsapReveal<HTMLDivElement>();
 
   useEffect(() => {
@@ -583,7 +643,17 @@ function HowItWorks() {
     const cards = gridRef.current.querySelectorAll(".hiw-card");
     gsap.set(cards, { y: 20, opacity: 0 });
     const tween = gsap.to(cards, { y: 0, opacity: 1, duration: 0.45, ease: "power2.out", stagger: 0.08, scrollTrigger: { trigger: gridRef.current, start: "top 80%" } });
-    return () => { tween.kill(); };
+
+    let lineTween: gsap.core.Tween | undefined;
+    if (lineRef.current) {
+      lineTween = gsap.fromTo(
+        lineRef.current,
+        { scaleX: 0 },
+        { scaleX: 1, duration: 0.9, ease: "power2.out", delay: 0.15, scrollTrigger: { trigger: gridRef.current, start: "top 80%" } }
+      );
+    }
+
+    return () => { tween.kill(); lineTween?.kill(); };
   }, [activeSet]);
 
   const sets = [
@@ -649,20 +719,27 @@ function HowItWorks() {
           <h2 className="font-serif-display text-[36px] md:text-[48px] font-normal leading-[1.05] tracking-[-0.02em] text-bonggy-text-primary">Five modules. One revenue system.</h2>
         </div>
 
-        <div ref={gridRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
-          {current.steps.map((s) => (
-            <div
-              key={s.num}
-              className="hiw-card group p-6 rounded-[10px] border border-bonggy-border bg-bonggy-surface"
-            >
-              <span className="font-mono-data text-[14px] text-bonggy-accent block mb-4">{s.num}</span>
-              <h3 className="text-lg font-normal text-bonggy-text-primary mb-3 leading-[1.3]">{s.title}</h3>
-              <p className="text-base text-bonggy-text-secondary leading-[1.6]">{s.desc}</p>
-              <div className="mt-5 h-px bg-bonggy-border rounded-full overflow-hidden">
-                <div className="h-full bg-bonggy-text-primary w-0 group-hover:w-full transition-all duration-700 ease-out" />
+        <div className="relative mb-10">
+          <div
+            ref={lineRef}
+            aria-hidden="true"
+            className="hidden lg:block absolute left-6 right-6 top-1/2 -translate-y-1/2 h-px bg-bonggy-accent/40 origin-left z-0"
+          />
+          <div ref={gridRef} className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {current.steps.map((s) => (
+              <div
+                key={s.num}
+                className="hiw-card group relative z-10 p-6 rounded-[10px] border border-bonggy-border bg-bonggy-surface"
+              >
+                <span className="font-mono-data text-[14px] text-bonggy-accent block mb-4">{s.num}</span>
+                <h3 className="text-lg font-normal text-bonggy-text-primary mb-3 leading-[1.3]">{s.title}</h3>
+                <p className="text-base text-bonggy-text-secondary leading-[1.6]">{s.desc}</p>
+                <div className="mt-5 h-px bg-bonggy-border rounded-full overflow-hidden">
+                  <div className="h-full bg-bonggy-text-primary w-0 group-hover:w-full transition-all duration-700 ease-out" />
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
 
         <div className="flex flex-wrap justify-center gap-2">
@@ -761,6 +838,7 @@ function CTA() {
 // ─── WHO IT'S FOR ───
 function WhoItsFor() {
   const ref = useRef<HTMLDivElement>(null);
+  const quoteRef = useRef<HTMLParagraphElement>(null);
   useEffect(() => {
     if (prefersReduced || !ref.current) return;
     const tl = gsap.timeline({ scrollTrigger: { trigger: ref.current, start: "top 80%" } });
@@ -768,6 +846,19 @@ function WhoItsFor() {
     const items = ref.current.querySelectorAll(".wif-card");
     gsap.set(items, { y: 20, opacity: 0 });
     tl.to(items, { y: 0, opacity: 1, duration: 0.4, ease: "power2.out", stagger: 0.08 }, 0.2);
+    return () => { tl.kill(); };
+  }, []);
+
+  useEffect(() => {
+    if (prefersReduced || !quoteRef.current) return;
+    const roles = quoteRef.current.querySelectorAll(".role-pulse");
+    const tl = gsap.timeline({
+      scrollTrigger: { trigger: quoteRef.current, start: "top 70%", toggleActions: "play none none none" },
+    });
+    roles.forEach((role, i) => {
+      tl.to(role, { color: "var(--bonggy-accent)", duration: 0.3, ease: "power2.out" }, i * 0.5);
+      tl.to(role, { color: "var(--bonggy-text-primary)", duration: 0.7, ease: "power2.in" }, i * 0.5 + 0.45);
+    });
     return () => { tl.kill(); };
   }, []);
 
@@ -779,8 +870,8 @@ function WhoItsFor() {
         {/* Founder Quote */}
         <div className="bg-bonggy-bg border border-bonggy-border rounded-xl p-6 md:p-8 mb-10">
           <Quote size={20} className="text-bonggy-accent mb-3" />
-          <p className="text-[16px] md:text-[18px] text-bonggy-text-primary leading-[1.6] font-serif-display mb-4">
-            &ldquo;We built Bonggy because we lived this. The real problem is not that your SDRs are slow, your AEs are cautious, or your managers are stretched. It is that every single one of them is operating from a different version of the truth. The SDR sees one narrative in Apollo. The AE sees another in Salesforce. The manager tries to coach from a dashboard that was stale last Tuesday. And RevOps spends Monday morning reconciling who is even right. The friction is not between you and your prospects. It is between your SDRs, your AEs, your managers, and your RevOps team &mdash; all surrounded by information, none of it aligned. We are done pretending this is normal.&rdquo;
+          <p ref={quoteRef} className="text-[16px] md:text-[18px] text-bonggy-text-primary leading-[1.6] font-serif-display mb-4">
+            &ldquo;We built Bonggy because we lived this. The real problem is not that your SDRs are slow, your AEs are cautious, or your managers are stretched. It is that every single one of them is operating from a different version of the truth. The SDR sees one narrative in Apollo. The AE sees another in Salesforce. The manager tries to coach from a dashboard that was stale last Tuesday. And RevOps spends Monday morning reconciling who is even right. The friction is not between you and your prospects. It is between your <span className="role-pulse">SDRs</span>, your <span className="role-pulse">AEs</span>, your <span className="role-pulse">managers</span>, and your <span className="role-pulse">RevOps</span> team &mdash; all surrounded by information, none of it aligned. We are done pretending this is normal.&rdquo;
           </p>
           <div className="flex items-center gap-3">
             <span className="text-[13px] text-bonggy-text-tertiary">—</span>
@@ -884,6 +975,7 @@ function Footer() {
 
 // ─── LANDING PAGE ───
 export default function Landing() {
+  useLenis();
   return (
     <div className="min-h-screen bg-bonggy-bg text-bonggy-text-primary font-sans antialiased transition-colors duration-300">
       <FloatingControls />

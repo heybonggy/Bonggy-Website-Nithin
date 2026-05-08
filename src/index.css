@@ -139,6 +139,11 @@
   100% { transform: translateY(-50%); }
 }
 
+@keyframes glow-breath {
+  0%, 100% { opacity: 1;   transform: translate(-50%, -50%) scale(1); }
+  50%      { opacity: 0.55; transform: translate(-50%, -50%) scale(1.18); }
+}
+
 @keyframes snap-in {
   0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.97); filter: blur(2px); }
   100% { opacity: 1; transform: translate(-50%, -50%) scale(1); filter: blur(0); }
