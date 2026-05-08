@@ -268,16 +268,10 @@ const SIGNALS = [
   "Retool · funding · 20h",
 ];
 
-function SignalTicker({ side, duration, direction = "up" }: { side: "left" | "right"; duration: number; direction?: "up" | "down" }) {
+function SignalColumn({ duration, direction = "up", offset = 0, className = "" }: { duration: number; direction?: "up" | "down"; offset?: number; className?: string }) {
+  const data = [...SIGNALS.slice(offset), ...SIGNALS.slice(0, offset)];
   return (
-    <div
-      className={`hero-ticker pointer-events-none absolute top-0 bottom-0 ${side === "left" ? "left-0" : "right-0"} w-[64px] sm:w-[100px] md:w-[140px] lg:w-[160px] xl:w-[200px] overflow-hidden z-0`}
-      aria-hidden="true"
-      style={{
-        WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%)",
-        maskImage: "linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%)",
-      }}
-    >
+    <div className={`flex-1 min-w-0 overflow-hidden ${className}`} aria-hidden="true">
       <div
         className="flex flex-col"
         style={{
@@ -286,15 +280,48 @@ function SignalTicker({ side, duration, direction = "up" }: { side: "left" | "ri
           willChange: "transform",
         }}
       >
-        {Array.from({ length: TICKER_COPIES }, () => SIGNALS).flat().map((s, i) => (
+        {Array.from({ length: TICKER_COPIES }, () => data).flat().map((s, i) => (
           <div
             key={i}
-            className={`py-1.5 text-[9px] sm:text-[10px] xl:text-[11px] text-bonggy-text-tertiary font-mono-data whitespace-nowrap opacity-30 md:opacity-40 ${side === "left" ? "pl-2 md:pl-3 xl:pl-5 text-left" : "pr-2 md:pr-3 xl:pr-5 text-right"}`}
+            className="py-1.5 px-2 text-[9px] sm:text-[10px] xl:text-[11px] text-bonggy-text-tertiary font-mono-data whitespace-nowrap text-center opacity-25 md:opacity-30"
           >
             {s}
           </div>
         ))}
       </div>
+    </div>
+  );
+}
+
+function SignalField() {
+  // hide=true means visible only sm+ (drops 3 columns on mobile so each remaining column has room to read)
+  const columns = [
+    { duration: 48, direction: "up" as const,   offset: 0,  hide: false },
+    { duration: 56, direction: "down" as const, offset: 4,  hide: false },
+    { duration: 42, direction: "up" as const,   offset: 9,  hide: true  },
+    { duration: 62, direction: "down" as const, offset: 13, hide: false },
+    { duration: 52, direction: "up" as const,   offset: 6,  hide: true  },
+    { duration: 58, direction: "down" as const, offset: 11, hide: false },
+    { duration: 46, direction: "up" as const,   offset: 2,  hide: true  },
+  ];
+  return (
+    <div
+      className="hero-ticker pointer-events-none absolute inset-0 z-0 flex"
+      aria-hidden="true"
+      style={{
+        WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%)",
+        maskImage: "linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%)",
+      }}
+    >
+      {columns.map((c, i) => (
+        <SignalColumn
+          key={i}
+          duration={c.duration}
+          direction={c.direction}
+          offset={c.offset}
+          className={c.hide ? "hidden sm:block" : ""}
+        />
+      ))}
     </div>
   );
 }
@@ -350,8 +377,7 @@ function Hero() {
         }}
       />
 
-      <SignalTicker side="left" duration={48} direction="up" />
-      <SignalTicker side="right" duration={62} direction="down" />
+      <SignalField />
 
       <div className="relative z-10 max-w-[1120px] mx-auto w-full">
         <div className="max-w-[800px] mx-auto text-center">
