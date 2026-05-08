@@ -244,6 +244,7 @@ function OrbitingIcons() {
 }
 
 // ─── SIGNAL TICKER (hero atmosphere) ───
+const TICKER_COPIES = 6; // enough copies so the loop never empties on tall viewports
 const SIGNALS = [
   "Acme Corp · VP Sales hired · 2m",
   "Stripe · Series D · 8m",
@@ -267,10 +268,10 @@ const SIGNALS = [
   "Retool · funding · 20h",
 ];
 
-function SignalTicker({ side, duration }: { side: "left" | "right"; duration: number }) {
+function SignalTicker({ side, duration, direction = "up" }: { side: "left" | "right"; duration: number; direction?: "up" | "down" }) {
   return (
     <div
-      className={`hero-ticker pointer-events-none absolute top-0 bottom-0 ${side === "left" ? "left-0" : "right-0"} hidden lg:block w-[160px] xl:w-[200px] overflow-hidden z-0`}
+      className={`hero-ticker pointer-events-none absolute top-0 bottom-0 ${side === "left" ? "left-0" : "right-0"} w-[64px] sm:w-[100px] md:w-[140px] lg:w-[160px] xl:w-[200px] overflow-hidden z-0`}
       aria-hidden="true"
       style={{
         WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%)",
@@ -281,14 +282,14 @@ function SignalTicker({ side, duration }: { side: "left" | "right"; duration: nu
         className="flex flex-col"
         style={{
           animation: prefersReduced ? "none" : `ticker-up ${duration}s linear infinite`,
+          animationDirection: direction === "down" ? "reverse" : "normal",
           willChange: "transform",
         }}
       >
-        {[...SIGNALS, ...SIGNALS].map((s, i) => (
+        {Array.from({ length: TICKER_COPIES }, () => SIGNALS).flat().map((s, i) => (
           <div
             key={i}
-            className={`py-1.5 text-[10px] xl:text-[11px] text-bonggy-text-tertiary font-mono-data whitespace-nowrap ${side === "left" ? "pl-3 xl:pl-5 text-left" : "pr-3 xl:pr-5 text-right"}`}
-            style={{ opacity: 0.4 }}
+            className={`py-1.5 text-[9px] sm:text-[10px] xl:text-[11px] text-bonggy-text-tertiary font-mono-data whitespace-nowrap opacity-30 md:opacity-40 ${side === "left" ? "pl-2 md:pl-3 xl:pl-5 text-left" : "pr-2 md:pr-3 xl:pr-5 text-right"}`}
           >
             {s}
           </div>
@@ -349,8 +350,8 @@ function Hero() {
         }}
       />
 
-      <SignalTicker side="left" duration={48} />
-      <SignalTicker side="right" duration={62} />
+      <SignalTicker side="left" duration={48} direction="up" />
+      <SignalTicker side="right" duration={62} direction="down" />
 
       <div className="relative z-10 max-w-[1120px] mx-auto w-full">
         <div className="max-w-[800px] mx-auto text-center">
