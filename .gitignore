@@ -7,6 +7,10 @@ node_modules
 dist
 dist-ssr
 *.local
+.next
+out
+build
+next-env.d.ts.bak
 
 # Environment files
 .env
