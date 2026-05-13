@@ -44,6 +44,40 @@
     --bonggy-accent-hover: #3d8226;
     --bonggy-success: #3a9e60;
     --bonggy-warning: #b8962e;
+
+    /* ─── Liquid glass surfaces (used by overlays, modals, glass cards) ─── */
+    --glass-surface:    rgba(15, 15, 18, 0.72);
+    --glass-surface-hi: rgba(28, 28, 34, 0.84);
+    --glass-surface-lo: rgba(10, 10, 13, 0.62);
+    --glass-edge:        rgba(255, 255, 255, 0.10);
+    --glass-edge-strong: rgba(255, 255, 255, 0.18);
+    --glass-edge-glow:   rgba(255, 255, 255, 0.05);
+
+    /* Chromatic glow tints — for ambient motion + state accents */
+    --glow-emerald: 0 0 32px -4px rgba(74, 222, 128, 0.42);
+    --glow-violet:  0 0 32px -4px rgba(167, 139, 250, 0.42);
+    --glow-rose:    0 0 32px -4px rgba(244, 114, 182, 0.32);
+    --glow-amber:   0 0 32px -4px rgba(251, 191, 36, 0.34);
+    --glow-sky:     0 0 32px -4px rgba(56, 189, 248, 0.34);
+
+    /* Mesh-gradient stops (used in cinematic hero backgrounds) */
+    --mesh-violet:  #6366f1;
+    --mesh-emerald: #10b981;
+    --mesh-amber:   #fbbf24;
+    --mesh-rose:    #f472b6;
+    --mesh-sky:     #38bdf8;
+
+    /* ─── Motion system ─── */
+    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --ease-fluid:  cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-quart:  cubic-bezier(0.76, 0, 0.24, 1);
+    --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+
+    --dur-instant: 120ms;
+    --dur-fast:    180ms;
+    --dur-med:     320ms;
+    --dur-slow:    600ms;
+    --dur-amb:     4s;
   }
 
   .dark {
@@ -86,6 +120,15 @@
     --bonggy-accent-hover: #4d9633;
     --bonggy-success: #3a9e60;
     --bonggy-warning: #b8962e;
+
+    /* Glass surfaces — slightly more opaque in dark mode where they
+       already sit on a dark page */
+    --glass-surface:    rgba(20, 20, 24, 0.78);
+    --glass-surface-hi: rgba(32, 32, 38, 0.88);
+    --glass-surface-lo: rgba(14, 14, 18, 0.66);
+    --glass-edge:        rgba(255, 255, 255, 0.12);
+    --glass-edge-strong: rgba(255, 255, 255, 0.20);
+    --glass-edge-glow:   rgba(255, 255, 255, 0.06);
   }
 
   html {
@@ -121,6 +164,175 @@
   }
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
+  }
+
+  /* ─── Liquid glass surfaces ─── */
+  .bg-glass {
+    background: var(--glass-surface);
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+  }
+  .bg-glass-hi {
+    background: var(--glass-surface-hi);
+    backdrop-filter: blur(24px) saturate(150%);
+    -webkit-backdrop-filter: blur(24px) saturate(150%);
+  }
+  .bg-glass-lo {
+    background: var(--glass-surface-lo);
+    backdrop-filter: blur(16px) saturate(130%);
+    -webkit-backdrop-filter: blur(16px) saturate(130%);
+  }
+
+  /* Real-glass border + ambient + inner top-shine — the "thickness" */
+  .glass-edge {
+    border: 1px solid var(--glass-edge);
+    box-shadow:
+      inset 0 1px 0 0 var(--glass-edge-glow),
+      0  8px 24px -8px  rgba(0, 0, 0, 0.45),
+      0 24px 56px -20px rgba(0, 0, 0, 0.35);
+  }
+  .glass-edge-strong {
+    border: 1px solid var(--glass-edge-strong);
+    box-shadow:
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.12),
+      0  8px 28px -8px  rgba(0, 0, 0, 0.55),
+      0 28px 64px -20px rgba(0, 0, 0, 0.40);
+  }
+
+  /* Animated conic-gradient border */
+  .glass-edge-spin {
+    position: relative;
+    isolation: isolate;
+  }
+  .glass-edge-spin::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: conic-gradient(
+      from var(--gradient-angle),
+      rgba(255,255,255,0.04) 0deg,
+      rgba(124, 230, 85, 0.45) 90deg,
+      rgba(255,255,255,0.04) 180deg,
+      rgba(167, 139, 250, 0.40) 270deg,
+      rgba(255,255,255,0.04) 360deg
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    pointer-events: none;
+    animation: spin-gradient 8s linear infinite;
+    z-index: -1;
+  }
+
+  /* Top-edge highlight */
+  .glass-shine {
+    position: relative;
+  }
+  .glass-shine::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 40%;
+    border-radius: inherit;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.06) 0%,
+      rgba(255, 255, 255, 0)    100%
+    );
+    pointer-events: none;
+  }
+
+  /* ─── Mesh-gradient hero backgrounds (cinematic) ─── */
+  .bg-mesh-cool {
+    background-color: #0a0a0c;
+    background-image:
+      radial-gradient(at 22% 18%, var(--mesh-violet)  0px, transparent 50%),
+      radial-gradient(at 78% 12%, var(--mesh-sky)     0px, transparent 50%),
+      radial-gradient(at 38% 78%, var(--mesh-emerald) 0px, transparent 55%),
+      radial-gradient(at 82% 72%, var(--mesh-rose)    0px, transparent 45%);
+    background-size: 180% 180%;
+    background-position: 0% 50%;
+  }
+  .bg-mesh-warm {
+    background-color: #0c0a07;
+    background-image:
+      radial-gradient(at 18% 22%, var(--mesh-amber)   0px, transparent 50%),
+      radial-gradient(at 76% 12%, var(--mesh-rose)    0px, transparent 50%),
+      radial-gradient(at 42% 82%, var(--mesh-emerald) 0px, transparent 55%),
+      radial-gradient(at 86% 70%, var(--mesh-violet)  0px, transparent 45%);
+    background-size: 180% 180%;
+    background-position: 0% 50%;
+  }
+
+  /* ─── Motion utilities ─── */
+  .motion-breathe        { animation: breathe        var(--dur-amb) ease-in-out infinite; }
+  .motion-drift          { animation: drift          24s ease-in-out infinite; }
+  .motion-orbit-ring     { animation: orbit-ring     1.6s ease-out infinite; }
+  .motion-wave           { animation: wave-bar       1.1s ease-in-out infinite; }
+  .motion-fade-up-spring { animation: fade-up-spring var(--dur-med) var(--ease-spring) both; }
+  .motion-slide-left     { animation: slide-from-left  var(--dur-med) var(--ease-out) both; }
+  .motion-slide-right    { animation: slide-from-right var(--dur-med) var(--ease-out) both; }
+  .motion-chip-pop       { animation: chip-pop       var(--dur-med) var(--ease-spring) both; }
+  .motion-chromatic      { animation: chromatic-glow 9s ease-in-out infinite; }
+  .motion-float          { animation: float-y        5s ease-in-out infinite; }
+
+  /* Shimmer overlay — for ephemeral light-pass on chips/badges */
+  .motion-shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+  .motion-shimmer::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      110deg,
+      transparent 30%,
+      rgba(255, 255, 255, 0.10) 50%,
+      transparent 70%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 3.2s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  /* Stagger helpers — manual per-child */
+  .stagger-1 { animation-delay:  60ms; }
+  .stagger-2 { animation-delay: 120ms; }
+  .stagger-3 { animation-delay: 180ms; }
+  .stagger-4 { animation-delay: 240ms; }
+  .stagger-5 { animation-delay: 300ms; }
+  .stagger-6 { animation-delay: 360ms; }
+  .stagger-7 { animation-delay: 420ms; }
+  .stagger-8 { animation-delay: 480ms; }
+
+  /* Auto-stagger — direct children of .stagger-children waterfall in */
+  .stagger-children > *:nth-child(1) { animation-delay:   0ms; }
+  .stagger-children > *:nth-child(2) { animation-delay:  70ms; }
+  .stagger-children > *:nth-child(3) { animation-delay: 140ms; }
+  .stagger-children > *:nth-child(4) { animation-delay: 210ms; }
+  .stagger-children > *:nth-child(5) { animation-delay: 280ms; }
+  .stagger-children > *:nth-child(6) { animation-delay: 350ms; }
+  .stagger-children > *:nth-child(7) { animation-delay: 420ms; }
+  .stagger-children > *:nth-child(8) { animation-delay: 490ms; }
+  .stagger-children > *:nth-child(9) { animation-delay: 560ms; }
+
+  /* Press / scale-on-hover micro-interaction */
+  .hover-lift {
+    transition: transform var(--dur-fast) var(--ease-out),
+                box-shadow var(--dur-fast) var(--ease-out),
+                border-color var(--dur-fast) var(--ease-out);
+  }
+  .hover-lift:hover {
+    transform: translateY(-1px);
+  }
+  .hover-press:active {
+    transform: translateY(0) scale(0.985);
+    transition-duration: 60ms;
   }
 }
 
@@ -162,6 +374,86 @@
 @keyframes overlay-out {
   0%   { opacity: 1; }
   100% { opacity: 0; }
+}
+
+/* ─── v0.2 rehaul motion system ─── */
+
+/* Slow opacity/scale pulse — for idle UI that should feel alive */
+@keyframes breathe {
+  0%, 100% { opacity: 0.62; transform: scale(1); }
+  50%      { opacity: 1;    transform: scale(1.015); }
+}
+
+/* Gradient position drift — for mesh backgrounds + animated borders */
+@keyframes drift {
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
+}
+
+/* Light pass shimmer — used by chips + badges on reveal */
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+/* Orbital halo around a live indicator dot — replaces animate-ping */
+@keyframes orbit-ring {
+  0%   { transform: scale(0.85); opacity: 0.85; }
+  100% { transform: scale(2.4);  opacity: 0;    }
+}
+
+/* Sound-wave bar pulse — for the "thinking" indicator */
+@keyframes wave-bar {
+  0%, 100% { transform: scaleY(0.35); }
+  50%      { transform: scaleY(1);    }
+}
+
+/* Spring-based entry — bouncy fade-up for cards, chips, turns */
+@keyframes fade-up-spring {
+  0%   { opacity: 0; transform: translateY(10px) scale(0.96); }
+  60%  { opacity: 1; transform: translateY(-2px) scale(1.01); }
+  100% { opacity: 1; transform: translateY(0)    scale(1);    }
+}
+
+/* Conversational directional flow */
+@keyframes slide-from-left {
+  from { opacity: 0; transform: translateX(-10px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes slide-from-right {
+  from { opacity: 0; transform: translateX(10px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* Source-chip reveal — pop in with slight overshoot */
+@keyframes chip-pop {
+  0%   { opacity: 0; transform: scale(0.82) translateY(2px); }
+  60%  { opacity: 1; transform: scale(1.05) translateY(-1px); }
+  100% { opacity: 1; transform: scale(1)    translateY(0); }
+}
+
+/* Ambient chromatic glow cycle — for "alive when idle" overlay state */
+@keyframes chromatic-glow {
+  0%, 100% { box-shadow: var(--glow-emerald); }
+  33%      { box-shadow: var(--glow-violet);  }
+  66%      { box-shadow: var(--glow-sky);     }
+}
+
+/* Slow conic-gradient rotation for animated glass borders */
+@property --gradient-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+@keyframes spin-gradient {
+  0%   { --gradient-angle:   0deg; }
+  100% { --gradient-angle: 360deg; }
+}
+
+/* Subtle Y-axis float — for stickers, badges, pills */
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-3px); }
 }
 
 @media (prefers-reduced-motion: reduce) {
