@@ -1,4 +1,50 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="6" fill="#0a0f0d"/>
-  <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-family="'Inter', system-ui, sans-serif" font-size="14" font-weight="600" fill="#7ce655">Bo</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="32" height="32">
+  <defs>
+    <mask id="bm">
+      <rect width="200" height="200" fill="white"/>
+      <g transform="rotate(-45 100 100)">
+        <path d="M 6 100 A 94 24 0 0 1 194 100" fill="none" stroke="black" stroke-width="12"/>
+      </g>
+    </mask>
+    <clipPath id="bc"><circle cx="100" cy="100" r="64"/></clipPath>
+    <filter id="bg" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="1.6"/>
+    </filter>
+    <radialGradient id="bb" cx="50%" cy="55%" r="55%">
+      <stop offset="0%" stop-color="#9BE8C4"/>
+      <stop offset="38%" stop-color="#3DA172"/>
+      <stop offset="78%" stop-color="#1B6E4A"/>
+      <stop offset="100%" stop-color="#0D3A27"/>
+    </radialGradient>
+    <radialGradient id="bgl" cx="50%" cy="0%" r="55%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.95"/>
+      <stop offset="50%" stop-color="#D1FAE5" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#D1FAE5" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="bs" cx="50%" cy="100%" r="55%">
+      <stop offset="0%" stop-color="#020A07" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#020A07" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="bo" cx="50%" cy="95%" r="40%">
+      <stop offset="0%" stop-color="#6EE7B7" stop-opacity="0.75"/>
+      <stop offset="100%" stop-color="#6EE7B7" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <g transform="rotate(-45 100 100)">
+    <path d="M 6 100 A 94 24 0 0 0 194 100" fill="none" stroke="#6EE7B7" stroke-width="4" opacity="0.35" stroke-linecap="round" filter="url(#bg)"/>
+    <path d="M 6 100 A 94 24 0 0 1 194 100" fill="none" stroke="#6EE7B7" stroke-width="4" opacity="0.45" stroke-linecap="round" filter="url(#bg)"/>
+    <path d="M 6 100 A 94 24 0 0 0 194 100" fill="none" stroke="#6EE7B7" stroke-width="1.1" opacity="0.8" stroke-linecap="round"/>
+    <path d="M 6 100 A 94 24 0 0 1 194 100" fill="none" stroke="#6EE7B7" stroke-width="1.6" opacity="1" stroke-linecap="round"/>
+  </g>
+  <g mask="url(#bm)">
+    <g clip-path="url(#bc)">
+      <circle cx="100" cy="100" r="64" fill="url(#bb)"/>
+      <circle cx="100" cy="100" r="64" fill="url(#bs)"/>
+      <circle cx="100" cy="100" r="64" fill="url(#bo)"/>
+      <ellipse cx="100" cy="78" rx="44" ry="24" fill="url(#bgl)"/>
+      <circle cx="100" cy="100" r="64" fill="none" stroke="#A7F3D0" stroke-opacity="0.25" stroke-width="1"/>
+      <path d="M 60 72 A 50 50 0 0 1 116 52" fill="none" stroke="#FFFFFF" stroke-opacity="0.4" stroke-width="7" stroke-linecap="round"/>
+      <path d="M 62 70 A 48 48 0 0 1 112 54" fill="none" stroke="#FFFFFF" stroke-opacity="1" stroke-width="2.5" stroke-linecap="round"/>
+    </g>
+  </g>
 </svg>

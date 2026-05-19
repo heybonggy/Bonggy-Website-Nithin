@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import {
   Dialog,
@@ -167,7 +169,7 @@ export function EarlyAccessModal({ open, onOpenChange }: EarlyAccessModalProps) 
                   onChange={(e) => handleChange("problem", e.target.value)}
                   placeholder="Tell us where your outbound workflow breaks..."
                   rows={2}
-                  className="text-[13px] bg-bonggy-bg border-bonggy-border text-bonggy-text-primary placeholder:text-bonggy-text-tertiary focus-visible:border-[#5cb82e] focus-visible:ring-[#5cb82e]/30 resize-none min-h-0"
+                  className="text-[13px] bg-bonggy-bg border-bonggy-border text-bonggy-text-primary placeholder:text-bonggy-text-tertiary focus-visible:border-[#5FBF8F] focus-visible:ring-[#5FBF8F]/30 resize-none min-h-0"
                 />
               </div>
 

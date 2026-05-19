@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect, useCallback } from "react";
 
 type ConsentStatus = "pending" | "accepted" | "declined";
@@ -5,27 +7,40 @@ type ConsentStatus = "pending" | "accepted" | "declined";
 const STORAGE_KEY = "bonggy_cookie_consent";
 
 export function useCookieConsent() {
+  // `mounted` gates display until the client has had a chance to read localStorage.
+  // Prevents the banner from flashing for users who've already chosen.
+  const [mounted, setMounted] = useState(false);
   const [status, setStatus] = useState<ConsentStatus>("pending");
 
   useEffect(() => {
-    const stored = localStorage.getItem(STORAGE_KEY) as ConsentStatus | null;
-    if (stored) {
-      setStatus(stored);
+    if (typeof window === "undefined") return;
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY) as ConsentStatus | null;
+      if (stored === "accepted" || stored === "declined") {
+        setStatus(stored);
+      }
+    } catch {
+      // localStorage may be unavailable (private mode, etc.) — treat as pending
     }
+    setMounted(true);
   }, []);
 
   const accept = useCallback(() => {
-    localStorage.setItem(STORAGE_KEY, "accepted");
+    try {
+      localStorage.setItem(STORAGE_KEY, "accepted");
+    } catch {}
     setStatus("accepted");
     loadRb2b();
   }, []);
 
   const decline = useCallback(() => {
-    localStorage.setItem(STORAGE_KEY, "declined");
+    try {
+      localStorage.setItem(STORAGE_KEY, "declined");
+    } catch {}
     setStatus("declined");
   }, []);
 
-  return { status, accept, decline };
+  return { status, accept, decline, mounted };
 }
 
 function loadRb2b() {

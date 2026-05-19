@@ -40,9 +40,9 @@
     --bonggy-text-tertiary: #9a9a9a;
     --bonggy-border: #e2e2de;
     --bonggy-border-hover: #cccccc;
-    --bonggy-accent: #4d9e2e;
-    --bonggy-accent-hover: #3d8226;
-    --bonggy-success: #3a9e60;
+    --bonggy-accent: #5FBF8F;
+    --bonggy-accent-hover: #3DA172;
+    --bonggy-success: #3DA172;
     --bonggy-warning: #b8962e;
 
     /* ─── Liquid glass surfaces (used by overlays, modals, glass cards) ─── */
@@ -54,7 +54,7 @@
     --glass-edge-glow:   rgba(255, 255, 255, 0.05);
 
     /* Chromatic glow tints — for ambient motion + state accents */
-    --glow-emerald: 0 0 32px -4px rgba(74, 222, 128, 0.42);
+    --glow-emerald: 0 0 32px -4px rgba(110, 231, 183, 0.42);
     --glow-violet:  0 0 32px -4px rgba(167, 139, 250, 0.42);
     --glow-rose:    0 0 32px -4px rgba(244, 114, 182, 0.32);
     --glow-amber:   0 0 32px -4px rgba(251, 191, 36, 0.34);
@@ -62,7 +62,7 @@
 
     /* Mesh-gradient stops (used in cinematic hero backgrounds) */
     --mesh-violet:  #6366f1;
-    --mesh-emerald: #10b981;
+    --mesh-emerald: #5FBF8F;
     --mesh-amber:   #fbbf24;
     --mesh-rose:    #f472b6;
     --mesh-sky:     #38bdf8;
@@ -97,8 +97,8 @@
     --accent-foreground: 0 0% 100%;
     --destructive: 0 55% 35%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 20%;
-    --input: 0 0% 20%;
+    --border: 0 0% 10%;
+    --input: 0 0% 10%;
     --ring: 0 0% 70%;
     --sidebar-background: 0 0% 12%;
     --sidebar-foreground: 0 0% 55%;
@@ -106,19 +106,19 @@
     --sidebar-primary-foreground: 0 0% 10%;
     --sidebar-accent: 0 0% 18%;
     --sidebar-accent-foreground: 0 0% 88%;
-    --sidebar-border: 0 0% 20%;
+    --sidebar-border: 0 0% 10%;
     --sidebar-ring: 18 55% 42%;
 
-    --bonggy-bg: #121414;
-    --bonggy-surface: #1a1c1b;
+    --bonggy-bg: #0A0A0A;
+    --bonggy-surface: #141414;
     --bonggy-text-primary: #e2e4e3;
     --bonggy-text-secondary: #8a908c;
     --bonggy-text-tertiary: #555b58;
-    --bonggy-border: #252a28;
-    --bonggy-border-hover: #333937;
-    --bonggy-accent: #5aaa3c;
-    --bonggy-accent-hover: #4d9633;
-    --bonggy-success: #3a9e60;
+    --bonggy-border: #1a1a1a;
+    --bonggy-border-hover: #262626;
+    --bonggy-accent: #5FBF8F;
+    --bonggy-accent-hover: #6EE7B7;
+    --bonggy-success: #3DA172;
     --bonggy-warning: #b8962e;
 
     /* Glass surfaces — slightly more opaque in dark mode where they
@@ -126,9 +126,15 @@
     --glass-surface:    rgba(20, 20, 24, 0.78);
     --glass-surface-hi: rgba(32, 32, 38, 0.88);
     --glass-surface-lo: rgba(14, 14, 18, 0.66);
-    --glass-edge:        rgba(255, 255, 255, 0.12);
-    --glass-edge-strong: rgba(255, 255, 255, 0.20);
-    --glass-edge-glow:   rgba(255, 255, 255, 0.06);
+    --glass-edge:        rgba(255, 255, 255, 0.05);
+    --glass-edge-strong: rgba(255, 255, 255, 0.09);
+    --glass-edge-glow:   rgba(255, 255, 255, 0.03);
+  }
+
+  *,
+  *::before,
+  *::after {
+    border-color: hsl(var(--border));
   }
 
   html {
@@ -152,11 +158,63 @@
 }
 
 @layer utilities {
-  .font-mono-data {
-    font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+  /* Marching-dashes flow indicator (used on SignalFlow SVG curved paths) */
+  @keyframes signal-flow-march {
+    to { stroke-dashoffset: -20; }
   }
+  /* Vertical pipeline flow (BrokenPipeline) — moves the dash pattern downward */
+  @keyframes pipeline-flow {
+    from { background-position: 0 0; }
+    to   { background-position: 0 14px; }
+  }
+  /* Hero SVG background curves — animates stroke-dashoffset + opacity in a slow loop */
+  @keyframes hero-bg-path-flow {
+    0%   { stroke-dashoffset: 320; opacity: 0.25; }
+    50%  { stroke-dashoffset: 0;   opacity: 0.65; }
+    100% { stroke-dashoffset: -320; opacity: 0.25; }
+  }
+  .hero-bg-path {
+    stroke-dasharray: 80 240;
+    animation-name: hero-bg-path-flow;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-fill-mode: both;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-bg-path {
+      animation: none;
+      stroke-dasharray: none;
+      opacity: 0.35;
+    }
+  }
+  .signal-flow-path {
+    stroke-dasharray: 3 7;
+    stroke-dashoffset: 0;
+    animation: signal-flow-march 1.4s linear infinite;
+  }
+  @keyframes signal-flow-march-reverse {
+    to { stroke-dashoffset: 20; }
+  }
+  .signal-flow-path-rev {
+    stroke-dasharray: 3 7;
+    stroke-dashoffset: 0;
+    animation: signal-flow-march-reverse 1.4s linear infinite;
+  }
+
+  /* "Seams" — Geist Mono with a subtle retro/8-bit treatment: tight tracking + a
+     1-pixel emerald shadow that gives mono captions a faint LCD glow */
+  .font-mono-data {
+    font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+    font-feature-settings: "ss01", "ss02", "zero", "cv11";
+    letter-spacing: 0.01em;
+    text-shadow: 0 0 1px currentColor;
+  }
+  /* Display headlines — Inter at heavy weight with editorial tracking instead of serif */
   .font-serif-display {
-    font-family: 'Times New Roman', 'Georgia', ui-serif, serif;
+    font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    font-feature-settings: "ss01", "cv11";
   }
   .scrollbar-hide {
     -ms-overflow-style: none;

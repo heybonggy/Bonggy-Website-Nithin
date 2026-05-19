@@ -38,3 +38,12 @@ coverage
 
 # TypeScript
 *.tsbuildinfo
+
+# Claude Code local state
+.claude/
+
+# Local backup files (e.g., page.placeholder.tsx.bak)
+*.bak
+
+# Design reference artifacts that aren't part of the build
+12c _ Jelly (4).html
