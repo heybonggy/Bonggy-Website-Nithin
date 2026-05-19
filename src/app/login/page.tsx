@@ -1,5 +1,7 @@
+"use client";
+
 import { useState } from "react";
-import { Link } from "react-router";
+import Link from "next/link";
 import { Eye, EyeOff, ArrowRight } from "lucide-react";
 import { BonggyMark } from "@/components/BonggyMark";
 
