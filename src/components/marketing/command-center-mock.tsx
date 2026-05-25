@@ -263,7 +263,7 @@ export function CommandCenterMock({ className }: { className?: string }) {
           />
         </div>
         <span className="whitespace-nowrap text-muted-foreground/90 tabular-nums">
-          <span className="text-foreground/85">{progress}</span>/13 <span className="text-signal">[+0]</span>
+          <span className="text-foreground/85">{progress}</span>/13
         </span>
       </div>
 

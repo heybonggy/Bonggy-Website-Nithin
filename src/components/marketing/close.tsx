@@ -2,11 +2,7 @@
 
 import * as React from "react";
 import { motion } from "motion/react";
-import {
-  CalendarBlank,
-  Clock,
-  ArrowsClockwise,
-} from "@phosphor-icons/react/dist/ssr";
+import { Clock } from "@phosphor-icons/react/dist/ssr";
 import { CtaButton } from "./cta-button";
 import { SPRING } from "./_motion";
 
@@ -121,47 +117,18 @@ export function Close() {
           we&apos;ll tell you.
         </motion.p>
 
-        {/* CTA + glass pill chips */}
+        {/* CTA */}
         <motion.div
           initial={{ y: 12 }}
           whileInView={{ y: 0 }}
           viewport={{ once: true, amount: 0 }}
           transition={{ ...SPRING, delay: 0.16 }}
-          className="mt-10 flex flex-wrap items-center gap-3"
+          className="mt-10"
         >
           <CtaButton size="lg">Book a strategy session</CtaButton>
-
-          <GlassPill>
-            <CalendarBlank weight="regular" className="size-3.5" />
-            No card required
-          </GlassPill>
-          <GlassPill>We run the setup</GlassPill>
-          <GlassPill>
-            <ArrowsClockwise weight="regular" className="size-3.5" />
-            Reschedule any time
-          </GlassPill>
         </motion.div>
 
       </div>
     </section>
-  );
-}
-
-function GlassPill({ children }: { children: React.ReactNode }) {
-  return (
-    <span
-      className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-[12.5px] font-medium text-muted-foreground transition-all hover:text-foreground"
-      style={{
-        background:
-          "linear-gradient(145deg, oklch(1 0 0 / 3%), oklch(1 0 0 / 1%))",
-        border: "1px solid oklch(1 0 0 / 8%)",
-        boxShadow:
-          "inset 0 1px 0 oklch(1 0 0 / 8%), inset 0 -1px 0 oklch(0 0 0 / 30%), 0 10px 30px -10px oklch(0 0 0 / 50%)",
-        backdropFilter: "blur(16px)",
-        WebkitBackdropFilter: "blur(16px)",
-      }}
-    >
-      {children}
-    </span>
   );
 }
