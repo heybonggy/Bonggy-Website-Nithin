@@ -64,17 +64,38 @@ export function EarlyAccessModal({
     }
   }, [open]);
 
-  // Lock body scroll while open + close on Escape
+  // Lock body scroll while open + close on Escape. iOS Safari ignores
+  // `overflow: hidden` on body, so we ALSO pin via `position: fixed` and
+  // restore the scroll position on close.
   React.useEffect(() => {
     if (!open) return;
-    const original = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    const scrollY = window.scrollY;
+    const html = document.documentElement;
+    const body = document.body;
+    const prev = {
+      htmlOverflow: html.style.overflow,
+      bodyOverflow: body.style.overflow,
+      bodyPosition: body.style.position,
+      bodyTop: body.style.top,
+      bodyWidth: body.style.width,
+    };
+    html.style.overflow = "hidden";
+    body.style.overflow = "hidden";
+    body.style.position = "fixed";
+    body.style.top = `-${scrollY}px`;
+    body.style.width = "100%";
+
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setOpen(false);
     };
     document.addEventListener("keydown", onKey);
     return () => {
-      document.body.style.overflow = original;
+      html.style.overflow = prev.htmlOverflow;
+      body.style.overflow = prev.bodyOverflow;
+      body.style.position = prev.bodyPosition;
+      body.style.top = prev.bodyTop;
+      body.style.width = prev.bodyWidth;
+      window.scrollTo(0, scrollY);
       document.removeEventListener("keydown", onKey);
     };
   }, [open, setOpen]);
@@ -171,11 +192,6 @@ export function EarlyAccessModal({
 
               <div className="flex flex-col gap-5 p-7">
                 <div className="flex flex-col gap-2">
-                  <div className="inline-flex w-fit items-center gap-2 rounded-full border border-border/80 bg-background/60 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-                    <span className="size-1 rounded-full bg-signal" />
-                    Limited cohort
-                  </div>
-
                   <h2
                     id="ea-title"
                     className="text-balance text-[22px] font-medium leading-tight tracking-tight text-foreground"
