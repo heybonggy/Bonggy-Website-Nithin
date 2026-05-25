@@ -19,7 +19,7 @@ const SECTIONS = [
   },
   {
     h: "Billing",
-    body: "Flexible billing — monthly, quarterly, or annual. Cancel anytime. No implementation fees, no surprise charges. If your team needs a different structure, talk to us.",
+    body: "Flexible billing , monthly, quarterly, or annual. Cancel anytime. No implementation fees, no surprise charges. If your team needs a different structure, talk to us.",
   },
   {
     h: "Data ownership",
@@ -27,7 +27,7 @@ const SECTIONS = [
   },
   {
     h: "Limitation of liability",
-    body: "Bonggy helps you find the right accounts and say the right things. We're not responsible for what your reps actually send, how prospects respond, or whether a deal closes. Sales is still a human skill — we make the research part less painful. The service is provided “as is,” to the fullest extent permitted by law.",
+    body: "Bonggy helps you find the right accounts and say the right things. We're not responsible for what your reps actually send, how prospects respond, or whether a deal closes. Sales is still a human skill , we make the research part less painful. The service is provided “as is,” to the fullest extent permitted by law.",
   },
   {
     h: "Contact",

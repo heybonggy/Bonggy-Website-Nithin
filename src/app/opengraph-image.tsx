@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "Bonggy — The command centre for sales teams";
+export const alt = "Bonggy: The command centre for sales teams";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 

@@ -2,7 +2,7 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 /**
- * Bonggy mark — green planet with a glowing tilted ring. Inline SVG so it
+ * Bonggy mark , green planet with a glowing tilted ring. Inline SVG so it
  * renders crisply at any size and adapts to dark/light contexts.
  */
 export function BonggyMark({

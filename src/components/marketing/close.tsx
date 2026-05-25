@@ -18,7 +18,7 @@ export function Close() {
     >
       {/* Layered background */}
       <div className="pointer-events-none absolute inset-0 -z-10">
-        {/* Aurora — breathes */}
+        {/* Aurora , breathes */}
         <motion.div
           aria-hidden
           initial={{ opacity: 0.6, scale: 1 }}
@@ -46,7 +46,7 @@ export function Close() {
         />
       </div>
 
-      {/* Giant background wordmark — stroke only, very subtle.
+      {/* Giant background wordmark , stroke only, very subtle.
           overflow-hidden on the wrapper clips the natural-width word so it
           can't push the page wider than the viewport on mobile.
           bottom-24 on mobile keeps the descenders (g, y) off the section

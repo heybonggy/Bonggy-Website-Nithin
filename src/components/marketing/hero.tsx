@@ -9,7 +9,7 @@ import { SPRING } from "./_motion";
 export function Hero() {
   return (
     <section className="relative isolate overflow-hidden">
-      {/* Hero-only grid background — masked so it fades at edges */}
+      {/* Hero-only grid background , masked so it fades at edges */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-10 bg-grid bg-grid-mask opacity-90"

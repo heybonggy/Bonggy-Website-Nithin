@@ -30,7 +30,7 @@ const STEPS = [
     n: "03",
     Icon: PencilLine,
     title: "Draft",
-    head: "The angle your best rep would've found — for the rep who wouldn't have.",
+    head: "The angle your best rep would've found , for the rep who wouldn't have.",
     body: "A signal-backed message per buyer, in a tone that fits.",
   },
   {
@@ -45,7 +45,7 @@ const STEPS = [
 export function TheReframeFix() {
   return (
     <>
-      {/* THE REFRAME — large statement, two-column asymmetric */}
+      {/* THE REFRAME , large statement, two-column asymmetric */}
       <Section id="reframe" eyebrow="The reframe" className="pb-14 sm:pb-16">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
           <motion.h2
@@ -66,7 +66,7 @@ export function TheReframeFix() {
             transition={{ ...SPRING, delay: 0.05 }}
             className="max-w-[58ch] text-[16px] leading-relaxed text-muted-foreground lg:pt-2"
           >
-            Your reps already have more signal than they can read — funding
+            Your reps already have more signal than they can read , funding
             rounds, new hires, stack changes. What they&apos;re missing is the
             layer that turns that noise into a decision: this account, this
             week, this reason, this opening line. That layer is exactly what
@@ -110,7 +110,7 @@ export function TheReframeFix() {
           </motion.p>
         </div>
 
-        {/* Step list — divider-led, NO card boxes */}
+        {/* Step list , divider-led, NO card boxes */}
         <ol className="mt-16 grid grid-cols-1 gap-px overflow-hidden rounded-bento-sm border border-border/60 bg-border/40 sm:grid-cols-2 lg:grid-cols-4">
           {STEPS.map((s, i) => (
             <motion.li
@@ -154,7 +154,7 @@ export function TheReframeFix() {
         >
           We&apos;re not an AI SDR and we&apos;re not a sequencer.{" "}
           <span className="text-muted-foreground">
-            We don&apos;t replace your reps — we make the average one work like
+            We don&apos;t replace your reps , we make the average one work like
             the one you wish you could clone.
           </span>
         </motion.p>

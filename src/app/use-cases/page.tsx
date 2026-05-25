@@ -5,7 +5,7 @@ import { CtaButton } from "@/components/marketing/cta-button";
 export const metadata: Metadata = {
   title: "Use cases",
   description:
-    "One pattern, 110 ways. Every play is the same move: something changes at a company, and instead of a rep noticing it, researching it, and writing something — Bonggy does that part. The rep shows up to a decision, not a blank page.",
+    "One pattern, 110 ways. Every play is the same move: something changes at a company, and instead of a rep noticing it, researching it, and writing something , Bonggy does that part. The rep shows up to a decision, not a blank page.",
 };
 
 const ROLES = [
@@ -19,7 +19,7 @@ const ROLES = [
       "Detect stack migrations off HubSpot, draft to the new owner",
       "Find accounts hiring 5+ SDRs in a single quarter",
       "Watch champion job-changes and draft the warm intro the moment it lands",
-      "Catch SOC 2 certifications — enterprise unlock signals",
+      "Catch SOC 2 certifications , enterprise unlock signals",
       "Spot RFPs the moment they're posted",
       "Identify champions promoted into procurement-influence roles",
       "Detect re-hires of laid-off VPs at funded companies",

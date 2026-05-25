@@ -4,9 +4,9 @@ import * as React from "react";
 import { motion } from "motion/react";
 
 /**
- * Hero backdrop — pure SVG / CSS, no raster image.
+ * Hero backdrop , pure SVG / CSS, no raster image.
  * A minimal artifact: an off-center signal source emanating concentric pulse
- * rings, with a faint constellation of nodes connected by hairline edges —
+ * rings, with a faint constellation of nodes connected by hairline edges ,
  * the "we read the world and pull out the signal" idea in geometry.
  */
 
@@ -170,7 +170,7 @@ export function HeroBackdrop() {
           </g>
         ))}
 
-        {/* The signal source itself — bright, pulsing */}
+        {/* The signal source itself , bright, pulsing */}
         <motion.circle
           cx={ORIGIN.x}
           cy={ORIGIN.y}

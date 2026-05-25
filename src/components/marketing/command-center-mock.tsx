@@ -6,14 +6,14 @@ import { Check } from "@phosphor-icons/react/dist/ssr";
 import { cn } from "@/lib/utils";
 
 /**
- * Hero mock — terminal-style "Mission Control" view of a Bonggy agent run.
+ * Hero mock , terminal-style "Mission Control" view of a Bonggy agent run.
  * IMPORTANT: total height is FIXED (640px on lg) so the section doesn't grow
  * when new signals get logged. Every inner panel has its own bounded scroll /
- * overflow handling — nothing pushes the page below.
+ * overflow handling , nothing pushes the page below.
  */
 
 /**
- * Use cases SDRs actually struggle with — named in plain SDR language,
+ * Use cases SDRs actually struggle with , named in plain SDR language,
  * not Bonggy internals. Each rotates as the "Active Agent" with stats.
  */
 const USE_CASES = [
@@ -23,7 +23,7 @@ const USE_CASES = [
     skill: "pre-call-context",
     milestone: "before the call",
     preconditions: [
-      "CRM synced — your list, not a marketplace list",
+      "CRM synced , your list, not a marketplace list",
       "Closed-won corpus indexed",
       "Signal feeds connected (hires, raises, stacks)",
     ],
@@ -67,7 +67,7 @@ const USE_CASES = [
     ],
     expected: [
       "Top 5 accounts to work today, ranked by intent",
-      "Why each one is firing — not just the score",
+      "Why each one is firing , not just the score",
       "Drop the wrong ones automatically",
     ],
     description:
@@ -96,7 +96,7 @@ const USE_CASES = [
 ] as const;
 
 type FeatureItem = { name: string; done: boolean };
-/** Things SDRs struggle with day-to-day — checked off as Bonggy handles them. */
+/** Things SDRs struggle with day-to-day , checked off as Bonggy handles them. */
 const INITIAL_FEATURES: FeatureItem[] = [
   { name: "account-research", done: true },
   { name: "first-line-drafting", done: true },
@@ -159,7 +159,7 @@ export function CommandCenterMock({ className }: { className?: string }) {
     return () => clearInterval(id);
   }, [reduce]);
 
-  // Signal Log — new entries push in, oldest drops off; ALWAYS 7 items
+  // Signal Log , new entries push in, oldest drops off; ALWAYS 7 items
   React.useEffect(() => {
     if (reduce) return;
     const id = setInterval(() => {
@@ -210,9 +210,9 @@ export function CommandCenterMock({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        "relative w-full max-w-full overflow-hidden rounded-bento border border-border/80 bg-card/95 font-mono text-foreground shadow-diffusion",
-        // Responsive fixed heights — shorter on mobile so the section doesn't dominate phones
-        "h-[520px] sm:h-[600px] lg:h-[640px]",
+        "relative flex w-full max-w-full flex-col overflow-hidden rounded-bento border border-border/80 bg-card/95 font-mono text-foreground shadow-diffusion",
+        // Responsive fixed heights , shorter on mobile so the section doesn't dominate phones
+        "h-[552px] sm:h-[632px] lg:h-[672px]",
         className,
       )}
     >
@@ -267,9 +267,9 @@ export function CommandCenterMock({ className }: { className?: string }) {
         </span>
       </div>
 
-      {/* Body — two-column. Each column has fixed height and own overflow handling. */}
+      {/* Body , two-column. Each column has fixed height and own overflow handling. */}
       <div className="grid h-[280px] grid-cols-1 sm:h-[340px] sm:grid-cols-[1.05fr_1fr] lg:h-[380px]">
-        {/* LEFT — Rotating Active Agent */}
+        {/* LEFT , Rotating Active Agent */}
         <div className="relative overflow-hidden border-b border-border/60 px-4 py-3 text-[11px] leading-relaxed sm:border-b-0 sm:border-r">
           <AnimatePresence mode="wait">
             <motion.div
@@ -312,7 +312,7 @@ export function CommandCenterMock({ className }: { className?: string }) {
                 </ul>
               </div>
 
-              {/* Stats — confidence, drafts, accounts, hours saved */}
+              {/* Stats , confidence, drafts, accounts, hours saved */}
               <div className="mt-3 grid grid-cols-2 gap-2 rounded-md border border-border/60 bg-background/40 p-2.5">
                 <Stat label="Drafts generated" value={`${agent.stats.drafts}+`} />
                 <Stat label="Confidence" value={`${Math.round(agent.stats.confidence * 100)}%`} highlight />
@@ -327,7 +327,7 @@ export function CommandCenterMock({ className }: { className?: string }) {
           </AnimatePresence>
         </div>
 
-        {/* RIGHT — Features + Signal Log (constrained scroll) */}
+        {/* RIGHT , Features + Signal Log (constrained scroll) */}
         <div className="grid h-full grid-rows-[auto_1fr] overflow-hidden">
           {/* Agents checklist (top) */}
           <div className="border-b border-border/60 px-4 py-3 text-[11px] leading-relaxed">
@@ -353,7 +353,7 @@ export function CommandCenterMock({ className }: { className?: string }) {
             </ul>
           </div>
 
-          {/* Signal Log — fixed-height container, items slide within it */}
+          {/* Signal Log , fixed-height container, items slide within it */}
           <div className="flex min-h-0 flex-col overflow-hidden px-4 pb-3 pt-2.5 text-[10.5px] leading-relaxed">
             <div className="mb-1.5 flex items-baseline justify-between">
               <span className="text-foreground/90 text-[11px]">Signal Log</span>
@@ -391,7 +391,7 @@ export function CommandCenterMock({ className }: { className?: string }) {
         </div>
       </div>
 
-      {/* Active Worker panel — fixed height */}
+      {/* Active Worker panel , fixed height */}
       <div className="h-[120px] border-t border-border/60 px-4 py-2.5 text-[11px] leading-relaxed">
         <div className="mb-1.5 flex items-baseline justify-between">
           <div className="flex items-center gap-2 truncate">
@@ -413,8 +413,8 @@ export function CommandCenterMock({ className }: { className?: string }) {
         </div>
       </div>
 
-      {/* Hotkey footer */}
-      <div className="absolute bottom-0 flex h-8 w-full flex-wrap items-center gap-x-4 gap-y-1 overflow-hidden border-t border-border/60 bg-background/40 px-4 text-[10px] text-muted-foreground/80">
+      {/* Hotkey footer , flows in layout (no absolute) so it never overlaps the Worker panel */}
+      <div className="mt-auto flex h-8 w-full flex-wrap items-center gap-x-4 gap-y-1 overflow-hidden border-t border-border/60 bg-background/40 px-4 text-[10px] text-muted-foreground/80">
         <Hotkey k="A" label="Accounts" />
         <Hotkey k="S" label="Signals" />
         <Hotkey k="D" label="Drafts" />

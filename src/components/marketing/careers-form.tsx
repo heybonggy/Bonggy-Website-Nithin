@@ -57,14 +57,14 @@ export function CareersForm() {
         </h3>
         <p className="mt-5 max-w-[52ch] text-[15.5px] leading-relaxed text-muted-foreground">
           We&apos;re hiring in waves for engineering, design, and early GTM. We
-          don&apos;t list roles publicly — if your work would shape the
+          don&apos;t list roles publicly , if your work would shape the
           thinking layer of outbound, send us your take and we&apos;ll figure
           out the right shape together.
         </p>
         <ul className="mt-7 space-y-2.5 text-[14px] text-muted-foreground">
           {[
             "Async-first, written-first, demo-first",
-            "Everyone here ships — no layers",
+            "Everyone here ships , no layers",
             "We respond within 48 hours",
           ].map((item) => (
             <li key={item} className="flex items-start gap-2.5">
@@ -122,7 +122,7 @@ export function CareersForm() {
             <AreaSelect />
             <Field
               name="links"
-              placeholder="Links — portfolio, GitHub, LinkedIn (optional)"
+              placeholder="Links , portfolio, GitHub, LinkedIn (optional)"
               autoComplete="off"
             />
             <TextArea

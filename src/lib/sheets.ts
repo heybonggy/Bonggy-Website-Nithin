@@ -1,11 +1,11 @@
 /**
- * Google Sheets integration — single source of truth.
+ * Google Sheets integration , single source of truth.
  *
  * Both signup forms (Early Access + Careers) write into ONE spreadsheet with
  * two tabs. ONE Apps Script web-app URL, pasted ONCE below. The route file
  * tells the script which tab to append to via the `sheet` field in the body.
  *
- * SETUP — one step:
+ * SETUP , one step:
  *   Paste your deployed Apps Script web-app URL between the quotes below.
  *   Full guide: INTEGRATIONS.md
  */

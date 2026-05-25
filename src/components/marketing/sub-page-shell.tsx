@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * Consistent shell for every sub-page. Set `narrow` for text-heavy pages
- * (Privacy, Terms, FAQ, Security) — the content column is centered on the
+ * (Privacy, Terms, FAQ, Security) , the content column is centered on the
  * page and constrained to a readable measure.
  */
 export function SubPageShell({

@@ -40,9 +40,9 @@ type Metric = {
   display?: string;
   /** Trend direction */
   trend?: "up" | "down" | "flat";
-  /** Used to normalise the comparison bar — what value should equal "100%" of the bar */
+  /** Used to normalise the comparison bar , what value should equal "100%" of the bar */
   scale: number;
-  /** Whether higher is better — affects color of bar */
+  /** Whether higher is better , affects color of bar */
   betterHigh: boolean;
 };
 

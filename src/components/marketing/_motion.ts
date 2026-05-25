@@ -57,7 +57,7 @@ export const stagger: Variants = {
   },
 };
 
-/** Viewport intent — trigger early so reveals start before user notices. */
+/** Viewport intent , trigger early so reveals start before user notices. */
 export const inViewOnce = {
   once: true as const,
   amount: 0 as const,

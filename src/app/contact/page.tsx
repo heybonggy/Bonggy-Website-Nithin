@@ -15,7 +15,7 @@ export default function ContactPage() {
       eyebrow="Contact"
       title="We read every email."
       titleAccent="A call is faster."
-      lede="The fastest path is a 30-minute strategy session. We calibrate Bonggy on your real accounts, live, and show you what's firing this week. Or send us an email — we read every one."
+      lede="The fastest path is a 30-minute strategy session. We calibrate Bonggy on your real accounts, live, and show you what's firing this week. Or send us an email , we read every one."
       narrow
     >
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-12">

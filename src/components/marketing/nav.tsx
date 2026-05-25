@@ -193,7 +193,7 @@ export function Nav() {
 
           {/* Right side */}
           <div className="flex items-center gap-2">
-            {/* Early access — desktop */}
+            {/* Early access , desktop */}
             <EarlyAccessModal
               trigger={
                 <button

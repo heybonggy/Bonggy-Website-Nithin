@@ -8,7 +8,7 @@ import { CtaButton } from "@/components/marketing/cta-button";
 export const metadata: Metadata = {
   title: "The fix",
   description:
-    "Your best rep's instinct, given to every SDR. Bonggy watches, clusters, scores, and drafts — the rep reviews and sends. The hard-won judgment is already in the box.",
+    "Your best rep's instinct, given to every SDR. Bonggy watches, clusters, scores, and drafts , the rep reviews and sends. The hard-won judgment is already in the box.",
 };
 
 export default function FixPage() {
@@ -17,7 +17,7 @@ export default function FixPage() {
       eyebrow="The fix"
       title="Your best rep's instinct,"
       titleAccent="given to every SDR."
-      lede="Bonggy watches your accounts, catches the moments that open a buying window, scores them against what you actually close, and drafts the outreach grounded in what changed. The rep doesn't research and doesn't guess the angle — they review a signal-backed draft and send. The hard-won judgment is already in the box."
+      lede="Bonggy watches your accounts, catches the moments that open a buying window, scores them against what you actually close, and drafts the outreach grounded in what changed. The rep doesn't research and doesn't guess the angle , they review a signal-backed draft and send. The hard-won judgment is already in the box."
       narrow
     >
       <div className="divide-y divide-border/60">
@@ -33,7 +33,7 @@ export default function FixPage() {
           <p>
             Several events at one company become one account narrative. Then
             we rank that narrative against what you actually close. The
-            prioritization a junior rep gets wrong — done in the background.
+            prioritization a junior rep gets wrong , done in the background.
           </p>
         </SubPageBlock>
 
@@ -48,7 +48,7 @@ export default function FixPage() {
         <SubPageBlock index="04" tag="Human send" title="Review & send">
           <p>
             Every draft queued for approval, then pushed to the platforms you
-            already run — Instantly, Mailchimp, your CRM, LinkedIn, email.
+            already run , Instantly, Mailchimp, your CRM, LinkedIn, email.
             The rep stays in control. The thinking is just done.
           </p>
         </SubPageBlock>
@@ -59,7 +59,7 @@ export default function FixPage() {
           <p className="text-balance text-[20px] font-medium leading-snug tracking-tight sm:text-[24px]">
             We&apos;re not an AI SDR and we&apos;re not a sequencer.{" "}
             <span className="text-muted-foreground">
-              We don&apos;t replace your reps — we make the average one work
+              We don&apos;t replace your reps , we make the average one work
               like the one you wish you could clone.
             </span>
           </p>

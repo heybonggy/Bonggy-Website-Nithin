@@ -8,7 +8,7 @@ import { CtaButton } from "@/components/marketing/cta-button";
 export const metadata: Metadata = {
   title: "How it works",
   description:
-    "You don't operate Bonggy. You install it. Describe the motion you want in plain English, and Bonggy turns it into an agent that runs on its own — watching accounts, scoring intent, drafting outreach, queuing for review.",
+    "You don't operate Bonggy. You install it. Describe the motion you want in plain English, and Bonggy turns it into an agent that runs on its own , watching accounts, scoring intent, drafting outreach, queuing for review.",
 };
 
 export default function HowItWorksPage() {
@@ -17,7 +17,7 @@ export default function HowItWorksPage() {
       eyebrow="How it works"
       title="You don't operate Bonggy."
       titleAccent="You install it."
-      lede="Apollo is a database. Clay is a workbench. Bonggy is neither. You describe the motion in plain English and Bonggy builds it into an agent that runs on its own — watching the right signals, scoring the right accounts, drafting outreach grounded in what actually changed."
+      lede="Apollo is a database. Clay is a workbench. Bonggy is neither. You describe the motion in plain English and Bonggy builds it into an agent that runs on its own , watching the right signals, scoring the right accounts, drafting outreach grounded in what actually changed."
       narrow
     >
       <div className="divide-y divide-border/60">
@@ -66,7 +66,7 @@ export default function HowItWorksPage() {
           <p>
             The thinking is automated; the sending stays a decision. Approved
             drafts get pushed into Instantly, Mailchimp, your CRM, LinkedIn,
-            email — the tools you already run.
+            email , the tools you already run.
           </p>
         </SubPageBlock>
 

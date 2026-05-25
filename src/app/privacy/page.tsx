@@ -15,7 +15,7 @@ const SECTIONS = [
   },
   {
     h: "How we use it",
-    body: "Your data powers your outbound intelligence. Signal clustering, narrative generation, and win-pattern matching all happen on your data, for your benefit. We use anonymized, aggregate metrics to improve the product — never your specific account narratives or contact lists.",
+    body: "Your data powers your outbound intelligence. Signal clustering, narrative generation, and win-pattern matching all happen on your data, for your benefit. We use anonymized, aggregate metrics to improve the product , never your specific account narratives or contact lists.",
   },
   {
     h: "Cookies and website analytics",
@@ -23,7 +23,7 @@ const SECTIONS = [
   },
   {
     h: "Data retention",
-    body: "We keep your data as long as you're a customer. If you cancel, we offer a 30-day grace period to export everything before deletion. You own your data — we're just the layer that makes it useful.",
+    body: "We keep your data as long as you're a customer. If you cancel, we offer a 30-day grace period to export everything before deletion. You own your data , we're just the layer that makes it useful.",
   },
   {
     h: "Third-party integrations",

@@ -59,7 +59,7 @@
 }
 
 :root {
-  /* Off-black with subtle cool tint (Zinc-950 equiv) — per anti-pure-black rule */
+  /* Off-black with subtle cool tint (Zinc-950 equiv) , per anti-pure-black rule */
   --background: oklch(0.085 0.005 280);
   --foreground: oklch(0.98 0 0);
 
@@ -84,7 +84,7 @@
   --input: oklch(1 0 0 / 14%);
   --ring: oklch(0.97 0 0 / 50%);
 
-  /* Single accent — soft sage. Saturation ~16% (under taste-skill 80% cap) */
+  /* Single accent , soft sage. Saturation ~16% (under taste-skill 80% cap) */
   --signal: oklch(0.78 0.13 152);
   --signal-foreground: oklch(0.12 0.04 152);
   --signal-muted: oklch(0.78 0.13 152 / 14%);
@@ -156,7 +156,7 @@
     @apply bg-background text-foreground;
     text-rendering: optimizeLegibility;
     overflow-x: clip;
-    /* Soft mesh gradient only — grid pattern lives on the hero section, not site-wide */
+    /* Soft mesh gradient only , grid pattern lives on the hero section, not site-wide */
     background-image:
       radial-gradient(ellipse 70% 45% at 10% -5%, oklch(0.78 0.13 152 / 7%), transparent 60%),
       radial-gradient(ellipse 60% 40% at 95% 8%, oklch(0.78 0.13 152 / 5%), transparent 60%),
@@ -176,7 +176,7 @@
   .text-balance { text-wrap: balance; }
   .text-pretty { text-wrap: pretty; }
 
-  /* Display type — controlled, not screaming. Hierarchy via weight + color, not just size */
+  /* Display type , controlled, not screaming. Hierarchy via weight + color, not just size */
   .text-display {
     font-feature-settings: "ss01", "cv11", "calt", "ss02";
     letter-spacing: -0.035em;
@@ -205,7 +205,7 @@
     -webkit-mask-image: radial-gradient(ellipse 70% 55% at 50% 40%, black 30%, transparent 80%);
   }
 
-  /* Grain — FIXED layer so it doesn't scroll (per taste-skill performance rule) */
+  /* Grain , FIXED layer so it doesn't scroll (per taste-skill performance rule) */
   .grain-layer {
     position: fixed;
     inset: 0;
@@ -217,7 +217,7 @@
     opacity: 0.35;
   }
 
-  /* Diffusion shadow — wide, light, no outer glow */
+  /* Diffusion shadow , wide, light, no outer glow */
   .shadow-diffusion {
     box-shadow:
       0 1px 0 oklch(1 0 0 / 6%) inset,
@@ -230,7 +230,7 @@
       0 14px 40px -18px oklch(0 0 0 / 0.5);
   }
 
-  /* Signal accent glow — single accent, low intensity */
+  /* Signal accent glow , single accent, low intensity */
   .glow-signal {
     background: radial-gradient(ellipse at center, oklch(0.78 0.13 152 / 18%) 0%, transparent 60%);
   }

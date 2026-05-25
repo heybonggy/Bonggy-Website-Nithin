@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Bonggy — The command centre for outbound",
+    name: "Bonggy: The command centre for outbound",
     short_name: "Bonggy",
     description:
       "Installable agents that find the signal, score the account, and draft the outreach. Your best rep's instinct, given to every SDR.",

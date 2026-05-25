@@ -70,7 +70,7 @@ export function UseCases() {
         </span>
       </motion.h2>
 
-      {/* Hero: SDR beachhead — full-width, large */}
+      {/* Hero: SDR beachhead , full-width, large */}
       <motion.div
         initial={{ y: 16 }}
         whileInView={{ y: 0 }}
@@ -97,9 +97,9 @@ export function UseCases() {
 
           <div className="flex flex-col gap-2.5 border-t border-border/60 p-8 lg:border-l lg:border-t-0 lg:p-12">
             {[
-              "Research — done before the rep opens the tab",
-              "First draft — signal-backed, ready to review",
-              "Prioritization — top 5 accounts for today, surfaced",
+              "Research , done before the rep opens the tab",
+              "First draft , signal-backed, ready to review",
+              "Prioritization , top 5 accounts for today, surfaced",
             ].map((line, i) => (
               <motion.div
                 key={line}
@@ -117,7 +117,7 @@ export function UseCases() {
         </div>
       </motion.div>
 
-      {/* Supporting roles — asymmetric 2-col zig-zag (5/7, 7/5, 5/7) on a 12-col grid */}
+      {/* Supporting roles , asymmetric 2-col zig-zag (5/7, 7/5, 5/7) on a 12-col grid */}
       <div className="mt-4 grid grid-cols-1 gap-3 lg:grid-cols-12 lg:gap-4">
         {ROLES.map((r, i) => (
           <motion.div

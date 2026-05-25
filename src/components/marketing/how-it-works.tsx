@@ -28,7 +28,7 @@ const PROMPTS = [
   "If an account closes a Series B, score against closed-won and queue the strongest 10 for outreach.",
 ];
 
-/* Detailed signals — 5 rows worth, with source / actor / time so it reads like real intel */
+/* Detailed signals , 5 rows worth, with source / actor / time so it reads like real intel */
 type Signal = {
   co: string;
   event: string;
@@ -72,7 +72,7 @@ const SIGNALS: Signal[][] = [
   ],
 ];
 
-/* Approval queue — much larger pool, each marked approve | reject */
+/* Approval queue , much larger pool, each marked approve | reject */
 type Approval = {
   id: string;
   company: string;
@@ -144,7 +144,7 @@ export function HowItWorks() {
 
         <BentoCard
           className="lg:col-span-7 lg:row-span-2"
-          step="—"
+          step=","
           title="Live signal feed"
           sub="Always on, always reading."
           tallContent
@@ -152,11 +152,11 @@ export function HowItWorks() {
           <SignalStreamDemo />
         </BentoCard>
 
-        <BentoCard className="lg:col-span-3" step="—" title="Agents running" sub="Right now.">
+        <BentoCard className="lg:col-span-3" step="," title="Agents running" sub="Right now.">
           <AgentStatusDemo />
         </BentoCard>
 
-        <BentoCard className="lg:col-span-3" step="—" title="Throughput today" sub="Reading and acting.">
+        <BentoCard className="lg:col-span-3" step="," title="Throughput today" sub="Reading and acting.">
           <ThroughputDemo />
         </BentoCard>
       </div>
@@ -430,7 +430,7 @@ function ApprovalDemo() {
         const pendingIdx = next.findIndex((i) => i.status === "pending");
 
         if (pendingIdx === -1) {
-          // none pending — pop the oldest decided + add a new pending
+          // none pending , pop the oldest decided + add a new pending
           next.shift();
           const fresh = QUEUE_POOL[counter.current % QUEUE_POOL.length];
           counter.current += 1;
@@ -616,7 +616,7 @@ function SignalPill({ signal: s }: { signal: Signal }) {
   );
 }
 
-/* ───────────────── Agent status — Live counter card ───────────────── */
+/* ───────────────── Agent status , Live counter card ───────────────── */
 
 function AgentStatusDemo() {
   return (
@@ -659,7 +659,7 @@ function AgentStatusDemo() {
   );
 }
 
-/* ───────────────── Throughput tile — sparkline + counter ───────────────── */
+/* ───────────────── Throughput tile , sparkline + counter ───────────────── */
 
 function ThroughputDemo() {
   const eventsToday = useTickingCounter(214, 3, 900);

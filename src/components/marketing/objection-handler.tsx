@@ -33,8 +33,8 @@ export function ObjectionHandler() {
 
           <p className="max-w-[58ch] text-[16px] leading-relaxed text-muted-foreground">
             So they sent more and meant less. Bonggy is the opposite bet: we
-            put the AI on the judgment — which account, why now, what to say
-            — and leave the sending to a human who has to live with the reply.
+            put the AI on the judgment. Which account, why now, what to say.
+            And leave the sending to a human who has to live with the reply.
             You&apos;re not buying another autopilot.{" "}
             <span className="text-foreground">
               You&apos;re buying the part the autopilot never had.
@@ -42,7 +42,7 @@ export function ObjectionHandler() {
           </p>
         </div>
 
-        {/* Side-by-side compare — no card-on-card, just inner border */}
+        {/* Side-by-side compare , no card-on-card, just inner border */}
         <div className="grid grid-cols-1 overflow-hidden rounded-bento-sm border border-border/80 bg-card/40 backdrop-blur sm:grid-cols-2">
           <div className="flex flex-col gap-3 p-6 sm:p-7 border-b border-border/60 sm:border-b-0 sm:border-r">
             <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">

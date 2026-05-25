@@ -2,14 +2,11 @@
 
 import * as React from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { ArrowUpRight, CircleNotch } from "@phosphor-icons/react/dist/ssr";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+  ArrowUpRight,
+  CircleNotch,
+  X as XIcon,
+} from "@phosphor-icons/react/dist/ssr";
 import { Magnetic } from "./magnetic";
 import { cn } from "@/lib/utils";
 import { SPRING } from "./_motion";
@@ -17,7 +14,8 @@ import { SPRING } from "./_motion";
 export const CAL_LINK = "https://cal.com/bonggy/30min?overlayCalendar=true";
 
 type Props = {
-  trigger?: React.ReactNode;
+  trigger?: React.ReactElement;
+  /** Optional controlled open state */
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
 };
@@ -31,31 +29,69 @@ const ROLES = [
   "Other",
 ];
 
-export function EarlyAccessModal({ trigger, open, onOpenChange }: Props) {
+/**
+ * Custom modal , NOT using @base-ui/react Dialog. That implementation was
+ * misclassifying clicks on form inputs as "outside the popup" on mobile and
+ * closing the dialog. This version controls open state explicitly: only
+ * closes via the X button, Escape, or backdrop click (never on inputs).
+ */
+export function EarlyAccessModal({
+  trigger,
+  open: controlledOpen,
+  onOpenChange,
+}: Props) {
+  const [internalOpen, setInternalOpen] = React.useState(false);
+  const open = controlledOpen ?? internalOpen;
+
+  const setOpen = React.useCallback(
+    (v: boolean) => {
+      if (controlledOpen === undefined) setInternalOpen(v);
+      onOpenChange?.(v);
+    },
+    [controlledOpen, onOpenChange],
+  );
+
   const [submitting, setSubmitting] = React.useState(false);
   const [submitted, setSubmitted] = React.useState(false);
-  const [roleError, setRoleError] = React.useState(false);
   const [role, setRole] = React.useState("");
+  const [roleError, setRoleError] = React.useState(false);
+
+  // Reset form state whenever the modal opens
+  React.useEffect(() => {
+    if (open) {
+      setSubmitted(false);
+      setRoleError(false);
+    }
+  }, [open]);
+
+  // Lock body scroll while open + close on Escape
+  React.useEffect(() => {
+    if (!open) return;
+    const original = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = original;
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open, setOpen]);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
 
-    // Honeypot — silently accept and drop
     if ((formData.get("hp_field") as string)?.length) {
       setSubmitted(true);
       return;
     }
-
-    // Validate role in JS (a `required` HIDDEN input is invalid HTML and
-    // crashes form validation in some browsers — that's what was killing the
-    // form on submit).
     if (!role) {
       setRoleError(true);
       return;
     }
     setRoleError(false);
-
     setSubmitting(true);
     try {
       const body = { ...Object.fromEntries(formData), role };
@@ -76,131 +112,197 @@ export function EarlyAccessModal({ trigger, open, onOpenChange }: Props) {
     }
   }
 
+  // Trigger: clone the user-provided element to attach our onClick
+  const triggerEl = trigger
+    ? React.cloneElement(trigger, {
+        onClick: (e: React.MouseEvent) => {
+          // Preserve any existing onClick the trigger had
+          const existing = (trigger.props as { onClick?: (e: React.MouseEvent) => void }).onClick;
+          existing?.(e);
+          if (!e.defaultPrevented) setOpen(true);
+        },
+      } as Partial<React.HTMLAttributes<HTMLElement>>)
+    : null;
+
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      {trigger ? <DialogTrigger render={trigger as React.ReactElement} /> : null}
-      <DialogContent
-        className="w-[calc(100%-2rem)] max-w-md gap-0 overflow-hidden rounded-xl border border-border/80 bg-card p-0"
-        showCloseButton
-      >
-        <div className="flex flex-col gap-5 p-7">
-          <div className="flex flex-col gap-2">
-            <div className="inline-flex w-fit items-center gap-2 rounded-full border border-border/80 bg-background/60 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-              <span className="size-1 rounded-full bg-signal" />
-              Limited cohort
-            </div>
+    <>
+      {triggerEl}
 
-            <DialogTitle className="text-balance text-[22px] font-medium leading-tight tracking-tight text-foreground">
-              Early access — for teams done waiting for better outbound.
-            </DialogTitle>
-            <DialogDescription className="text-[13.5px] leading-relaxed text-muted-foreground">
-              We built Bonggy because great reps shouldn&apos;t burn out on bad
-              data. We&apos;re rolling out in waves, not to gatekeep, but
-              because we&apos;d rather onboard ten teams properly than a
-              hundred poorly.
-            </DialogDescription>
-          </div>
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.18 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+          >
+            {/* Backdrop , closes on click */}
+            <div
+              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+              onClick={() => setOpen(false)}
+              aria-hidden
+            />
 
-          {submitted ? (
+            {/* Panel , stops propagation so internal clicks NEVER hit backdrop */}
             <motion.div
-              initial={{ y: 8, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="ea-title"
+              initial={{ y: 12, scale: 0.96 }}
+              animate={{ y: 0, scale: 1 }}
+              exit={{ y: 8, scale: 0.97 }}
               transition={SPRING}
-              className="flex flex-col gap-3 rounded-lg border border-signal/30 bg-signal/[0.05] p-4"
+              onClick={(e) => e.stopPropagation()}
+              onMouseDown={(e) => e.stopPropagation()}
+              onPointerDown={(e) => e.stopPropagation()}
+              onTouchStart={(e) => e.stopPropagation()}
+              className="relative z-10 w-full max-w-md overflow-hidden rounded-xl border border-border/80 bg-card shadow-[0_30px_80px_-20px_oklch(0_0_0_/_70%)]"
             >
-              <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-signal">
-                You&apos;re on the list
-              </div>
-              <p className="text-[13.5px] leading-relaxed text-foreground/90">
-                We onboard in small waves. We&apos;ll email you when the next
-                cohort opens to book a 30-minute session where we calibrate
-                Bonggy on your accounts.
-              </p>
-              <a
-                href={CAL_LINK}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group/cta relative mt-1 inline-flex h-10 items-center justify-center gap-2 rounded-md bg-zinc-950 px-4 font-mono text-[10.5px] font-medium uppercase tracking-[0.2em] text-signal transition-all duration-200 active:translate-y-[1px]"
-                style={{
-                  boxShadow:
-                    "0 0 0 1px oklch(0.78 0.13 152 / 35%), 0 0 18px -2px oklch(0.78 0.13 152 / 28%)",
-                }}
+              {/* Close button */}
+              <button
+                type="button"
+                onClick={() => setOpen(false)}
+                aria-label="Close"
+                className="absolute right-3 top-3 z-10 flex size-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-foreground/[0.05] hover:text-foreground"
               >
-                <span className="size-1 rounded-full bg-signal" />
-                Skip the wait — book a call
-                <ArrowUpRight weight="bold" className="size-3.5" />
-              </a>
-            </motion.div>
-          ) : (
-            <form onSubmit={handleSubmit} className="flex flex-col gap-3" noValidate={false}>
-              {/* Honeypot — sr-only so it can't break layout / form validation */}
-              <input
-                type="text"
-                name="hp_field"
-                tabIndex={-1}
-                autoComplete="off"
-                aria-hidden
-                className="sr-only"
-              />
+                <XIcon weight="bold" className="size-4" />
+              </button>
 
-              <FormField
-                name="email"
-                type="email"
-                placeholder="Work email"
-                autoComplete="email"
-                required
-              />
-              <FormField
-                name="company"
-                placeholder="Company"
-                autoComplete="organization"
-                required
-              />
-              <RoleSelect value={role} onChange={(v) => { setRole(v); setRoleError(false); }} error={roleError} />
-              <FormField
-                name="teamSize"
-                placeholder="Team size (optional)"
-                autoComplete="off"
-              />
+              <div className="flex flex-col gap-5 p-7">
+                <div className="flex flex-col gap-2">
+                  <div className="inline-flex w-fit items-center gap-2 rounded-full border border-border/80 bg-background/60 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+                    <span className="size-1 rounded-full bg-signal" />
+                    Limited cohort
+                  </div>
 
-              <Magnetic pull={0.25} range={120}>
-                <button
-                  type="submit"
-                  disabled={submitting}
-                  className={cn(
-                    "group/cta relative mt-1 inline-flex h-11 w-full items-center justify-center gap-2 overflow-hidden rounded-md bg-zinc-950 px-5 font-mono text-[11.5px] font-medium uppercase tracking-[0.2em] text-signal transition-all duration-200 active:translate-y-[1px] disabled:opacity-60",
-                  )}
-                  style={{
-                    boxShadow:
-                      "0 0 0 1px oklch(0.78 0.13 152 / 40%), inset 0 1px 0 oklch(1 0 0 / 5%), 0 0 22px -4px oklch(0.78 0.13 152 / 32%)",
-                  }}
-                >
-                  {submitting ? (
-                    <>
-                      <CircleNotch weight="bold" className="size-4 animate-spin" />
-                      <span>Sending…</span>
-                    </>
-                  ) : (
-                    <>
+                  <h2
+                    id="ea-title"
+                    className="text-balance text-[22px] font-medium leading-tight tracking-tight text-foreground"
+                  >
+                    Early access for teams done waiting for better outbound.
+                  </h2>
+                  <p className="text-[13.5px] leading-relaxed text-muted-foreground">
+                    We built Bonggy because great reps shouldn&apos;t burn out
+                    on bad data. We&apos;re rolling out in waves, not to
+                    gatekeep, but because we&apos;d rather onboard ten teams
+                    properly than a hundred poorly.
+                  </p>
+                </div>
+
+                {submitted ? (
+                  <motion.div
+                    initial={{ y: 8, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={SPRING}
+                    className="flex flex-col gap-3 rounded-lg border border-signal/30 bg-signal/[0.05] p-4"
+                  >
+                    <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-signal">
+                      You&apos;re on the list
+                    </div>
+                    <p className="text-[13.5px] leading-relaxed text-foreground/90">
+                      We onboard in small waves. We&apos;ll email you when the
+                      next cohort opens to book a 30-minute session where we
+                      calibrate Bonggy on your accounts.
+                    </p>
+                    <a
+                      href={CAL_LINK}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group/cta relative mt-1 inline-flex h-10 items-center justify-center gap-2 rounded-md bg-zinc-950 px-4 font-mono text-[10.5px] font-medium uppercase tracking-[0.2em] text-signal transition-all duration-200 active:translate-y-[1px]"
+                      style={{
+                        boxShadow:
+                          "0 0 0 1px oklch(0.78 0.13 152 / 35%), 0 0 18px -2px oklch(0.78 0.13 152 / 28%)",
+                      }}
+                    >
                       <span className="size-1 rounded-full bg-signal" />
-                      <span>Request early access</span>
-                      <ArrowUpRight
-                        weight="bold"
-                        className="size-3.5 transition-transform duration-200 group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-0.5"
-                      />
-                    </>
-                  )}
-                </button>
-              </Magnetic>
+                      Skip the wait, book a call
+                      <ArrowUpRight weight="bold" className="size-3.5" />
+                    </a>
+                  </motion.div>
+                ) : (
+                  <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+                    {/* Honeypot */}
+                    <input
+                      type="text"
+                      name="hp_field"
+                      tabIndex={-1}
+                      autoComplete="off"
+                      aria-hidden
+                      className="sr-only"
+                    />
 
-              <p className="text-center font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground/70">
-                No card required · 30-min call · We respond within 48h
-              </p>
-            </form>
-          )}
-        </div>
-      </DialogContent>
-    </Dialog>
+                    <FormField
+                      name="email"
+                      type="email"
+                      placeholder="Work email"
+                      autoComplete="email"
+                      required
+                    />
+                    <FormField
+                      name="company"
+                      placeholder="Company"
+                      autoComplete="organization"
+                      required
+                    />
+                    <RoleSelect
+                      value={role}
+                      onChange={(v) => {
+                        setRole(v);
+                        setRoleError(false);
+                      }}
+                      error={roleError}
+                    />
+                    <FormField
+                      name="teamSize"
+                      placeholder="Team size (optional)"
+                      autoComplete="off"
+                    />
+
+                    <Magnetic pull={0.25} range={120}>
+                      <button
+                        type="submit"
+                        disabled={submitting}
+                        className={cn(
+                          "group/cta relative mt-1 inline-flex h-11 w-full items-center justify-center gap-2 overflow-hidden rounded-md bg-zinc-950 px-5 font-mono text-[11.5px] font-medium uppercase tracking-[0.2em] text-signal transition-all duration-200 active:translate-y-[1px] disabled:opacity-60",
+                        )}
+                        style={{
+                          boxShadow:
+                            "0 0 0 1px oklch(0.78 0.13 152 / 40%), inset 0 1px 0 oklch(1 0 0 / 5%), 0 0 22px -4px oklch(0.78 0.13 152 / 32%)",
+                        }}
+                      >
+                        {submitting ? (
+                          <>
+                            <CircleNotch
+                              weight="bold"
+                              className="size-4 animate-spin"
+                            />
+                            <span>Sending…</span>
+                          </>
+                        ) : (
+                          <>
+                            <span className="size-1 rounded-full bg-signal" />
+                            <span>Request early access</span>
+                            <ArrowUpRight
+                              weight="bold"
+                              className="size-3.5 transition-transform duration-200 group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-0.5"
+                            />
+                          </>
+                        )}
+                      </button>
+                    </Magnetic>
+
+                    <p className="text-center font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground/70">
+                      No card required · 30-min call · We respond within 48h
+                    </p>
+                  </form>
+                )}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
 
@@ -232,7 +334,6 @@ function RoleSelect({
   const [open, setOpen] = React.useState(false);
   const ref = React.useRef<HTMLDivElement | null>(null);
 
-  // Close on outside click / Escape
   React.useEffect(() => {
     if (!open) return;
     function onDocClick(e: MouseEvent) {
@@ -241,7 +342,10 @@ function RoleSelect({
       }
     }
     function onKey(e: KeyboardEvent) {
-      if (e.key === "Escape") setOpen(false);
+      if (e.key === "Escape") {
+        setOpen(false);
+        e.stopPropagation();
+      }
     }
     document.addEventListener("mousedown", onDocClick);
     document.addEventListener("keydown", onKey);

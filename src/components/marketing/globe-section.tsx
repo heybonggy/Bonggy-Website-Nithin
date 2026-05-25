@@ -15,7 +15,7 @@ import { Section } from "./section";
 import { SPRING_BOUNCE, SPRING } from "./_motion";
 
 /**
- * "We read the world" — a globe with rotating signal popups. Each popup says
+ * "We read the world" , a globe with rotating signal popups. Each popup says
  * "Signal detected" (no specific company name) so the visual doesn't make
  * promises about which named accounts we're watching.
  */
@@ -30,7 +30,7 @@ type Signal = {
   Icon: React.ComponentType<{ className?: string; weight?: "thin" | "light" | "regular" | "bold" | "fill" | "duotone" }>;
 };
 
-// Popups live in 6 fixed slots — a strict 2-col × 3-row grid around the
+// Popups live in 6 fixed slots , a strict 2-col × 3-row grid around the
 // globe. No two slots can ever overlap, so even with 3 popups visible at
 // once from a random cycle, the layout stays clean on mobile + desktop.
 const SIGNALS: Signal[] = [
@@ -160,7 +160,7 @@ function GlobeCanvas() {
         theta: 0.25,
         dark: 1,
         diffuse: 1.4,
-        // Continent dots only — no markers (the floating green pip the user flagged)
+        // Continent dots only , no markers (the floating green pip the user flagged)
         mapSamples: 14000,
         mapBrightness: 7,
         baseColor: [0.32, 0.32, 0.34],
@@ -171,7 +171,7 @@ function GlobeCanvas() {
         opacity: 0.95,
       });
 
-      // Moderate rotation — visible on mobile, not jarring on desktop.
+      // Moderate rotation , visible on mobile, not jarring on desktop.
       const animate = () => {
         phi += 0.004;
         globe!.update({ phi, theta: 0.25 });
@@ -214,7 +214,7 @@ function GlobeCanvas() {
 }
 
 function SignalPopups() {
-  // cycle key changes per rotation — AnimatePresence then fades the entire
+  // cycle key changes per rotation , AnimatePresence then fades the entire
   // group in/out together (synced), not item-by-item.
   const [cycle, setCycle] = React.useState(0);
   const [active, setActive] = React.useState<string[]>(() => [

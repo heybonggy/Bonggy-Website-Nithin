@@ -20,7 +20,7 @@ type CtaButtonProps = {
 };
 
 /**
- * CTA button — colorful-gradient style (inspired by 21st.dev button-colorful),
+ * CTA button , colorful-gradient style (inspired by 21st.dev button-colorful),
  * themed for Bonggy. A dark base with a blurred signal-green → emerald → teal
  * gradient sitting behind it. Opacity ramps up on hover. Sharp corners, mono
  * uppercase labels, factory.ai-adjacent tightness.
@@ -71,7 +71,7 @@ export function CtaButton({
 
   const inner = (
     <>
-      {/* Blurred gradient — opacity ramps up on hover */}
+      {/* Blurred gradient , opacity ramps up on hover */}
       {variant !== "ghost" && (
         <div
           aria-hidden

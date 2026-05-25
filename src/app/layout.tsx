@@ -18,7 +18,7 @@ const SITE_URL =
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Bonggy — The command centre for sales teams",
+    default: "Bonggy: The command centre for sales teams",
     template: "%s · Bonggy",
   },
   description:
@@ -49,13 +49,13 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: SITE_URL,
     siteName: "Bonggy",
-    title: "Bonggy — The command centre for sales teams",
+    title: "Bonggy: The command centre for sales teams",
     description:
       "Find the signal, decide the move. Bonggy runs your whole outbound sales motion from one place, with your judgement.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Bonggy — The command centre for sales teams",
+    title: "Bonggy: The command centre for sales teams",
     description:
       "Find the signal, decide the move. Bonggy runs your whole outbound sales motion from one place, with your judgement.",
     creator: "@bonggy",
@@ -101,7 +101,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
-        {/* Organization structured data — readable for AI agents + search */}
+        {/* Organization structured data , readable for AI agents + search */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

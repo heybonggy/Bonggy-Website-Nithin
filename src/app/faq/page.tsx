@@ -5,17 +5,17 @@ import { CtaButton } from "@/components/marketing/cta-button";
 export const metadata: Metadata = {
   title: "FAQ",
   description:
-    "Common questions about Bonggy — how it differs from AI SDRs, Apollo, and Clay; what it integrates with; how it protects your domain; who it's for.",
+    "Common questions about Bonggy , how it differs from AI SDRs, Apollo, and Clay; what it integrates with; how it protects your domain; who it's for.",
 };
 
 const QUESTIONS = [
   {
     q: "Is Bonggy an AI SDR?",
-    a: "No. AI SDRs automate the typing and skip the thinking — they send more and mean less. Bonggy puts the AI on the judgment: which account, why now, what to say. Your reps still send, still own the relationship. We arm them; we don't replace them.",
+    a: "No. AI SDRs automate the typing and skip the thinking , they send more and mean less. Bonggy puts the AI on the judgment: which account, why now, what to say. Your reps still send, still own the relationship. We arm them; we don't replace them.",
   },
   {
     q: "How is this different from Apollo or Clay?",
-    a: "Apollo is a database — it tells you who exists. Clay is a workbench — it lets you build the pipeline, if you know how. Bonggy is the layer in between: it decides which accounts to work, what to say, and why it matters right now, then runs it as an agent. Keep your database and your sequencer. We're the thinking between them.",
+    a: "Apollo is a database , it tells you who exists. Clay is a workbench , it lets you build the pipeline, if you know how. Bonggy is the layer in between: it decides which accounts to work, what to say, and why it matters right now, then runs it as an agent. Keep your database and your sequencer. We're the thinking between them.",
   },
   {
     q: "Do I need to be technical to use it?",
@@ -23,7 +23,7 @@ const QUESTIONS = [
   },
   {
     q: "Where does the data come from?",
-    a: "Bonggy watches public buying signals across your target accounts — job changes, funding, tech-stack moves, hiring, news — and structures them into a scored, account-level view. It connects to the tools you already use to act on them.",
+    a: "Bonggy watches public buying signals across your target accounts , job changes, funding, tech-stack moves, hiring, news , and structures them into a scored, account-level view. It connects to the tools you already use to act on them.",
   },
   {
     q: "Does anything send automatically?",
@@ -31,15 +31,15 @@ const QUESTIONS = [
   },
   {
     q: "What does it integrate with?",
-    a: "The tools you already run — Instantly, Mailchimp, your CRM, LinkedIn, email, and common sequencers. It pushes approved outreach into your existing workflow rather than replacing it.",
+    a: "The tools you already run , Instantly, Mailchimp, your CRM, LinkedIn, email, and common sequencers. It pushes approved outreach into your existing workflow rather than replacing it.",
   },
   {
     q: "Will it hurt my domain reputation?",
-    a: "The opposite is the point. Bonggy is built to send fewer, sharper, signal-backed messages — the spray-and-pray motion that burns domains is exactly what it replaces.",
+    a: "The opposite is the point. Bonggy is built to send fewer, sharper, signal-backed messages , the spray-and-pray motion that burns domains is exactly what it replaces.",
   },
   {
     q: "Who is it for?",
-    a: "SDR and AE teams first, then the wider GTM motion — managers, RevOps, AMs, marketing, agencies, founders doing their own sales. If pipeline touches your day, it's for you.",
+    a: "SDR and AE teams first, then the wider GTM motion , managers, RevOps, AMs, marketing, agencies, founders doing their own sales. If pipeline touches your day, it's for you.",
   },
   {
     q: "How do we start?",

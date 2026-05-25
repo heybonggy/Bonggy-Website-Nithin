@@ -32,7 +32,7 @@ export default function CareersPage() {
       eyebrow="Careers"
       title="Fix outbound."
       titleAccent="Build the thinking layer."
-      lede="We're small on purpose. We hire when a problem genuinely needs a person, not when a hiring plan needs a name. Send a note even if there's no listed role — if you have a strong take on what outbound should become, we want to talk."
+      lede="We're small on purpose. We hire when a problem genuinely needs a person, not when a hiring plan needs a name. Send a note even if there's no listed role , if you have a strong take on what outbound should become, we want to talk."
       narrow
     >
       <div className="grid grid-cols-1 gap-16 lg:grid-cols-[1fr_1fr] lg:gap-24">

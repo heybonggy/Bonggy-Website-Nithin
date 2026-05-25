@@ -57,7 +57,7 @@ export function TheProblem() {
         </motion.p>
       </div>
 
-      {/* Editorial pain blocks — generous vertical rhythm, clean hierarchy */}
+      {/* Editorial pain blocks , generous vertical rhythm, clean hierarchy */}
       <ol className="mt-20 divide-y divide-border/60">
         {PAINS.map((p, i) => (
           <motion.li
@@ -68,7 +68,7 @@ export function TheProblem() {
             transition={{ ...SPRING, delay: i * 0.04 }}
             className="grid grid-cols-1 gap-x-12 gap-y-6 py-14 lg:grid-cols-[180px_1fr] lg:py-20"
           >
-            {/* LEFT — index + tag */}
+            {/* LEFT , index + tag */}
             <div className="flex flex-col gap-3">
               <div className="font-mono text-[48px] font-normal leading-none tabular-nums text-foreground/30">
                 {p.n}
@@ -78,7 +78,7 @@ export function TheProblem() {
               </div>
             </div>
 
-            {/* RIGHT — title + body + outcome callout */}
+            {/* RIGHT , title + body + outcome callout */}
             <div className="max-w-[64ch]">
               <h3 className="text-display text-[26px] font-normal leading-tight tracking-tight text-foreground sm:text-[32px]">
                 {p.title}

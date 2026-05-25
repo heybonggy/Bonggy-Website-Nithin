@@ -35,7 +35,7 @@ export default function AboutPage() {
             <p>
               The teams winning today are doing the opposite. Fewer sends,
               sharper angles, signal-led. The work has shifted from typing to
-              thinking — which account, why now, what to say.
+              thinking , which account, why now, what to say.
             </p>
             <p>
               The thinking part is what we&apos;re automating. Not the
@@ -50,7 +50,7 @@ export default function AboutPage() {
             What we&apos;re building
           </div>
           <h3 className="mt-3 text-display text-[26px] font-normal leading-tight tracking-tight text-foreground sm:text-[32px]">
-            A command centre for outbound — installable as agents.
+            A command centre for outbound , installable as agents.
           </h3>
           <div className="mt-5 space-y-4 text-[15.5px] leading-relaxed text-muted-foreground">
             <p>
@@ -74,7 +74,7 @@ export default function AboutPage() {
             {
               label: "01",
               title: "Anti-spray",
-              body: "Every send earns the right to the next. We optimize for fewer, sharper messages — not throughput.",
+              body: "Every send earns the right to the next. We optimize for fewer, sharper messages , not throughput.",
             },
             {
               label: "02",
