@@ -48,13 +48,15 @@ export function Close() {
 
       {/* Giant background wordmark — stroke only, very subtle.
           overflow-hidden on the wrapper clips the natural-width word so it
-          can't push the page wider than the viewport on mobile. */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-[2vh] overflow-hidden">
+          can't push the page wider than the viewport on mobile.
+          bottom-24 on mobile keeps the descenders (g, y) off the section
+          border; sm:bottom-[6vh] lets it sit lower on bigger screens. */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-24 overflow-hidden pb-2 sm:bottom-[6vh]">
         <div
           aria-hidden
-          className="select-none whitespace-nowrap text-center font-medium leading-[0.75] tracking-[-0.06em]"
+          className="select-none whitespace-nowrap text-center font-medium leading-[0.85] tracking-[-0.06em]"
           style={{
-            fontSize: "clamp(96px, 28vw, 460px)",
+            fontSize: "clamp(84px, 26vw, 460px)",
             color: "transparent",
             WebkitTextStroke: "1px oklch(1 0 0 / 7%)",
             backgroundImage:
