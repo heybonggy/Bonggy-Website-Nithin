@@ -115,7 +115,7 @@ export function CareersForm() {
             <Field
               name="email"
               type="email"
-              placeholder="Work email"
+              placeholder="Email"
               autoComplete="email"
               required
             />
