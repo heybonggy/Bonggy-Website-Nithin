@@ -30,17 +30,18 @@ type Signal = {
   Icon: React.ComponentType<{ className?: string; weight?: "thin" | "light" | "regular" | "bold" | "fill" | "duotone" }>;
 };
 
-// Popup positions live OUTSIDE the globe, in the surrounding margin.
-// (Globe canvas is centered in a square; popups hug the corners + edges so
-// nothing overlaps the rotating earth.)
+// Popup positions stay WITHIN 0–60% horizontal range so a 160-180px wide
+// popup never clips off the right edge of the viewport on mobile (where the
+// globe canvas is full-width). Popups overlap the globe orbit lightly,
+// like callouts pointing at land masses.
 const SIGNALS: Signal[] = [
-  { id: "s1", location: [37.77, -122.41], popupX: -6,  popupY: 12, event: "VP Sales transition", detail: "Series B SaaS · 2d ago", Icon: UsersThree },
-  { id: "s2", location: [40.71, -74.01],  popupX: -8,  popupY: 64, event: "Series B closed", detail: "$42M raise · 5d ago", Icon: CurrencyDollar },
-  { id: "s3", location: [51.51, -0.13],   popupX: 78,  popupY: 8,  event: "Stack migration", detail: "CRM swap in progress · 3d ago", Icon: Stack },
-  { id: "s4", location: [52.52, 13.41],   popupX: 82,  popupY: 48, event: "VP Product hired", detail: "Mid-market SaaS · 4d ago", Icon: UsersThree },
-  { id: "s5", location: [35.68, 139.65],  popupX: 80,  popupY: 84, event: "Data warehouse swap", detail: "Snowflake → Databricks · 7d ago", Icon: Stack },
-  { id: "s6", location: [-33.87, 151.21], popupX: 4,   popupY: 92, event: "Federal pilot won", detail: "Defense vertical · 2d ago", Icon: TrendUp },
-  { id: "s7", location: [28.61, 77.21],   popupX: 44,  popupY: -8, event: "RFP posted", detail: "Outbound platform · closes Apr 30", Icon: Globe },
+  { id: "s1", location: [37.77, -122.41], popupX: 2,  popupY: 10, event: "VP Sales transition", detail: "Series B SaaS · 2d ago", Icon: UsersThree },
+  { id: "s2", location: [40.71, -74.01],  popupX: 4,  popupY: 60, event: "Series B closed", detail: "$42M raise · 5d ago", Icon: CurrencyDollar },
+  { id: "s3", location: [51.51, -0.13],   popupX: 56, popupY: 6,  event: "Stack migration", detail: "CRM swap in progress · 3d ago", Icon: Stack },
+  { id: "s4", location: [52.52, 13.41],   popupX: 58, popupY: 44, event: "VP Product hired", detail: "Mid-market SaaS · 4d ago", Icon: UsersThree },
+  { id: "s5", location: [35.68, 139.65],  popupX: 54, popupY: 78, event: "Data warehouse swap", detail: "Snowflake → Databricks · 7d ago", Icon: Stack },
+  { id: "s6", location: [-33.87, 151.21], popupX: 4,  popupY: 88, event: "Federal pilot won", detail: "Defense vertical · 2d ago", Icon: TrendUp },
+  { id: "s7", location: [28.61, 77.21],   popupX: 28, popupY: -6, event: "RFP posted", detail: "Outbound platform · closes Apr 30", Icon: Globe },
 ];
 
 const SOURCES = [
@@ -170,9 +171,9 @@ function GlobeCanvas() {
         opacity: 0.95,
       });
 
-      // Slow rotation — globe doesn't whirl, so popup positions stay believable
+      // Moderate rotation — visible on mobile, not jarring on desktop.
       const animate = () => {
-        phi += 0.0014;
+        phi += 0.004;
         globe!.update({ phi, theta: 0.25 });
         raf = requestAnimationFrame(animate);
       };
@@ -251,7 +252,7 @@ function SignalPopups() {
               initial={{ y: 6, scale: 0.95 }}
               animate={{ y: 0, scale: 1 }}
               transition={{ ...SPRING_BOUNCE, delay: i * 0.08 }}
-              className="absolute w-[180px]"
+              className="absolute w-[150px] sm:w-[170px] lg:w-[180px]"
               style={{
                 left: `${s.popupX}%`,
                 top: `${s.popupY}%`,
