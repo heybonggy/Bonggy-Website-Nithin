@@ -10,7 +10,7 @@
  *   Full guide: INTEGRATIONS.md
  */
 export const SHEETS_WEBHOOK_URL =
-  "https://script.google.com/macros/s/AKfycbwwvbFp7726M5RtPzo7zP1FBW_qfcgh_DArMeGbfMURmwBQNJUBxlrXB0CAkEOJi5whlQ/exec";
+  "https://script.google.com/macros/s/AKfycbxcioKsdV700EPMTnyN8zFii-Blgs_3epTCrGj5c7fIJQOsA_LvXCD4e3Z5mv_FSdg/exec";
 
 export type SheetTab = "Early Access" | "Careers";
 

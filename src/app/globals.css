@@ -151,17 +151,28 @@
     scroll-behavior: smooth;
     /* Belt + braces against horizontal overflow from oversized decorative text */
     overflow-x: clip;
+    /* Kill iOS pull-to-refresh + rubberband bounce site-wide */
+    overscroll-behavior-y: none;
   }
   body {
     @apply bg-background text-foreground;
     text-rendering: optimizeLegibility;
     overflow-x: clip;
-    /* Soft mesh gradient only , grid pattern lives on the hero section, not site-wide */
+    overscroll-behavior-y: none;
+    position: relative;
+  }
+  /* Mesh gradient lives on a fixed pseudo-layer instead of `background-attachment: fixed`,
+     which jumps/flickers on iOS Safari during URL-bar reveal. */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
     background-image:
       radial-gradient(ellipse 70% 45% at 10% -5%, oklch(0.78 0.13 152 / 7%), transparent 60%),
       radial-gradient(ellipse 60% 40% at 95% 8%, oklch(0.78 0.13 152 / 5%), transparent 60%),
       radial-gradient(ellipse 55% 38% at 50% 105%, oklch(0.78 0.13 152 / 6%), transparent 65%);
-    background-attachment: fixed;
   }
   ::selection {
     background: oklch(0.78 0.13 152 / 28%);
