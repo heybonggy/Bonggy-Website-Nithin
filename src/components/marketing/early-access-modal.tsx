@@ -34,24 +34,36 @@ const ROLES = [
 export function EarlyAccessModal({ trigger, open, onOpenChange }: Props) {
   const [submitting, setSubmitting] = React.useState(false);
   const [submitted, setSubmitted] = React.useState(false);
+  const [roleError, setRoleError] = React.useState(false);
+  const [role, setRole] = React.useState("");
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
+
+    // Honeypot — silently accept and drop
     if ((formData.get("hp_field") as string)?.length) {
       setSubmitted(true);
       return;
     }
+
+    // Validate role in JS (a `required` HIDDEN input is invalid HTML and
+    // crashes form validation in some browsers — that's what was killing the
+    // form on submit).
+    if (!role) {
+      setRoleError(true);
+      return;
+    }
+    setRoleError(false);
+
     setSubmitting(true);
     try {
-      const body = Object.fromEntries(formData);
+      const body = { ...Object.fromEntries(formData), role };
       const res = await fetch("/api/early-access", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
-      // Even on a sink-side error we still treat the request as accepted from
-      // the user's perspective — the API route has its own logging.
       if (!res.ok && res.status >= 500) {
         throw new Error(`HTTP ${res.status}`);
       }
@@ -120,15 +132,16 @@ export function EarlyAccessModal({ trigger, open, onOpenChange }: Props) {
               </a>
             </motion.div>
           ) : (
-            <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-              {/* Honeypot */}
-              <label
+            <form onSubmit={handleSubmit} className="flex flex-col gap-3" noValidate={false}>
+              {/* Honeypot — sr-only so it can't break layout / form validation */}
+              <input
+                type="text"
+                name="hp_field"
+                tabIndex={-1}
+                autoComplete="off"
                 aria-hidden
-                className="absolute -left-[9999px] h-0 w-0 overflow-hidden"
-              >
-                Leave empty
-                <input type="text" name="hp_field" tabIndex={-1} autoComplete="off" />
-              </label>
+                className="sr-only"
+              />
 
               <FormField
                 name="email"
@@ -143,7 +156,7 @@ export function EarlyAccessModal({ trigger, open, onOpenChange }: Props) {
                 autoComplete="organization"
                 required
               />
-              <RoleSelect />
+              <RoleSelect value={role} onChange={(v) => { setRole(v); setRoleError(false); }} error={roleError} />
               <FormField
                 name="teamSize"
                 placeholder="Team size (optional)"
@@ -207,9 +220,16 @@ function FormField({ className, ...rest }: FieldProps) {
   );
 }
 
-function RoleSelect() {
+function RoleSelect({
+  value,
+  onChange,
+  error,
+}: {
+  value: string;
+  onChange: (v: string) => void;
+  error?: boolean;
+}) {
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState("");
   const ref = React.useRef<HTMLDivElement | null>(null);
 
   // Close on outside click / Escape
@@ -233,18 +253,17 @@ function RoleSelect() {
 
   return (
     <div ref={ref} className="relative">
-      {/* Hidden input — keeps native form submission working + required validation */}
-      <input type="hidden" name="role" value={value} required />
-
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-haspopup="listbox"
         aria-expanded={open}
         className={cn(
-          "flex h-11 w-full items-center justify-between rounded-md border border-border/80 bg-background/60 px-3.5 text-left text-[14px] outline-none transition-colors",
-          "hover:border-border focus:border-signal/60 focus:ring-2 focus:ring-signal/20",
-          open && "border-signal/60 ring-2 ring-signal/20",
+          "flex h-11 w-full items-center justify-between rounded-md border bg-background/60 px-3.5 text-left text-[14px] outline-none transition-colors",
+          error
+            ? "border-destructive/70 ring-2 ring-destructive/20"
+            : "border-border/80 hover:border-border focus:border-signal/60 focus:ring-2 focus:ring-signal/20",
+          open && !error && "border-signal/60 ring-2 ring-signal/20",
         )}
       >
         <span className={value ? "text-foreground" : "text-muted-foreground/60"}>
@@ -285,7 +304,7 @@ function RoleSelect() {
                     role="option"
                     aria-selected={active}
                     onClick={() => {
-                      setValue(r);
+                      onChange(r);
                       setOpen(false);
                     }}
                     className={cn(
