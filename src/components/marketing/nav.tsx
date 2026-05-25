@@ -11,7 +11,6 @@ import {
 } from "motion/react";
 import { cn } from "@/lib/utils";
 import { BonggyMark } from "./bonggy-mark";
-import { Magnetic } from "./magnetic";
 import { EarlyAccessModal } from "./early-access-modal";
 import { SPRING } from "./_motion";
 
@@ -30,6 +29,11 @@ const MOBILE_LINKS = [
 
 const LETTERS = ["B", "O", "N", "G", "G", "Y"];
 
+/**
+ * Logo,linked to homepage. Plain <Link>, no Magnetic wrapper, because the
+ * magnetic transform was occasionally interpreted as a drag on touch and
+ * the click never fired (the link wouldn't navigate).
+ */
 function LogoLink() {
   const [hovered, setHovered] = React.useState(false);
   const [hoverKey, setHoverKey] = React.useState(0);
@@ -76,6 +80,9 @@ export function Nav() {
   const [activeId, setActiveId] = React.useState<string | null>(null);
   const [hoverId, setHoverId] = React.useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  // The Early Access modal lives at Nav level (not inside the mobile menu)
+  // so closing the mobile menu doesn't unmount + cancel the modal open.
+  const [eaOpen, setEaOpen] = React.useState(false);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     setScrolled(latest > 12);
@@ -85,15 +92,15 @@ export function Nav() {
   React.useEffect(() => {
     if (mobileOpen) {
       document.body.style.overflow = "hidden";
-    } else {
+    } else if (!eaOpen) {
       document.body.style.overflow = "";
     }
     return () => {
       document.body.style.overflow = "";
     };
-  }, [mobileOpen]);
+  }, [mobileOpen, eaOpen]);
 
-  // Close menu on route changes (best-effort: hash + popstate)
+  // Close menu on route changes
   React.useEffect(() => {
     const close = () => setMobileOpen(false);
     window.addEventListener("hashchange", close);
@@ -123,6 +130,12 @@ export function Nav() {
 
   const showId = hoverId || activeId;
 
+  const openEarlyAccess = React.useCallback(() => {
+    setMobileOpen(false);
+    // small delay so the mobile menu fade-out doesn't fight the modal mount
+    requestAnimationFrame(() => setEaOpen(true));
+  }, []);
+
   return (
     <>
       <motion.header
@@ -145,10 +158,8 @@ export function Nav() {
                 : "inset 0 1px 0 oklch(1 0 0 / 4%), 0 10px 30px -15px oklch(0 0 0 / 50%)",
           }}
         >
-          {/* Logo */}
-          <Magnetic pull={0.3} range={80}>
-            <LogoLink />
-          </Magnetic>
+          {/* Logo,plain Link, no Magnetic (mobile clicks were being eaten) */}
+          <LogoLink />
 
           {/* Desktop center nav */}
           <nav
@@ -193,22 +204,19 @@ export function Nav() {
 
           {/* Right side */}
           <div className="flex items-center gap-2">
-            {/* Early access , desktop */}
-            <EarlyAccessModal
-              trigger={
-                <button
-                  type="button"
-                  className="group/cta relative hidden h-9 items-center justify-center gap-1.5 rounded-md bg-transparent px-4 font-mono text-[10.5px] font-medium uppercase tracking-[0.2em] text-signal transition-all duration-200 hover:bg-signal/[0.04] hover:text-signal/95 active:translate-y-[1px] sm:inline-flex"
-                  style={{
-                    boxShadow:
-                      "inset 0 0 0 1px oklch(0.78 0.13 152 / 22%), 0 0 12px -4px oklch(0.78 0.13 152 / 16%)",
-                  }}
-                >
-                  <span className="size-1 rounded-full bg-signal" />
-                  <span className="relative">Early access</span>
-                </button>
-              }
-            />
+            {/* Early access,desktop. Plain button, opens shared modal state */}
+            <button
+              type="button"
+              onClick={openEarlyAccess}
+              className="group/cta relative hidden h-9 items-center justify-center gap-1.5 rounded-md bg-transparent px-4 font-mono text-[10.5px] font-medium uppercase tracking-[0.2em] text-signal transition-all duration-200 hover:bg-signal/[0.04] hover:text-signal/95 active:translate-y-[1px] sm:inline-flex"
+              style={{
+                boxShadow:
+                  "inset 0 0 0 1px oklch(0.78 0.13 152 / 22%), 0 0 12px -4px oklch(0.78 0.13 152 / 16%)",
+              }}
+            >
+              <span className="size-1 rounded-full bg-signal" />
+              <span className="relative">Early access</span>
+            </button>
 
             {/* Mobile hamburger */}
             <button
@@ -226,8 +234,17 @@ export function Nav() {
 
       {/* Mobile menu overlay */}
       <AnimatePresence>
-        {mobileOpen && <MobileMenu onClose={() => setMobileOpen(false)} />}
+        {mobileOpen && (
+          <MobileMenu
+            onClose={() => setMobileOpen(false)}
+            onOpenEarlyAccess={openEarlyAccess}
+          />
+        )}
       </AnimatePresence>
+
+      {/* Single Early Access modal,controlled, mounted at Nav root so it
+          survives mobile-menu unmount */}
+      <EarlyAccessModal open={eaOpen} onOpenChange={setEaOpen} />
     </>
   );
 }
@@ -278,7 +295,13 @@ function Hamburger({ open }: { open: boolean }) {
 
 /* ---------- Mobile menu panel ---------- */
 
-function MobileMenu({ onClose }: { onClose: () => void }) {
+function MobileMenu({
+  onClose,
+  onOpenEarlyAccess,
+}: {
+  onClose: () => void;
+  onOpenEarlyAccess: () => void;
+}) {
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -339,29 +362,25 @@ function MobileMenu({ onClose }: { onClose: () => void }) {
           ))}
         </nav>
 
-        {/* CTA */}
+        {/* CTA opens the Nav-level modal (NOT a child modal) */}
         <motion.div
           initial={{ y: 8, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ ...SPRING, delay: 0.2 }}
           className="mt-auto px-6"
         >
-          <EarlyAccessModal
-            trigger={
-              <button
-                type="button"
-                onClick={onClose}
-                className="group/cta relative inline-flex h-12 w-full items-center justify-center gap-1.5 rounded-md bg-zinc-950 px-4 font-mono text-[11.5px] font-medium uppercase tracking-[0.2em] text-signal"
-                style={{
-                  boxShadow:
-                    "0 0 0 1px oklch(0.78 0.13 152 / 22%), 0 0 18px -3px oklch(0.78 0.13 152 / 20%)",
-                }}
-              >
-                <span className="size-1 rounded-full bg-signal" />
-                <span>Request early access</span>
-              </button>
-            }
-          />
+          <button
+            type="button"
+            onClick={onOpenEarlyAccess}
+            className="group/cta relative inline-flex h-12 w-full items-center justify-center gap-1.5 rounded-md bg-zinc-950 px-4 font-mono text-[11.5px] font-medium uppercase tracking-[0.2em] text-signal"
+            style={{
+              boxShadow:
+                "0 0 0 1px oklch(0.78 0.13 152 / 22%), 0 0 18px -3px oklch(0.78 0.13 152 / 20%)",
+            }}
+          >
+            <span className="size-1 rounded-full bg-signal" />
+            <span>Request early access</span>
+          </button>
           <p className="mt-4 text-center font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground/60">
             The command centre for sales teams
           </p>
