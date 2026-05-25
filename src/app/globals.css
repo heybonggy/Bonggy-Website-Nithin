@@ -149,10 +149,13 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     scroll-behavior: smooth;
+    /* Belt + braces against horizontal overflow from oversized decorative text */
+    overflow-x: clip;
   }
   body {
     @apply bg-background text-foreground;
     text-rendering: optimizeLegibility;
+    overflow-x: clip;
     /* Soft mesh gradient only — grid pattern lives on the hero section, not site-wide */
     background-image:
       radial-gradient(ellipse 70% 45% at 10% -5%, oklch(0.78 0.13 152 / 7%), transparent 60%),

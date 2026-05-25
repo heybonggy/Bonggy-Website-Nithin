@@ -46,22 +46,26 @@ export function Close() {
         />
       </div>
 
-      {/* Giant background wordmark — stroke only, very subtle */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-[2vh] select-none text-center font-medium leading-[0.75] tracking-[-0.06em]"
-        style={{
-          fontSize: "clamp(180px, 28vw, 460px)",
-          color: "transparent",
-          WebkitTextStroke: "1px oklch(1 0 0 / 7%)",
-          backgroundImage:
-            "linear-gradient(180deg, oklch(1 0 0 / 7%) 0%, transparent 70%)",
-          WebkitBackgroundClip: "text",
-          backgroundClip: "text",
-          WebkitTextFillColor: "transparent",
-        }}
-      >
-        bonggy
+      {/* Giant background wordmark — stroke only, very subtle.
+          overflow-hidden on the wrapper clips the natural-width word so it
+          can't push the page wider than the viewport on mobile. */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-[2vh] overflow-hidden">
+        <div
+          aria-hidden
+          className="select-none whitespace-nowrap text-center font-medium leading-[0.75] tracking-[-0.06em]"
+          style={{
+            fontSize: "clamp(96px, 28vw, 460px)",
+            color: "transparent",
+            WebkitTextStroke: "1px oklch(1 0 0 / 7%)",
+            backgroundImage:
+              "linear-gradient(180deg, oklch(1 0 0 / 7%) 0%, transparent 70%)",
+            WebkitBackgroundClip: "text",
+            backgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+          }}
+        >
+          bonggy
+        </div>
       </div>
 
       <div className="relative mx-auto flex w-full max-w-[1400px] flex-col items-start px-6 lg:px-10">
