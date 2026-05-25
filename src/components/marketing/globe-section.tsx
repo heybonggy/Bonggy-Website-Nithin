@@ -27,7 +27,7 @@ type Signal = {
   popupY: number;
   event: string;
   detail: string;
-  Icon: React.ComponentType<{ className?: string; weight?: string }>;
+  Icon: React.ComponentType<{ className?: string; weight?: "thin" | "light" | "regular" | "bold" | "fill" | "duotone" }>;
 };
 
 // Popup positions live OUTSIDE the globe, in the surrounding margin.

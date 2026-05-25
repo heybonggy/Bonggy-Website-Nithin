@@ -35,7 +35,7 @@ type Signal = {
   detail: string;
   time: string;
   source: string;
-  Icon: React.ComponentType<{ className?: string; weight?: string }>;
+  Icon: React.ComponentType<{ className?: string; weight?: "thin" | "light" | "regular" | "bold" | "fill" | "duotone" }>;
   tone: "hot" | "warm" | "cool";
 };
 

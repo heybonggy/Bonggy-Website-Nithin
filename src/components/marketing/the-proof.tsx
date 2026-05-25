@@ -30,7 +30,7 @@ type Side = {
 };
 
 type Metric = {
-  Icon: React.ComponentType<{ className?: string; weight?: string }>;
+  Icon: React.ComponentType<{ className?: string; weight?: "thin" | "light" | "regular" | "bold" | "fill" | "duotone" }>;
   label: string;
   /** Numeric value for counters and bar comparisons */
   value: number;

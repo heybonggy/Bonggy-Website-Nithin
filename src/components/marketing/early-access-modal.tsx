@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { ArrowUpRight, CircleNotch } from "@phosphor-icons/react/dist/ssr";
 import {
   Dialog,

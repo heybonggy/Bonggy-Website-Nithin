@@ -3,10 +3,11 @@
 import * as React from "react";
 import { motion, useMotionValue, useTransform, useSpring } from "motion/react";
 
-type MagneticProps = React.HTMLAttributes<HTMLDivElement> & {
+type MagneticProps = {
+  children?: React.ReactNode;
+  className?: string;
   pull?: number;
   range?: number;
-  as?: "div" | "span";
 };
 
 /**
@@ -19,7 +20,6 @@ export function Magnetic({
   pull = 0.35,
   range = 120,
   className,
-  ...rest
 }: MagneticProps) {
   const ref = React.useRef<HTMLDivElement | null>(null);
 
@@ -60,7 +60,6 @@ export function Magnetic({
       onPointerLeave={onPointerLeave}
       style={{ x, y }}
       className={className}
-      {...rest}
     >
       {children}
     </motion.div>
