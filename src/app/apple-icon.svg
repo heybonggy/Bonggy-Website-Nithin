@@ -1,27 +1,44 @@
 <svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <radialGradient id="p" cx="38%" cy="30%" r="72%">
-      <stop offset="0%" stop-color="#6ee7b7" />
-      <stop offset="35%" stop-color="#10b981" />
-      <stop offset="75%" stop-color="#064e3b" />
-      <stop offset="100%" stop-color="#022c22" />
+    <radialGradient id="p" cx="36%" cy="28%" r="78%">
+      <stop offset="0%" stop-color="#7ef0c0" />
+      <stop offset="40%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#053826" />
     </radialGradient>
-    <filter id="g" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur stdDeviation="2.5" result="b" />
-      <feMerge>
-        <feMergeNode in="b" />
-        <feMergeNode in="SourceGraphic" />
-      </feMerge>
-    </filter>
   </defs>
-  <rect width="256" height="256" rx="56" fill="#0a0a0c" />
-  <path d="M 220.7 90.5 A 100 32 -22 0 0 35.3 165.5"
-        fill="none" stroke="#5eead4" stroke-width="4"
-        stroke-linecap="round" filter="url(#g)" />
-  <circle cx="128" cy="128" r="75" fill="url(#p)" />
-  <ellipse cx="106" cy="96" rx="22" ry="9" fill="white" opacity="0.45"
-           transform="rotate(-18 106 96)" />
-  <path d="M 220.7 90.5 A 100 32 -22 0 1 35.3 165.5"
-        fill="none" stroke="#5eead4" stroke-width="4"
-        stroke-linecap="round" filter="url(#g)" />
+
+  <!-- Black rounded background -->
+  <rect width="256" height="256" rx="60" fill="#000000" />
+
+  <!-- Back arc of the ring -->
+  <path
+    d="M 224 86 A 110 36 -22 0 0 32 170"
+    fill="none"
+    stroke="#5eead4"
+    stroke-width="10"
+    stroke-linecap="round"
+  />
+
+  <!-- Planet -->
+  <circle cx="128" cy="128" r="82" fill="url(#p)" />
+
+  <!-- Glossy highlight -->
+  <ellipse
+    cx="104"
+    cy="94"
+    rx="24"
+    ry="10"
+    fill="white"
+    opacity="0.4"
+    transform="rotate(-18 104 94)"
+  />
+
+  <!-- Front arc of the ring -->
+  <path
+    d="M 224 86 A 110 36 -22 0 1 32 170"
+    fill="none"
+    stroke="#5eead4"
+    stroke-width="10"
+    stroke-linecap="round"
+  />
 </svg>

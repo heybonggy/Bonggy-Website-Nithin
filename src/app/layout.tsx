@@ -18,11 +18,11 @@ const SITE_URL =
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Bonggy — The command centre for outbound",
+    default: "Bonggy — The command centre for sales teams",
     template: "%s · Bonggy",
   },
   description:
-    "Run your whole outbound motion from one place. Installable agents that watch your accounts, score signals against closed-won, draft outreach grounded in what actually changed, and hand it to your reps. Your best rep's instinct, given to every SDR.",
+    "Find the signal, decide the move. Bonggy runs your whole outbound sales motion from one place, with your judgement. Installable agents that watch your accounts, score signals against closed-won, draft outreach grounded in what actually changed, and hand it to your reps.",
   keywords: [
     "outbound sales",
     "SDR",
@@ -34,6 +34,7 @@ export const metadata: Metadata = {
     "B2B prospecting",
     "account intelligence",
     "sales automation",
+    "command centre for sales",
   ],
   authors: [{ name: "Bonggy" }],
   creator: "Bonggy",
@@ -48,24 +49,15 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: SITE_URL,
     siteName: "Bonggy",
-    title: "Bonggy — The command centre for outbound",
+    title: "Bonggy — The command centre for sales teams",
     description:
-      "Installable agents that find the signal, score the account, and draft the outreach. Your best rep's instinct, given to every SDR.",
-    images: [
-      {
-        url: "/og.png",
-        width: 1200,
-        height: 630,
-        alt: "Bonggy — the command centre for outbound",
-      },
-    ],
+      "Find the signal, decide the move. Bonggy runs your whole outbound sales motion from one place, with your judgement.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Bonggy — The command centre for outbound",
+    title: "Bonggy — The command centre for sales teams",
     description:
-      "Installable agents that find the signal, score the account, and draft the outreach.",
-    images: ["/og.png"],
+      "Find the signal, decide the move. Bonggy runs your whole outbound sales motion from one place, with your judgement.",
     creator: "@bonggy",
   },
   robots: {
@@ -79,15 +71,12 @@ export const metadata: Metadata = {
       "max-video-preview": -1,
     },
   },
-  icons: {
-    icon: [
-      { url: "/favicon.svg", type: "image/svg+xml" },
-      { url: "/favicon.ico", sizes: "any" },
-    ],
-    apple: [{ url: "/apple-icon.png", sizes: "180x180" }],
-    shortcut: ["/favicon.ico"],
-  },
-  manifest: "/manifest.webmanifest",
+  // Icons + manifest are auto-detected by Next.js from:
+  //   src/app/icon.svg            → favicon (browser tabs)
+  //   src/app/apple-icon.svg      → iOS home-screen icon
+  //   src/app/opengraph-image.tsx → /opengraph-image (link previews)
+  //   src/app/manifest.ts         → /manifest.webmanifest
+  // No explicit `icons` field needed.
 };
 
 export const viewport: Viewport = {
