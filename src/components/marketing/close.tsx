@@ -1,0 +1,161 @@
+"use client";
+
+import * as React from "react";
+import { motion } from "motion/react";
+import {
+  CalendarBlank,
+  Clock,
+  ArrowsClockwise,
+} from "@phosphor-icons/react/dist/ssr";
+import { CtaButton } from "./cta-button";
+import { SPRING } from "./_motion";
+
+export function Close() {
+  return (
+    <section
+      id="strategy-session"
+      className="relative isolate flex min-h-[100dvh] items-center overflow-hidden py-28 sm:py-36 lg:py-44"
+    >
+      {/* Layered background */}
+      <div className="pointer-events-none absolute inset-0 -z-10">
+        {/* Aurora — breathes */}
+        <motion.div
+          aria-hidden
+          initial={{ opacity: 0.6, scale: 1 }}
+          animate={{ opacity: [0.6, 1, 0.6], scale: [1, 1.06, 1] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute left-1/2 top-1/2 h-[80vh] w-[90vw] -translate-x-1/2 -translate-y-1/2 rounded-full"
+          style={{
+            background:
+              "radial-gradient(closest-side, oklch(0.78 0.13 152 / 28%), oklch(0.42 0.06 200 / 14%) 40%, transparent 75%)",
+            filter: "blur(40px)",
+          }}
+        />
+        {/* Subtle grid */}
+        <div
+          className="absolute inset-0 opacity-50"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, oklch(1 0 0 / 4%) 1px, transparent 1px), linear-gradient(to bottom, oklch(1 0 0 / 4%) 1px, transparent 1px)",
+            backgroundSize: "64px 64px",
+            maskImage:
+              "linear-gradient(to bottom, transparent, black 30%, black 70%, transparent)",
+            WebkitMaskImage:
+              "linear-gradient(to bottom, transparent, black 30%, black 70%, transparent)",
+          }}
+        />
+      </div>
+
+      {/* Giant background wordmark — stroke only, very subtle */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 bottom-[2vh] select-none text-center font-medium leading-[0.75] tracking-[-0.06em]"
+        style={{
+          fontSize: "clamp(180px, 28vw, 460px)",
+          color: "transparent",
+          WebkitTextStroke: "1px oklch(1 0 0 / 7%)",
+          backgroundImage:
+            "linear-gradient(180deg, oklch(1 0 0 / 7%) 0%, transparent 70%)",
+          WebkitBackgroundClip: "text",
+          backgroundClip: "text",
+          WebkitTextFillColor: "transparent",
+        }}
+      >
+        bonggy
+      </div>
+
+      <div className="relative mx-auto flex w-full max-w-[1400px] flex-col items-start px-6 lg:px-10">
+        {/* Eyebrow */}
+        <motion.div
+          initial={{ y: 10 }}
+          whileInView={{ y: 0 }}
+          viewport={{ once: true, amount: 0 }}
+          transition={SPRING}
+          className="inline-flex items-center gap-2.5 rounded-full border border-border/80 bg-card/60 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground backdrop-blur"
+          style={{
+            boxShadow:
+              "inset 0 1px 0 oklch(1 0 0 / 10%), 0 10px 30px -10px oklch(0 0 0 / 50%)",
+          }}
+        >
+          <Clock weight="regular" className="size-3 text-signal" />
+          Strategy session · 30 min
+        </motion.div>
+
+        {/* Headline with metallic gradient + drop shadow */}
+        <motion.h2
+          initial={{ y: 14 }}
+          whileInView={{ y: 0 }}
+          viewport={{ once: true, amount: 0 }}
+          transition={{ ...SPRING, delay: 0.05 }}
+          className="text-display mt-8 max-w-[18ch] text-balance text-[40px] font-medium leading-[0.96] tracking-tight sm:text-[60px] lg:text-[88px]"
+          style={{
+            backgroundImage:
+              "linear-gradient(180deg, oklch(0.99 0 0) 0%, oklch(0.99 0 0) 30%, oklch(0.6 0 0) 100%)",
+            WebkitBackgroundClip: "text",
+            backgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            color: "transparent",
+            filter:
+              "drop-shadow(0 0 30px oklch(1 0 0 / 8%))",
+          }}
+        >
+          See what your team could do with your best rep&apos;s judgment.
+        </motion.h2>
+
+        <motion.p
+          initial={{ y: 12 }}
+          whileInView={{ y: 0 }}
+          viewport={{ once: true, amount: 0 }}
+          transition={{ ...SPRING, delay: 0.1 }}
+          className="mt-8 max-w-[60ch] text-[16.5px] leading-relaxed text-muted-foreground"
+        >
+          One call. We calibrate Bonggy on your accounts live, show you
+          what&apos;s firing this week, and the drafts it would hand your reps.
+          If it&apos;s not obviously useful in the first ten minutes,
+          we&apos;ll tell you.
+        </motion.p>
+
+        {/* CTA + glass pill chips */}
+        <motion.div
+          initial={{ y: 12 }}
+          whileInView={{ y: 0 }}
+          viewport={{ once: true, amount: 0 }}
+          transition={{ ...SPRING, delay: 0.16 }}
+          className="mt-10 flex flex-wrap items-center gap-3"
+        >
+          <CtaButton size="lg">Book a strategy session</CtaButton>
+
+          <GlassPill>
+            <CalendarBlank weight="regular" className="size-3.5" />
+            No card required
+          </GlassPill>
+          <GlassPill>We run the setup</GlassPill>
+          <GlassPill>
+            <ArrowsClockwise weight="regular" className="size-3.5" />
+            Reschedule any time
+          </GlassPill>
+        </motion.div>
+
+      </div>
+    </section>
+  );
+}
+
+function GlassPill({ children }: { children: React.ReactNode }) {
+  return (
+    <span
+      className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-[12.5px] font-medium text-muted-foreground transition-all hover:text-foreground"
+      style={{
+        background:
+          "linear-gradient(145deg, oklch(1 0 0 / 3%), oklch(1 0 0 / 1%))",
+        border: "1px solid oklch(1 0 0 / 8%)",
+        boxShadow:
+          "inset 0 1px 0 oklch(1 0 0 / 8%), inset 0 -1px 0 oklch(0 0 0 / 30%), 0 10px 30px -10px oklch(0 0 0 / 50%)",
+        backdropFilter: "blur(16px)",
+        WebkitBackdropFilter: "blur(16px)",
+      }}
+    >
+      {children}
+    </span>
+  );
+}
