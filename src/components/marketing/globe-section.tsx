@@ -30,18 +30,18 @@ type Signal = {
   Icon: React.ComponentType<{ className?: string; weight?: "thin" | "light" | "regular" | "bold" | "fill" | "duotone" }>;
 };
 
-// Popup positions stay WITHIN 0–60% horizontal range so a 160-180px wide
-// popup never clips off the right edge of the viewport on mobile (where the
-// globe canvas is full-width). Popups overlap the globe orbit lightly,
-// like callouts pointing at land masses.
+// Popups live in 6 fixed slots — a strict 2-col × 3-row grid around the
+// globe. No two slots can ever overlap, so even with 3 popups visible at
+// once from a random cycle, the layout stays clean on mobile + desktop.
 const SIGNALS: Signal[] = [
-  { id: "s1", location: [37.77, -122.41], popupX: 2,  popupY: 10, event: "VP Sales transition", detail: "Series B SaaS · 2d ago", Icon: UsersThree },
-  { id: "s2", location: [40.71, -74.01],  popupX: 4,  popupY: 60, event: "Series B closed", detail: "$42M raise · 5d ago", Icon: CurrencyDollar },
-  { id: "s3", location: [51.51, -0.13],   popupX: 56, popupY: 6,  event: "Stack migration", detail: "CRM swap in progress · 3d ago", Icon: Stack },
-  { id: "s4", location: [52.52, 13.41],   popupX: 58, popupY: 44, event: "VP Product hired", detail: "Mid-market SaaS · 4d ago", Icon: UsersThree },
-  { id: "s5", location: [35.68, 139.65],  popupX: 54, popupY: 78, event: "Data warehouse swap", detail: "Snowflake → Databricks · 7d ago", Icon: Stack },
-  { id: "s6", location: [-33.87, 151.21], popupX: 4,  popupY: 88, event: "Federal pilot won", detail: "Defense vertical · 2d ago", Icon: TrendUp },
-  { id: "s7", location: [28.61, 77.21],   popupX: 28, popupY: -6, event: "RFP posted", detail: "Outbound platform · closes Apr 30", Icon: Globe },
+  // LEFT COLUMN
+  { id: "s1", location: [37.77, -122.41], popupX: 0,  popupY: 4,  event: "VP Sales transition", detail: "Series B SaaS · 2d ago", Icon: UsersThree },
+  { id: "s2", location: [40.71, -74.01],  popupX: 0,  popupY: 42, event: "Series B closed", detail: "$42M raise · 5d ago", Icon: CurrencyDollar },
+  { id: "s3", location: [-33.87, 151.21], popupX: 0,  popupY: 80, event: "Federal pilot won", detail: "Defense vertical · 2d ago", Icon: TrendUp },
+  // RIGHT COLUMN
+  { id: "s4", location: [51.51, -0.13],   popupX: 58, popupY: 4,  event: "Stack migration", detail: "CRM swap · 3d ago", Icon: Stack },
+  { id: "s5", location: [52.52, 13.41],   popupX: 58, popupY: 42, event: "VP Product hired", detail: "Mid-market SaaS · 4d ago", Icon: UsersThree },
+  { id: "s6", location: [35.68, 139.65],  popupX: 58, popupY: 80, event: "Data warehouse swap", detail: "Snowflake → Databricks · 7d ago", Icon: Stack },
 ];
 
 const SOURCES = [
