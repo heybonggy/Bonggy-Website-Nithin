@@ -12,94 +12,99 @@ import { cn } from "@/lib/utils";
  * overflow handling — nothing pushes the page below.
  */
 
+/**
+ * Use cases SDRs actually struggle with — named in plain SDR language,
+ * not Bonggy internals. Each rotates as the "Active Agent" with stats.
+ */
 const USE_CASES = [
   {
-    id: "hiring-trigger",
-    name: "hiring-trigger-agent",
-    skill: "signal-led-outbound",
-    milestone: "foundation",
+    id: "account-research",
+    name: "account-research",
+    skill: "pre-call-context",
+    milestone: "before the call",
     preconditions: [
-      "Account list synced from CRM",
-      "14 signal sources connected",
-      "Closed-won corpus indexed (n = 247)",
+      "CRM synced — your list, not a marketplace list",
+      "Closed-won corpus indexed",
+      "Signal feeds connected (hires, raises, stacks)",
     ],
     expected: [
-      "Surface 8–12 accounts firing this week",
-      "Score each against closed-won match",
-      "Draft outreach grounded in the signal",
+      "Walk into every call with the account's full context",
+      "What changed in the last 30 days, summarised",
+      "Who actually decides, mapped from public signals",
     ],
     description:
-      "Catch every account where a hire opens a 30-day window. Hand the rep the angle.",
+      "Stop spending 45 minutes researching every account before a call. Show up to a decision, not a blank doc.",
     stats: { drafts: 27, confidence: 0.89, accounts: 12, saved: "6.2 hrs/wk" },
   },
   {
-    id: "series-b-watch",
-    name: "series-b-watch-agent",
-    skill: "signal-led-outbound",
-    milestone: "expansion",
+    id: "first-line-drafting",
+    name: "cold-opener",
+    skill: "angle-finding",
+    milestone: "the first send",
     preconditions: [
-      "Crunchbase + SEC feeds live",
-      "ICP ceiling: $50M raises",
-      "Vertical filters applied",
+      "Brand voice + tone configured",
+      "Signal sources active",
+      "Past replies tagged by what worked",
     ],
     expected: [
-      "Catch raises within 24h of announcement",
-      "Rank against ICP fit & timing window",
-      "Draft to new revenue lead first",
+      "A signal-backed opener per buyer, never recycled",
+      "Tone matches your team's voice, not generic AI",
+      "Angle tied to what changed at the account this week",
     ],
     description:
-      "When the round closes, the build-out follows. We get there first, with the angle ready.",
+      "The first line is 80% of the reply rate. Stop guessing at it. Bonggy writes from a real reason.",
     stats: { drafts: 34, confidence: 0.92, accounts: 9, saved: "4.8 hrs/wk" },
   },
   {
-    id: "stack-migration",
-    name: "stack-migration-agent",
-    skill: "signal-led-outbound",
-    milestone: "expansion",
+    id: "prioritization",
+    name: "account-prioritization",
+    skill: "this-week-list",
+    milestone: "monday morning",
     preconditions: [
-      "DNS + tech-stack source feeds active",
-      "Champion-mapped competitive landscape",
-      "Migration playbook indexed",
+      "Closed-won corpus indexed",
+      "ICP fit model trained on your wins",
+      "Top-200 account list defined",
     ],
     expected: [
-      "Detect CRM, MAP, and data-warehouse swaps",
-      "Identify the new owner of the swap",
-      "Draft a 'we've seen this pattern' opener",
+      "Top 5 accounts to work today, ranked by intent",
+      "Why each one is firing — not just the score",
+      "Drop the wrong ones automatically",
     ],
     description:
-      "Stack changes are the loudest 'we're rethinking everything' signal. We meet the new owner.",
+      "Working the wrong accounts is the silent quota killer. We rank against what you actually close, not vendor data.",
     stats: { drafts: 21, confidence: 0.86, accounts: 14, saved: "5.4 hrs/wk" },
   },
   {
-    id: "champion-move",
-    name: "champion-move-agent",
-    skill: "champion-graph",
-    milestone: "retention",
+    id: "buying-window",
+    name: "trigger-catcher",
+    skill: "window-detection",
+    milestone: "the right moment",
     preconditions: [
-      "Past-deal champion graph built",
-      "LinkedIn change feed active",
-      "New-employer ICP filter applied",
+      "Champion graph built from past deals",
+      "Event feeds active across LinkedIn / Crunchbase / SEC",
+      "30-day window thresholds set",
     ],
     expected: [
-      "Detect champions changing employers",
-      "Match new employer against ICP",
-      "Draft warm intro grounded in past relationship",
+      "Catch the 30-day window when an account opens",
+      "Flag champion job-changes within 48h",
+      "Surface re-orgs, raises, stack moves on day one",
     ],
     description:
-      "Your old champion is a warm door at their new company. Bonggy catches it inside 48h.",
+      "Half the deals you lose, you reached too late. Bonggy catches the trigger before it cools.",
     stats: { drafts: 18, confidence: 0.94, accounts: 7, saved: "3.1 hrs/wk" },
   },
 ] as const;
 
 type FeatureItem = { name: string; done: boolean };
+/** Things SDRs struggle with day-to-day — checked off as Bonggy handles them. */
 const INITIAL_FEATURES: FeatureItem[] = [
-  { name: "vp-sales-watch", done: true },
-  { name: "series-b-watch", done: true },
-  { name: "stack-migration-watch", done: true },
-  { name: "champion-move-watch", done: true },
-  { name: "rfp-watch", done: false },
-  { name: "cluster-engine", done: true },
-  { name: "score-engine", done: true },
+  { name: "account-research", done: true },
+  { name: "first-line-drafting", done: true },
+  { name: "prioritization", done: true },
+  { name: "champion-mapping", done: true },
+  { name: "follow-up-timing", done: false },
+  { name: "personalization-at-scale", done: true },
+  { name: "buying-window-detection", done: true },
 ];
 
 type LogEntry = { id: number; time: string; worker: string; event: string; status: "started" | "done" };
@@ -147,7 +152,7 @@ export function CommandCenterMock({ className }: { className?: string }) {
     const id = setInterval(() => {
       setFeatures((prev) => {
         const allDone = prev.every((f) => f.done);
-        if (allDone) return prev.map((f) => (f.name === "rfp-watch" ? { ...f, done: false } : f));
+        if (allDone) return prev.map((f) => (f.name === "follow-up-timing" ? { ...f, done: false } : f));
         return prev.map((f) => (!f.done ? { ...f, done: true } : f));
       });
     }, 3200);
