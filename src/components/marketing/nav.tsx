@@ -148,8 +148,8 @@ export function Nav() {
           className={cn(
             "relative flex h-13 w-full max-w-[1180px] items-center justify-between rounded-full px-3 py-2 transition-[background,box-shadow,backdrop-filter,border-color] duration-300 sm:px-4",
             scrolled || mobileOpen
-              ? "border border-border/80 bg-card/80 backdrop-blur-xl"
-              : "border border-border/30 bg-card/30 backdrop-blur-md",
+              ? "border border-border/80 bg-card/95 backdrop-blur-2xl"
+              : "border border-border/30 bg-card/55 backdrop-blur-md",
           )}
           style={{
             boxShadow:
