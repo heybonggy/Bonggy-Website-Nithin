@@ -30,18 +30,67 @@ type Signal = {
   Icon: React.ComponentType<{ className?: string; weight?: "thin" | "light" | "regular" | "bold" | "fill" | "duotone" }>;
 };
 
-// Popups live in 6 fixed slots , a strict 2-col × 3-row grid around the
-// globe. No two slots can ever overlap, so even with 3 popups visible at
-// once from a random cycle, the layout stays clean on mobile + desktop.
+// Popups live in 6 fixed slots, a strict 2-col × 3-row grid around the
+// globe. No two slots can ever overlap. SIGNALS picked to be the kind of
+// thing an SDR CAN'T surface from LinkedIn / Crunchbase alone, things that
+// require correlation across feeds or stealth-source watching.
 const SIGNALS: Signal[] = [
   // LEFT COLUMN
-  { id: "s1", location: [37.77, -122.41], popupX: 0,  popupY: 4,  event: "VP Sales transition", detail: "Series B SaaS · 2d ago", Icon: UsersThree },
-  { id: "s2", location: [40.71, -74.01],  popupX: 0,  popupY: 42, event: "Series B closed", detail: "$42M raise · 5d ago", Icon: CurrencyDollar },
-  { id: "s3", location: [-33.87, 151.21], popupX: 0,  popupY: 80, event: "Federal pilot won", detail: "Defense vertical · 2d ago", Icon: TrendUp },
+  {
+    id: "s1",
+    location: [37.77, -122.41],
+    popupX: 0,
+    popupY: 4,
+    event: "Past champion hired",
+    detail: "At a competitor's customer · re-engage window",
+    Icon: UsersThree,
+  },
+  {
+    id: "s2",
+    location: [40.71, -74.01],
+    popupX: 0,
+    popupY: 42,
+    event: "Quiet 8% RIF",
+    detail: "Off press · vendor review incoming",
+    Icon: TrendUp,
+  },
+  {
+    id: "s3",
+    location: [-33.87, 151.21],
+    popupX: 0,
+    popupY: 80,
+    event: "Procurement RFP leaked",
+    detail: "Outbound tooling · 16 days to close",
+    Icon: Globe,
+  },
   // RIGHT COLUMN
-  { id: "s4", location: [51.51, -0.13],   popupX: 58, popupY: 4,  event: "Stack migration", detail: "CRM swap · 3d ago", Icon: Stack },
-  { id: "s5", location: [52.52, 13.41],   popupX: 58, popupY: 42, event: "VP Product hired", detail: "Mid-market SaaS · 4d ago", Icon: UsersThree },
-  { id: "s6", location: [35.68, 139.65],  popupX: 58, popupY: 80, event: "Data warehouse swap", detail: "Snowflake → Databricks · 7d ago", Icon: Stack },
+  {
+    id: "s4",
+    location: [51.51, -0.13],
+    popupX: 58,
+    popupY: 4,
+    event: "GitHub: platform rebuild",
+    detail: "12 new repos · data-stack shift",
+    Icon: Stack,
+  },
+  {
+    id: "s5",
+    location: [52.52, 13.41],
+    popupX: 58,
+    popupY: 42,
+    event: "Re-org broke the mandate",
+    detail: "New CTO · existing stack under review",
+    Icon: CurrencyDollar,
+  },
+  {
+    id: "s6",
+    location: [35.68, 139.65],
+    popupX: 58,
+    popupY: 80,
+    event: "Signal cluster",
+    detail: "VP hire + raise + 6 SDR reqs · 21 days",
+    Icon: Pulse,
+  },
 ];
 
 const SOURCES = [
