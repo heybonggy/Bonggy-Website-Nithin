@@ -33,7 +33,10 @@ export function ThemeToggle({ className = "" }: { className?: string }) {
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
       onClick={toggle}
       className={
-        "relative inline-flex size-9 items-center justify-center rounded-md border border-border/60 bg-card/40 text-foreground/80 transition-colors hover:border-border hover:text-foreground " +
+        // No display utility in the base — caller decides (`inline-flex`,
+        // `hidden`, `sm:inline-flex`, etc). Otherwise both responsive copies
+        // in the nav end up visible at the same time.
+        "relative size-9 items-center justify-center rounded-md border border-border/60 bg-card/40 text-foreground/80 transition-colors hover:border-border hover:text-foreground " +
         className
       }
     >

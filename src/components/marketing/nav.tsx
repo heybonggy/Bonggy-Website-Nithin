@@ -223,7 +223,7 @@ export function Nav() {
             </button>
 
             {/* Mobile: theme toggle next to hamburger */}
-            <ThemeToggle className="sm:hidden" />
+            <ThemeToggle className="inline-flex sm:hidden" />
 
             {/* Mobile hamburger */}
             <button
