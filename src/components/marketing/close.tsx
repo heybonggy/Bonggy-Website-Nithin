@@ -49,10 +49,10 @@ export function Close() {
           up into the body text / CTA on small screens. The wrapper itself
           is overflow-hidden so descenders below the section bound get clipped
           cleanly. */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 overflow-hidden pb-0 sm:bottom-2">
+      <div className="pointer-events-none absolute inset-x-0 bottom-4 overflow-hidden pb-4 sm:bottom-6 sm:pb-5">
         <div
           aria-hidden
-          className="select-none whitespace-nowrap text-center font-medium leading-[0.82] tracking-[-0.06em]"
+          className="select-none whitespace-nowrap text-center font-medium leading-[0.95] tracking-[-0.06em]"
           style={{
             fontSize: "clamp(56px, 19vw, 380px)",
             color: "transparent",
