@@ -98,7 +98,7 @@ export function TheProof() {
         <motion.h2
           initial={{ y: 14 }}
           whileInView={{ y: 0 }}
-          viewport={{ once: true, amount: 0 }}
+          viewport={{ once: true, amount: 0.15 }}
           transition={SPRING}
           className="text-display text-balance text-[36px] font-medium leading-none tracking-tight sm:text-[44px] lg:text-[56px]"
         >
@@ -111,7 +111,7 @@ export function TheProof() {
         <motion.p
           initial={{ y: 12 }}
           whileInView={{ y: 0 }}
-          viewport={{ once: true, amount: 0 }}
+          viewport={{ once: true, amount: 0.15 }}
           transition={{ ...SPRING, delay: 0.05 }}
           className="max-w-[58ch] text-[16px] leading-relaxed text-muted-foreground lg:pt-2"
         >
@@ -128,7 +128,7 @@ export function TheProof() {
       <motion.div
         initial={{ y: 16 }}
         whileInView={{ y: 0 }}
-        viewport={{ once: true, amount: 0 }}
+        viewport={{ once: true, amount: 0.15 }}
         transition={SPRING}
         className="mt-14 overflow-hidden rounded-bento border border-border/80 bg-card/40 shadow-diffusion-sm backdrop-blur"
       >
@@ -164,7 +164,7 @@ export function TheProof() {
       <motion.div
         initial={{ y: 12 }}
         whileInView={{ y: 0 }}
-        viewport={{ once: true, amount: 0 }}
+        viewport={{ once: true, amount: 0.15 }}
         transition={SPRING}
         className="mt-6 grid grid-cols-2 gap-3 rounded-bento border border-signal/30 bg-signal/[0.04] p-5 sm:grid-cols-4 sm:p-6"
       >
@@ -173,7 +173,7 @@ export function TheProof() {
             key={d.metric}
             initial={{ y: 8 }}
             whileInView={{ y: 0 }}
-            viewport={{ once: true, amount: 0 }}
+            viewport={{ once: true, amount: 0.15 }}
             transition={{ ...SPRING, delay: i * 0.06 }}
             className="flex flex-col gap-1"
           >
@@ -197,7 +197,7 @@ export function TheProof() {
       <motion.p
         initial={{ y: 12 }}
         whileInView={{ y: 0 }}
-        viewport={{ once: true, amount: 0 }}
+        viewport={{ once: true, amount: 0.15 }}
         transition={SPRING}
         className="mt-10 max-w-3xl text-pretty text-[16px] leading-relaxed text-muted-foreground"
       >
@@ -380,7 +380,7 @@ function AnglesColumn({ side, highlight }: { side: Side; highlight?: boolean }) 
             key={i}
             initial={{ y: 8 }}
             whileInView={{ y: 0 }}
-            viewport={{ once: true, amount: 0 }}
+            viewport={{ once: true, amount: 0.15 }}
             transition={{ ...SPRING, delay: 0.1 + i * 0.05 }}
             className={cn(
               "flex items-start gap-2.5 text-[13.5px] leading-snug",

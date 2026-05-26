@@ -14,7 +14,7 @@ export function ObjectionHandler() {
       <motion.div
         initial={{ y: 16 }}
         whileInView={{ y: 0 }}
-        viewport={{ once: true, amount: 0 }}
+        viewport={{ once: true, amount: 0.15 }}
         transition={SPRING}
         className="grid grid-cols-1 gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-16"
       >

@@ -60,7 +60,7 @@ export function UseCases() {
       <motion.h2
         initial={{ y: 14 }}
         whileInView={{ y: 0 }}
-        viewport={{ once: true, amount: 0 }}
+        viewport={{ once: true, amount: 0.15 }}
         transition={SPRING}
         className="text-display max-w-[20ch] text-balance text-[36px] font-medium leading-none tracking-tight sm:text-[44px] lg:text-[56px]"
       >
@@ -74,7 +74,7 @@ export function UseCases() {
       <motion.div
         initial={{ y: 16 }}
         whileInView={{ y: 0 }}
-        viewport={{ once: true, amount: 0 }}
+        viewport={{ once: true, amount: 0.15 }}
         transition={SPRING}
         className="relative mt-14 overflow-hidden rounded-bento border border-border/80 bg-card/60 backdrop-blur shadow-diffusion-sm"
       >
@@ -105,7 +105,7 @@ export function UseCases() {
                 key={line}
                 initial={{ y: 10 }}
                 whileInView={{ y: 0 }}
-                viewport={{ once: true, amount: 0 }}
+                viewport={{ once: true, amount: 0.15 }}
                 transition={{ ...SPRING, delay: 0.1 + i * 0.06 }}
                 className="flex items-center gap-3 rounded-lg border border-border/60 bg-background/50 px-4 py-3 text-[13.5px]"
               >
@@ -124,7 +124,7 @@ export function UseCases() {
             key={r.role}
             initial={{ y: 16 }}
             whileInView={{ y: 0 }}
-            viewport={{ once: true, amount: 0 }}
+            viewport={{ once: true, amount: 0.15 }}
             transition={{ ...SPRING, delay: i * 0.05 }}
             className={cn(
               "group relative flex flex-col gap-4 rounded-bento-sm border border-border/80 bg-card/60 p-7 backdrop-blur transition-colors hover:bg-card/80",

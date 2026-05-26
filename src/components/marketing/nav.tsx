@@ -139,9 +139,9 @@ export function Nav() {
   return (
     <>
       <motion.header
-        initial={{ y: -16 }}
-        animate={{ y: 0 }}
-        transition={SPRING}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
         className="fixed inset-x-0 top-0 z-50 flex justify-center px-4 py-3 sm:px-6 sm:py-4"
       >
         <div

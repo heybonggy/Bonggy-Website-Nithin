@@ -112,7 +112,7 @@ export function GlobeSection() {
           <motion.h2
             initial={{ y: 14 }}
             whileInView={{ y: 0 }}
-            viewport={{ once: true, amount: 0 }}
+            viewport={{ once: true, amount: 0.15 }}
             transition={SPRING}
             className="text-display text-balance text-[36px] font-normal leading-none tracking-tight sm:text-[44px] lg:text-[56px]"
           >
@@ -125,7 +125,7 @@ export function GlobeSection() {
           <motion.p
             initial={{ y: 12 }}
             whileInView={{ y: 0 }}
-            viewport={{ once: true, amount: 0 }}
+            viewport={{ once: true, amount: 0.15 }}
             transition={{ ...SPRING, delay: 0.05 }}
             className="mt-7 max-w-[58ch] text-[16px] leading-relaxed text-muted-foreground"
           >
@@ -138,7 +138,7 @@ export function GlobeSection() {
           <motion.div
             initial={{ y: 12 }}
             whileInView={{ y: 0 }}
-            viewport={{ once: true, amount: 0 }}
+            viewport={{ once: true, amount: 0.15 }}
             transition={{ ...SPRING, delay: 0.1 }}
             className="mt-10"
           >
@@ -160,7 +160,7 @@ export function GlobeSection() {
           <motion.div
             initial={{ y: 12 }}
             whileInView={{ y: 0 }}
-            viewport={{ once: true, amount: 0 }}
+            viewport={{ once: true, amount: 0.15 }}
             transition={{ ...SPRING, delay: 0.15 }}
             className="mt-10 flex items-center gap-6 font-mono text-[11px] text-muted-foreground"
           >

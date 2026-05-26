@@ -32,10 +32,10 @@ export function Section({
       >
         {eyebrow ? (
           <motion.div
-            initial={{ y: 10 }}
-            whileInView={{ y: 0 }}
-            viewport={{ once: true, amount: 0 }}
-            transition={SPRING}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             className="mb-10 sm:mb-12"
           >
             <div className="inline-flex items-center gap-2.5 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">

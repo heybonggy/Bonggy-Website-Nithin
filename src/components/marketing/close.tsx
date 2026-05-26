@@ -71,7 +71,7 @@ export function Close() {
         <motion.div
           initial={{ y: 10 }}
           whileInView={{ y: 0 }}
-          viewport={{ once: true, amount: 0 }}
+          viewport={{ once: true, amount: 0.15 }}
           transition={SPRING}
           className="inline-flex items-center gap-2.5 rounded-full border border-border/80 bg-card/60 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground backdrop-blur"
           style={{
@@ -87,7 +87,7 @@ export function Close() {
         <motion.h2
           initial={{ y: 14 }}
           whileInView={{ y: 0 }}
-          viewport={{ once: true, amount: 0 }}
+          viewport={{ once: true, amount: 0.15 }}
           transition={{ ...SPRING, delay: 0.05 }}
           className="text-display mt-8 max-w-[18ch] text-balance text-[40px] font-medium leading-[0.96] tracking-tight sm:text-[60px] lg:text-[88px]"
           style={{
@@ -107,7 +107,7 @@ export function Close() {
         <motion.p
           initial={{ y: 12 }}
           whileInView={{ y: 0 }}
-          viewport={{ once: true, amount: 0 }}
+          viewport={{ once: true, amount: 0.15 }}
           transition={{ ...SPRING, delay: 0.1 }}
           className="mt-8 max-w-[60ch] text-[16.5px] leading-relaxed text-muted-foreground"
         >
@@ -121,7 +121,7 @@ export function Close() {
         <motion.div
           initial={{ y: 12 }}
           whileInView={{ y: 0 }}
-          viewport={{ once: true, amount: 0 }}
+          viewport={{ once: true, amount: 0.15 }}
           transition={{ ...SPRING, delay: 0.16 }}
           className="mt-10"
         >

@@ -35,7 +35,7 @@ export function TheProblem() {
         <motion.h2
           initial={{ y: 14 }}
           whileInView={{ y: 0 }}
-          viewport={{ once: true, amount: 0 }}
+          viewport={{ once: true, amount: 0.15 }}
           transition={SPRING}
           className="text-display text-balance text-[36px] font-normal leading-none tracking-tight sm:text-[44px] lg:text-[56px]"
         >
@@ -48,7 +48,7 @@ export function TheProblem() {
         <motion.p
           initial={{ y: 12 }}
           whileInView={{ y: 0 }}
-          viewport={{ once: true, amount: 0 }}
+          viewport={{ once: true, amount: 0.15 }}
           transition={{ ...SPRING, delay: 0.05 }}
           className="max-w-[56ch] text-[16px] leading-relaxed text-muted-foreground lg:pt-2"
         >
@@ -64,7 +64,7 @@ export function TheProblem() {
             key={p.n}
             initial={{ y: 16 }}
             whileInView={{ y: 0 }}
-            viewport={{ once: true, amount: 0 }}
+            viewport={{ once: true, amount: 0.15 }}
             transition={{ ...SPRING, delay: i * 0.04 }}
             className="grid grid-cols-1 gap-x-12 gap-y-6 py-14 lg:grid-cols-[180px_1fr] lg:py-20"
           >
@@ -99,7 +99,7 @@ export function TheProblem() {
       <motion.div
         initial={{ y: 12 }}
         whileInView={{ y: 0 }}
-        viewport={{ once: true, amount: 0 }}
+        viewport={{ once: true, amount: 0.15 }}
         transition={SPRING}
         className="mt-16 max-w-3xl"
       >

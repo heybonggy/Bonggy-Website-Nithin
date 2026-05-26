@@ -100,7 +100,7 @@ export function HowItWorks() {
         <motion.h2
           initial={{ y: 14 }}
           whileInView={{ y: 0 }}
-          viewport={{ once: true, amount: 0 }}
+          viewport={{ once: true, amount: 0.15 }}
           transition={SPRING}
           className="text-display text-balance text-[36px] font-normal leading-none tracking-tight sm:text-[44px] lg:text-[56px]"
         >
@@ -112,7 +112,7 @@ export function HowItWorks() {
         <motion.div
           initial={{ y: 14 }}
           whileInView={{ y: 0 }}
-          viewport={{ once: true, amount: 0 }}
+          viewport={{ once: true, amount: 0.15 }}
           transition={{ ...SPRING, delay: 0.05 }}
           className="space-y-5 lg:pt-2"
         >
@@ -183,7 +183,7 @@ function BentoCard({
     <motion.article
       initial={{ y: 16 }}
       whileInView={{ y: 0 }}
-      viewport={{ once: true, amount: 0 }}
+      viewport={{ once: true, amount: 0.15 }}
       transition={SPRING}
       className={cn(
         "group relative flex flex-col overflow-hidden rounded-bento border border-border/80 bg-card/60 backdrop-blur shadow-diffusion-sm",

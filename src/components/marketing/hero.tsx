@@ -20,9 +20,9 @@ export function Hero() {
           <div className="relative">
             {/* Single confident headline. Gradient text fades white to muted. */}
             <motion.h1
-              initial={{ y: 14 }}
-              animate={{ y: 0 }}
-              transition={{ ...SPRING, delay: 0.1 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
               className="text-display text-balance text-[44px] font-normal sm:text-[64px] lg:text-[80px]"
               style={{
                 backgroundImage:
@@ -37,9 +37,9 @@ export function Hero() {
             </motion.h1>
 
             <motion.p
-              initial={{ y: 12 }}
-              animate={{ y: 0 }}
-              transition={{ ...SPRING, delay: 0.18 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
               className="mt-8 max-w-[58ch] text-[16.5px] leading-relaxed text-muted-foreground"
             >
               Find the signal, decide the move. Bonggy runs your whole
@@ -47,9 +47,9 @@ export function Hero() {
             </motion.p>
 
             <motion.div
-              initial={{ y: 12 }}
-              animate={{ y: 0 }}
-              transition={{ ...SPRING, delay: 0.24 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
               className="mt-10 flex flex-col items-start gap-3"
             >
               <CtaButton size="lg">Book a strategy session</CtaButton>
@@ -59,9 +59,9 @@ export function Hero() {
             </motion.div>
 
             <motion.div
-              initial={{ y: 12 }}
-              animate={{ y: 0 }}
-              transition={{ ...SPRING, delay: 0.32 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.24, ease: [0.22, 1, 0.36, 1] }}
               className="mt-14 flex flex-wrap items-center gap-x-8 gap-y-3"
             >
               <div className="flex items-center gap-2 font-mono text-[11px] text-muted-foreground">
@@ -78,9 +78,9 @@ export function Hero() {
           </div>
 
           <motion.div
-            initial={{ y: 24 }}
-            animate={{ y: 0 }}
-            transition={{ ...SPRING, delay: 0.18 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
             className="relative"
           >
             <div

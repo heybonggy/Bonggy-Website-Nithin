@@ -51,7 +51,7 @@ export function TheReframeFix() {
           <motion.h2
             initial={{ y: 14 }}
             whileInView={{ y: 0 }}
-            viewport={{ once: true, amount: 0 }}
+            viewport={{ once: true, amount: 0.15 }}
             transition={SPRING}
             className="text-display text-balance text-[36px] font-medium leading-none tracking-tight sm:text-[44px] lg:text-[56px]"
           >
@@ -62,7 +62,7 @@ export function TheReframeFix() {
           <motion.p
             initial={{ y: 12 }}
             whileInView={{ y: 0 }}
-            viewport={{ once: true, amount: 0 }}
+            viewport={{ once: true, amount: 0.15 }}
             transition={{ ...SPRING, delay: 0.05 }}
             className="max-w-[58ch] text-[16px] leading-relaxed text-muted-foreground lg:pt-2"
           >
@@ -85,7 +85,7 @@ export function TheReframeFix() {
           <motion.h2
             initial={{ y: 14 }}
             whileInView={{ y: 0 }}
-            viewport={{ once: true, amount: 0 }}
+            viewport={{ once: true, amount: 0.15 }}
             transition={SPRING}
             className="text-display text-balance text-[36px] font-medium leading-none tracking-tight sm:text-[44px] lg:text-[56px]"
           >
@@ -98,7 +98,7 @@ export function TheReframeFix() {
           <motion.p
             initial={{ y: 12 }}
             whileInView={{ y: 0 }}
-            viewport={{ once: true, amount: 0 }}
+            viewport={{ once: true, amount: 0.15 }}
             transition={{ ...SPRING, delay: 0.05 }}
             className="max-w-[58ch] text-[16px] leading-relaxed text-muted-foreground lg:pt-2"
           >
@@ -117,7 +117,7 @@ export function TheReframeFix() {
               key={s.n}
               initial={{ y: 16 }}
               whileInView={{ y: 0 }}
-              viewport={{ once: true, amount: 0 }}
+              viewport={{ once: true, amount: 0.15 }}
               transition={{ ...SPRING, delay: i * 0.05 }}
               className="relative flex flex-col gap-4 bg-background/60 p-6 backdrop-blur lg:p-7"
             >
@@ -148,7 +148,7 @@ export function TheReframeFix() {
         <motion.p
           initial={{ y: 12 }}
           whileInView={{ y: 0 }}
-          viewport={{ once: true, amount: 0 }}
+          viewport={{ once: true, amount: 0.15 }}
           transition={SPRING}
           className="mt-14 max-w-3xl text-pretty text-[20px] font-medium leading-snug tracking-tight"
         >
