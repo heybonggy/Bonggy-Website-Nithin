@@ -417,13 +417,15 @@ export function CommandCenterMock({ className }: { className?: string }) {
         </div>
       </div>
 
-      {/* Hotkey footer , flows in layout (no absolute) so it never overlaps the Worker panel */}
-      <div className="mt-auto flex h-8 w-full flex-wrap items-center gap-x-4 gap-y-1 overflow-hidden border-t border-border/60 bg-background/40 px-4 text-[10px] text-muted-foreground/80">
+      {/* Hotkey footer , single-line, never wraps. Less-essential keys
+          (Pause, Models) hide below sm so 'M Models' doesn't spill onto a
+          second row and get half-clipped by the fixed-height bar. */}
+      <div className="mt-auto flex h-8 w-full items-center gap-x-3 overflow-hidden whitespace-nowrap border-t border-border/60 bg-background/40 px-3 text-[10px] text-muted-foreground/80 sm:gap-x-4 sm:px-4">
         <Hotkey k="A" label="Accounts" />
         <Hotkey k="S" label="Signals" />
         <Hotkey k="D" label="Drafts" />
-        <Hotkey k="P" label="Pause" />
-        <Hotkey k="M" label="Models" />
+        <Hotkey k="P" label="Pause" className="hidden sm:inline-flex" />
+        <Hotkey k="M" label="Models" className="hidden sm:inline-flex" />
       </div>
     </div>
   );
@@ -487,9 +489,22 @@ function WorkerRow({
   );
 }
 
-function Hotkey({ k, label }: { k: string; label: string }) {
+function Hotkey({
+  k,
+  label,
+  className,
+}: {
+  k: string;
+  label: string;
+  className?: string;
+}) {
   return (
-    <span className="inline-flex items-center gap-1 whitespace-nowrap">
+    <span
+      className={cn(
+        "inline-flex items-center gap-1 whitespace-nowrap",
+        className,
+      )}
+    >
       <kbd className="rounded border border-border/60 bg-background/60 px-1 text-[9px] text-foreground/80">
         {k}
       </kbd>
