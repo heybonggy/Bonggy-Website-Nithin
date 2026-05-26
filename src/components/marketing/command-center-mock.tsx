@@ -158,7 +158,7 @@ export function CommandCenterMock({ className }: { className?: string }) {
     if (reduce || !visible) return;
     const id = setInterval(() => {
       setProgress((p) => (p >= 12 ? 7 : p + 1));
-    }, 1800);
+    }, 2520);
     return () => clearInterval(id);
   }, [reduce, visible]);
 
@@ -170,7 +170,7 @@ export function CommandCenterMock({ className }: { className?: string }) {
         if (allDone) return prev.map((f) => (f.name === "follow-up-timing" ? { ...f, done: false } : f));
         return prev.map((f) => (!f.done ? { ...f, done: true } : f));
       });
-    }, 3200);
+    }, 4480);
     return () => clearInterval(id);
   }, [reduce, visible]);
 
@@ -198,7 +198,7 @@ export function CommandCenterMock({ className }: { className?: string }) {
         }));
         return [fresh, ...aged].slice(0, 7);
       });
-    }, 2400);
+    }, 3360);
     return () => clearInterval(id);
   }, [reduce, visible]);
 
@@ -207,16 +207,16 @@ export function CommandCenterMock({ className }: { className?: string }) {
     if (reduce || !visible) return;
     const id = setInterval(() => {
       setWorkerLine((l) => (l + 1) % 4);
-    }, 2200);
+    }, 3080);
     return () => clearInterval(id);
   }, [reduce, visible]);
 
-  // Active Agent cycles every 6.5s
+  // Active Agent cycles
   React.useEffect(() => {
     if (reduce || !visible) return;
     const id = setInterval(() => {
       setAgentIdx((i) => (i + 1) % USE_CASES.length);
-    }, 6500);
+    }, 9100);
     return () => clearInterval(id);
   }, [reduce]);
 

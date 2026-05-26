@@ -227,13 +227,13 @@ function CommandInputDemo() {
       i += 1;
       setTyped(current.slice(0, i));
       if (i < current.length) {
-        timer = setTimeout(tick, 18 + Math.random() * 22);
+        timer = setTimeout(tick, 28 + Math.random() * 32);
       } else {
-        timer = setTimeout(() => setPhase("compiling"), 800);
-        timer = setTimeout(() => setIdx((p) => (p + 1) % PROMPTS.length), 3400);
+        timer = setTimeout(() => setPhase("compiling"), 1200);
+        timer = setTimeout(() => setIdx((p) => (p + 1) % PROMPTS.length), 4800);
       }
     };
-    timer = setTimeout(tick, 350);
+    timer = setTimeout(tick, 500);
     return () => clearTimeout(timer);
   }, [idx, reduce]);
 
@@ -294,23 +294,23 @@ function CommandInputDemo() {
 
 /* ───────────────── Card 02 · Workflow with LIVE counters + flowing particles ───────────────── */
 
-function useTickingCounter(target: number, increment = 1, intervalMs = 1400) {
+function useTickingCounter(target: number, increment = 1, intervalMs = 1960) {
   const [val, setVal] = React.useState(target);
   const reduce = useReducedMotion();
   React.useEffect(() => {
     if (reduce) return;
     const id = setInterval(() => {
       setVal((v) => v + Math.random() < 0.65 ? v + increment + Math.floor(Math.random() * 2) : v);
-    }, intervalMs + Math.random() * 600);
+    }, intervalMs + Math.random() * 800);
     return () => clearInterval(id);
   }, [reduce, increment, intervalMs]);
   return val;
 }
 
 function WorkflowDemo() {
-  const eventsCount = useTickingCounter(847, 2, 1100);
-  const accountsCount = useTickingCounter(94, 1, 2400);
-  const draftsCount = useTickingCounter(31, 1, 3200);
+  const eventsCount = useTickingCounter(847, 2, 1540);
+  const accountsCount = useTickingCounter(94, 1, 3360);
+  const draftsCount = useTickingCounter(31, 1, 4480);
 
   const NODES = [
     { label: "Watch", Icon: Pulse, x: 22, y: 28, count: eventsCount, unit: "events" },
@@ -328,15 +328,15 @@ function WorkflowDemo() {
         className="pointer-events-none absolute"
         style={{ left: `${NODES[0].x}%`, top: `${NODES[0].y}%`, transform: "translate(-50%, -50%)" }}
       >
-        {[0, 1, 2].map((i) => (
+        {[0, 1].map((i) => (
           <motion.span
             key={i}
             className="absolute left-1/2 top-1/2 size-16 -translate-x-1/2 -translate-y-1/2 rounded-full border border-signal/40"
             animate={{ scale: [0.4, 2.2], opacity: [0.6, 0] }}
             transition={{
-              duration: 2.8,
+              duration: 3.8,
               repeat: Infinity,
-              delay: i * 0.9,
+              delay: i * 1.4,
               ease: "easeOut",
             }}
           />
@@ -363,15 +363,15 @@ function WorkflowDemo() {
           strokeDasharray="0.6 1.2"
         />
 
-        {/* Multiple flowing particles */}
-        {[0, 0.8, 1.6, 2.4].map((delay, i) => (
+        {/* Flowing particles — 2 instead of 4, slower */}
+        {[0, 2.2].map((delay, i) => (
           <motion.circle
             key={i}
             r="0.7"
             fill="oklch(0.85 0.14 152)"
             animate={{ offsetDistance: ["0%", "100%"] }}
             transition={{
-              duration: 3.2,
+              duration: 4.5,
               repeat: Infinity,
               delay,
               ease: "linear",
@@ -446,7 +446,7 @@ function ApprovalDemo() {
         return next;
       });
     };
-    const id = setInterval(tick, 1500);
+    const id = setInterval(tick, 2100);
     return () => clearInterval(id);
   }, [reduce]);
 

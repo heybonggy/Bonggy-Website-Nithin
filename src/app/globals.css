@@ -363,13 +363,13 @@
     0%, 100% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--signal) 60%, transparent); }
     50%      { box-shadow: 0 0 0 6px color-mix(in oklab, var(--signal) 0%, transparent); }
   }
-  .pulse-signal { animation: pulse-signal 2.4s ease-out infinite; }
+  .pulse-signal { animation: pulse-signal 3.4s ease-out infinite; }
 
   @keyframes marquee {
     from { transform: translateX(0); }
     to   { transform: translateX(-50%); }
   }
-  .marquee { animation: marquee 30s linear infinite; }
+  .marquee { animation: marquee 42s linear infinite; }
 
   @keyframes shimmer {
     0%   { transform: translateX(-100%); }
@@ -385,12 +385,12 @@
     inset: 0;
     transform: translateX(-100%);
     background: linear-gradient(90deg, transparent, var(--inset-highlight), transparent);
-    animation: shimmer 2.4s linear infinite;
+    animation: shimmer 3.4s linear infinite;
   }
 
   @keyframes float-up {
     0%, 100% { transform: translateY(0); }
     50%      { transform: translateY(-4px); }
   }
-  .float-perpetual { animation: float-up 4s ease-in-out infinite; }
+  .float-perpetual { animation: float-up 5.6s ease-in-out infinite; }
 }
