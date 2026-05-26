@@ -65,20 +65,23 @@ export function EarlyAccessModal({
   }, [open]);
 
   // Lock scroll while open + close on Escape.
-  // Under the ScrollShell pattern the document doesn't scroll — the .bonggy-
-  // scroll-shell element does. Freeze its overflow to lock; release on close.
+  // Mobile (<768px): the .bonggy-scroll-shell is the scroll container, freeze
+  // its overflow. Desktop (>=768px): document scrolls natively, freeze body.
   React.useEffect(() => {
     if (!open) return;
-    const shell = document.querySelector<HTMLElement>(".bonggy-scroll-shell");
-    const prevOverflow = shell?.style.overflow ?? "";
-    if (shell) shell.style.overflow = "hidden";
+    const isShell = window.matchMedia("(max-width: 767px)").matches;
+    const target = isShell
+      ? document.querySelector<HTMLElement>(".bonggy-scroll-shell")
+      : document.body;
+    const prevOverflow = target?.style.overflow ?? "";
+    if (target) target.style.overflow = "hidden";
 
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setOpen(false);
     };
     document.addEventListener("keydown", onKey);
     return () => {
-      if (shell) shell.style.overflow = prevOverflow;
+      if (target) target.style.overflow = prevOverflow;
       document.removeEventListener("keydown", onKey);
     };
   }, [open, setOpen]);

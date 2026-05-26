@@ -200,13 +200,14 @@
   * {
     @apply border-border outline-ring/50;
   }
+  /* Mobile (<768px): ScrollShell pattern. html/body are locked at viewport
+     size and the .bonggy-scroll-shell child is what actually scrolls. This
+     fixes the URL-bar transition jerk at the page bottom on phones. */
   html {
     @apply font-sans;
     font-feature-settings: "ss01", "cv11", "calt";
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    /* Lock html to viewport size and disable its scroll. Scrolling happens
-       inside .bonggy-scroll-shell instead — see scroll-shell.tsx for why. */
     height: 100%;
     overflow: hidden;
     overscroll-behavior: none;
@@ -226,8 +227,25 @@
     overflow-y: auto;
     overscroll-behavior: none;
     overflow-anchor: none;
-    /* iOS Safari momentum scroll */
     -webkit-overflow-scrolling: touch;
+  }
+
+  /* Desktop (>=768px): revert to native document scroll. Custom scroll
+     containers cost FPS on desktop because the browser can't use the same
+     compositor optimizations it applies to document scroll. URL-bar jerk
+     isn't a desktop problem anyway. */
+  @media (min-width: 768px) {
+    html, body {
+      height: auto;
+      overflow: visible;
+      overflow-x: clip;
+    }
+    .bonggy-scroll-shell {
+      position: static;
+      inset: auto;
+      overflow: visible;
+      -webkit-overflow-scrolling: auto;
+    }
   }
   /* Mesh gradient lives on a fixed pseudo-layer instead of `background-attachment: fixed`,
      which jumps/flickers on iOS Safari during URL-bar reveal. Stops swap per theme. */

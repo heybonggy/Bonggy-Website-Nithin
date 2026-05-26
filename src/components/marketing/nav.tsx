@@ -156,12 +156,14 @@ export function Nav() {
         <div
           className={cn(
             "relative flex h-13 w-full max-w-[1180px] items-center justify-between rounded-full px-3 py-2 transition-[background,box-shadow,backdrop-filter,border-color] duration-300 sm:px-4",
-            // Backdrop-blur is expensive on mobile (recomputes every scroll
-            // frame). On phones we use a more opaque bg and skip the blur;
-            // sm+ keeps the premium glass look.
+            // Backdrop-blur recomputes the blur of whatever sits behind on
+            // every scroll frame — expensive on mobile AND a real desktop
+            // FPS hit during scroll. Mobile: skip blur entirely. Desktop:
+            // use a light blur (md = 12px) instead of 2xl (24px), which is
+            // dramatically cheaper to composite per frame.
             scrolled || mobileOpen
-              ? "border border-border/80 bg-card/95 sm:backdrop-blur-2xl"
-              : "border border-border/30 bg-card/70 sm:bg-card/55 sm:backdrop-blur-md",
+              ? "border border-border/80 bg-card/95 sm:backdrop-blur-md"
+              : "border border-border/30 bg-card/70 sm:bg-card/65 sm:backdrop-blur-sm",
           )}
           style={{
             boxShadow:

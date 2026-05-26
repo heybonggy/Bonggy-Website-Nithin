@@ -24,8 +24,24 @@ import * as React from "react";
  */
 const ScrollShellContext = React.createContext<React.RefObject<HTMLDivElement | null> | null>(null);
 
+/**
+ * Returns the shell ref ONLY when the shell is acting as the scroll container
+ * (mobile, <768px). On desktop the page uses native document scroll, so
+ * consumers should fall through to `window` — we return null to signal that.
+ */
 export function useScrollShell() {
-  return React.useContext(ScrollShellContext);
+  const ref = React.useContext(ScrollShellContext);
+  const [isShellActive, setIsShellActive] = React.useState(false);
+
+  React.useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)");
+    const apply = () => setIsShellActive(mq.matches);
+    apply();
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
+  }, []);
+
+  return isShellActive ? ref : null;
 }
 
 export function ScrollShell({ children }: { children: React.ReactNode }) {
