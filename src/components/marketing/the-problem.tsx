@@ -26,6 +26,13 @@ const PAINS = [
     body: "Most reps aren't the problem. The instinct your top rep spent two years building was never written down. So everyone else recycles the same three angles and works accounts in the wrong order, missing the buying window that was sitting right there.",
     outcome: "Your top rep's instinct, never written down",
   },
+  {
+    n: "04",
+    tag: "The tooling approach",
+    title: "More tools, same gap",
+    body: "Every quarter brings new platforms, new signal feeds, new dashboards. Reps end up stitching context across eight tabs instead of having one place to think from. Senior reps lose hours assembling a coherent picture; new SDRs walk in and find a stack nobody fully understands. The toolkit grew. The judgment problem didn't.",
+    outcome: "Eight tools. No command centre.",
+  },
 ];
 
 export function TheProblem() {
@@ -39,9 +46,9 @@ export function TheProblem() {
           transition={SPRING}
           className="text-display text-balance text-[36px] font-normal leading-none tracking-tight sm:text-[44px] lg:text-[56px]"
         >
-          Three ways you&apos;ve tried.{" "}
+          Four ways you&apos;ve tried.{" "}
           <span className="text-muted-foreground/85">
-            Three reasons each one stalls.
+            Four reasons each one stalls.
           </span>
         </motion.h2>
 
@@ -52,7 +59,7 @@ export function TheProblem() {
           transition={{ ...SPRING, delay: 0.05 }}
           className="max-w-[56ch] text-[16px] leading-relaxed text-muted-foreground lg:pt-2"
         >
-          Every team rebuilds outbound from one of these three starting points.
+          Every team rebuilds outbound from one of these four starting points.
           Each one fails in a different way. The pattern is the same.
         </motion.p>
       </div>
