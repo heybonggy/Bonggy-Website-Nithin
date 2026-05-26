@@ -1,12 +1,27 @@
 "use client";
 
 import * as React from "react";
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { Clock } from "@phosphor-icons/react/dist/ssr";
 import { CtaButton } from "./cta-button";
 import { SPRING } from "./_motion";
 
 export function Close() {
+  // Aurora animates only when the section is in view AND on non-mobile.
+  // The 40px-blur, full-section, looping scale/opacity transform was the
+  // biggest GPU cost on phones — turning it into a static gradient on
+  // mobile removes the wake-up judder when scrolling back into the section.
+  const reduce = useReducedMotion();
+  const [shouldAnimateAurora, setShouldAnimateAurora] = React.useState(false);
+  React.useEffect(() => {
+    if (reduce) return;
+    const mq = window.matchMedia("(min-width: 768px)");
+    const apply = () => setShouldAnimateAurora(mq.matches);
+    apply();
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
+  }, [reduce]);
+
   return (
     <section
       id="strategy-session"
@@ -14,12 +29,20 @@ export function Close() {
     >
       {/* Layered background */}
       <div className="pointer-events-none absolute inset-0 -z-10">
-        {/* Aurora , breathes */}
+        {/* Aurora — animated only on tablet+ to avoid GPU jank on phones */}
         <motion.div
           aria-hidden
-          initial={{ opacity: 0.6, scale: 1 }}
-          animate={{ opacity: [0.6, 1, 0.6], scale: [1, 1.06, 1] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          initial={{ opacity: 0.7, scale: 1 }}
+          animate={
+            shouldAnimateAurora
+              ? { opacity: [0.6, 1, 0.6], scale: [1, 1.06, 1] }
+              : { opacity: 0.85, scale: 1 }
+          }
+          transition={
+            shouldAnimateAurora
+              ? { duration: 8, repeat: Infinity, ease: "easeInOut" }
+              : { duration: 0 }
+          }
           className="absolute left-1/2 top-1/2 h-[80vh] w-[90vw] -translate-x-1/2 -translate-y-1/2 rounded-full"
           style={{
             background:
