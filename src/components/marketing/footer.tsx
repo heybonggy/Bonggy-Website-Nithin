@@ -8,9 +8,9 @@ const FOOTER_LINKS: {
   {
     heading: "Product",
     items: [
-      { label: "How it works", href: "/how-it-works" },
-      { label: "The fix", href: "/fix" },
-      { label: "Use cases", href: "/use-cases" },
+      { label: "How it works", href: "/#how-it-works" },
+      { label: "The fix", href: "/#fix" },
+      { label: "Use cases", href: "/#use-cases" },
       { label: "FAQ", href: "/faq" },
     ],
   },

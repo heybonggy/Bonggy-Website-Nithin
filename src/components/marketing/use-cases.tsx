@@ -2,7 +2,6 @@
 
 import { motion } from "motion/react";
 import {
-  ArrowUpRight,
   Briefcase,
   Crown,
   Handshake,
@@ -131,16 +130,10 @@ export function UseCases() {
               r.span,
             )}
           >
-            <div className="flex items-center justify-between">
-              <r.Icon
-                weight="regular"
-                className="size-5 text-foreground/70 transition-colors group-hover:text-signal"
-              />
-              <ArrowUpRight
-                weight="bold"
-                className="size-4 text-muted-foreground/30 transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-foreground"
-              />
-            </div>
+            <r.Icon
+              weight="regular"
+              className="size-5 text-foreground/70 transition-colors group-hover:text-signal"
+            />
             <h4 className="text-[16px] font-medium tracking-tight">
               {r.role}
             </h4>
