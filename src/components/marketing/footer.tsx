@@ -34,7 +34,7 @@ const FOOTER_LINKS: {
 
 export function Footer() {
   return (
-    <footer className="relative border-t border-border/60 pt-16 pb-12">
+    <footer className="relative border-t border-border/60 pt-16 pb-20 sm:pb-12">
       <div className="mx-auto w-full max-w-[1400px] px-6 lg:px-10">
         <div className="grid grid-cols-2 gap-10 sm:grid-cols-4 lg:grid-cols-[1.4fr_repeat(3,minmax(0,1fr))]">
           <div className="col-span-2 sm:col-span-4 lg:col-span-1">

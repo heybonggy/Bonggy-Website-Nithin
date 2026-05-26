@@ -210,12 +210,18 @@
     overflow-x: clip;
     /* Kill iOS pull-to-refresh + rubberband bounce site-wide */
     overscroll-behavior-y: none;
+    /* Disable CSS scroll anchoring: when off-screen content (motion components,
+       rotating mock content, marquee) changes size, the browser was auto-
+       adjusting scroll position to "keep visible content stable" — manifesting
+       as the page jerking down once when reversing scroll from the footer. */
+    overflow-anchor: none;
   }
   body {
     @apply bg-background text-foreground;
     text-rendering: optimizeLegibility;
     overflow-x: clip;
     overscroll-behavior-y: none;
+    overflow-anchor: none;
     position: relative;
   }
   /* Mesh gradient lives on a fixed pseudo-layer instead of `background-attachment: fixed`,
