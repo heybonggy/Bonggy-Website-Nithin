@@ -82,12 +82,21 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   themeColor: [
     { media: "(prefers-color-scheme: dark)", color: "#0a0a0c" },
-    { media: "(prefers-color-scheme: light)", color: "#0a0a0c" },
+    { media: "(prefers-color-scheme: light)", color: "#f7f7f7" },
   ],
-  colorScheme: "dark",
   width: "device-width",
   initialScale: 1,
 };
+
+// Inline pre-paint script: read localStorage theme and apply `.dark` to <html>
+// BEFORE first paint so there's no white flash on dark-mode visitors.
+// Default = dark. Opt-in light persists across sessions.
+const themeInitScript = `
+(function(){try{
+  var t = localStorage.getItem('bonggy-theme');
+  if (t !== 'light') document.documentElement.classList.add('dark');
+}catch(e){document.documentElement.classList.add('dark');}})();
+`;
 
 export default function RootLayout({
   children,
@@ -97,10 +106,12 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} dark h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <head>
+        {/* Pre-paint theme: must run before body to avoid flash */}
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         {/* Organization structured data , readable for AI agents + search */}
         <script
           type="application/ld+json"

@@ -12,6 +12,7 @@ import {
 import { cn } from "@/lib/utils";
 import { BonggyMark } from "./bonggy-mark";
 import { EarlyAccessModal } from "./early-access-modal";
+import { ThemeToggle } from "./theme-toggle";
 import { SPRING } from "./_motion";
 
 const LINKS = [
@@ -154,8 +155,8 @@ export function Nav() {
           style={{
             boxShadow:
               scrolled || mobileOpen
-                ? "inset 0 1px 0 oklch(1 0 0 / 8%), 0 1px 0 oklch(0 0 0 / 30%), 0 20px 60px -20px oklch(0 0 0 / 70%)"
-                : "inset 0 1px 0 oklch(1 0 0 / 4%), 0 10px 30px -15px oklch(0 0 0 / 50%)",
+                ? "inset 0 1px 0 var(--inset-highlight), var(--shadow-pill-floating)"
+                : "inset 0 1px 0 var(--inset-highlight), var(--shadow-pill-grounded)",
           }}
         >
           {/* Logo,plain Link, no Magnetic (mobile clicks were being eaten) */}
@@ -183,7 +184,7 @@ export function Nav() {
                         transition={{ type: "spring", stiffness: 380, damping: 30 }}
                         style={{
                           boxShadow:
-                            "inset 0 1px 0 oklch(1 0 0 / 8%), inset 0 -1px 0 oklch(0 0 0 / 30%)",
+                            "inset 0 1px 0 var(--inset-highlight), inset 0 -1px 0 oklch(0 0 0 / 12%)",
                         }}
                       />
                     )}
@@ -204,6 +205,9 @@ export function Nav() {
 
           {/* Right side */}
           <div className="flex items-center gap-2">
+            {/* Theme toggle , sits next to Use cases visually (right of nav links) */}
+            <ThemeToggle className="hidden sm:inline-flex" />
+
             {/* Early access,desktop. Plain button, opens shared modal state */}
             <button
               type="button"
@@ -211,12 +215,15 @@ export function Nav() {
               className="group/cta relative hidden h-9 items-center justify-center gap-1.5 rounded-md bg-transparent px-4 font-mono text-[10.5px] font-medium uppercase tracking-[0.2em] text-signal transition-all duration-200 hover:bg-signal/[0.04] hover:text-signal/95 active:translate-y-[1px] sm:inline-flex"
               style={{
                 boxShadow:
-                  "inset 0 0 0 1px oklch(0.78 0.13 152 / 22%), 0 0 12px -4px oklch(0.78 0.13 152 / 16%)",
+                  "inset 0 0 0 1px color-mix(in oklab, var(--signal) 25%, transparent), 0 0 12px -4px color-mix(in oklab, var(--signal) 18%, transparent)",
               }}
             >
               <span className="size-1 rounded-full bg-signal" />
               <span className="relative">Early access</span>
             </button>
+
+            {/* Mobile: theme toggle next to hamburger */}
+            <ThemeToggle className="sm:hidden" />
 
             {/* Mobile hamburger */}
             <button
@@ -224,7 +231,7 @@ export function Nav() {
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
               aria-expanded={mobileOpen}
               onClick={() => setMobileOpen((v) => !v)}
-              className="flex size-9 items-center justify-center rounded-md border border-border/60 bg-zinc-950/60 text-foreground sm:hidden"
+              className="flex size-9 items-center justify-center rounded-md border border-border/60 bg-card/60 text-foreground sm:hidden"
             >
               <Hamburger open={mobileOpen} />
             </button>
@@ -375,7 +382,7 @@ function MobileMenu({
             className="group/cta relative inline-flex h-12 w-full items-center justify-center gap-1.5 rounded-md bg-zinc-950 px-4 font-mono text-[11.5px] font-medium uppercase tracking-[0.2em] text-signal"
             style={{
               boxShadow:
-                "0 0 0 1px oklch(0.78 0.13 152 / 22%), 0 0 18px -3px oklch(0.78 0.13 152 / 20%)",
+                "0 0 0 1px color-mix(in oklab, var(--signal) 25%, transparent), 0 0 18px -3px color-mix(in oklab, var(--signal) 22%, transparent)",
             }}
           >
             <span className="size-1 rounded-full bg-signal" />

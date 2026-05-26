@@ -48,8 +48,12 @@ export function CtaButton({
   } as const;
 
   const bases = {
-    primary: "bg-zinc-950 text-foreground",
-    signal: "bg-zinc-950 text-foreground",
+    // Primary + signal: fixed dark base so the button stays a high-contrast
+    // anchor on both themes. Label is explicit white (not text-foreground)
+    // because text-foreground would be near-black in light mode and disappear
+    // into the dark base.
+    primary: "bg-zinc-950 text-white",
+    signal: "bg-zinc-950 text-white",
     ghost:
       "border border-border bg-card/40 text-foreground backdrop-blur hover:bg-card hover:border-border/80",
   } as const;

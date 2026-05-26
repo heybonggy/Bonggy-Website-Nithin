@@ -58,7 +58,85 @@
   --radius-bento: 1.75rem;
 }
 
+/* ----------------------------------------------------------------------------
+   THEME TOKENS
+   :root      → light (default styles if .dark is absent)
+   .dark      → dark (added to <html> by the inline pre-paint script)
+   Decorative tokens (--grid-line, --mesh-*, --wordmark-stroke, etc.) swap
+   per theme so utility classes adapt without per-component conditionals.
+   ----------------------------------------------------------------------------*/
+
 :root {
+  /* Surface — soft off-white, never pure white (anti-blinding) */
+  --background: oklch(0.985 0.003 280);
+  --foreground: oklch(0.2 0.006 280);
+
+  --card: oklch(0.975 0.003 280);
+  --card-foreground: oklch(0.2 0.006 280);
+  --popover: oklch(0.985 0.003 280);
+  --popover-foreground: oklch(0.2 0.006 280);
+
+  /* Primary = near-black ink for CTAs in light mode */
+  --primary: oklch(0.2 0.006 280);
+  --primary-foreground: oklch(0.985 0 0);
+
+  --secondary: oklch(0.94 0.003 280);
+  --secondary-foreground: oklch(0.2 0.006 280);
+  --muted: oklch(0.95 0.003 280);
+  --muted-foreground: oklch(0.46 0.008 280);
+  --accent: oklch(0.93 0.003 280);
+  --accent-foreground: oklch(0.2 0.006 280);
+  --destructive: oklch(0.58 0.22 27);
+
+  --border: oklch(0 0 0 / 9%);
+  --input: oklch(0 0 0 / 13%);
+  --ring: oklch(0.2 0.006 280 / 50%);
+
+  /* Signal — darker, more saturated mint so it sits on white legibly */
+  --signal: oklch(0.5 0.17 152);
+  --signal-foreground: oklch(0.985 0 0);
+  --signal-muted: oklch(0.5 0.17 152 / 12%);
+  --line: oklch(0 0 0 / 10%);
+
+  /* Decorative — light variants */
+  --grid-line: oklch(0 0 0 / 6%);
+  --grid-line-fine: oklch(0 0 0 / 4%);
+  --grain-opacity: 0.18;
+  --grain-blend: multiply;
+  --mesh-1: oklch(0.5 0.17 152 / 6%);
+  --mesh-2: oklch(0.5 0.17 152 / 5%);
+  --mesh-3: oklch(0.5 0.17 152 / 5%);
+  --wordmark-stroke: oklch(0 0 0 / 9%);
+  --wordmark-fill: oklch(0 0 0 / 8%);
+  --inset-highlight: oklch(0 0 0 / 5%);
+  --shadow-diffuse-1: 0 30px 80px -30px oklch(0 0 0 / 0.18);
+  --shadow-diffuse-2: 0 8px 24px -12px oklch(0 0 0 / 0.10);
+  --shadow-pill-floating: 0 1px 0 oklch(0 0 0 / 5%), 0 14px 40px -16px oklch(0 0 0 / 0.18);
+  --shadow-pill-grounded: 0 10px 30px -15px oklch(0 0 0 / 0.10);
+  --shadow-card-lift: 0 10px 30px -10px oklch(0 0 0 / 0.12);
+  --shadow-button-base: 0 6px 18px -6px oklch(0 0 0 / 0.18);
+
+  --chart-1: oklch(0.5 0.17 152);
+  --chart-2: oklch(0.55 0.1 200);
+  --chart-3: oklch(0.6 0.16 30);
+  --chart-4: oklch(0.55 0 0);
+  --chart-5: oklch(0.4 0 0);
+
+  --radius: 0.5rem;
+
+  --sidebar: oklch(0.97 0.003 280);
+  --sidebar-foreground: oklch(0.2 0.006 280);
+  --sidebar-primary: oklch(0.5 0.17 152);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.93 0.003 280);
+  --sidebar-accent-foreground: oklch(0.2 0.006 280);
+  --sidebar-border: oklch(0 0 0 / 9%);
+  --sidebar-ring: oklch(0.5 0.17 152 / 50%);
+
+  color-scheme: light;
+}
+
+.dark {
   /* Off-black with subtle cool tint (Zinc-950 equiv) , per anti-pure-black rule */
   --background: oklch(0.085 0.005 280);
   --foreground: oklch(0.98 0 0);
@@ -68,7 +146,6 @@
   --popover: oklch(0.115 0.004 280);
   --popover-foreground: oklch(0.98 0 0);
 
-  /* Primary = off-white (CTAs). Foreground-on-foreground gives premium tech feel */
   --primary: oklch(0.97 0 0);
   --primary-foreground: oklch(0.1 0.003 280);
 
@@ -84,19 +161,28 @@
   --input: oklch(1 0 0 / 14%);
   --ring: oklch(0.97 0 0 / 50%);
 
-  /* Single accent , soft sage. Saturation ~16% (under taste-skill 80% cap) */
   --signal: oklch(0.78 0.13 152);
   --signal-foreground: oklch(0.12 0.04 152);
   --signal-muted: oklch(0.78 0.13 152 / 14%);
   --line: oklch(1 0 0 / 10%);
 
-  --chart-1: oklch(0.78 0.13 152);
-  --chart-2: oklch(0.7 0.08 200);
-  --chart-3: oklch(0.65 0.14 30);
-  --chart-4: oklch(0.55 0 0);
-  --chart-5: oklch(0.4 0 0);
-
-  --radius: 0.5rem;
+  /* Decorative — dark variants */
+  --grid-line: oklch(1 0 0 / 5.5%);
+  --grid-line-fine: oklch(1 0 0 / 3%);
+  --grain-opacity: 0.35;
+  --grain-blend: overlay;
+  --mesh-1: oklch(0.78 0.13 152 / 7%);
+  --mesh-2: oklch(0.78 0.13 152 / 5%);
+  --mesh-3: oklch(0.78 0.13 152 / 6%);
+  --wordmark-stroke: oklch(1 0 0 / 7%);
+  --wordmark-fill: oklch(1 0 0 / 7%);
+  --inset-highlight: oklch(1 0 0 / 6%);
+  --shadow-diffuse-1: 0 30px 80px -30px oklch(0 0 0 / 0.7);
+  --shadow-diffuse-2: 0 8px 24px -12px oklch(0 0 0 / 0.4);
+  --shadow-pill-floating: 0 1px 0 oklch(0 0 0 / 30%), 0 20px 60px -20px oklch(0 0 0 / 70%);
+  --shadow-pill-grounded: 0 10px 30px -15px oklch(0 0 0 / 50%);
+  --shadow-card-lift: 0 10px 30px -10px oklch(0 0 0 / 50%);
+  --shadow-button-base: 0 6px 18px -6px oklch(0 0 0 / 60%);
 
   --sidebar: oklch(0.1 0.003 280);
   --sidebar-foreground: oklch(0.98 0 0);
@@ -108,35 +194,6 @@
   --sidebar-ring: oklch(0.78 0.13 152 / 50%);
 
   color-scheme: dark;
-}
-
-.dark {
-  --background: oklch(0.085 0.005 280);
-  --foreground: oklch(0.98 0 0);
-  --card: oklch(0.115 0.004 280);
-  --card-foreground: oklch(0.98 0 0);
-  --popover: oklch(0.115 0.004 280);
-  --popover-foreground: oklch(0.98 0 0);
-  --primary: oklch(0.97 0 0);
-  --primary-foreground: oklch(0.1 0.003 280);
-  --secondary: oklch(0.16 0.003 280);
-  --secondary-foreground: oklch(0.98 0 0);
-  --muted: oklch(0.14 0.003 280);
-  --muted-foreground: oklch(0.62 0.005 280);
-  --accent: oklch(0.18 0.003 280);
-  --accent-foreground: oklch(0.98 0 0);
-  --destructive: oklch(0.65 0.21 27);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 14%);
-  --ring: oklch(0.97 0 0 / 50%);
-  --sidebar: oklch(0.1 0.003 280);
-  --sidebar-foreground: oklch(0.98 0 0);
-  --sidebar-primary: oklch(0.78 0.13 152);
-  --sidebar-primary-foreground: oklch(0.12 0.04 152);
-  --sidebar-accent: oklch(0.16 0.003 280);
-  --sidebar-accent-foreground: oklch(0.98 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.78 0.13 152 / 50%);
 }
 
 @layer base {
@@ -162,7 +219,7 @@
     position: relative;
   }
   /* Mesh gradient lives on a fixed pseudo-layer instead of `background-attachment: fixed`,
-     which jumps/flickers on iOS Safari during URL-bar reveal. */
+     which jumps/flickers on iOS Safari during URL-bar reveal. Stops swap per theme. */
   body::before {
     content: "";
     position: fixed;
@@ -170,13 +227,13 @@
     z-index: -1;
     pointer-events: none;
     background-image:
-      radial-gradient(ellipse 70% 45% at 10% -5%, oklch(0.78 0.13 152 / 7%), transparent 60%),
-      radial-gradient(ellipse 60% 40% at 95% 8%, oklch(0.78 0.13 152 / 5%), transparent 60%),
-      radial-gradient(ellipse 55% 38% at 50% 105%, oklch(0.78 0.13 152 / 6%), transparent 65%);
+      radial-gradient(ellipse 70% 45% at 10% -5%, var(--mesh-1), transparent 60%),
+      radial-gradient(ellipse 60% 40% at 95% 8%, var(--mesh-2), transparent 60%),
+      radial-gradient(ellipse 55% 38% at 50% 105%, var(--mesh-3), transparent 65%);
   }
   ::selection {
-    background: oklch(0.78 0.13 152 / 28%);
-    color: oklch(0.98 0 0);
+    background: color-mix(in oklab, var(--signal) 28%, transparent);
+    color: var(--foreground);
   }
   h1, h2, h3, h4 {
     letter-spacing: -0.03em;
@@ -194,21 +251,36 @@
     line-height: 0.98;
   }
 
+  /* Headline metallic gradient — foreground → faded foreground.
+     Adapts: white→muted in dark, near-black→gray in light. */
+  .text-display-gradient {
+    background-image: linear-gradient(
+      180deg,
+      var(--foreground) 0%,
+      var(--foreground) 35%,
+      color-mix(in oklab, var(--foreground) 55%, transparent) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
   /* Bento radii */
   .rounded-bento { border-radius: 1.75rem; }
   .rounded-bento-sm { border-radius: 1.25rem; }
 
-  /* Grids */
+  /* Grids — line color per theme via --grid-line */
   .bg-grid {
     background-image:
-      linear-gradient(to right, oklch(1 0 0 / 5.5%) 1px, transparent 1px),
-      linear-gradient(to bottom, oklch(1 0 0 / 5.5%) 1px, transparent 1px);
+      linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
     background-size: 48px 48px;
   }
   .bg-grid-fine {
     background-image:
-      linear-gradient(to right, oklch(1 0 0 / 3%) 1px, transparent 1px),
-      linear-gradient(to bottom, oklch(1 0 0 / 3%) 1px, transparent 1px);
+      linear-gradient(to right, var(--grid-line-fine) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--grid-line-fine) 1px, transparent 1px);
     background-size: 24px 24px;
   }
   .bg-grid-mask {
@@ -216,7 +288,9 @@
     -webkit-mask-image: radial-gradient(ellipse 70% 55% at 50% 40%, black 30%, transparent 80%);
   }
 
-  /* Grain , FIXED layer so it doesn't scroll (per taste-skill performance rule) */
+  /* Grain , FIXED layer so it doesn't scroll. Blend mode + opacity swap per theme
+     so the noise reads as faint texture on both surfaces (overlay over dark,
+     multiply over light). */
   .grain-layer {
     position: fixed;
     inset: 0;
@@ -224,33 +298,38 @@
     pointer-events: none;
     background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.12 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/></svg>");
     background-size: 240px 240px;
-    mix-blend-mode: overlay;
-    opacity: 0.35;
+    mix-blend-mode: var(--grain-blend);
+    opacity: var(--grain-opacity);
   }
 
-  /* Diffusion shadow , wide, light, no outer glow */
+  /* Diffusion shadow — strength swaps via tokens so light mode gets subtle, not heavy */
   .shadow-diffusion {
     box-shadow:
-      0 1px 0 oklch(1 0 0 / 6%) inset,
-      0 30px 80px -30px oklch(0 0 0 / 0.7),
-      0 8px 24px -12px oklch(0 0 0 / 0.4);
+      0 1px 0 var(--inset-highlight) inset,
+      var(--shadow-diffuse-1),
+      var(--shadow-diffuse-2);
   }
   .shadow-diffusion-sm {
     box-shadow:
-      0 1px 0 oklch(1 0 0 / 5%) inset,
+      0 1px 0 var(--inset-highlight) inset,
+      0 14px 40px -18px oklch(0 0 0 / 0.18);
+  }
+  .dark .shadow-diffusion-sm {
+    box-shadow:
+      0 1px 0 var(--inset-highlight) inset,
       0 14px 40px -18px oklch(0 0 0 / 0.5);
   }
 
-  /* Signal accent glow , single accent, low intensity */
+  /* Signal accent glow — uses --signal so the hue adapts to theme too */
   .glow-signal {
-    background: radial-gradient(ellipse at center, oklch(0.78 0.13 152 / 18%) 0%, transparent 60%);
+    background: radial-gradient(ellipse at center, color-mix(in oklab, var(--signal) 18%, transparent) 0%, transparent 60%);
   }
   .glow-signal-strong {
-    background: radial-gradient(ellipse at center, oklch(0.78 0.13 152 / 26%) 0%, transparent 60%);
+    background: radial-gradient(ellipse at center, color-mix(in oklab, var(--signal) 28%, transparent) 0%, transparent 60%);
   }
 
   .section-rule {
-    background: linear-gradient(to right, transparent, oklch(1 0 0 / 12%), transparent);
+    background: linear-gradient(to right, transparent, var(--border), transparent);
     height: 1px;
   }
 
@@ -263,8 +342,8 @@
   .scanline { animation: scan 6s ease-in-out infinite; }
 
   @keyframes pulse-signal {
-    0%, 100% { box-shadow: 0 0 0 0 oklch(0.78 0.13 152 / 60%); }
-    50%      { box-shadow: 0 0 0 6px oklch(0.78 0.13 152 / 0%); }
+    0%, 100% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--signal) 60%, transparent); }
+    50%      { box-shadow: 0 0 0 6px color-mix(in oklab, var(--signal) 0%, transparent); }
   }
   .pulse-signal { animation: pulse-signal 2.4s ease-out infinite; }
 
@@ -287,7 +366,7 @@
     position: absolute;
     inset: 0;
     transform: translateX(-100%);
-    background: linear-gradient(90deg, transparent, oklch(1 0 0 / 8%), transparent);
+    background: linear-gradient(90deg, transparent, var(--inset-highlight), transparent);
     animation: shimmer 2.4s linear infinite;
   }
 

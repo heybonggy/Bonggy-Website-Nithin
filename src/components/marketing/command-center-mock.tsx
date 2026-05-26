@@ -210,6 +210,10 @@ export function CommandCenterMock({ className }: { className?: string }) {
   return (
     <div
       className={cn(
+        // Forced dark scope: the terminal mock is meant to look like a real
+        // terminal, which is always dark on any theme. All `bg-card`/`text-*`
+        // tokens inside resolve to dark values regardless of site theme.
+        "dark",
         "relative flex w-full max-w-full flex-col overflow-hidden rounded-bento border border-border/80 bg-card/95 font-mono text-foreground shadow-diffusion",
         // Responsive fixed heights , shorter on mobile so the section doesn't dominate phones
         "h-[552px] sm:h-[632px] lg:h-[672px]",

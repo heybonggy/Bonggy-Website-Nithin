@@ -23,15 +23,7 @@ export function Hero() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
-              className="text-display text-balance text-[44px] font-normal sm:text-[64px] lg:text-[80px]"
-              style={{
-                backgroundImage:
-                  "linear-gradient(180deg, oklch(0.99 0 0) 0%, oklch(0.99 0 0) 40%, oklch(0.68 0 0) 100%)",
-                WebkitBackgroundClip: "text",
-                backgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                color: "transparent",
-              }}
+              className="text-display text-display-gradient text-balance text-[44px] font-normal sm:text-[64px] lg:text-[80px]"
             >
               The command centre for sales teams.
             </motion.h1>

@@ -27,12 +27,12 @@ export function Close() {
             filter: "blur(40px)",
           }}
         />
-        {/* Subtle grid */}
+        {/* Subtle grid — line color adapts via --grid-line-fine */}
         <div
           className="absolute inset-0 opacity-50"
           style={{
             backgroundImage:
-              "linear-gradient(to right, oklch(1 0 0 / 4%) 1px, transparent 1px), linear-gradient(to bottom, oklch(1 0 0 / 4%) 1px, transparent 1px)",
+              "linear-gradient(to right, var(--grid-line-fine) 1px, transparent 1px), linear-gradient(to bottom, var(--grid-line-fine) 1px, transparent 1px)",
             backgroundSize: "64px 64px",
             maskImage:
               "linear-gradient(to bottom, transparent, black 30%, black 70%, transparent)",
@@ -54,9 +54,9 @@ export function Close() {
           style={{
             fontSize: "clamp(84px, 26vw, 460px)",
             color: "transparent",
-            WebkitTextStroke: "1px oklch(1 0 0 / 7%)",
+            WebkitTextStroke: "1px var(--wordmark-stroke)",
             backgroundImage:
-              "linear-gradient(180deg, oklch(1 0 0 / 7%) 0%, transparent 70%)",
+              "linear-gradient(180deg, var(--wordmark-fill) 0%, transparent 70%)",
             WebkitBackgroundClip: "text",
             backgroundClip: "text",
             WebkitTextFillColor: "transparent",
@@ -76,7 +76,7 @@ export function Close() {
           className="inline-flex items-center gap-2.5 rounded-full border border-border/80 bg-card/60 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground backdrop-blur"
           style={{
             boxShadow:
-              "inset 0 1px 0 oklch(1 0 0 / 10%), 0 10px 30px -10px oklch(0 0 0 / 50%)",
+              "inset 0 1px 0 var(--inset-highlight), var(--shadow-card-lift)",
           }}
         >
           <Clock weight="regular" className="size-3 text-signal" />
@@ -89,17 +89,7 @@ export function Close() {
           whileInView={{ y: 0 }}
           viewport={{ once: true, amount: 0.15 }}
           transition={{ ...SPRING, delay: 0.05 }}
-          className="text-display mt-8 max-w-[18ch] text-balance text-[40px] font-medium leading-[0.96] tracking-tight sm:text-[60px] lg:text-[88px]"
-          style={{
-            backgroundImage:
-              "linear-gradient(180deg, oklch(0.99 0 0) 0%, oklch(0.99 0 0) 30%, oklch(0.6 0 0) 100%)",
-            WebkitBackgroundClip: "text",
-            backgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            color: "transparent",
-            filter:
-              "drop-shadow(0 0 30px oklch(1 0 0 / 8%))",
-          }}
+          className="text-display text-display-gradient mt-8 max-w-[18ch] text-balance text-[40px] font-medium leading-[0.96] tracking-tight sm:text-[60px] lg:text-[88px]"
         >
           See what your team could do with your best rep&apos;s judgment.
         </motion.h2>

@@ -343,12 +343,14 @@ function WorkflowDemo() {
         ))}
       </div>
 
-      <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="absolute inset-0 size-full">
+      <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="text-foreground absolute inset-0 size-full">
         <defs>
           <linearGradient id="wf-stroke" x1="0" x2="1">
-            <stop offset="0%" stopColor="oklch(1 0 0 / 6%)" />
+            {/* Start/end stops use currentColor so they invert per theme;
+                middle stop stays signal mint */}
+            <stop offset="0%" stopColor="currentColor" stopOpacity={0.18} />
             <stop offset="50%" stopColor="oklch(0.78 0.13 152 / 45%)" />
-            <stop offset="100%" stopColor="oklch(1 0 0 / 6%)" />
+            <stop offset="100%" stopColor="currentColor" stopOpacity={0.18} />
           </linearGradient>
         </defs>
 
@@ -394,7 +396,7 @@ function WorkflowDemo() {
             className="flex items-center gap-1 whitespace-nowrap rounded-md border border-border/80 bg-background/95 px-1.5 py-1 font-mono text-[9.5px] uppercase tracking-wider backdrop-blur"
             style={{
               boxShadow:
-                "0 6px 18px -6px oklch(0 0 0 / 60%), inset 0 1px 0 oklch(1 0 0 / 8%)",
+                "var(--shadow-button-base), inset 0 1px 0 var(--inset-highlight)",
             }}
           >
             <n.Icon weight="fill" className="size-3 text-signal" />

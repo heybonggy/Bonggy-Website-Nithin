@@ -284,7 +284,7 @@ export function EarlyAccessModal({
                         )}
                         style={{
                           boxShadow:
-                            "0 0 0 1px oklch(0.78 0.13 152 / 40%), inset 0 1px 0 oklch(1 0 0 / 5%), 0 0 22px -4px oklch(0.78 0.13 152 / 32%)",
+                            "0 0 0 1px color-mix(in oklab, var(--signal) 40%, transparent), inset 0 1px 0 oklch(1 0 0 / 5%), 0 0 22px -4px color-mix(in oklab, var(--signal) 32%, transparent)",
                         }}
                       >
                         {submitting ? (

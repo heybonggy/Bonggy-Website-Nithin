@@ -178,7 +178,10 @@ export function GlobeSection() {
           </motion.div>
         </div>
 
-        <div className="relative mx-auto w-full max-w-[560px]">
+        {/* Forced dark scope: cobe globe is tuned for a dark canvas
+            (dark:1, mapBrightness:7) and popup cards read better against it
+            on dark surfaces, regardless of the site theme. */}
+        <div className="dark relative mx-auto w-full max-w-[560px] text-foreground">
           <GlobeCanvas />
           <SignalPopups />
         </div>
