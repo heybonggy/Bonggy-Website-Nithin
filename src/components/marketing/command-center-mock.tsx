@@ -131,6 +131,8 @@ const NEW_EVENTS = [
 
 export function CommandCenterMock({ className }: { className?: string }) {
   const reduce = useReducedMotion();
+  const rootRef = React.useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = React.useState(false);
   const [progress, setProgress] = React.useState(7);
   const [features, setFeatures] = React.useState(INITIAL_FEATURES);
   const [log, setLog] = React.useState<LogEntry[]>(SEED_LOG);
@@ -138,17 +140,30 @@ export function CommandCenterMock({ className }: { className?: string }) {
   const [agentIdx, setAgentIdx] = React.useState(0);
   const counter = React.useRef(100);
 
+  // Visibility gate: all the rotating-state intervals below depend on this,
+  // so the mock stops doing work the moment it's scrolled off-screen.
+  React.useEffect(() => {
+    const el = rootRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => setVisible(entry?.isIntersecting ?? false),
+      { threshold: 0.05 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   // Progress bar 7→13 then resets
   React.useEffect(() => {
-    if (reduce) return;
+    if (reduce || !visible) return;
     const id = setInterval(() => {
       setProgress((p) => (p >= 12 ? 7 : p + 1));
     }, 1800);
     return () => clearInterval(id);
-  }, [reduce]);
+  }, [reduce, visible]);
 
   React.useEffect(() => {
-    if (reduce) return;
+    if (reduce || !visible) return;
     const id = setInterval(() => {
       setFeatures((prev) => {
         const allDone = prev.every((f) => f.done);
@@ -157,11 +172,11 @@ export function CommandCenterMock({ className }: { className?: string }) {
       });
     }, 3200);
     return () => clearInterval(id);
-  }, [reduce]);
+  }, [reduce, visible]);
 
   // Signal Log , new entries push in, oldest drops off; ALWAYS 7 items
   React.useEffect(() => {
-    if (reduce) return;
+    if (reduce || !visible) return;
     const id = setInterval(() => {
       setLog((prev) => {
         counter.current += 1;
@@ -185,20 +200,20 @@ export function CommandCenterMock({ className }: { className?: string }) {
       });
     }, 2400);
     return () => clearInterval(id);
-  }, [reduce]);
+  }, [reduce, visible]);
 
   // Active Worker line cycles
   React.useEffect(() => {
-    if (reduce) return;
+    if (reduce || !visible) return;
     const id = setInterval(() => {
       setWorkerLine((l) => (l + 1) % 4);
     }, 2200);
     return () => clearInterval(id);
-  }, [reduce]);
+  }, [reduce, visible]);
 
   // Active Agent cycles every 6.5s
   React.useEffect(() => {
-    if (reduce) return;
+    if (reduce || !visible) return;
     const id = setInterval(() => {
       setAgentIdx((i) => (i + 1) % USE_CASES.length);
     }, 6500);
@@ -209,6 +224,7 @@ export function CommandCenterMock({ className }: { className?: string }) {
 
   return (
     <div
+      ref={rootRef}
       className={cn(
         // Forced dark scope: the terminal mock is meant to look like a real
         // terminal, which is always dark on any theme. All `bg-card`/`text-*`

@@ -199,6 +199,7 @@ function GlobeCanvas() {
     let phi = 0;
     let globe: ReturnType<typeof createGlobe> | null = null;
     let raf = 0;
+    let visible = false;
 
     const init = () => {
       const width = canvas.offsetWidth;
@@ -223,30 +224,58 @@ function GlobeCanvas() {
         opacity: 0.95,
       });
 
-      // Moderate rotation , visible on mobile, not jarring on desktop.
-      const animate = () => {
-        phi += 0.004;
-        globe!.update({ phi, theta: 0.25 });
-        raf = requestAnimationFrame(animate);
-      };
-      animate();
       canvas.style.opacity = "1";
     };
 
+    // Drives the rAF loop only while the canvas is on-screen. When the user
+    // scrolls past, we cancelAnimationFrame so cobe stops eating GPU.
+    const animate = () => {
+      if (!globe || !visible) return;
+      phi += 0.004;
+      globe.update({ phi, theta: 0.25 });
+      raf = requestAnimationFrame(animate);
+    };
+
+    const start = () => {
+      if (raf || !globe) return;
+      raf = requestAnimationFrame(animate);
+    };
+    const stop = () => {
+      if (raf) {
+        cancelAnimationFrame(raf);
+        raf = 0;
+      }
+    };
+
+    // Visibility-gated rAF
+    const io = new IntersectionObserver(
+      (entries) => {
+        visible = entries[0]?.isIntersecting ?? false;
+        if (visible) start();
+        else stop();
+      },
+      { threshold: 0.01 },
+    );
+    io.observe(canvas);
+
     if (canvas.offsetWidth > 0) {
       init();
+      visible = true;
+      start();
     } else {
       const ro = new ResizeObserver((entries) => {
         if (entries[0]?.contentRect.width > 0) {
           ro.disconnect();
           init();
+          start();
         }
       });
       ro.observe(canvas);
     }
 
     return () => {
-      cancelAnimationFrame(raf);
+      stop();
+      io.disconnect();
       globe?.destroy();
     };
   }, []);

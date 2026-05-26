@@ -299,21 +299,26 @@
     -webkit-mask-image: radial-gradient(ellipse 70% 55% at 50% 40%, black 30%, transparent 80%);
   }
 
-  /* Grain , fixed layer, plain alpha (no mix-blend-mode).
-     Previously used mix-blend-mode: overlay/multiply, which forces the browser
-     to recomposite the entire viewport every frame during scroll — major cause
-     of mobile scroll jank. Plain opacity reads as a similar texture without
-     the per-frame compositing cost. */
+  /* Grain , decorative fixed-layer texture. Hidden below 768px because
+     painting a full-viewport SVG overlay on every scroll frame is the
+     biggest decorative cost on phones, and the texture is barely
+     perceivable at mobile pixel density anyway. */
   .grain-layer {
-    position: fixed;
-    inset: 0;
-    z-index: 50;
-    pointer-events: none;
-    background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.12 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/></svg>");
-    background-size: 240px 240px;
-    opacity: 0.06;
+    display: none;
   }
-  .dark .grain-layer { opacity: 0.09; }
+  @media (min-width: 768px) {
+    .grain-layer {
+      display: block;
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.12 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/></svg>");
+      background-size: 240px 240px;
+      opacity: 0.06;
+    }
+    .dark .grain-layer { opacity: 0.09; }
+  }
 
   /* Diffusion shadow — strength swaps via tokens so light mode gets subtle, not heavy */
   .shadow-diffusion {
