@@ -15,7 +15,7 @@ export function Hero() {
         className="pointer-events-none absolute inset-0 -z-10 bg-grid bg-grid-mask opacity-90"
       />
 
-      <div className="relative mx-auto flex min-h-[100dvh] w-full max-w-[1400px] flex-col items-stretch justify-center px-6 pt-44 pb-16 lg:px-10 lg:pt-52 lg:pb-20">
+      <div className="relative mx-auto flex min-h-[100svh] w-full max-w-[1400px] flex-col items-stretch justify-center px-6 pt-44 pb-16 lg:px-10 lg:pt-52 lg:pb-20">
         <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-[1.05fr_1fr] lg:gap-14">
           <div className="relative">
             {/* Single confident headline. Gradient text fades white to muted. */}

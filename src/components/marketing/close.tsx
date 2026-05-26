@@ -10,7 +10,7 @@ export function Close() {
   return (
     <section
       id="strategy-session"
-      className="relative isolate flex min-h-[100dvh] items-center overflow-hidden py-28 sm:py-36 lg:py-44"
+      className="relative isolate flex min-h-[100svh] items-center overflow-hidden py-28 sm:py-36 lg:py-44"
     >
       {/* Layered background */}
       <div className="pointer-events-none absolute inset-0 -z-10">
