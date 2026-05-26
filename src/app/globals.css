@@ -205,15 +205,11 @@
     font-feature-settings: "ss01", "cv11", "calt";
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    scroll-behavior: smooth;
     /* Belt + braces against horizontal overflow from oversized decorative text */
     overflow-x: clip;
     /* Kill iOS pull-to-refresh + rubberband bounce site-wide */
     overscroll-behavior-y: none;
-    /* Disable CSS scroll anchoring: when off-screen content (motion components,
-       rotating mock content, marquee) changes size, the browser was auto-
-       adjusting scroll position to "keep visible content stable" — manifesting
-       as the page jerking down once when reversing scroll from the footer. */
+    /* Disable CSS scroll anchoring */
     overflow-anchor: none;
   }
   body {

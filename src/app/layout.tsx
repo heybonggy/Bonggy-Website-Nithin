@@ -86,6 +86,12 @@ export const viewport: Viewport = {
   ],
   width: "device-width",
   initialScale: 1,
+  // Tell mobile browsers to resize the LAYOUT viewport when the URL bar
+  // appears/disappears, instead of leaving the layout untouched and only
+  // shifting the visual viewport. With the default ("resizes-visual") the
+  // browser performs an internal scrollY adjustment when the URL bar shows
+  // back at the page bottom — which manifests as the page jerking down once.
+  interactiveWidget: "resizes-content",
 };
 
 // Inline pre-paint script: read localStorage theme and apply `.dark` to <html>
