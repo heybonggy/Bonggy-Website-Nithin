@@ -104,9 +104,9 @@ export function HowItWorks() {
           transition={SPRING}
           className="text-display text-balance text-[36px] font-normal leading-none tracking-tight sm:text-[44px] lg:text-[56px]"
         >
-          You don&apos;t operate Bonggy.
+          Describe the motion.
           <br />
-          <span className="text-muted-foreground/85">You install it.</span>
+          <span className="text-muted-foreground/85">Bonggy runs it.</span>
         </motion.h2>
 
         <motion.div
