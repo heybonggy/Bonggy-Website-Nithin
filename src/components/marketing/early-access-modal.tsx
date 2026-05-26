@@ -64,38 +64,21 @@ export function EarlyAccessModal({
     }
   }, [open]);
 
-  // Lock body scroll while open + close on Escape. iOS Safari ignores
-  // `overflow: hidden` on body, so we ALSO pin via `position: fixed` and
-  // restore the scroll position on close.
+  // Lock scroll while open + close on Escape.
+  // Under the ScrollShell pattern the document doesn't scroll — the .bonggy-
+  // scroll-shell element does. Freeze its overflow to lock; release on close.
   React.useEffect(() => {
     if (!open) return;
-    const scrollY = window.scrollY;
-    const html = document.documentElement;
-    const body = document.body;
-    const prev = {
-      htmlOverflow: html.style.overflow,
-      bodyOverflow: body.style.overflow,
-      bodyPosition: body.style.position,
-      bodyTop: body.style.top,
-      bodyWidth: body.style.width,
-    };
-    html.style.overflow = "hidden";
-    body.style.overflow = "hidden";
-    body.style.position = "fixed";
-    body.style.top = `-${scrollY}px`;
-    body.style.width = "100%";
+    const shell = document.querySelector<HTMLElement>(".bonggy-scroll-shell");
+    const prevOverflow = shell?.style.overflow ?? "";
+    if (shell) shell.style.overflow = "hidden";
 
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setOpen(false);
     };
     document.addEventListener("keydown", onKey);
     return () => {
-      html.style.overflow = prev.htmlOverflow;
-      body.style.overflow = prev.bodyOverflow;
-      body.style.position = prev.bodyPosition;
-      body.style.top = prev.bodyTop;
-      body.style.width = prev.bodyWidth;
-      window.scrollTo(0, scrollY);
+      if (shell) shell.style.overflow = prevOverflow;
       document.removeEventListener("keydown", onKey);
     };
   }, [open, setOpen]);

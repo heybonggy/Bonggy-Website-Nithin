@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { ScrollShell } from "@/components/marketing/scroll-shell";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -146,9 +147,11 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-full bg-background text-foreground flex flex-col">
+      <body className="bg-background text-foreground">
         <div aria-hidden className="grain-layer" />
-        {children}
+        <ScrollShell>
+          {children}
+        </ScrollShell>
       </body>
     </html>
   );

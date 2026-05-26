@@ -205,20 +205,29 @@
     font-feature-settings: "ss01", "cv11", "calt";
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    /* Belt + braces against horizontal overflow from oversized decorative text */
-    overflow-x: clip;
-    /* Kill iOS pull-to-refresh + rubberband bounce site-wide */
-    overscroll-behavior-y: none;
-    /* Disable CSS scroll anchoring */
-    overflow-anchor: none;
+    /* Lock html to viewport size and disable its scroll. Scrolling happens
+       inside .bonggy-scroll-shell instead — see scroll-shell.tsx for why. */
+    height: 100%;
+    overflow: hidden;
+    overscroll-behavior: none;
   }
   body {
     @apply bg-background text-foreground;
     text-rendering: optimizeLegibility;
-    overflow-x: clip;
-    overscroll-behavior-y: none;
-    overflow-anchor: none;
+    height: 100%;
+    overflow: hidden;
+    overscroll-behavior: none;
     position: relative;
+  }
+  .bonggy-scroll-shell {
+    position: absolute;
+    inset: 0;
+    overflow-x: clip;
+    overflow-y: auto;
+    overscroll-behavior: none;
+    overflow-anchor: none;
+    /* iOS Safari momentum scroll */
+    -webkit-overflow-scrolling: touch;
   }
   /* Mesh gradient lives on a fixed pseudo-layer instead of `background-attachment: fixed`,
      which jumps/flickers on iOS Safari during URL-bar reveal. Stops swap per theme. */

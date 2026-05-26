@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils";
 import { BonggyMark } from "./bonggy-mark";
 import { EarlyAccessModal } from "./early-access-modal";
 import { ThemeToggle } from "./theme-toggle";
+import { useScrollShell } from "./scroll-shell";
 import { SPRING } from "./_motion";
 
 const LINKS = [
@@ -76,7 +77,10 @@ function LogoLink() {
 }
 
 export function Nav() {
-  const { scrollY } = useScroll();
+  const shellRef = useScrollShell();
+  const { scrollY } = useScroll(
+    shellRef ? { container: shellRef as React.RefObject<HTMLElement> } : undefined,
+  );
   const [scrolled, setScrolled] = React.useState(false);
   const [activeId, setActiveId] = React.useState<string | null>(null);
   const [hoverId, setHoverId] = React.useState<string | null>(null);
@@ -89,17 +93,21 @@ export function Nav() {
     setScrolled(latest > 12);
   });
 
-  // Lock body scroll when mobile menu is open
+  // Lock scroll-shell when mobile menu is open. Body itself is already
+  // overflow:hidden under the new shell pattern; the shell is what actually
+  // scrolls, so that's what we freeze.
   React.useEffect(() => {
+    const shell = shellRef?.current;
+    if (!shell) return;
     if (mobileOpen) {
-      document.body.style.overflow = "hidden";
+      shell.style.overflow = "hidden";
     } else if (!eaOpen) {
-      document.body.style.overflow = "";
+      shell.style.overflow = "";
     }
     return () => {
-      document.body.style.overflow = "";
+      if (shell) shell.style.overflow = "";
     };
-  }, [mobileOpen, eaOpen]);
+  }, [mobileOpen, eaOpen, shellRef]);
 
   // Close menu on route changes
   React.useEffect(() => {

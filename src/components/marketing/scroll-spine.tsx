@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { useScroll, useTransform, motion, useSpring } from "motion/react";
+import { useScrollShell } from "./scroll-shell";
 
 /**
  * Scroll-driven background line. A single flowing curve fixed to the right
@@ -17,7 +18,10 @@ import { useScroll, useTransform, motion, useSpring } from "motion/react";
  * line is always present and the transitions cross-fade between shapes.
  */
 export function ScrollSpine() {
-  const { scrollYProgress } = useScroll();
+  const shellRef = useScrollShell();
+  const { scrollYProgress } = useScroll(
+    shellRef ? { container: shellRef as React.RefObject<HTMLElement> } : undefined,
+  );
   const smooth = useSpring(scrollYProgress, { stiffness: 110, damping: 28, mass: 0.6 });
 
   // Opacity ranges per phase
