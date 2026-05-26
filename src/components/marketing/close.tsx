@@ -45,18 +45,20 @@ export function Close() {
       {/* Giant background wordmark , stroke only, very subtle.
           overflow-hidden on the wrapper clips the natural-width word so it
           can't push the page wider than the viewport on mobile.
-          bottom-24 on mobile keeps the descenders (g, y) off the section
-          border; sm:bottom-[6vh] lets it sit lower on bigger screens. */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-24 overflow-hidden pb-2 sm:bottom-[6vh]">
+          Sits flush at the bottom edge of the section so it doesn't push
+          up into the body text / CTA on small screens. The wrapper itself
+          is overflow-hidden so descenders below the section bound get clipped
+          cleanly. */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 overflow-hidden pb-0 sm:bottom-2">
         <div
           aria-hidden
-          className="select-none whitespace-nowrap text-center font-medium leading-[0.85] tracking-[-0.06em]"
+          className="select-none whitespace-nowrap text-center font-medium leading-[0.82] tracking-[-0.06em]"
           style={{
-            fontSize: "clamp(84px, 26vw, 460px)",
+            fontSize: "clamp(56px, 19vw, 380px)",
             color: "transparent",
             WebkitTextStroke: "1px var(--wordmark-stroke)",
             backgroundImage:
-              "linear-gradient(180deg, var(--wordmark-fill) 0%, transparent 70%)",
+              "linear-gradient(180deg, var(--wordmark-fill) 0%, transparent 75%)",
             WebkitBackgroundClip: "text",
             backgroundClip: "text",
             WebkitTextFillColor: "transparent",

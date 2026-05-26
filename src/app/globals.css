@@ -106,8 +106,8 @@
   --mesh-1: oklch(0.5 0.17 152 / 6%);
   --mesh-2: oklch(0.5 0.17 152 / 5%);
   --mesh-3: oklch(0.5 0.17 152 / 5%);
-  --wordmark-stroke: oklch(0 0 0 / 9%);
-  --wordmark-fill: oklch(0 0 0 / 8%);
+  --wordmark-stroke: oklch(0 0 0 / 5%);
+  --wordmark-fill: oklch(0 0 0 / 4.5%);
   --inset-highlight: oklch(0 0 0 / 5%);
   --shadow-diffuse-1: 0 30px 80px -30px oklch(0 0 0 / 0.18);
   --shadow-diffuse-2: 0 8px 24px -12px oklch(0 0 0 / 0.10);
