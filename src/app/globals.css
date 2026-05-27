@@ -109,12 +109,14 @@
   --wordmark-stroke: oklch(0 0 0 / 5%);
   --wordmark-fill: oklch(0 0 0 / 4.5%);
   --inset-highlight: oklch(0 0 0 / 5%);
-  --shadow-diffuse-1: 0 30px 80px -30px oklch(0 0 0 / 0.18);
-  --shadow-diffuse-2: 0 8px 24px -12px oklch(0 0 0 / 0.10);
-  --shadow-pill-floating: 0 1px 0 oklch(0 0 0 / 5%), 0 14px 40px -16px oklch(0 0 0 / 0.18);
-  --shadow-pill-grounded: 0 10px 30px -15px oklch(0 0 0 / 0.10);
-  --shadow-card-lift: 0 10px 30px -10px oklch(0 0 0 / 0.12);
-  --shadow-button-base: 0 6px 18px -6px oklch(0 0 0 / 0.18);
+  /* Trimmed blur radii: large blur-radius shadows are expensive to paint
+     every frame during scroll. Reduced ~50% while keeping depth perception. */
+  --shadow-diffuse-1: 0 18px 40px -20px oklch(0 0 0 / 0.18);
+  --shadow-diffuse-2: 0 6px 16px -10px oklch(0 0 0 / 0.10);
+  --shadow-pill-floating: 0 1px 0 oklch(0 0 0 / 5%), 0 10px 24px -14px oklch(0 0 0 / 0.18);
+  --shadow-pill-grounded: 0 6px 18px -10px oklch(0 0 0 / 0.10);
+  --shadow-card-lift: 0 6px 18px -8px oklch(0 0 0 / 0.12);
+  --shadow-button-base: 0 4px 12px -6px oklch(0 0 0 / 0.18);
 
   --chart-1: oklch(0.5 0.17 152);
   --chart-2: oklch(0.55 0.1 200);
@@ -177,12 +179,14 @@
   --wordmark-stroke: oklch(1 0 0 / 7%);
   --wordmark-fill: oklch(1 0 0 / 7%);
   --inset-highlight: oklch(1 0 0 / 6%);
-  --shadow-diffuse-1: 0 30px 80px -30px oklch(0 0 0 / 0.7);
-  --shadow-diffuse-2: 0 8px 24px -12px oklch(0 0 0 / 0.4);
-  --shadow-pill-floating: 0 1px 0 oklch(0 0 0 / 30%), 0 20px 60px -20px oklch(0 0 0 / 70%);
-  --shadow-pill-grounded: 0 10px 30px -15px oklch(0 0 0 / 50%);
-  --shadow-card-lift: 0 10px 30px -10px oklch(0 0 0 / 50%);
-  --shadow-button-base: 0 6px 18px -6px oklch(0 0 0 / 60%);
+  /* Dark-mode trimmed too. Heavier shadows than light but still ~50%
+     smaller blur-radius than before. */
+  --shadow-diffuse-1: 0 18px 44px -22px oklch(0 0 0 / 0.7);
+  --shadow-diffuse-2: 0 6px 16px -10px oklch(0 0 0 / 0.4);
+  --shadow-pill-floating: 0 1px 0 oklch(0 0 0 / 30%), 0 12px 32px -16px oklch(0 0 0 / 70%);
+  --shadow-pill-grounded: 0 6px 18px -10px oklch(0 0 0 / 50%);
+  --shadow-card-lift: 0 6px 18px -8px oklch(0 0 0 / 50%);
+  --shadow-button-base: 0 4px 12px -6px oklch(0 0 0 / 60%);
 
   --sidebar: oklch(0.1 0.003 280);
   --sidebar-foreground: oklch(0.98 0 0);
@@ -247,8 +251,9 @@
       -webkit-overflow-scrolling: auto;
     }
   }
-  /* Mesh gradient lives on a fixed pseudo-layer instead of `background-attachment: fixed`,
-     which jumps/flickers on iOS Safari during URL-bar reveal. Stops swap per theme. */
+  /* Mesh gradient — single radial instead of 3 for a much cheaper paint
+     per frame. Fixed pseudo-layer (not background-attachment:fixed which
+     jumps on iOS Safari). */
   body::before {
     content: "";
     position: fixed;
@@ -256,9 +261,7 @@
     z-index: -1;
     pointer-events: none;
     background-image:
-      radial-gradient(ellipse 70% 45% at 10% -5%, var(--mesh-1), transparent 60%),
-      radial-gradient(ellipse 60% 40% at 95% 8%, var(--mesh-2), transparent 60%),
-      radial-gradient(ellipse 55% 38% at 50% 105%, var(--mesh-3), transparent 65%);
+      radial-gradient(ellipse 100% 70% at 50% -5%, var(--mesh-1), transparent 65%);
   }
   ::selection {
     background: color-mix(in oklab, var(--signal) 28%, transparent);

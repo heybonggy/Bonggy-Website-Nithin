@@ -22,7 +22,16 @@ export function Section({
   return (
     <section
       {...rest}
-      className={cn("relative w-full py-24 sm:py-28 lg:py-36", className)}
+      className={cn(
+        "relative w-full py-24 sm:py-28 lg:py-36",
+        // content-visibility: auto skips paint/layout for the section when
+        // it's off-screen. contain-intrinsic-size tells the browser to
+        // reserve ~700px height for the unrendered section so the scrollbar
+        // stays stable. Huge win on long pages, especially under power-
+        // throttling on battery.
+        "[content-visibility:auto] [contain-intrinsic-size:auto_700px]",
+        className,
+      )}
     >
       <div
         className={cn(
