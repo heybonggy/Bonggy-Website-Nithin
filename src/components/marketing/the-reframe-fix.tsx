@@ -116,10 +116,11 @@ export function TheReframeFix() {
  transition={SPRING}
  className="mt-14 max-w-3xl text-pretty text-[20px] font-medium leading-snug tracking-tight"
  >
- We&apos;re not an AI SDR and we&apos;re not a sequencer.{" "}
+ This is just the floor.{" "}
  <span className="text-muted-foreground">
- We don&apos;t replace your reps , we make the average one work like
- the one you wish you could clone.
+ From here every rep gets to be the creative one, every signal in
+ reach, every play they can imagine, every message tuned to the
+ human on the other end.
  </span>
  </motion.p>
  </Section>

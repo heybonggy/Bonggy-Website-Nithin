@@ -76,7 +76,7 @@ export function Close() {
           transition={{ ...SPRING, delay: 0.05 }}
           className="text-display text-display-gradient mt-8 max-w-[18ch] text-balance text-[40px] font-medium leading-[0.96] tracking-tight sm:text-[60px] lg:text-[88px]"
         >
-          See what your team could do with your best rep&apos;s judgment.
+          See the outreach your reps could actually build.
         </motion.h2>
 
         <motion.p
