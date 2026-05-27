@@ -7,9 +7,6 @@
     </radialGradient>
   </defs>
 
-  <!-- Black rounded background -->
-  <rect width="256" height="256" rx="60" fill="#000000" />
-
   <!-- Back arc of the ring -->
   <path
     d="M 224 86 A 110 36 -22 0 0 32 170"
