@@ -26,7 +26,6 @@ type Side = {
   badge: string;
   badgeTone: "muted" | "signal";
   metrics: Metric[];
-  angles: { text: string; tone: "muted" | "signal" }[];
 };
 
 type Metric = {
@@ -58,11 +57,6 @@ const WITHOUT: Side = {
  { Icon: Clock, label: "Hours / account", value: 0.4, suffix: " hr", trend: "down", scale: 4, betterHigh: true },
  { Icon: Pulse, label: "Domain health", value: 22, display: "Burning", trend: "down", scale: 100, betterHigh: true },
   ],
-  angles: [
- { text: "\"Just wanted to check in\"", tone: "muted" },
- { text: "\"Saw your company is growing\"", tone: "muted" },
- { text: "\"Hoping to connect quickly\"", tone: "muted" },
-  ],
 };
 
 const WITH: Side = {
@@ -76,11 +70,6 @@ const WITH: Side = {
  { Icon: ChartLine, label: "Pipeline influenced", value: 487, suffix: "K", display: "$487K", trend: "up", scale: 600, betterHigh: true },
  { Icon: Clock, label: "Hours / account", value: 3.1, suffix: " hr", trend: "up", scale: 4, betterHigh: true },
  { Icon: Pulse, label: "Domain health", value: 96, display: "Healthy", trend: "up", scale: 100, betterHigh: true },
-  ],
-  angles: [
- { text: "\"Saw Mira just stepped in as VP Sales the week after your Series B. The two together usually open a 30-day SDR build window.\"", tone: "signal" },
- { text: "\"Your stack migration off HubSpot started Mar 14, right around when Linear hit the same wave. Worth comparing notes?\"", tone: "signal" },
- { text: "\"Anita just moved from your team to Stripe. We help her successor walk into the role with the same playbook.\"", tone: "signal" },
   ],
 };
 
@@ -153,11 +142,6 @@ export function TheProof() {
  ))}
  </div>
 
- {/* Opening lines */}
- <div className="grid grid-cols-1 border-t border-border/60 lg:grid-cols-2">
- <AnglesColumn side={WITHOUT} />
- <AnglesColumn side={WITH} highlight />
- </div>
  </motion.div>
 
  {/* Delta summary strip */}
@@ -362,41 +346,3 @@ function AnimatedNumber({
   return <span>{formatted}{suffix || ""}</span>;
 }
 
-function AnglesColumn({ side, highlight }: { side: Side; highlight?: boolean }) {
-  return (
- <div
- className={cn(
- "relative flex flex-col gap-3 p-7 sm:p-8",
- highlight && "bg-signal/[0.025] lg:border-l border-border/60",
- !highlight && "lg:border-r border-border/60",
- )}
- >
- <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/70">
- Opening lines
- </div>
- <ul className="flex flex-col gap-2.5">
- {side.angles.map((a, i) => (
- <motion.li
- key={i}
- initial={{ y: 8 }}
- whileInView={{ y: 0 }}
- viewport={{ once: true, amount: 0.15 }}
- transition={{ ...SPRING, delay: 0.1 + i * 0.05 }}
- className={cn(
- "flex items-start gap-2.5 text-[13.5px] leading-snug",
- a.tone === "signal" ? "text-foreground" : "text-muted-foreground",
- )}
- >
- <span
- className={cn(
- "mt-2 size-1 flex-none rounded-full",
- a.tone === "signal" ? "bg-signal" : "bg-muted-foreground/40",
- )}
- />
- <span>{a.text}</span>
- </motion.li>
- ))}
- </ul>
- </div>
-  );
-}
