@@ -44,43 +44,7 @@ const STEPS = [
 
 export function TheReframeFix() {
   return (
- <>
- {/* THE REFRAME , large statement, two-column asymmetric */}
- <Section id="reframe" eyebrow="The reframe" className="pb-14 sm:pb-16">
- <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
- <motion.h2
- initial={{ y: 14 }}
- whileInView={{ y: 0 }}
- viewport={{ once: true, amount: 0.15 }}
- transition={SPRING}
- className="text-display text-balance text-[36px] font-medium leading-none tracking-tight sm:text-[44px] lg:text-[56px]"
- >
- You don&apos;t have an SDR problem.{" "}
- <span className="text-signal">You have a thinking problem.</span>
- </motion.h2>
-
- <motion.p
- initial={{ y: 12 }}
- whileInView={{ y: 0 }}
- viewport={{ once: true, amount: 0.15 }}
- transition={{ ...SPRING, delay: 0.05 }}
- className="max-w-[58ch] text-[16px] leading-relaxed text-muted-foreground lg:pt-2"
- >
- Your reps already have more signal than they can read , funding
- rounds, new hires, stack changes. What they&apos;re missing is the
- layer that turns that noise into a decision: this account, this
- week, this reason, this opening line. That layer is exactly what
- your best rep does in their head and no one else on the team can.
- </motion.p>
- </div>
- </Section>
-
- <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
- <div className="section-rule" />
- </div>
-
- {/* THE FIX */}
- <Section id="fix" eyebrow="The fix" className="pt-18 sm:pt-24">
+ <Section id="fix" eyebrow="The fix">
  <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
  <motion.h2
  initial={{ y: 14 }}
@@ -159,6 +123,5 @@ export function TheReframeFix() {
  </span>
  </motion.p>
  </Section>
- </>
   );
 }
