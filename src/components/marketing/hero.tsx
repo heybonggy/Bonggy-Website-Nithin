@@ -44,7 +44,7 @@ export function Hero() {
               transition={{ duration: 0.5, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
               className="mt-10 flex flex-col items-start gap-3"
             >
-              <CtaButton size="lg">Book a strategy session</CtaButton>
+              <CtaButton size="lg">Strategize</CtaButton>
               <p className="text-[13px] text-muted-foreground">
                 30 minutes. We&apos;ll run Bonggy on your real accounts, live.
               </p>

@@ -100,7 +100,7 @@ export function Close() {
           transition={{ ...SPRING, delay: 0.16 }}
           className="mt-10"
         >
-          <CtaButton size="lg">Book a strategy session</CtaButton>
+          <CtaButton size="lg">Strategize</CtaButton>
         </motion.div>
       </div>
     </section>

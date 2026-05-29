@@ -72,7 +72,7 @@ export default function FixPage() {
             See what the fix looks like on your accounts.
           </h3>
           <div className="flex items-start lg:justify-end">
-            <CtaButton variant="signal">Book a strategy session</CtaButton>
+            <CtaButton variant="signal">Strategize</CtaButton>
           </div>
         </div>
       </div>

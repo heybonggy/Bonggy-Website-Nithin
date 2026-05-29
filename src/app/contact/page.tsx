@@ -79,7 +79,7 @@ export default function ContactPage() {
             Ready to see it live?
           </h3>
           <div className="flex items-start lg:justify-end">
-            <CtaButton variant="signal">Book a strategy session</CtaButton>
+            <CtaButton variant="signal">Strategize</CtaButton>
           </div>
         </div>
       </div>

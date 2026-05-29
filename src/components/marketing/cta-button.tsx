@@ -33,7 +33,7 @@ export function CtaButton({
   size = "lg",
   className,
   magnetic = true,
-  children = "Book a strategy session",
+  children = "Strategize",
   asButton = false,
   onClick,
   type = "button",

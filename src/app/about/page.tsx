@@ -108,7 +108,7 @@ export default function AboutPage() {
             Help us shape it.
           </h3>
           <div className="flex items-start lg:justify-end">
-            <CtaButton variant="signal">Book a strategy session</CtaButton>
+            <CtaButton variant="signal">Strategize</CtaButton>
           </div>
         </div>
       </div>
