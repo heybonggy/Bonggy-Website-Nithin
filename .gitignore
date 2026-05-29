@@ -43,3 +43,6 @@ next-env.d.ts
 # internal QA / research artifacts (not for production)
 /screenshots
 /factory-ref
+
+# build artifacts (Vite leftover)
+/dist/
