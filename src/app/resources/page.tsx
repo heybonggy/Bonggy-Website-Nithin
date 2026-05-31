@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
 import { SubPageShell } from "@/components/marketing/sub-page-shell";
+import { BlogPostCard } from "@/components/ui/blog-post-card";
 
 export const metadata: Metadata = {
   title: "Resources",
@@ -9,7 +8,18 @@ export const metadata: Metadata = {
     "Long-form thinking from the Bonggy team on signal-led outbound, the state of sales today, and how Bonggy fits in.",
 };
 
-const POSTS = [
+type Post = {
+  slug: string;
+  title: string;
+  excerpt: string;
+  readTime: string;
+  date: string;
+  kind: string;
+  featured?: boolean;
+  imageUrl?: string;
+};
+
+const POSTS: Post[] = [
   {
     slug: "why-we-built-bonggy",
     title: "Why we built Bonggy",
@@ -18,10 +28,16 @@ const POSTS = [
     readTime: "8 min read",
     date: "",
     kind: "Essay",
+    featured: true,
+    imageUrl:
+      "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070&auto=format&fit=crop",
   },
 ];
 
 export default function ResourcesPage() {
+  const featured = POSTS.find((p) => p.featured);
+  const rest = POSTS.filter((p) => !p.featured);
+
   return (
     <SubPageShell
       eyebrow="Resources"
@@ -29,35 +45,36 @@ export default function ResourcesPage() {
       titleAccent="writing."
       lede="Long-form thinking from the Bonggy team — on outbound, signal, and the parts of the sales job a human still has to do."
     >
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-8">
-        {POSTS.map((post) => (
-          <Link
-            key={post.slug}
-            href={`/resources/${post.slug}`}
-            className="group relative flex flex-col rounded-2xl border border-border/60 bg-background/40 p-8 transition-all duration-300 hover:-translate-y-0.5 hover:border-border hover:bg-background/70 sm:p-10"
-          >
-            <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/80">
-              {post.kind}
-            </div>
-            <h3 className="mt-4 text-display text-[26px] font-normal leading-tight tracking-tight text-foreground sm:text-[28px]">
-              {post.title}
-            </h3>
-            <p className="mt-4 text-[15.5px] leading-relaxed text-muted-foreground">
-              {post.excerpt}
-            </p>
-            <div className="mt-8 flex items-center justify-between border-t border-border/40 pt-5">
-              <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/70">
-                {post.readTime}
-              </span>
-              <ArrowUpRight
-                size={18}
-                weight="regular"
-                className="text-muted-foreground transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-foreground"
-              />
-            </div>
-          </Link>
-        ))}
-      </div>
+      {featured && (
+        <div className="mb-12 md:mb-16">
+          <BlogPostCard
+            variant="featured"
+            tag={featured.kind}
+            date={featured.date || featured.readTime}
+            title={featured.title}
+            description={featured.excerpt}
+            imageUrl={featured.imageUrl}
+            href={`/resources/${featured.slug}`}
+            readMoreText="Read the essay"
+          />
+        </div>
+      )}
+
+      {rest.length > 0 && (
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-8">
+          {rest.map((post) => (
+            <BlogPostCard
+              key={post.slug}
+              variant="default"
+              tag={post.kind}
+              date={post.date || post.readTime}
+              title={post.title}
+              description={post.excerpt}
+              href={`/resources/${post.slug}`}
+            />
+          ))}
+        </div>
+      )}
     </SubPageShell>
   );
 }
