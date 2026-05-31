@@ -175,12 +175,12 @@ export default function ANoteFromUsPage() {
 
         <div aria-hidden className="my-12 border-t border-border/40 sm:my-14" />
 
-        {/* Section 6 — Direct to the rep */}
+        {/* Section 6 — The problem we are pointed at */}
         <section className="space-y-5 text-[16px] leading-[1.75] text-muted-foreground sm:text-[17px]">
           <p>
-            If you are a rep reading this: we built it for you. Not for your
-            VP, not for your ops team. For you. The person who has been doing
-            the reading yourself at 7am because nobody else was going to.
+            We built Bonggy for the person who has been doing the reading
+            themselves at 7am because nobody else was going to. The whole
+            company is pointed at that problem.
           </p>
         </section>
 
