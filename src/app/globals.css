@@ -414,4 +414,37 @@
     50%      { transform: translateY(-4px); }
   }
   .float-perpetual { animation: float-up 5.6s ease-in-out infinite; }
+
+  /* ──────────────────────────────────────────────────────────────────────────
+     Two-row integrations marquee — rows scroll in opposite directions and
+     pause together when the track is hovered. Duration slows on mobile so
+     small-screen scroll doesn't read as chaos. prefers-reduced-motion fully
+     halts the animation and parks the rows at a static offset.
+     ────────────────────────────────────────────────────────────────────── */
+  @keyframes marquee-left {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  @keyframes marquee-right {
+    from { transform: translateX(-50%); }
+    to   { transform: translateX(0); }
+  }
+  .marquee-row {
+    animation-duration: 75s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    will-change: transform;
+  }
+  .marquee-row--left  { animation-name: marquee-left; }
+  .marquee-row--right { animation-name: marquee-right; }
+  .marquee-track:hover .marquee-row { animation-play-state: paused; }
+  @media (max-width: 768px) {
+    .marquee-row { animation-duration: 110s; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-row {
+      animation: none !important;
+      transform: translateX(-12.5%);
+    }
+  }
 }

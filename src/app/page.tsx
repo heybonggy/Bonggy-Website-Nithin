@@ -1,5 +1,6 @@
 import { Nav } from "@/components/marketing/nav";
 import { Hero } from "@/components/marketing/hero";
+import { IntegrationsMarquee } from "@/components/marketing/integrations-marquee";
 import { GlobeSection } from "@/components/marketing/globe-section";
 import { HowItWorks } from "@/components/marketing/how-it-works";
 import { TheProblem } from "@/components/marketing/the-problem";
@@ -15,6 +16,7 @@ export default function Home() {
       <Nav />
       <main className="flex flex-col">
         <Hero />
+        <IntegrationsMarquee />
         <GlobeSection />
         <HowItWorks />
         <TheProblem />
