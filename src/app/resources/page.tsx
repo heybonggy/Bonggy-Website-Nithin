@@ -21,13 +21,13 @@ type Post = {
 
 const POSTS: Post[] = [
   {
-    slug: "why-we-built-bonggy",
-    title: "Why we built Bonggy",
+    slug: "a-note-from-us",
+    title: "A note from us <3",
     excerpt:
-      "Three salespeople from Bengaluru on what is broken about sales today, what software can do about the reading part, and what should stay human.",
-    readTime: "8 min read",
+      "On the difference between building a tool and running the work — and why we think outbound sales is the next category where service replaces software.",
+    readTime: "6 min read",
     date: "",
-    kind: "Essay",
+    kind: "Note",
     featured: true,
     imageUrl:
       "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070&auto=format&fit=crop",
@@ -55,7 +55,7 @@ export default function ResourcesPage() {
             description={featured.excerpt}
             imageUrl={featured.imageUrl}
             href={`/resources/${featured.slug}`}
-            readMoreText="Read the essay"
+            readMoreText="Read"
           />
         </div>
       )}

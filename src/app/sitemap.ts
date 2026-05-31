@@ -24,7 +24,7 @@ const ROUTES: Entry[] = [
 
   // Resources index + posts
   { path: "/resources",                       priority: 0.8, changeFrequency: "weekly" },
-  { path: "/resources/why-we-built-bonggy",   priority: 0.7, changeFrequency: "monthly" },
+  { path: "/resources/a-note-from-us",        priority: 0.7, changeFrequency: "monthly" },
 
   // Legal / trust
   { path: "/privacy",   priority: 0.4, changeFrequency: "yearly" },
