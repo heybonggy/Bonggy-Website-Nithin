@@ -15,6 +15,12 @@ const FOOTER_LINKS: {
     ],
   },
   {
+    heading: "Resources",
+    items: [
+      { label: "Why we built Bonggy", href: "/resources/why-we-built-bonggy" },
+    ],
+  },
+  {
     heading: "Company",
     items: [
       { label: "About", href: "/about" },
@@ -36,8 +42,8 @@ export function Footer() {
   return (
     <footer className="relative border-t border-border/60 pt-16 pb-20 sm:pb-12">
       <div className="mx-auto w-full max-w-[1400px] px-6 lg:px-10">
-        <div className="grid grid-cols-2 gap-10 sm:grid-cols-4 lg:grid-cols-[1.4fr_repeat(3,minmax(0,1fr))]">
-          <div className="col-span-2 sm:col-span-4 lg:col-span-1">
+        <div className="grid grid-cols-2 gap-10 sm:grid-cols-6 lg:grid-cols-[1.4fr_repeat(5,minmax(0,1fr))]">
+          <div className="col-span-2 sm:col-span-6 lg:col-span-1">
             <Link href="/" className="inline-flex items-center gap-2.5">
               <BonggyMark className="size-7" />
               <span className="font-mono text-[13px] font-medium uppercase tracking-[0.18em]">
