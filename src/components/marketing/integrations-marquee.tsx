@@ -20,7 +20,6 @@ const BRANDS: { name: string; file: string }[] = [
   { name: "Salesforce",      file: "salesforce" },
   { name: "Gmail",           file: "gmail" },
   { name: "Linear",          file: "linear" },
-  { name: "LinkedIn",        file: "linkedin" },
   { name: "Calendly",        file: "calendly" },
   { name: "Zapier",          file: "zapier" },
   { name: "Microsoft Teams", file: "microsoft-teams" },
@@ -53,6 +52,7 @@ const BRANDS: { name: string; file: string }[] = [
   { name: "Wappalyzer",      file: "wappalyzer" },
   { name: "Perplexity",      file: "perplexity" },
   { name: "Substack",        file: "substack" },
+  // LinkedIn intentionally omitted from the public marquee.
 ];
 
 function Tile({ brand }: { brand: { name: string; file: string } }) {
