@@ -430,7 +430,7 @@
     to   { transform: translateX(0); }
   }
   .marquee-row {
-    animation-duration: 75s;
+    animation-duration: 150s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
     will-change: transform;
@@ -439,7 +439,7 @@
   .marquee-row--right { animation-name: marquee-right; }
   .marquee-track:hover .marquee-row { animation-play-state: paused; }
   @media (max-width: 768px) {
-    .marquee-row { animation-duration: 110s; }
+    .marquee-row { animation-duration: 220s; }
   }
   @media (prefers-reduced-motion: reduce) {
     .marquee-row {
