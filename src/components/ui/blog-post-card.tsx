@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
-import { motion } from "motion/react";
+import { motion, type HTMLMotionProps } from "motion/react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
@@ -35,8 +35,12 @@ const cardVariants = cva(
   },
 );
 
+// Extend HTMLMotionProps rather than React.HTMLAttributes — motion.div
+// overrides drag-related event handlers (onDrag, onDragStart, onDragEnd)
+// with its own pan callback signature, so the standard HTML types conflict
+// at the spread site (...props) when the prop bag is the React one.
 export interface BlogPostCardProps
-  extends React.HTMLAttributes<HTMLDivElement>,
+  extends Omit<HTMLMotionProps<"div">, "title">,
     VariantProps<typeof cardVariants> {
   tag: string;
   date?: string;
