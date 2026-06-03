@@ -10,14 +10,13 @@ const FOOTER_LINKS: {
     items: [
       { label: "How it works", href: "/#how-it-works" },
       { label: "The fix", href: "/#fix" },
-      { label: "Use cases", href: "/#use-cases" },
       { label: "FAQ", href: "/faq" },
     ],
   },
   {
     heading: "Resources",
     items: [
-      { label: "Why we built Bonggy", href: "/resources/why-we-built-bonggy" },
+      { label: "A note from us", href: "/resources/a-note-from-us" },
     ],
   },
   {
