@@ -50,8 +50,7 @@ export function Footer() {
               </span>
             </Link>
             <p className="mt-4 max-w-xs text-[13.5px] leading-relaxed text-muted-foreground">
-              The command centre for sales teams. Find the signal, decide the
-              move, run.
+              A full-stack AI sales agency that already knows how you sell.
             </p>
           </div>
 

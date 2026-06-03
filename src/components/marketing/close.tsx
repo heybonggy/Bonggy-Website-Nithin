@@ -104,7 +104,7 @@ export function Close() {
           transition={{ ...SPRING, delay: 0.16 }}
           className="mt-10 flex flex-col items-start gap-3"
         >
-          <CtaButton size="lg">See it run on your accounts</CtaButton>
+          <CtaButton size="lg">Strategize</CtaButton>
           <p className="text-[13px] text-muted-foreground">
             Thirty minutes. We will run Bonggy on your real accounts, live.
           </p>

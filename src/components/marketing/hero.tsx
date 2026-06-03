@@ -45,7 +45,7 @@ export function Hero() {
               transition={{ duration: 0.5, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
               className="mt-10 flex flex-col items-start gap-3"
             >
-              <CtaButton size="lg">See it run on your accounts</CtaButton>
+              <CtaButton size="lg">Strategize</CtaButton>
               <p className="text-[13px] text-muted-foreground">
                 Thirty minutes. Your real accounts, not a demo.
               </p>
