@@ -19,11 +19,11 @@ const SITE_URL =
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Bonggy: The command centre for sales teams",
+    default: "Bonggy: Your own full-stack AI sales agency",
     template: "%s · Bonggy",
   },
   description:
-    "Find the signal, decide the move. Bonggy runs your whole outbound sales motion from one place, with your judgement. Installable agents that watch your accounts, score signals against closed-won, draft outreach grounded in what actually changed, and hand it to your reps.",
+    "Your own full-stack AI sales agency. It works the way your best people work, tailored to how you sell, ten times faster. It reads the world, finds the signal, and writes the outreach. You stay in control.",
   keywords: [
     "outbound sales",
     "SDR",
@@ -50,15 +50,15 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: SITE_URL,
     siteName: "Bonggy",
-    title: "Bonggy: The command centre for sales teams",
+    title: "Bonggy: Your own full-stack AI sales agency",
     description:
-      "Find the signal, decide the move. Bonggy runs your whole outbound sales motion from one place, with your judgement.",
+      "Your own full-stack AI sales agency. It works the way your best people work, tailored to how you sell, ten times faster. You stay in control.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Bonggy: The command centre for sales teams",
+    title: "Bonggy: Your own full-stack AI sales agency",
     description:
-      "Find the signal, decide the move. Bonggy runs your whole outbound sales motion from one place, with your judgement.",
+      "Your own full-stack AI sales agency. It works the way your best people work, tailored to how you sell, ten times faster. You stay in control.",
     creator: "@bonggy",
   },
   robots: {
@@ -130,7 +130,7 @@ export default function RootLayout({
               applicationCategory: "BusinessApplication",
               operatingSystem: "Web",
               description:
-                "The command centre for outbound. Installable agents that find the signal, score the account, and draft the outreach.",
+                "A full-stack AI sales agency. It reads the world, finds the signal, drafts the outreach. Tailored to how you sell. You stay in control.",
               url: SITE_URL,
               offers: {
                 "@type": "Offer",

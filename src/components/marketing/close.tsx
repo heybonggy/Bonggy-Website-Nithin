@@ -65,7 +65,7 @@ export function Close() {
           }}
         >
           <Clock weight="regular" className="size-3 text-signal" />
-          Strategy session · 30 min
+          Thirty minutes · Your real accounts
         </motion.div>
 
         {/* Headline */}
@@ -74,9 +74,9 @@ export function Close() {
           whileInView={{ y: 0 }}
           viewport={{ once: true, amount: 0.15 }}
           transition={{ ...SPRING, delay: 0.05 }}
-          className="text-display text-display-gradient mt-8 max-w-[18ch] text-balance text-[40px] font-medium leading-[0.96] tracking-tight sm:text-[60px] lg:text-[88px]"
+          className="text-display text-display-gradient mt-8 max-w-[22ch] text-balance text-[40px] font-medium leading-[0.96] tracking-tight sm:text-[60px] lg:text-[88px]"
         >
-          See the outreach your reps could actually build.
+          Your competitors are still doing this by hand.
         </motion.h2>
 
         <motion.p
@@ -86,10 +86,14 @@ export function Close() {
           transition={{ ...SPRING, delay: 0.1 }}
           className="mt-8 max-w-[60ch] text-[16.5px] leading-relaxed text-muted-foreground"
         >
-          One call. We calibrate Bonggy on your accounts live, show you
-          what&apos;s firing this week, and the drafts it would hand your reps.
-          If it&apos;s not obviously useful in the first ten minutes,
-          we&apos;ll tell you.
+          Somewhere right now, a rep at the company you are competing with
+          is spending three hours researching accounts before they write a
+          single word. They will get to maybe ten today. They will miss the
+          signals that fired overnight. You will have an agency that did
+          all of that before breakfast, across every account, tailored to
+          exactly how you win. Nothing leaves without a human saying yes.
+          Your rep makes the call on every message, every account, every
+          move.
         </motion.p>
 
         {/* CTA */}
@@ -98,9 +102,12 @@ export function Close() {
           whileInView={{ y: 0 }}
           viewport={{ once: true, amount: 0.15 }}
           transition={{ ...SPRING, delay: 0.16 }}
-          className="mt-10"
+          className="mt-10 flex flex-col items-start gap-3"
         >
-          <CtaButton size="lg">Strategize</CtaButton>
+          <CtaButton size="lg">See it run on your accounts</CtaButton>
+          <p className="text-[13px] text-muted-foreground">
+            Thirty minutes. We will run Bonggy on your real accounts, live.
+          </p>
         </motion.div>
       </div>
     </section>

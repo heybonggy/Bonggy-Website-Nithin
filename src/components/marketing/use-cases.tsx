@@ -129,7 +129,7 @@ const AeMock = (
       {[
         { kind: "Open with", body: "Series B + 14 new engineering reqs" },
         { kind: "Acknowledge", body: "Sarah moved from Stripe in April" },
-        { kind: "Don't", body: "Pricing — too early in cycle" },
+        { kind: "Don't", body: "Pricing, too early in cycle" },
       ].map((t) => (
         <div
           key={t.kind}
@@ -211,8 +211,8 @@ const SmMock = (
       </div>
     ))}
     <div className="mt-auto rounded-lg border border-border/60 bg-background/40 px-3.5 py-2.5 text-[11.5px] text-muted-foreground">
-      <span className="text-foreground">Tom J.</span> is stuck on 3 deals —
-      angle review surfaced.
+      <span className="text-foreground">Tom J.</span> is stuck on 3 deals.
+      Angle review surfaced.
     </div>
   </MockShell>
 );
@@ -299,7 +299,7 @@ const FoundersMock = (
     <div className="mt-auto flex items-center gap-3 rounded-lg border border-signal/30 bg-signal/[0.06] px-3.5 py-2.5">
       <span className="size-1.5 flex-none rounded-full bg-signal pulse-signal" />
       <span className="text-[12.5px] text-foreground">
-        Equivalent output to one SDR — without the hire.
+        Equivalent output to one SDR, without the hire.
       </span>
     </div>
   </MockShell>
@@ -316,9 +316,9 @@ const ROLES: RoleContent[] = [
     description:
       "Spend your day in conversations, not in tabs. Walk into every account already knowing the angle. The research and the first draft are done; you review and send.",
     outcomes: [
-      "Research — done before the rep opens the tab",
-      "First draft — signal-backed, ready to review",
-      "Prioritization — top 5 accounts for today, surfaced",
+      "Research, done before the rep opens the tab",
+      "First draft, signal-backed and ready to review",
+      "Prioritization, top 5 accounts for today",
     ],
     visual: SdrMock,
   },
@@ -329,9 +329,9 @@ const ROLES: RoleContent[] = [
     description:
       "Walk into every call with the account's full context: what changed, who's involved, what to lead with.",
     outcomes: [
-      "Stakeholder map — current and historical decision-makers",
-      "Trigger timeline — what fired, when, why it matters",
-      "Talking points — three opening lines tailored to this call",
+      "Stakeholder map of current and historical decision-makers",
+      "Trigger timeline. What fired, when, why it matters",
+      "Three opening lines tailored to this call",
     ],
     visual: AeMock,
   },
@@ -342,9 +342,9 @@ const ROLES: RoleContent[] = [
     description:
       "Catch renewal risk, expansion signals, and champion job-changes before they become a problem.",
     outcomes: [
-      "Renewal-risk score — signal-backed, not just usage data",
-      "Expansion windows — surfaced from buying-intent triggers",
-      "Champion alerts — when your champion moves teams or companies",
+      "Renewal-risk score backed by signal, not just usage data",
+      "Expansion windows, surfaced from buying-intent triggers",
+      "Champion alerts when your champion moves teams or companies",
     ],
     visual: AmMock,
   },
@@ -368,8 +368,8 @@ const ROLES: RoleContent[] = [
     description:
       "One sync replaces the export-clean-upload waterfall. Every data point reviewable before the CRM.",
     outcomes: [
-      "Single source of truth — no more dedupe spreadsheets",
-      "Field-by-field approval — every CRM write is reviewable",
+      "Single source of truth. No more dedupe spreadsheets",
+      "Field-by-field approval. Every CRM write is reviewable",
       "Cost-per-field visibility across enrichment providers",
     ],
     visual: RevOpsMock,
@@ -381,9 +381,9 @@ const ROLES: RoleContent[] = [
     description:
       "Run signal-led outbound across every client from per-client workspaces. Same headcount, more accounts.",
     outcomes: [
-      "Per-client workspaces — clean separation of data and brand",
+      "Per-client workspaces with clean separation of data and brand",
       "Same team, 3× the account coverage",
-      "Portfolio-wide pattern sharing — what works for client A informs client B",
+      "Portfolio-wide pattern sharing. What works for client A informs client B",
     ],
     visual: AgenciesMock,
   },
@@ -394,7 +394,7 @@ const ROLES: RoleContent[] = [
     description:
       "Your instinct, systematized. Run the motion an SDR would, without hiring one yet.",
     outcomes: [
-      "Run the playbook in your head — but at scale",
+      "Run the playbook in your head, but at scale",
       "First-touch quality even when you’re shipping product all day",
       "When you do hire, the system is already in place",
     ],
@@ -450,7 +450,7 @@ export function UseCases() {
   return (
     <Section
       id="use-cases"
-      eyebrow="Built for SDRs first · Built for the whole GTM motion"
+      eyebrow="An agency for every outbound role"
     >
       <motion.h2
         initial={{ y: 14 }}
@@ -459,9 +459,9 @@ export function UseCases() {
         transition={SPRING}
         className="text-display mb-10 max-w-[20ch] text-balance text-[36px] font-medium leading-none tracking-tight sm:text-[44px] md:mb-12 lg:text-[56px]"
       >
-        One command centre.{" "}
+        One agency.{" "}
         <span className="text-muted-foreground/85">
-          Every outbound role.
+          Every seat at the table.
         </span>
       </motion.h2>
 

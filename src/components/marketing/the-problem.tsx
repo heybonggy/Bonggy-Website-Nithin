@@ -177,7 +177,7 @@ const PAINS: Pain[] = [
 
 export function TheProblem() {
   return (
-    <Section id="problem" eyebrow="Why your team isn't ramping">
+    <Section id="problem" eyebrow="The four approaches that stall">
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_1fr] lg:gap-16">
         <motion.h2
           initial={{ y: 14 }}
@@ -188,7 +188,7 @@ export function TheProblem() {
         >
           Four ways you&apos;ve tried.{" "}
           <span className="text-muted-foreground/85">
-            Four reasons each one stalls.
+            The agency model fixes them all.
           </span>
         </motion.h2>
 
@@ -200,7 +200,9 @@ export function TheProblem() {
           className="max-w-[56ch] text-[16px] leading-relaxed text-muted-foreground lg:pt-2"
         >
           Every team rebuilds outbound from one of these four starting points.
-          Each one fails in a different way. The pattern is the same.
+          Each one fails in a different way. Each one fails because it leaves
+          the reading, the timing, and the drafting on the rep&apos;s plate.
+          The agency takes all of it off.
         </motion.p>
       </div>
 

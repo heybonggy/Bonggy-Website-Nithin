@@ -95,7 +95,7 @@ const QUEUE_POOL: Approval[] = [
 
 export function HowItWorks() {
   return (
- <Section id="how-it-works" eyebrow="How it works">
+ <Section id="how-it-works" eyebrow="What your agency handles">
  <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_1fr] lg:gap-16">
  <motion.h2
  initial={{ y: 14 }}
@@ -104,9 +104,9 @@ export function HowItWorks() {
  transition={SPRING}
  className="text-display text-balance text-[36px] font-normal leading-none tracking-tight sm:text-[44px] lg:text-[56px]"
  >
- Describe the motion.
+ Everything a great sales team does.
  <br />
- <span className="text-muted-foreground/85">Bonggy runs it.</span>
+ <span className="text-muted-foreground/85">Running underneath yours.</span>
  </motion.h2>
 
  <motion.div
@@ -117,14 +117,14 @@ export function HowItWorks() {
  className="space-y-5 lg:pt-2"
  >
  <p className="max-w-[58ch] text-[16px] leading-relaxed text-muted-foreground">
- Apollo is a database. It tells you who exists. Clay is a workbench.
- It lets you build the pipeline, if you know how. Bonggy is neither.
- You describe the motion in plain English, and Bonggy turns it into
- an agent that runs on its own.
+ This is the work that quietly eats your team&apos;s week. Bonggy
+ does all of it, continuously, in the background, tailored to your
+ motion. Reads the world. Does the research. Writes the outreach.
+ Runs the timing. Keeps the team aligned.
  </p>
  <p className="max-w-[58ch] text-[16px] font-medium leading-relaxed text-foreground">
- No pipeline to assemble. You install the motion and review the
- output.
+ You decide what to do with all of it. The agency just makes sure
+ it is always done.
  </p>
  </motion.div>
  </div>

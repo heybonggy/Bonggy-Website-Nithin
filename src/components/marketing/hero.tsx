@@ -25,7 +25,7 @@ export function Hero() {
               transition={{ duration: 0.5, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
               className="text-display text-display-gradient text-balance text-[44px] font-normal sm:text-[64px] lg:text-[80px]"
             >
-              The command centre for sales teams.
+              Your own full-stack sales agency.
             </motion.h1>
 
             <motion.p
@@ -34,8 +34,9 @@ export function Hero() {
               transition={{ duration: 0.5, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
               className="mt-8 max-w-[58ch] text-[16.5px] leading-relaxed text-muted-foreground"
             >
-              Find the signal, decide the move. Bonggy runs your whole
-              outbound sales motion from one place, with your judgement.
+              Bonggy works the way your best people work. It reads the
+              world, finds the signal, writes the outreach. Tailored to how
+              you sell. Ten times the output. You stay in control.
             </motion.p>
 
             <motion.div
@@ -44,9 +45,9 @@ export function Hero() {
               transition={{ duration: 0.5, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
               className="mt-10 flex flex-col items-start gap-3"
             >
-              <CtaButton size="lg">Strategize</CtaButton>
+              <CtaButton size="lg">See it run on your accounts</CtaButton>
               <p className="text-[13px] text-muted-foreground">
-                30 minutes. We&apos;ll run Bonggy on your real accounts, live.
+                Thirty minutes. Your real accounts, not a demo.
               </p>
             </motion.div>
 

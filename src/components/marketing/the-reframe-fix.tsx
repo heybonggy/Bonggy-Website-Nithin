@@ -15,36 +15,36 @@ const STEPS = [
   {
  n: "01",
  Icon: Eye,
- title: "Watch",
- head: "The research a rep never has time for.",
- body: "Job changes, funding, tech-stack moves, org changes across your accounts. Continuously.",
+ title: "Signals it watches",
+ head: "Shaped around your buyer, not a generic feed.",
+ body: "The triggers a med-device team cares about are not the triggers a cybersecurity team cares about. Bonggy reads what matters for your motion.",
   },
   {
  n: "02",
  Icon: StackPlus,
- title: "Cluster & score",
- head: "The prioritization a junior rep gets wrong.",
- body: "Several events at one company become one scored account view, ranked against your closed-won.",
+ title: "Sources it reads",
+ head: "The places your buyers actually leave a trail.",
+ body: "Your industry has its own surface area. Press releases, procurement feeds, niche communities, public filings. Tuned per customer.",
   },
   {
  n: "03",
  Icon: PencilLine,
- title: "Draft",
- head: "The angle your best rep would've found , for the rep who wouldn't have.",
- body: "A signal-backed message per buyer, in a tone that fits.",
+ title: "Language it drafts in",
+ head: "Your team&apos;s voice, not generic AI.",
+ body: "The drafts read in the register your buyers expect, learned from your closed-won messages and the way your reps already write.",
   },
   {
  n: "04",
  Icon: PaperPlaneTilt,
- title: "Review & send",
- head: "The rep stays in control; the thinking is just done.",
- body: "Every draft queued for approval, then pushed to Instantly, Mailchimp, your CRM, LinkedIn, email.",
+ title: "Timing it chooses",
+ head: "When the signal is fresh and the window is open.",
+ body: "It surfaces what to act on now and what can wait, so your team is always working the highest-value move.",
   },
 ];
 
 export function TheReframeFix() {
   return (
- <Section id="fix" eyebrow="The fix">
+ <Section id="fix" eyebrow="Tailored, not generic">
  <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
  <motion.h2
  initial={{ y: 14 }}
@@ -53,9 +53,9 @@ export function TheReframeFix() {
  transition={SPRING}
  className="text-display text-balance text-[36px] font-medium leading-none tracking-tight sm:text-[44px] lg:text-[56px]"
  >
- Your best rep&apos;s instinct,{" "}
+ It learns how you sell.{" "}
  <span className="text-muted-foreground/85">
- given to every SDR.
+ Not how everyone sells.
  </span>
  </motion.h2>
 
@@ -66,15 +66,14 @@ export function TheReframeFix() {
  transition={{ ...SPRING, delay: 0.05 }}
  className="max-w-[58ch] text-[16px] leading-relaxed text-muted-foreground lg:pt-2"
  >
- Bonggy watches your accounts, catches the moments that open a
- buying window, scores them against what you actually close, and
- drafts the outreach grounded in what changed. The rep reviews a
- signal-backed draft and sends. The hard-won judgment is already
- in the box.
+ A cybersecurity team and a medical device team do not sell the
+ same way. A founder closing their first ten customers does not
+ sell like an enterprise rep working a committee of nine. Most
+ tools ignore this. Bonggy does the opposite.
  </motion.p>
  </div>
 
- {/* Step list , divider-led, NO card boxes */}
+ {/* Step list — divider-led, NO card boxes */}
  <ol className="mt-16 grid grid-cols-1 gap-px overflow-hidden rounded-bento-sm border border-border/60 bg-border/40 sm:grid-cols-2 lg:grid-cols-4">
  {STEPS.map((s, i) => (
  <motion.li
@@ -116,11 +115,10 @@ export function TheReframeFix() {
  transition={SPRING}
  className="mt-14 max-w-3xl text-pretty text-[20px] font-medium leading-snug tracking-tight"
  >
- This is just the floor.{" "}
+ The result does not feel like software.{" "}
  <span className="text-muted-foreground">
- From here every rep gets to be the creative one, every signal in
- reach, every play they can imagine, every message tuned to the
- human on the other end.
+ It feels like an agency that has worked your accounts for years
+ and knows them better than you remember them.
  </span>
  </motion.p>
  </Section>

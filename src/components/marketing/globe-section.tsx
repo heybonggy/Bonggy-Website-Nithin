@@ -104,7 +104,7 @@ export function GlobeSection() {
   return (
  <Section
  id="coverage"
- eyebrow="Always on · Reading the world"
+ eyebrow="Not a platform · An agency"
  className="py-28 sm:py-32 lg:py-40"
  >
  <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1.05fr_1fr] lg:items-center lg:gap-16">
@@ -129,10 +129,12 @@ export function GlobeSection() {
  transition={{ ...SPRING, delay: 0.05 }}
  className="mt-7 max-w-[58ch] text-[16px] leading-relaxed text-muted-foreground"
  >
- Funding rounds. New hires. Stack migrations. Champion moves.
- Earnings prints. RFPs. Bonggy watches the public surface area of
- every account on your list and surfaces the moments that actually
- open a buying window. Continuously. Globally.
+ Most sales software hands you a powerful tool and wishes you luck.
+ Bonggy is not that. Bonggy is an agency. You tell it how you sell
+ and who you sell to, and it goes to work. The same way you would
+ brief a team you just hired. The difference is that this agency
+ never sleeps, never forgets a signal, and already knows your
+ industry cold.
  </motion.p>
 
  <motion.div
