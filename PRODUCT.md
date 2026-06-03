@@ -6,7 +6,7 @@ A reference describing what Bonggy is, the problem it solves, how it works, and 
 
 ## 1. The one-liner
 
-**Bonggy is a continuous preparation layer for outbound sales.** It reads the public surface area of every account on your list, identifies what changed and why it matters, drafts the outreach grounded in that change, and queues everything for human approval before it sends.
+**Bonggy is a full-stack AI sales agency.** Not a platform you operate. An agency that already knows how you sell, runs the motion underneath your team continuously, and leaves every decision to the human. It reads the public surface area of every account on your list, identifies what changed and why it matters, drafts the outreach grounded in that change, and queues everything for human approval before it sends.
 
 We are not a CRM. We are not a sequencer. We are not an autopilot. We are the part of the sales job that is supposed to happen before a rep types a single word — automated, continuous, and built for humans to act on.
 
@@ -74,7 +74,7 @@ The reason we're firm on these is partly principled and partly practical. The th
 
 ## 5. Who it's for
 
-Built **SDRs-first**, but the same continuous preparation layer pays off for the whole GTM motion. Seven named user types, each with a different reason to use Bonggy:
+Built **SDRs-first**, but the same agency runs underneath every GTM seat. Seven named user types, each with a different reason to hire it:
 
 | Role | What changes |
 |---|---|
@@ -110,12 +110,12 @@ A typical day in Bonggy, end to end:
 
 ## 7. The category
 
-Bonggy is the **intelligence layer between signal and send**. We sit in the gap that already exists between databases (Apollo, ZoomInfo, Cognism, Crunchbase, etc.) and sequencers (Outreach, Apollo, Salesloft, Instantly, etc.). Neither side of that gap currently does the thinking — they do the data and the dispatch.
+Bonggy is a **full-stack AI sales agency**. We sit in the gap that already exists between databases (Apollo, ZoomInfo, Cognism, Crunchbase, etc.) and sequencers (Outreach, Apollo, Salesloft, Instantly, etc.). Neither side of that gap currently does the thinking. They do the data and the dispatch.
 
-Our claim is that this gap is a new category, not a feature of an existing one. The economics of doing the reading job continuously at scale only became viable with AI; the cost curve for synthesizing fourteen sources every morning across two hundred accounts dropped by a factor that makes a real service commitment possible for the first time. We are not building cheaper software. We are building an entirely different shape of company: a continuous service that is priced like software because the unit economics now allow it.
+Our claim is that this gap is a new category, not a feature of an existing one. The economics of running an agency at scale only became viable with AI. The cost curve for reading fourteen sources every morning across two hundred accounts, synthesizing what matters, and producing a calibrated first draft dropped by a factor that makes a genuine service commitment economically real for the first time. We are not building cheaper software. We are building an entirely different shape of company: an agency that runs continuously, priced like software because the unit economics now allow it.
 
 Not a tool that sits on a rep's desk waiting to be used well.
-**A service that runs.**
+**An agency that runs.**
 
 ---
 
@@ -172,7 +172,7 @@ Near-term product direction (in rough order of priority):
 - **Closed-loop intent** — feed the customer's closed-lost reasons back into the prioritization layer so the system learns when an account looks great on paper but never converts in practice.
 - **Public APIs** — let internal tools and data warehouses read the signal layer programmatically.
 
-We are not racing to add modules. We are racing to make the preparation layer good enough that a rep would refuse to start a Monday morning without it.
+We are not racing to add modules. We are racing to make the agency good enough that a rep would refuse to start a Monday morning without it running underneath them.
 
 ---
 

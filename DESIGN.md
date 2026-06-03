@@ -155,7 +155,7 @@ Sizes used across the site:
 
 Used sparingly inside display headings to mark the emphatic clause. Common patterns:
 
-- `<span className="italic text-signal">intelligence layer</span>`
+- `<span className="italic text-signal">already knows how you sell</span>`
 - `<span className="text-muted-foreground/85">subordinate clause.</span>` — sometimes the accent is dimmed rather than colored
 
 Never italicize body paragraphs.
@@ -456,7 +456,7 @@ Pills strip on top, motion-driven `layoutId` indicator slides between tabs (`SPR
 />
 ```
 
-Used currently in `use-cases.tsx` for the 7-role GTM section.
+Drop into any section that needs a tabbed view. Pass `layoutGroupId` if more than one instance lives on the same page.
 
 ### Integrations marquee
 

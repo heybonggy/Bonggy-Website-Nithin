@@ -1,6 +1,6 @@
 # Bonggy
 
-The command centre for sales teams. Marketing site + early-access capture.
+A full-stack AI sales agency that already knows how you sell. Marketing site + early-access capture.
 
 ## Stack
 
@@ -23,14 +23,14 @@ Open http://localhost:3000
 
 | Route | What's there |
 |---|---|
-| `/` | Landing page (Hero → Coverage → How It Works → Problem → Reframe → Fix → Proof → Use Cases → Close) |
-| `/how-it-works` | Long-form: 4 steps from prompt to running agent |
-| `/fix` | Watch / Cluster / Draft / Send breakdown |
-| `/use-cases` | 12 GTM roles + 110 plays |
+| `/` | Landing page (Hero → Integrations → Coverage → How It Works → Problem → Tailored → Proof → Close) |
+| `/fix` | The agency-model breakdown |
+| `/resources` | Long-form notes index |
+| `/resources/a-note-from-us` | The founders' essay on tool-vs-service |
 | `/about` | Mission and principles |
 | `/contact` | 30-min call link + email |
 | `/careers` | Pitch form (writes to Sheets) |
-| `/faq` | 9 conversion-aware Q&As + FAQPage JSON-LD |
+| `/faq` | Conversion-aware Q&As + FAQPage JSON-LD |
 | `/privacy` `/terms` `/security` | Legal + trust pages |
 
 ## Forms

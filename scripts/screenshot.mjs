@@ -44,7 +44,6 @@ async function captureSection(page, name, viewport, sectionId) {
   await captureSection(page, "desktop-reframe", { width: 1440, height: 900 }, "#reframe");
   await captureSection(page, "desktop-fix", { width: 1440, height: 900 }, "#fix");
   await captureSection(page, "desktop-proof", { width: 1440, height: 900 }, "#proof");
-  await captureSection(page, "desktop-usecases", { width: 1440, height: 900 }, "#use-cases");
   await captureSection(page, "desktop-objection", { width: 1440, height: 900 }, "#vs-ai-sdr");
   await captureSection(page, "desktop-close", { width: 1440, height: 900 }, "#strategy-session");
 
@@ -67,13 +66,6 @@ async function captureSection(page, name, viewport, sectionId) {
   await page.waitForTimeout(500);
   await page.screenshot({
     path: resolve(outDir, "mobile-how.png"),
-    fullPage: false,
-  });
-
-  await page.locator("#use-cases").scrollIntoViewIfNeeded().catch(() => {});
-  await page.waitForTimeout(500);
-  await page.screenshot({
-    path: resolve(outDir, "mobile-usecases.png"),
     fullPage: false,
   });
 
