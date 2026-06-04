@@ -25,7 +25,7 @@ export function Hero() {
               transition={{ duration: 0.5, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
               className="text-display text-display-gradient text-balance text-[44px] font-normal sm:text-[64px] lg:text-[80px]"
             >
-              Your own full-stack sales agency.
+              Your AI full-stack sales agency.
             </motion.h1>
 
             <motion.p
