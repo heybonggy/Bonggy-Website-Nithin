@@ -72,7 +72,7 @@ export function TheReframeFix() {
  </div>
 
  {/* Step list — divider-led, NO card boxes */}
- <ol className="mt-16 grid grid-cols-1 gap-px overflow-hidden rounded-bento-sm border border-border/60 bg-border/40 sm:grid-cols-2 lg:grid-cols-4">
+ <ol className="mt-16 grid grid-cols-1 gap-px overflow-hidden rounded-[5px] border border-border/60 bg-border/40 sm:grid-cols-2 lg:grid-cols-4">
  {STEPS.map((s, i) => (
  <motion.li
  key={s.n}

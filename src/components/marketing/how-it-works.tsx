@@ -173,7 +173,7 @@ function BentoCard({
  viewport={{ once: true, amount: 0.15 }}
  transition={SPRING}
  className={cn(
- "terminal-corners group relative flex flex-col overflow-hidden rounded-bento border border-border/80 bg-card/60 shadow-diffusion-sm",
+ "terminal-corners group relative flex flex-col overflow-hidden rounded-[5px] border border-border/80 bg-card/60 shadow-diffusion-sm",
  className,
  )}
  >

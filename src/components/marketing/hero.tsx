@@ -21,7 +21,7 @@ export function Hero() {
           className="absolute inset-0"
           style={{
             background:
-              "radial-gradient(46% 42% at 50% 48%, oklch(0.085 0.005 280 / 0.78), oklch(0.085 0.005 280 / 0.2) 62%, transparent 80%)",
+              "radial-gradient(56% 50% at 50% 47%, oklch(0.085 0.005 280 / 0.92), oklch(0.085 0.005 280 / 0.58) 52%, transparent 82%)",
           }}
         />
         <div
@@ -33,7 +33,7 @@ export function Hero() {
         />
       </div>
 
-      <div className="relative mx-auto flex min-h-[100svh] w-full max-w-[1400px] flex-col items-center justify-center px-6 pt-44 pb-16 text-center lg:px-10">
+      <div className="relative mx-auto flex min-h-[100svh] w-full max-w-[1400px] flex-col items-center justify-center px-6 pt-24 pb-44 text-center lg:px-10">
         <motion.h1
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

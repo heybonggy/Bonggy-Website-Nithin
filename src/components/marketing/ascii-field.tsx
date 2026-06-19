@@ -66,6 +66,8 @@ export function AsciiField() {
     let fieldTime = 0;
     let rafId = 0;
     let visible = true;
+    let mobile = false;
+    let lastDraw = 0;
     const mouse = { x: -1000, y: -1000 };
 
     const resize = () => {
@@ -73,12 +75,16 @@ export function AsciiField() {
       if (!parent) return;
       width = parent.offsetWidth;
       height = parent.offsetHeight;
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      mobile = width < 768;
+      // Mobile is fill-rate bound: cap DPR lower and render far fewer columns
+      // (cell count scales ~cols²) so the per-frame fillText work drops enough
+      // to hold a smooth framerate on phones.
+      const dpr = Math.min(window.devicePixelRatio || 1, mobile ? 1.5 : 2);
       canvas.width = width * dpr;
       canvas.height = height * dpr;
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.scale(dpr, dpr);
-      cols = width < 768 ? 104 : 150;
+      cols = mobile ? 72 : 150;
     };
 
     const onMouseMove = (e: MouseEvent) => {
@@ -87,11 +93,23 @@ export function AsciiField() {
       mouse.y = e.clientY - rect.top;
     };
 
-    const draw = () => {
+    const draw = (now = 0) => {
+      // Reschedule first so throttled (skipped) frames still keep the loop
+      // alive. IntersectionObserver restarts the loop when it returns to view.
+      if (!reduce && visible) rafId = requestAnimationFrame(draw);
+
+      // Cap mobile at ~30fps — halves the canvas work on phones where the loop
+      // is the main jank source. Motion is advanced by real elapsed time so the
+      // perceived speed is identical regardless of the framerate cap.
+      if (mobile && now && now - lastDraw < 31) return;
+      const dt = lastDraw ? Math.min(now - lastDraw, 50) : 16;
+      lastDraw = now;
+      const step = now ? dt / 16 : 1;
+
       ctx.clearRect(0, 0, width, height);
       if (!reduce) {
-        time += 0.012;
-        fieldTime += 0.012 * FIELD_SPEED;
+        time += 0.012 * step;
+        fieldTime += 0.012 * FIELD_SPEED * step;
       }
 
       const cellW = width / cols;
@@ -240,8 +258,6 @@ export function AsciiField() {
           ctx.fillText(char, drawX, drawY);
         }
       }
-
-      if (!reduce && visible) rafId = requestAnimationFrame(draw);
     };
 
     // Pause the loop when the hero scrolls out of view.
@@ -250,6 +266,7 @@ export function AsciiField() {
         visible = entries[0]?.isIntersecting ?? false;
         if (visible && !reduce) {
           cancelAnimationFrame(rafId);
+          lastDraw = 0; // reset frame timer so resume doesn't jump the motion
           rafId = requestAnimationFrame(draw);
         } else {
           cancelAnimationFrame(rafId);
