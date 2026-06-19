@@ -33,7 +33,7 @@ export function Hero() {
         />
       </div>
 
-      <div className="relative mx-auto flex min-h-[100svh] w-full max-w-[1400px] flex-col items-center justify-center px-6 pt-24 pb-44 text-center lg:px-10">
+      <div className="relative mx-auto flex min-h-[100svh] w-full max-w-[1400px] flex-col items-center justify-center px-6 pt-32 pb-40 text-center lg:px-10">
         <motion.h1
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
