@@ -4,9 +4,9 @@ import * as React from "react";
 import { motion } from "motion/react";
 import {
   Eye,
-  StackPlus,
-  PencilLine,
-  PaperPlaneTilt,
+  Target,
+  Compass,
+  ChartBar,
 } from "@phosphor-icons/react/dist/ssr";
 import { Section } from "./section";
 import { SPRING } from "./_motion";
@@ -15,36 +15,36 @@ const STEPS = [
   {
  n: "01",
  Icon: Eye,
- title: "Signals it watches",
- head: "Shaped around your buyer, not a generic feed.",
- body: "The triggers a med-device team cares about are not the triggers a cybersecurity team cares about. Bonggy reads what matters for your motion.",
+ title: "Track the effort",
+ head: "Every action, across every tool.",
+ body: "Sends, calls, meetings, notes, the Slack thread. The real work, not the summary they backfill into the CRM.",
   },
   {
  n: "02",
- Icon: StackPlus,
- title: "Sources it reads",
- head: "The places your buyers actually leave a trail.",
- body: "Your industry has its own surface area. Press releases, procurement feeds, niche communities, public filings. Tuned per customer.",
+ Icon: Target,
+ title: "Align it to the goal",
+ head: "Each action mapped to what it serves.",
+ body: "Every action tied to the goal it points at. On-goal, off-goal, and going nowhere.",
   },
   {
  n: "03",
- Icon: PencilLine,
- title: "Language it drafts in",
- head: "Your team&apos;s voice, not generic AI.",
- body: "The drafts read in the register your buyers expect, learned from your closed-won messages and the way your reps already write.",
+ Icon: Compass,
+ title: "Nudge the drift",
+ head: "Reps pointed back before the quarter is lost.",
+ body: "A rep slides off strategy, Bonggy flags it and points back. Sixty percent of your week is off-ICP. Here are five that fit.",
   },
   {
  n: "04",
- Icon: PaperPlaneTilt,
- title: "Timing it chooses",
- head: "When the signal is fresh and the window is open.",
- body: "It surfaces what to act on now and what can wait, so your team is always working the highest-value move.",
+ Icon: ChartBar,
+ title: "Report to everyone",
+ head: "The same truth at every altitude.",
+ body: "Rep to CRO, one connected picture. The rep sees what counts. The manager sees who is on-strategy. The CRO sees where the effort leaks.",
   },
 ];
 
 export function TheReframeFix() {
   return (
- <Section id="fix" eyebrow="Tailored, not generic">
+ <Section id="what-we-do" eyebrow="One layer above your stack">
  <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
  <motion.h2
  initial={{ y: 14 }}
@@ -53,9 +53,9 @@ export function TheReframeFix() {
  transition={SPRING}
  className="text-display text-balance text-[36px] font-medium leading-none tracking-tight sm:text-[44px] lg:text-[56px]"
  >
- It learns how you sell.{" "}
+ Bonggy reads the effort,{" "}
  <span className="text-muted-foreground/85">
- Not how everyone sells.
+ and points it at the goal.
  </span>
  </motion.h2>
 
@@ -66,10 +66,8 @@ export function TheReframeFix() {
  transition={{ ...SPRING, delay: 0.05 }}
  className="max-w-[58ch] text-[16px] leading-relaxed text-muted-foreground lg:pt-2"
  >
- A cybersecurity team and a medical device team do not sell the
- same way. A founder closing their first ten customers does not
- sell like an enterprise rep working a committee of nine. Most
- tools ignore this. Bonggy does the opposite.
+ It sits above every tool your team uses, connects every action to
+ the goal, and keeps the whole team pulling one direction.
  </motion.p>
  </div>
 
@@ -115,10 +113,9 @@ export function TheReframeFix() {
  transition={SPRING}
  className="mt-14 max-w-3xl text-pretty text-[20px] font-medium leading-snug tracking-tight"
  >
- The result does not feel like software.{" "}
+ Not another tool in the stack.{" "}
  <span className="text-muted-foreground">
- It feels like an agency that has worked your accounts for years
- and knows them better than you remember them.
+ The layer that makes the stack make sense.
  </span>
  </motion.p>
  </Section>

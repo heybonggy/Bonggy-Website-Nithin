@@ -19,11 +19,11 @@ const SITE_URL =
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Bonggy: Your own full-stack AI sales agency",
+    default: "Bonggy: align every rep's effort to the goal",
     template: "%s · Bonggy",
   },
   description:
-    "Your own full-stack AI sales agency. It works the way your best people work, tailored to how you sell, ten times faster. It reads the world, finds the signal, and writes the outreach. You stay in control.",
+    "Bonggy is the orchestration layer between rep effort and company goals. It tracks what every rep does across every tool, aligns it to the goal, nudges the drift, and proves what's working.",
   keywords: [
     "outbound sales",
     "SDR",
@@ -50,15 +50,15 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: SITE_URL,
     siteName: "Bonggy",
-    title: "Bonggy: Your own full-stack AI sales agency",
+    title: "Bonggy: align every rep's effort to the goal",
     description:
-      "Your own full-stack AI sales agency. It works the way your best people work, tailored to how you sell, ten times faster. You stay in control.",
+      "The orchestration layer between rep effort and company goals. Tracks every rep's effort across every tool, aligns it to the goal, and proves what's working.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Bonggy: Your own full-stack AI sales agency",
+    title: "Bonggy: align every rep's effort to the goal",
     description:
-      "Your own full-stack AI sales agency. It works the way your best people work, tailored to how you sell, ten times faster. You stay in control.",
+      "The orchestration layer between rep effort and company goals. Tracks every rep's effort across every tool, aligns it to the goal, and proves what's working.",
     creator: "@bonggy",
   },
   robots: {
@@ -130,7 +130,7 @@ export default function RootLayout({
               applicationCategory: "BusinessApplication",
               operatingSystem: "Web",
               description:
-                "A full-stack AI sales agency. It reads the world, finds the signal, drafts the outreach. Tailored to how you sell. You stay in control.",
+                "The orchestration layer between rep effort and company goals. Tracks every rep's effort across every tool, aligns it to the goal, nudges the drift, and proves what's working.",
               url: SITE_URL,
               offers: {
                 "@type": "Offer",

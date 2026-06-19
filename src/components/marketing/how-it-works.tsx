@@ -23,9 +23,9 @@ import { SPRING, SPRING_BOUNCE } from "./_motion";
 import { cn } from "@/lib/utils";
 
 const PROMPTS = [
-  "Every Monday, find accounts that hired a VP Sales last week, draft an email referencing the hire, queue for review.",
-  "Watch our top 200 accounts. When their stack changes, draft a one-line nudge to the new champion.",
-  "If an account closes a Series B, score against closed-won and queue the strongest 10 for outreach.",
+  "Mira sent 12 emails today · 9 to in-ICP accounts · 3 outside.",
+  "Dev logged a call · Atlas Corp · 14 min · tied to Q4 mid-market goal.",
+  "Lin moved 4 deals to stage 3 · all inside the named-account list.",
 ];
 
 /* Detailed signals , 5 rows worth, with source / actor / time so it reads like real intel */
@@ -41,34 +41,34 @@ type Signal = {
 
 const SIGNALS: Signal[][] = [
   [
- { co: "Hawkstone Robotics", event: "VP Sales hired", detail: "Mira Solovey, ex-Notion", time: "2d", source: "LinkedIn", Icon: UsersThree, tone: "hot" },
- { co: "Pylon HQ", event: "Series B closed", detail: "$42M, led by Index Ventures", time: "5d", source: "Crunchbase", Icon: CurrencyDollar, tone: "hot" },
- { co: "Veridian Labs", event: "14 SDR reqs opened", detail: "Up from 4 in Q1", time: "6d", source: "Job board", Icon: UsersThree, tone: "warm" },
- { co: "Cresta Cloud", event: "Stack migration", detail: "HubSpot → Salesforce, in progress", time: "3d", source: "DNS / website", Icon: Stack, tone: "warm" },
+ { co: "Mira S.", event: "Sent 9 emails", detail: "All to Q4 mid-market ICP", time: "2m", source: "Outreach", Icon: PaperPlaneTilt, tone: "hot" },
+ { co: "Dev P.", event: "Logged a call", detail: "Atlas Corp · 14 min · on-goal", time: "8m", source: "Aircall", Icon: UsersThree, tone: "hot" },
+ { co: "Lin H.", event: "Moved 4 deals", detail: "Stage 2 → 3 · named accounts", time: "14m", source: "Salesforce", Icon: TrendUp, tone: "warm" },
+ { co: "Tom J.", event: "Worked 6 accounts", detail: "4 outside the Q4 ICP", time: "21m", source: "HubSpot", Icon: Stack, tone: "cool" },
   ],
   [
- { co: "Auralis Health", event: "Earnings beat consensus", detail: "Revenue up 38% YoY", time: "4d", source: "SEC 8-K", Icon: TrendUp, tone: "cool" },
- { co: "Northwind Systems", event: "Hired CRO", detail: "Dev Patel, ex-Vercel", time: "1d", source: "Press release", Icon: UsersThree, tone: "hot" },
- { co: "Stratosphere AI", event: "Switched data warehouse", detail: "Snowflake → Databricks", time: "7d", source: "Engineering blog", Icon: Stack, tone: "warm" },
- { co: "Vesta Health", event: "Acquired by Pylon", detail: "Announced today, no terms disclosed", time: "0d", source: "Bloomberg", Icon: TrendUp, tone: "hot" },
+ { co: "Ana R.", event: "Renewal note added", detail: "Tied to expansion goal", time: "31m", source: "Gong", Icon: CurrencyDollar, tone: "warm" },
+ { co: "Kit M.", event: "Replied in thread", detail: "Helix Health · expansion", time: "44m", source: "Slack", Icon: UsersThree, tone: "warm" },
+ { co: "Mira S.", event: "Booked a meeting", detail: "In-ICP · Northwind", time: "52m", source: "Calendly", Icon: TrendUp, tone: "hot" },
+ { co: "Rae B.", event: "Sent 40 emails", detail: "None on the named list", time: "1h", source: "Apollo", Icon: PaperPlaneTilt, tone: "cool" },
   ],
   [
- { co: "Orbital Compliance", event: "SOC 2 Type II passed", detail: "Cleared enterprise unlock", time: "8d", source: "Trust portal", Icon: Globe, tone: "cool" },
- { co: "Helios Labs", event: "Champion left", detail: "Anita Park moved to Stripe", time: "3d", source: "LinkedIn", Icon: UsersThree, tone: "warm" },
- { co: "Quanta Build", event: "Posted RFP for outbound platform", detail: "RFP closes Apr 30", time: "1d", source: "Procurement feed", Icon: BuildingOffice, tone: "hot" },
- { co: "Lattice Forge", event: "Champion promoted", detail: "Now reports into the CRO", time: "11d", source: "LinkedIn", Icon: UsersThree, tone: "warm" },
+ { co: "Dev P.", event: "Updated 3 stages", detail: "All on the Q4 segment", time: "1h", source: "Salesforce", Icon: TrendUp, tone: "warm" },
+ { co: "Nia F.", event: "Logged handoff", detail: "Full discovery passed to AE", time: "2h", source: "Notion", Icon: UsersThree, tone: "hot" },
+ { co: "Sol K.", event: "Pulled an old list", detail: "Last quarter's segment", time: "2h", source: "HubSpot", Icon: Stack, tone: "cool" },
+ { co: "Lin H.", event: "Sent a follow-up", detail: "On-strategy · Pylon", time: "3h", source: "Gmail", Icon: PaperPlaneTilt, tone: "warm" },
   ],
   [
- { co: "Solstice Air", event: "Series A → B momentum", detail: "Term sheet rumoured (TechCrunch)", time: "2d", source: "TechCrunch", Icon: CurrencyDollar, tone: "warm" },
- { co: "Ember Robotics", event: "Opened London office", detail: "First non-US HQ", time: "6d", source: "Press release", Icon: BuildingOffice, tone: "cool" },
- { co: "Tidemark", event: "VP Product hired", detail: "Brought in from Linear", time: "4d", source: "LinkedIn", Icon: UsersThree, tone: "warm" },
- { co: "Cinder Pay", event: "FedRAMP authorisation", detail: "Federal pipeline opens", time: "9d", source: "GSA filing", Icon: Globe, tone: "hot" },
+ { co: "Kit M.", event: "Flagged churn risk", detail: "Mapped to renewal goal", time: "3h", source: "Gong", Icon: Globe, tone: "hot" },
+ { co: "Ana R.", event: "Expansion call", detail: "22 min · revenue-linked", time: "4h", source: "Aircall", Icon: UsersThree, tone: "warm" },
+ { co: "Jae P.", event: "No effort logged", detail: "Renewal account at risk", time: "4h", source: "Salesforce", Icon: BuildingOffice, tone: "cool" },
+ { co: "Dev P.", event: "Sent a recap", detail: "Atlas Corp · on-goal", time: "5h", source: "Gmail", Icon: PaperPlaneTilt, tone: "warm" },
   ],
   [
- { co: "Halcyon Cloud", event: "Reduced headcount 8%", detail: "Likely budget pressure", time: "5d", source: "Layoffs.fyi", Icon: TrendUp, tone: "cool" },
- { co: "Magnolia Health", event: "New CISO hired", detail: "Likely procurement reset", time: "3d", source: "LinkedIn", Icon: UsersThree, tone: "warm" },
- { co: "Pinetop Logistics", event: "Renewed Apollo contract", detail: "Annual, 2-year term", time: "10d", source: "Crunchbase deals", Icon: CurrencyDollar, tone: "cool" },
- { co: "Spire Defense", event: "Won DoD pilot", detail: "$3.4M ceiling", time: "2d", source: "USA Spending", Icon: BuildingOffice, tone: "hot" },
+ { co: "Mira S.", event: "Researched 5 accounts", detail: "All inside Q4 ICP", time: "5h", source: "LinkedIn", Icon: TrendUp, tone: "warm" },
+ { co: "Tom J.", event: "Sent 30 emails", detail: "62% off the named list", time: "6h", source: "Outreach", Icon: PaperPlaneTilt, tone: "cool" },
+ { co: "Nia F.", event: "Renewal secured", detail: "Effort tied to the goal", time: "7h", source: "Salesforce", Icon: CurrencyDollar, tone: "hot" },
+ { co: "Lin H.", event: "Logged 4 tasks", detail: "On named accounts", time: "8h", source: "Asana", Icon: Stack, tone: "warm" },
   ],
 ];
 
@@ -81,21 +81,21 @@ type Approval = {
 };
 
 const QUEUE_POOL: Approval[] = [
-  { id: "q1", company: "Hawkstone Robotics", subject: "Week after the VP hire", decision: "approve" },
-  { id: "q2", company: "Pylon HQ", subject: "Series B → SDR build-out", decision: "approve" },
-  { id: "q3", company: "Veridian Labs", subject: "About the 14 new SDR reqs", decision: "approve" },
-  { id: "q4", company: "Halcyon Cloud", subject: "Re: budget cuts", decision: "reject" },
-  { id: "q5", company: "Cresta Cloud", subject: "Stack migration nudge", decision: "approve" },
-  { id: "q6", company: "Auralis Health", subject: "Cold quarter recap", decision: "reject" },
-  { id: "q7", company: "Northwind Systems", subject: "Dev Patel intro thread", decision: "approve" },
-  { id: "q8", company: "Stratosphere AI", subject: "Snowflake-to-Databricks", decision: "approve" },
-  { id: "q9", company: "Orbital Compliance", subject: "Enterprise unlock", decision: "approve" },
-  { id: "q10", company: "Pinetop Logistics", subject: "Renewal heads-up", decision: "reject" },
+  { id: "q1", company: "Mira S. · SDR", subject: "94% on Q4 ICP", decision: "approve" },
+  { id: "q2", company: "Dev P. · AE", subject: "88% on named accounts", decision: "approve" },
+  { id: "q3", company: "Ana R. · AM", subject: "Renewal effort tied to goal", decision: "approve" },
+  { id: "q4", company: "Tom J. · SDR", subject: "62% on out-of-ICP accounts", decision: "reject" },
+  { id: "q5", company: "Kit M. · CS", subject: "Expansion mapped to revenue", decision: "approve" },
+  { id: "q6", company: "Rae B. · AE", subject: "Stalled on dead accounts", decision: "reject" },
+  { id: "q7", company: "Lin H. · AE", subject: "71% on-strategy", decision: "approve" },
+  { id: "q8", company: "Sol K. · SDR", subject: "Working last quarter's list", decision: "reject" },
+  { id: "q9", company: "Nia F. · AM", subject: "Full handoff context", decision: "approve" },
+  { id: "q10", company: "Jae P. · CS", subject: "Renewal at risk, no effort", decision: "reject" },
 ];
 
 export function HowItWorks() {
   return (
- <Section id="how-it-works" eyebrow="What your agency handles">
+ <Section id="how-it-works" eyebrow="How it works">
  <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_1fr] lg:gap-16">
  <motion.h2
  initial={{ y: 14 }}
@@ -104,9 +104,9 @@ export function HowItWorks() {
  transition={SPRING}
  className="text-display text-balance text-[36px] font-normal leading-none tracking-tight sm:text-[44px] lg:text-[56px]"
  >
- Everything a great sales team does.
+ Three moves.
  <br />
- <span className="text-muted-foreground/85">Running underneath yours.</span>
+ <span className="text-muted-foreground/85">Continuously.</span>
  </motion.h2>
 
  <motion.div
@@ -117,46 +117,44 @@ export function HowItWorks() {
  className="space-y-5 lg:pt-2"
  >
  <p className="max-w-[58ch] text-[16px] leading-relaxed text-muted-foreground">
- This is the work that quietly eats your team&apos;s week. Bonggy
- does all of it, continuously, in the background, tailored to your
- motion. Reads the world. Does the research. Writes the outreach.
- Runs the timing. Keeps the team aligned.
+ Bonggy observes the effort flowing through every tool, aligns each
+ action to the goal, and surfaces the reps who drifted. No new
+ workflow. No data entry. It reads what is already happening.
  </p>
  <p className="max-w-[58ch] text-[16px] font-medium leading-relaxed text-foreground">
- You decide what to do with all of it. The agency just makes sure
- it is always done.
+ Observe. Align. Surface the drift.
  </p>
  </motion.div>
  </div>
 
  <div className="mt-16 grid auto-rows-[300px] grid-cols-1 gap-3 sm:auto-rows-[320px] lg:auto-rows-[340px] lg:grid-cols-10 lg:gap-4">
- <BentoCard className="lg:col-span-4" step="01" title="Describe it" sub="Plain English in.">
+ <BentoCard className="lg:col-span-4" step="01" title="Observe" sub="Effort in, from every tool.">
  <CommandInputDemo />
  </BentoCard>
 
- <BentoCard className="lg:col-span-3" step="02" title="Bonggy builds the agent" sub="Workflow out.">
+ <BentoCard className="lg:col-span-3" step="02" title="Align" sub="Mapped to the goal.">
  <WorkflowDemo />
  </BentoCard>
 
- <BentoCard className="lg:col-span-3" step="03" title="You stay in control" sub="Approval queue.">
+ <BentoCard className="lg:col-span-3" step="03" title="Surface the drift" sub="Reps off-strategy, flagged.">
  <ApprovalDemo />
  </BentoCard>
 
  <BentoCard
  className="lg:col-span-7 lg:row-span-2"
  step=","
- title="Live signal feed"
- sub="Always on, always reading."
+ title="Effort feed"
+ sub="Every action across the team, live."
  tallContent
  >
  <SignalStreamDemo />
  </BentoCard>
 
- <BentoCard className="lg:col-span-3" step="," title="Agents running" sub="Right now.">
+ <BentoCard className="lg:col-span-3" step="," title="Reps on-goal" sub="Right now.">
  <AgentStatusDemo />
  </BentoCard>
 
- <BentoCard className="lg:col-span-3" step="," title="Throughput today" sub="Reading and acting.">
+ <BentoCard className="lg:col-span-3" step="," title="Goal coverage" sub="Effort that points at the goal.">
  <ThroughputDemo />
  </BentoCard>
  </div>
@@ -241,7 +239,7 @@ function CommandInputDemo() {
  <div className="flex h-full flex-col gap-3 p-5">
  <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/70">
  <CursorClick weight="regular" className="size-3.5" />
- Type the motion
+ Reading effort
  </div>
 
  <div className="relative flex-1 rounded-xl border border-border/60 bg-background/60 p-4">
@@ -267,7 +265,7 @@ function CommandInputDemo() {
  weight="bold"
  className="size-3 animate-spin text-signal"
  />
- <span>Compiling to workflow</span>
+ <span>Mapping to goal</span>
  </motion.div>
  ) : (
  <motion.div
@@ -279,13 +277,13 @@ function CommandInputDemo() {
  className="flex items-center gap-1.5"
  >
  <span className="size-1.5 rounded-full bg-signal pulse-signal" />
- <span>Ready to compile</span>
+ <span>Reading live</span>
  </motion.div>
  )}
  </AnimatePresence>
  </div>
  <kbd className="rounded border border-border bg-background px-1.5 py-0.5 font-mono text-[10px]">
- ⏎ Build
+ 14 tools
  </kbd>
  </div>
  </div>
@@ -313,10 +311,10 @@ function WorkflowDemo() {
   const draftsCount = useTickingCounter(31, 1, 4480);
 
   const NODES = [
- { label: "Watch", Icon: Pulse, x: 22, y: 28, count: eventsCount, unit: "events" },
- { label: "Cluster", Icon: CornersOut, x: 50, y: 28, count: accountsCount, unit: "accts" },
- { label: "Score", Icon: Lightning, x: 50, y: 78, count: accountsCount, unit: "ranked" },
- { label: "Draft", Icon: PaperPlaneTilt, x: 78, y: 78, count: draftsCount, unit: "drafts" },
+ { label: "Action", Icon: Pulse, x: 22, y: 28, count: eventsCount, unit: "actions" },
+ { label: "Account", Icon: CornersOut, x: 50, y: 28, count: accountsCount, unit: "accts" },
+ { label: "Goal", Icon: Lightning, x: 50, y: 78, count: accountsCount, unit: "mapped" },
+ { label: "On-goal", Icon: PaperPlaneTilt, x: 78, y: 78, count: draftsCount, unit: "accts" },
   ];
 
   return (
@@ -455,7 +453,7 @@ function ApprovalDemo() {
  <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/70">
  <div className="flex items-center gap-1.5">
  <PaperPlaneTilt weight="regular" className="size-3.5" />
- Pending approval
+ Drift check
  </div>
  <div className="flex items-center gap-3">
  <span className="flex items-center gap-1">
@@ -482,14 +480,14 @@ function ApprovalDemo() {
  className={cn(
  "mb-1.5 flex items-center gap-2 rounded-lg border border-border/60 bg-background/50 px-2.5 py-2 text-[11.5px] transition-colors",
  item.status === "approved" && "border-signal/30 bg-signal/[0.05]",
- item.status === "rejected" && "border-border/30 bg-card/30 opacity-60",
+ item.status === "rejected" && "border-destructive/30 bg-destructive/[0.05]",
  )}
  >
  <div
  className={cn(
  "flex size-4 flex-none items-center justify-center rounded-full border transition-colors",
  item.status === "approved" && "border-signal bg-signal text-signal-foreground",
- item.status === "rejected" && "border-muted-foreground/50 bg-background text-muted-foreground/70",
+ item.status === "rejected" && "border-destructive/50 bg-background text-destructive",
  item.status === "pending" && "border-border bg-background text-muted-foreground/60",
  )}
  >
@@ -516,7 +514,7 @@ function ApprovalDemo() {
  )}
  </div>
  <div className="min-w-0 flex-1">
- <div className={cn("truncate font-medium", item.status === "rejected" ? "text-muted-foreground line-through" : "text-foreground")}>
+ <div className={cn("truncate font-medium", item.status === "rejected" ? "text-destructive" : "text-foreground")}>
  {item.company}
  </div>
  <div className="truncate text-[10.5px] text-muted-foreground">
@@ -539,11 +537,11 @@ function SignalStreamDemo() {
  <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/70">
  <div className="flex items-center gap-1.5">
  <Pulse weight="fill" className="size-3.5 text-signal" />
- <span>Reading 14 sources</span>
+ <span>Reading 14 tools</span>
  </div>
  <div className="flex items-center gap-3">
  <span>
- <span className="text-foreground/70 tabular-nums">1,247</span> events this week
+ <span className="text-foreground/70 tabular-nums">1,247</span> actions this week
  </span>
  <span className="size-1 rounded-full bg-signal pulse-signal" />
  </div>
@@ -625,23 +623,23 @@ function AgentStatusDemo() {
  <div className="relative flex h-full flex-col justify-between p-5">
  <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/70">
  <Lightning weight="fill" className="size-3.5 text-signal" />
- Operational
+ On-strategy
  </div>
 
  <div>
  <div className="font-mono text-[64px] font-medium leading-none text-foreground tabular-nums">
- 3
+ 18<span className="text-[28px] text-muted-foreground/60">/21</span>
  </div>
  <div className="mt-1 text-[12px] text-muted-foreground">
- agents running right now
+ reps on-goal right now
  </div>
  </div>
 
  <div className="space-y-1.5">
  {[
- { label: "Hiring trigger", count: 847 },
- { label: "Stack change", count: 412 },
- { label: "Champion move", count: 219 },
+ { label: "SDR team", count: "6/7" },
+ { label: "AE team", count: "8/9" },
+ { label: "CS team", count: "4/5" },
  ].map((a) => (
  <div
  key={a.label}
@@ -664,28 +662,28 @@ function AgentStatusDemo() {
 /* ───────────────── Throughput tile , sparkline + counter ───────────────── */
 
 function ThroughputDemo() {
-  const eventsToday = useTickingCounter(214, 3, 900);
+  const actionsToday = useTickingCounter(214, 3, 900);
 
   return (
  <div className="relative flex h-full flex-col justify-between p-5">
  <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/70">
  <Pulse weight="regular" className="size-3.5" />
- Throughput · 24h
+ Goal coverage · 24h
  </div>
 
  <div>
  <div className="font-mono text-[40px] font-medium leading-none text-foreground tabular-nums">
- {eventsToday}
+ 81<span className="text-[22px] text-muted-foreground/60">%</span>
  </div>
- <div className="mt-1 text-[12px] text-muted-foreground">events processed</div>
+ <div className="mt-1 text-[12px] text-muted-foreground">of effort points at the goal</div>
  </div>
 
  <Sparkline />
 
  <div className="flex items-center justify-between font-mono text-[10px] text-muted-foreground">
- <span>Drafted: <span className="text-foreground/70 tabular-nums">42</span></span>
- <span>Acted on: <span className="text-foreground/70 tabular-nums">31</span></span>
- <span>Rejected: <span className="text-foreground/70 tabular-nums">11</span></span>
+ <span>Actions: <span className="text-foreground/70 tabular-nums">{actionsToday}</span></span>
+ <span>On-goal: <span className="text-foreground/70 tabular-nums">174</span></span>
+ <span>Drift: <span className="text-foreground/70 tabular-nums">40</span></span>
  </div>
  </div>
   );

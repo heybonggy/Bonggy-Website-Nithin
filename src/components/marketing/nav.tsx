@@ -17,8 +17,8 @@ import { useScrollShell } from "./scroll-shell";
 import { SPRING } from "./_motion";
 
 const LINKS = [
+  { href: "/#what-we-do", id: "what-we-do", label: "What we do" },
   { href: "/#how-it-works", id: "how-it-works", label: "How it works" },
-  { href: "/#fix", id: "fix", label: "The fix" },
   { href: "/resources", id: "resources", label: "Resources" },
 ];
 

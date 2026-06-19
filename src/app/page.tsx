@@ -2,11 +2,11 @@ import { Nav } from "@/components/marketing/nav";
 import { Hero } from "@/components/marketing/hero";
 import { IntegrationsMarquee } from "@/components/marketing/integrations-marquee";
 import { GlobeSection } from "@/components/marketing/globe-section";
-import { HowItWorks } from "@/components/marketing/how-it-works";
-import { TheProblem } from "@/components/marketing/the-problem";
 import { TheReframeFix } from "@/components/marketing/the-reframe-fix";
-import { TheProof } from "@/components/marketing/the-proof";
-import { Close } from "@/components/marketing/close";
+import { HowItWorks } from "@/components/marketing/how-it-works";
+import { ForEveryRole } from "@/components/marketing/for-every-role";
+import { TheLine } from "@/components/marketing/the-line";
+import { SectionRule } from "@/components/marketing/section";
 import { Footer } from "@/components/marketing/footer";
 
 export default function Home() {
@@ -16,12 +16,16 @@ export default function Home() {
       <main className="flex flex-col">
         <Hero />
         <IntegrationsMarquee />
+        <SectionRule />
         <GlobeSection />
-        <HowItWorks />
-        <TheProblem />
+        <SectionRule />
         <TheReframeFix />
-        <TheProof />
-        <Close />
+        <SectionRule />
+        <HowItWorks />
+        <SectionRule />
+        <ForEveryRole />
+        <SectionRule />
+        <TheLine />
       </main>
       <Footer />
     </>

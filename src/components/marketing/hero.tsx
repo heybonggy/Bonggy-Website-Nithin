@@ -3,7 +3,7 @@
 import * as React from "react";
 import { motion } from "motion/react";
 import { CtaButton } from "./cta-button";
-import { CommandCenterMock } from "./command-center-mock";
+import { AlignmentBoard } from "./alignment-board";
 import { SPRING } from "./_motion";
 
 export function Hero() {
@@ -25,7 +25,7 @@ export function Hero() {
               transition={{ duration: 0.5, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
               className="text-display text-display-gradient text-balance text-[44px] font-normal sm:text-[64px] lg:text-[80px]"
             >
-              Your AI full-stack sales agency.
+              Remove AI GTM Slop.
             </motion.h1>
 
             <motion.p
@@ -34,9 +34,9 @@ export function Hero() {
               transition={{ duration: 0.5, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
               className="mt-8 max-w-[58ch] text-[16.5px] leading-relaxed text-muted-foreground"
             >
-              Bonggy works the way your best people work. It reads the
-              world, finds the signal, writes the outreach. Tailored to how
-              you sell. Ten times the output. You stay in control.
+              Every quarter brings another AI tool that sends more and proves
+              nothing. Bonggy does the opposite. It reads the effort your reps
+              already make, aligns it to the goal, and shows what is working.
             </motion.p>
 
             <motion.div
@@ -47,7 +47,7 @@ export function Hero() {
             >
               <CtaButton size="lg">Strategize</CtaButton>
               <p className="text-[13px] text-muted-foreground">
-                Thirty minutes. Your real accounts, not a demo.
+                Thirty minutes. Your real team, your real goal.
               </p>
             </motion.div>
 
@@ -59,13 +59,13 @@ export function Hero() {
             >
               <div className="flex items-center gap-2 font-mono text-[11px] text-muted-foreground">
                 <span className="size-1.5 rounded-full bg-signal pulse-signal" />
-                <span>3 agents running</span>
+                <span>4 roles aligned</span>
               </div>
               <div className="font-mono text-[11px] text-muted-foreground">
-                <span className="text-foreground/70">1,247</span> events read this week
+                <span className="text-foreground/70">92%</span> effort on-goal
               </div>
               <div className="font-mono text-[11px] text-muted-foreground">
-                <span className="text-foreground/70">12</span> accounts firing today
+                <span className="text-foreground/70">7</span> reps drifting, flagged
               </div>
             </motion.div>
           </div>
@@ -83,7 +83,7 @@ export function Hero() {
                   "radial-gradient(closest-side, oklch(0.78 0.13 152 / 18%), transparent 70%)",
               }}
             />
-            <CommandCenterMock />
+            <AlignmentBoard />
           </motion.div>
         </div>
       </div>

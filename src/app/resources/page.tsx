@@ -24,7 +24,7 @@ const POSTS: Post[] = [
     slug: "a-note-from-us",
     title: "A note from us <3",
     excerpt:
-      "On the difference between building a tool and running the work — and why we think outbound sales is the next category where service replaces software.",
+      "On why GTM is drowning in AI slop, and why the fix is not more sending. It is connecting the effort you already have to the goal.",
     readTime: "6 min read",
     date: "",
     kind: "Note",

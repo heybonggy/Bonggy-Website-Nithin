@@ -41,8 +41,8 @@ const SIGNALS: Signal[] = [
  location: [37.77, -122.41],
  popupX: 0,
  popupY: 4,
- event: "Past champion hired",
- detail: "At a competitor's customer · re-engage window",
+ event: "Effort on-goal",
+ detail: "SDR team · 94% pointed at Q4 ICP",
  Icon: UsersThree,
   },
   {
@@ -50,8 +50,8 @@ const SIGNALS: Signal[] = [
  location: [40.71, -74.01],
  popupX: 0,
  popupY: 42,
- event: "Quiet 8% RIF",
- detail: "Off press · vendor review incoming",
+ event: "Drift detected",
+ detail: "Rep · 62% on out-of-ICP accounts",
  Icon: TrendUp,
   },
   {
@@ -59,8 +59,8 @@ const SIGNALS: Signal[] = [
  location: [-33.87, 151.21],
  popupX: 0,
  popupY: 80,
- event: "Procurement RFP leaked",
- detail: "Outbound tooling · 16 days to close",
+ event: "Handoff gap closed",
+ detail: "AE now has the full SDR discovery",
  Icon: Globe,
   },
   // RIGHT COLUMN
@@ -69,8 +69,8 @@ const SIGNALS: Signal[] = [
  location: [51.51, -0.13],
  popupX: 58,
  popupY: 4,
- event: "GitHub: platform rebuild",
- detail: "12 new repos · data-stack shift",
+ event: "Renewal effort tied",
+ detail: "CS hours mapped to the revenue goal",
  Icon: Stack,
   },
   {
@@ -78,8 +78,8 @@ const SIGNALS: Signal[] = [
  location: [52.52, 13.41],
  popupX: 58,
  popupY: 42,
- event: "Re-org broke the mandate",
- detail: "New CTO · existing stack under review",
+ event: "Goal coverage up",
+ detail: "Mid-market segment · 81% this week",
  Icon: CurrencyDollar,
   },
   {
@@ -87,24 +87,24 @@ const SIGNALS: Signal[] = [
  location: [35.68, 139.65],
  popupX: 58,
  popupY: 80,
- event: "Signal cluster",
- detail: "VP hire + raise + 6 SDR reqs · 21 days",
+ event: "Realignment nudge sent",
+ detail: "5 in-ICP accounts surfaced to the rep",
  Icon: Pulse,
   },
 ];
 
 const SOURCES = [
-  "LinkedIn", "Crunchbase", "SEC filings", "DNS records",
-  "Job boards", "Press releases", "GitHub", "TechCrunch",
-  "Layoffs.fyi", "Bloomberg", "Trust portals", "Procurement feeds",
-  "USA Spending", "Engineering blogs",
+  "CRM activity", "Sequencer sends", "Email", "Calendar",
+  "Slack threads", "Call recordings", "Meeting notes", "Pipeline edits",
+  "Intent feeds", "Support tickets", "Renewal data", "Deal stages",
+  "Account notes", "Task logs",
 ];
 
 export function GlobeSection() {
   return (
  <Section
  id="coverage"
- eyebrow="Not a platform · An agency"
+ eyebrow="The gap nobody closes"
  className="py-28 sm:py-32 lg:py-40"
  >
  <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1.05fr_1fr] lg:items-center lg:gap-16">
@@ -116,9 +116,9 @@ export function GlobeSection() {
  transition={SPRING}
  className="text-display text-balance text-[36px] font-normal leading-none tracking-tight sm:text-[44px] lg:text-[56px]"
  >
- We read the world.{" "}
+ A goal at the top.{" "}
  <span className="text-muted-foreground/85">
- So your reps don&apos;t have to.
+ Ten thousand actions at the bottom. Nothing in between.
  </span>
  </motion.h2>
 
@@ -129,12 +129,10 @@ export function GlobeSection() {
  transition={{ ...SPRING, delay: 0.05 }}
  className="mt-7 max-w-[58ch] text-[16px] leading-relaxed text-muted-foreground"
  >
- Most sales software hands you a powerful tool and wishes you luck.
- Bonggy is not that. Bonggy is an agency. You tell it how you sell
- and who you sell to, and it goes to work. The same way you would
- brief a team you just hired. The difference is that this agency
- never sleeps, never forgets a signal, and already knows your
- industry cold.
+ Your CRM shows pipeline. Your sequencer shows sends. None of them
+ tell you whether the effort actually points at what you are trying
+ to win this quarter. That blank space is where strategy dies.
+ Bonggy fills it.
  </motion.p>
 
  <motion.div
@@ -145,7 +143,7 @@ export function GlobeSection() {
  className="mt-10"
  >
  <div className="mb-3 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/70">
- Sources we read · {SOURCES.length} feeds
+ Effort we read · across every tool
  </div>
  <div className="flex flex-wrap gap-1.5">
  {SOURCES.map((s) => (
@@ -172,10 +170,10 @@ export function GlobeSection() {
  </div>
  <div>
  <span className="text-foreground/70 tabular-nums">1,247</span>{" "}
- events this week
+ actions this week
  </div>
  <div>
- <span className="text-foreground/70 tabular-nums">14</span> sources
+ <span className="text-foreground/70 tabular-nums">14</span> tools
  </div>
  </motion.div>
  </div>
@@ -349,7 +347,7 @@ function SignalPopups() {
  }}
  >
  <div className="font-mono text-[9.5px] uppercase tracking-[0.16em] text-signal">
- Signal detected
+ Effort tracked
  </div>
  <div className="mt-0.5 text-[11px] font-medium tracking-tight text-foreground">
  {s.event}

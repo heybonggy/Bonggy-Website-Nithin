@@ -8,8 +8,8 @@ const FOOTER_LINKS: {
   {
     heading: "Product",
     items: [
+      { label: "What we do", href: "/#what-we-do" },
       { label: "How it works", href: "/#how-it-works" },
-      { label: "The fix", href: "/#fix" },
       { label: "FAQ", href: "/faq" },
     ],
   },
@@ -50,7 +50,8 @@ export function Footer() {
               </span>
             </Link>
             <p className="mt-4 max-w-xs text-[13.5px] leading-relaxed text-muted-foreground">
-              A full-stack AI sales agency that already knows how you sell.
+              The layer that connects what your reps do to what your company is
+              trying to win.
             </p>
           </div>
 
