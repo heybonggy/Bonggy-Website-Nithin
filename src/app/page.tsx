@@ -18,9 +18,9 @@ export default function Home() {
         <SectionRule />
         <GlobeSection />
         <SectionRule />
-        <TheReframeFix />
-        <SectionRule />
         <HowItWorks />
+        <SectionRule />
+        <TheReframeFix />
         <SectionRule />
         <TheLine />
       </main>

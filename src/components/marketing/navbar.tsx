@@ -156,7 +156,7 @@ export function Navbar() {
                     href={`/#${item.id}`}
                     onClick={handleAnchor(item.id)}
                     className={cn(
-                      "rounded-md px-3 py-2 text-[14px] text-muted-foreground transition-colors duration-150 hover:text-foreground",
+                      "rounded-md px-3 py-2 font-mono text-[11.5px] uppercase tracking-[0.1em] text-muted-foreground transition-colors duration-150 hover:text-foreground",
                       FOCUS_RING,
                     )}
                   >
@@ -167,7 +167,7 @@ export function Navbar() {
                     key={item.label}
                     href={item.href}
                     className={cn(
-                      "rounded-md px-3 py-2 text-[14px] text-muted-foreground transition-colors duration-150 hover:text-foreground",
+                      "rounded-md px-3 py-2 font-mono text-[11.5px] uppercase tracking-[0.1em] text-muted-foreground transition-colors duration-150 hover:text-foreground",
                       FOCUS_RING,
                     )}
                   >
@@ -186,7 +186,7 @@ export function Navbar() {
               type="button"
               onClick={openEarlyAccess}
               className={cn(
-                "hidden rounded-md px-3 py-2 text-[14px] text-muted-foreground transition-colors duration-150 hover:text-foreground md:inline-flex",
+                "hidden h-9 items-center rounded-md border border-border/70 px-4 font-mono text-[11px] uppercase tracking-[0.1em] text-foreground transition-colors duration-150 hover:bg-card/60 md:inline-flex",
                 FOCUS_RING,
               )}
             >
@@ -334,7 +334,7 @@ function NavDropdown({
         onClick={() => (open ? closeMenu() : openMenu(false))}
         onKeyDown={onTriggerKeyDown}
         className={cn(
-          "inline-flex items-center gap-1 rounded-md px-3 py-2 text-[14px] transition-colors duration-150",
+          "inline-flex items-center gap-1 rounded-md px-3 py-2 font-mono text-[11.5px] uppercase tracking-[0.1em] transition-colors duration-150",
           open ? "text-foreground" : "text-muted-foreground hover:text-foreground",
           FOCUS_RING,
         )}
@@ -343,7 +343,7 @@ function NavDropdown({
         <CaretDown
           weight="bold"
           className={cn(
-            "size-3 opacity-60 transition-transform duration-200",
+            "size-2.5 opacity-55 transition-transform duration-200",
             open && "rotate-180",
           )}
         />
@@ -373,7 +373,7 @@ function NavDropdown({
                 onClick={() => setOpen(false)}
                 onKeyDown={onItemKeyDown(i)}
                 className={cn(
-                  "block rounded-md px-3 py-2 text-[13.5px] text-muted-foreground transition-colors hover:bg-accent hover:text-foreground",
+                  "block rounded-md px-3 py-2 font-mono text-[11px] uppercase tracking-[0.08em] text-muted-foreground transition-colors hover:bg-accent hover:text-foreground",
                   FOCUS_RING,
                 )}
               >
