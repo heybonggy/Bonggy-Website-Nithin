@@ -34,9 +34,9 @@ export function Hero() {
               transition={{ duration: 0.5, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
               className="mt-8 max-w-[58ch] text-[16.5px] leading-relaxed text-muted-foreground"
             >
-              Every quarter brings another AI tool that sends more and proves
-              nothing. Bonggy does the opposite. It reads the effort your reps
-              already make, aligns it to the goal, and shows what is working.
+              Another AI tool every quarter, all sending more and proving
+              nothing. Bonggy reads the effort your reps already make, aligns
+              it to the goal, and shows what is working.
             </motion.p>
 
             <motion.div
@@ -46,9 +46,6 @@ export function Hero() {
               className="mt-10 flex flex-col items-start gap-3"
             >
               <CtaButton size="lg">Strategize</CtaButton>
-              <p className="text-[13px] text-muted-foreground">
-                Thirty minutes. Your real team, your real goal.
-              </p>
             </motion.div>
 
             <motion.div
