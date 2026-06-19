@@ -392,6 +392,28 @@
   }
   .marquee { animation: marquee 42s linear infinite; }
 
+  /* Signal-feed rows (how-it-works) — CSS marquee over a tripled track so
+     the loop is seamless at -33.333%. Runs on the compositor thread, and
+     auto-pauses when the parent Section is skipped by content-visibility. */
+  @keyframes signal-marquee-left {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-33.333%); }
+  }
+  @keyframes signal-marquee-right {
+    from { transform: translateX(-33.333%); }
+    to   { transform: translateX(0); }
+  }
+  .signal-marquee {
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    will-change: transform;
+  }
+  .signal-marquee--left  { animation-name: signal-marquee-left; }
+  .signal-marquee--right { animation-name: signal-marquee-right; }
+  @media (prefers-reduced-motion: reduce) {
+    .signal-marquee { animation: none !important; }
+  }
+
   @keyframes shimmer {
     0%   { transform: translateX(-100%); }
     100% { transform: translateX(100%); }

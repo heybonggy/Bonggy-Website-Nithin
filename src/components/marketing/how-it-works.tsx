@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { motion, useReducedMotion, AnimatePresence } from "motion/react";
+import { motion, useReducedMotion, AnimatePresence, useInView } from "motion/react";
 import {
   CornersOut,
   Check,
@@ -94,6 +94,13 @@ const QUEUE_POOL: Approval[] = [
 ];
 
 export function HowItWorks() {
+  // Single in-view gate for the whole demo grid. Every JS-driven loop below
+  // (typing, ticking counters, the approval queue, the workflow particles)
+  // only runs while the grid is near the viewport, so the section stops
+  // burning CPU when the user is elsewhere on the page.
+  const gridRef = React.useRef<HTMLDivElement>(null);
+  const active = useInView(gridRef, { margin: "300px 0px 300px 0px" });
+
   return (
  <Section id="how-it-works" eyebrow="How it works">
  <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_1fr] lg:gap-16">
@@ -127,17 +134,17 @@ export function HowItWorks() {
  </motion.div>
  </div>
 
- <div className="mt-16 grid auto-rows-[300px] grid-cols-1 gap-3 sm:auto-rows-[320px] lg:auto-rows-[340px] lg:grid-cols-10 lg:gap-4">
+ <div ref={gridRef} className="mt-16 grid auto-rows-[300px] grid-cols-1 gap-3 sm:auto-rows-[320px] lg:auto-rows-[340px] lg:grid-cols-10 lg:gap-4">
  <BentoCard className="lg:col-span-4" step="01" title="Observe" sub="Effort in, from every tool.">
- <CommandInputDemo />
+ <CommandInputDemo active={active} />
  </BentoCard>
 
  <BentoCard className="lg:col-span-3" step="02" title="Align" sub="Mapped to the goal.">
- <WorkflowDemo />
+ <WorkflowDemo active={active} />
  </BentoCard>
 
  <BentoCard className="lg:col-span-3" step="03" title="Surface the drift" sub="Reps off-strategy, flagged.">
- <ApprovalDemo />
+ <ApprovalDemo active={active} />
  </BentoCard>
 
  <BentoCard
@@ -155,7 +162,7 @@ export function HowItWorks() {
  </BentoCard>
 
  <BentoCard className="lg:col-span-3" step="," title="Goal coverage" sub="Effort that points at the goal.">
- <ThroughputDemo />
+ <ThroughputDemo active={active} />
  </BentoCard>
  </div>
  </Section>
@@ -207,14 +214,14 @@ function BentoCard({
 
 /* ───────────────── Card 01 · Command Input archetype ───────────────── */
 
-function CommandInputDemo() {
+function CommandInputDemo({ active }: { active: boolean }) {
   const reduce = useReducedMotion();
   const [idx, setIdx] = React.useState(0);
   const [typed, setTyped] = React.useState(reduce ? PROMPTS[0] : "");
   const [phase, setPhase] = React.useState<"typing" | "compiling">("typing");
 
   React.useEffect(() => {
- if (reduce) return;
+ if (reduce || !active) return;
  let i = 0;
  let timer: ReturnType<typeof setTimeout>;
  const current = PROMPTS[idx];
@@ -233,7 +240,7 @@ function CommandInputDemo() {
  };
  timer = setTimeout(tick, 500);
  return () => clearTimeout(timer);
-  }, [idx, reduce]);
+  }, [idx, reduce, active]);
 
   return (
  <div className="flex h-full flex-col gap-3 p-5">
@@ -292,23 +299,23 @@ function CommandInputDemo() {
 
 /* ───────────────── Card 02 · Workflow with LIVE counters + flowing particles ───────────────── */
 
-function useTickingCounter(target: number, increment = 1, intervalMs = 1960) {
+function useTickingCounter(target: number, increment = 1, intervalMs = 1960, active = true) {
   const [val, setVal] = React.useState(target);
   const reduce = useReducedMotion();
   React.useEffect(() => {
- if (reduce) return;
+ if (reduce || !active) return;
  const id = setInterval(() => {
  setVal((v) => v + Math.random() < 0.65 ? v + increment + Math.floor(Math.random() * 2) : v);
  }, intervalMs + Math.random() * 800);
  return () => clearInterval(id);
-  }, [reduce, increment, intervalMs]);
+  }, [reduce, increment, intervalMs, active]);
   return val;
 }
 
-function WorkflowDemo() {
-  const eventsCount = useTickingCounter(847, 2, 1540);
-  const accountsCount = useTickingCounter(94, 1, 3360);
-  const draftsCount = useTickingCounter(31, 1, 4480);
+function WorkflowDemo({ active }: { active: boolean }) {
+  const eventsCount = useTickingCounter(847, 2, 1540, active);
+  const accountsCount = useTickingCounter(94, 1, 3360, active);
+  const draftsCount = useTickingCounter(31, 1, 4480, active);
 
   const NODES = [
  { label: "Action", Icon: Pulse, x: 22, y: 28, count: eventsCount, unit: "actions" },
@@ -321,7 +328,8 @@ function WorkflowDemo() {
  <div className="relative flex h-full flex-col overflow-hidden p-5">
  <div className="absolute inset-0 bg-grid-fine opacity-30" />
 
- {/* Concentric pulse around the Watch node */}
+ {/* Concentric pulse around the Watch node — only mounted while in view */}
+ {active && (
  <div
  className="pointer-events-none absolute"
  style={{ left: `${NODES[0].x}%`, top: `${NODES[0].y}%`, transform: "translate(-50%, -50%)" }}
@@ -340,6 +348,7 @@ function WorkflowDemo() {
  />
  ))}
  </div>
+ )}
 
  <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="text-foreground absolute inset-0 size-full">
  <defs>
@@ -361,8 +370,9 @@ function WorkflowDemo() {
  strokeDasharray="0.6 1.2"
  />
 
- {/* Flowing particles — 2 instead of 4, slower */}
- {[0, 2.2].map((delay, i) => (
+ {/* Flowing particles — only mounted while in view */}
+ {active &&
+ [0, 2.2].map((delay, i) => (
  <motion.circle
  key={i}
  r="0.7"
@@ -413,7 +423,7 @@ function WorkflowDemo() {
 
 type QueueItem = Approval & { status: "pending" | "approved" | "rejected"; key: number };
 
-function ApprovalDemo() {
+function ApprovalDemo({ active }: { active: boolean }) {
   const reduce = useReducedMotion();
   const [items, setItems] = React.useState<QueueItem[]>(() =>
  QUEUE_POOL.slice(0, 4).map((a, i) => ({ ...a, status: "pending", key: i })),
@@ -421,7 +431,7 @@ function ApprovalDemo() {
   const counter = React.useRef(4);
 
   React.useEffect(() => {
- if (reduce) return;
+ if (reduce || !active) return;
  const tick = () => {
  setItems((prev) => {
  if (!prev.length) return prev;
@@ -446,7 +456,7 @@ function ApprovalDemo() {
  };
  const id = setInterval(tick, 2100);
  return () => clearInterval(id);
-  }, [reduce]);
+  }, [reduce, active]);
 
   return (
  <div className="flex h-full flex-col gap-2.5 p-5">
@@ -568,24 +578,20 @@ function SignalRow({
   direction: "left" | "right";
   speedSec: number;
 }) {
-  const doubled = [...row, ...row, ...row];
+  const tripled = [...row, ...row, ...row];
   return (
  <div className="flex w-max items-center gap-3 whitespace-nowrap">
- <motion.div
- className="flex w-max items-center gap-3"
- animate={{
- x: direction === "left" ? ["0%", "-33.33%"] : ["-33.33%", "0%"],
- }}
- transition={{
- duration: speedSec,
- repeat: Infinity,
- ease: "linear",
- }}
+ <div
+ className={cn(
+ "signal-marquee flex w-max items-center gap-3",
+ direction === "left" ? "signal-marquee--left" : "signal-marquee--right",
+ )}
+ style={{ animationDuration: `${speedSec}s` }}
  >
- {doubled.map((s, i) => (
+ {tripled.map((s, i) => (
  <SignalPill key={`${s.co}-${i}`} signal={s} />
  ))}
- </motion.div>
+ </div>
  </div>
   );
 }
@@ -661,8 +667,8 @@ function AgentStatusDemo() {
 
 /* ───────────────── Throughput tile , sparkline + counter ───────────────── */
 
-function ThroughputDemo() {
-  const actionsToday = useTickingCounter(214, 3, 900);
+function ThroughputDemo({ active }: { active: boolean }) {
+  const actionsToday = useTickingCounter(214, 3, 900, active);
 
   return (
  <div className="relative flex h-full flex-col justify-between p-5">
