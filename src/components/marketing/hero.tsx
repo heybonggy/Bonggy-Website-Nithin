@@ -3,8 +3,6 @@
 import * as React from "react";
 import { motion } from "motion/react";
 import { CtaButton } from "./cta-button";
-import { AlignmentBoard } from "./alignment-board";
-import { SPRING } from "./_motion";
 
 export function Hero() {
   return (
@@ -15,74 +13,53 @@ export function Hero() {
         className="pointer-events-none absolute inset-0 -z-10 bg-grid bg-grid-mask opacity-90"
       />
 
-      <div className="relative mx-auto flex min-h-[100svh] w-full max-w-[1400px] flex-col items-stretch justify-center px-6 pt-44 pb-16 lg:px-10 lg:pt-52 lg:pb-20">
-        <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-[1.05fr_1fr] lg:gap-14">
-          <div className="relative">
-            {/* Single confident headline. Gradient text fades white to muted. */}
-            <motion.h1
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
-              className="text-display text-display-gradient text-balance text-[44px] font-normal sm:text-[64px] lg:text-[80px]"
-            >
-              Remove AI GTM Slop.
-            </motion.h1>
+      <div className="relative mx-auto flex min-h-[100svh] w-full max-w-[1400px] flex-col items-center justify-center px-6 pt-44 pb-16 text-center lg:px-10 lg:pt-52 lg:pb-20">
+        {/* Single confident headline. Gradient text fades white to muted. */}
+        <motion.h1
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
+          className="text-display text-display-gradient mx-auto max-w-[20ch] text-balance text-[44px] font-normal sm:text-[64px] lg:text-[80px]"
+        >
+          You changed the strategy. Did the team?
+        </motion.h1>
 
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
-              className="mt-8 max-w-[58ch] text-[16.5px] leading-relaxed text-muted-foreground"
-            >
-              Another AI tool every quarter, all sending more and proving
-              nothing. Bonggy reads the effort your reps already make, aligns
-              it to the goal, and shows what is working.
-            </motion.p>
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
+          className="mx-auto mt-8 max-w-[54ch] text-[16.5px] leading-relaxed text-muted-foreground"
+        >
+          Bonggy shows whether your reps&apos; effort actually points at the
+          goal, before the quarter&apos;s gone.
+        </motion.p>
 
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
-              className="mt-10 flex flex-col items-start gap-3"
-            >
-              <CtaButton size="lg">Strategize</CtaButton>
-            </motion.div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
+          className="mt-10 flex justify-center"
+        >
+          <CtaButton size="lg">Strategize</CtaButton>
+        </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.24, ease: [0.22, 1, 0.36, 1] }}
-              className="mt-14 flex flex-wrap items-center gap-x-8 gap-y-3"
-            >
-              <div className="flex items-center gap-2 font-mono text-[11px] text-muted-foreground">
-                <span className="size-1.5 rounded-full bg-signal pulse-signal" />
-                <span>4 roles aligned</span>
-              </div>
-              <div className="font-mono text-[11px] text-muted-foreground">
-                <span className="text-foreground/70">92%</span> effort on-goal
-              </div>
-              <div className="font-mono text-[11px] text-muted-foreground">
-                <span className="text-foreground/70">7</span> reps drifting, flagged
-              </div>
-            </motion.div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.24, ease: [0.22, 1, 0.36, 1] }}
+          className="mt-14 flex flex-wrap items-center justify-center gap-x-8 gap-y-3"
+        >
+          <div className="flex items-center gap-2 font-mono text-[11px] text-muted-foreground">
+            <span className="size-1.5 rounded-full bg-signal pulse-signal" />
+            <span>4 roles aligned</span>
           </div>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
-            className="relative"
-          >
-            <div
-              className="pointer-events-none absolute -inset-x-16 -inset-y-20 -z-10"
-              style={{
-                background:
-                  "radial-gradient(closest-side, oklch(0.78 0.13 152 / 18%), transparent 70%)",
-              }}
-            />
-            <AlignmentBoard />
-          </motion.div>
-        </div>
+          <div className="font-mono text-[11px] text-muted-foreground">
+            <span className="text-foreground/70">92%</span> effort on-goal
+          </div>
+          <div className="font-mono text-[11px] text-muted-foreground">
+            <span className="text-foreground/70">7</span> reps drifting, flagged
+          </div>
+        </motion.div>
       </div>
     </section>
   );
