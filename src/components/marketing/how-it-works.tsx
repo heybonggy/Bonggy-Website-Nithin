@@ -102,39 +102,21 @@ export function HowItWorks() {
   const active = useInView(gridRef, { margin: "300px 0px 300px 0px" });
 
   return (
- <Section id="how-it-works" eyebrow="How it works">
- <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_1fr] lg:gap-16">
+ <Section id="how-it-works" eyebrow="Every seat, made legible">
  <motion.h2
  initial={{ y: 14 }}
  whileInView={{ y: 0 }}
  viewport={{ once: true, amount: 0.15 }}
  transition={SPRING}
- className="text-display text-balance text-[36px] font-normal leading-none tracking-tight sm:text-[44px] lg:text-[56px]"
+ className="text-display max-w-[24ch] text-balance text-[36px] font-medium leading-none tracking-tight sm:text-[44px] lg:text-[56px]"
  >
- Three moves.
- <br />
- <span className="text-muted-foreground/85">Continuously.</span>
+ One layer.{" "}
+ <span className="text-muted-foreground/85">
+ Every role finally sees the same picture.
+ </span>
  </motion.h2>
 
- <motion.div
- initial={{ y: 14 }}
- whileInView={{ y: 0 }}
- viewport={{ once: true, amount: 0.15 }}
- transition={{ ...SPRING, delay: 0.05 }}
- className="space-y-5 lg:pt-2"
- >
- <p className="max-w-[58ch] text-[16px] leading-relaxed text-muted-foreground">
- Bonggy observes the effort flowing through every tool, aligns each
- action to the goal, and surfaces the reps who drifted. No new
- workflow. No data entry. It reads what is already happening.
- </p>
- <p className="max-w-[58ch] text-[16px] font-medium leading-relaxed text-foreground">
- Observe. Align. Surface the drift.
- </p>
- </motion.div>
- </div>
-
- <div ref={gridRef} className="mt-16 grid auto-rows-[300px] grid-cols-1 gap-3 sm:auto-rows-[320px] lg:auto-rows-[340px] lg:grid-cols-10 lg:gap-4">
+ <div ref={gridRef} className="mt-14 grid auto-rows-[300px] grid-cols-1 gap-3 sm:auto-rows-[320px] lg:auto-rows-[340px] lg:grid-cols-10 lg:gap-4">
  <BentoCard className="lg:col-span-4" step="01" title="Observe" sub="Effort in, from every tool.">
  <CommandInputDemo active={active} />
  </BentoCard>

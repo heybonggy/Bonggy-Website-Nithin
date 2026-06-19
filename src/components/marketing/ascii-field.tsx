@@ -146,7 +146,7 @@ export function AsciiField() {
             const localR2 = localX * localX + localY * localY;
             const z = Math.sqrt(Math.max(0, 1.0 - localR2));
 
-            const angle = time * 0.32;
+            const angle = time * 0.72;
             const px = localX * Math.cos(angle) - z * Math.sin(angle);
             const py = localY;
             const pz = localX * Math.sin(angle) + z * Math.cos(angle);

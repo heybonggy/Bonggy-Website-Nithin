@@ -4,7 +4,6 @@ import { IntegrationsMarquee } from "@/components/marketing/integrations-marquee
 import { GlobeSection } from "@/components/marketing/globe-section";
 import { TheReframeFix } from "@/components/marketing/the-reframe-fix";
 import { HowItWorks } from "@/components/marketing/how-it-works";
-import { ForEveryRole } from "@/components/marketing/for-every-role";
 import { TheLine } from "@/components/marketing/the-line";
 import { SectionRule } from "@/components/marketing/section";
 import { Footer } from "@/components/marketing/footer";
@@ -22,8 +21,6 @@ export default function Home() {
         <TheReframeFix />
         <SectionRule />
         <HowItWorks />
-        <SectionRule />
-        <ForEveryRole />
         <SectionRule />
         <TheLine />
       </main>
