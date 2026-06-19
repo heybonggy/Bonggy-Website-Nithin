@@ -91,6 +91,12 @@ export function CtaButton({
  ? undefined
  : { boxShadow: ringShadow[variant] };
 
+  // External links (the cal.com booking link) open in a new tab so the user
+  // never leaves the site — clicking "Strategize" and hitting Back used to
+  // restore them mid-page because the custom scroll container breaks native
+  // scroll restoration. Internal hrefs keep normal in-tab navigation.
+  const isExternal = /^https?:\/\//.test(href);
+
   const element = asButton ? (
  <button
  type={type}
@@ -101,7 +107,13 @@ export function CtaButton({
  {inner}
  </button>
   ) : (
- <Link href={href} className={sharedClasses} style={sharedStyle}>
+ <Link
+ href={href}
+ target={isExternal ? "_blank" : undefined}
+ rel={isExternal ? "noopener noreferrer" : undefined}
+ className={sharedClasses}
+ style={sharedStyle}
+ >
  {inner}
  </Link>
   );
