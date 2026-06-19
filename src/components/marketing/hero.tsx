@@ -4,6 +4,7 @@ import * as React from "react";
 import { motion } from "motion/react";
 import { CtaButton } from "./cta-button";
 import { AsciiField } from "./ascii-field";
+import { IntegrationsMarquee } from "./integrations-marquee";
 
 export function Hero() {
   return (
@@ -61,6 +62,18 @@ export function Hero() {
           <CtaButton size="lg">Strategize</CtaButton>
         </motion.div>
       </div>
+
+      {/* Whisper-quiet integrations strip pinned to the hero's bottom edge —
+          borderless, low-opacity logos so it reads as faint social proof at
+          the fold without competing with the ASCII field above it. */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        className="absolute inset-x-0 bottom-0 z-10 pb-6 sm:pb-8"
+      >
+        <IntegrationsMarquee compact />
+      </motion.div>
     </section>
   );
 }

@@ -1,6 +1,5 @@
 import { Navbar } from "@/components/marketing/navbar";
 import { Hero } from "@/components/marketing/hero";
-import { IntegrationsMarquee } from "@/components/marketing/integrations-marquee";
 import { GlobeSection } from "@/components/marketing/globe-section";
 import { TheReframeFix } from "@/components/marketing/the-reframe-fix";
 import { HowItWorks } from "@/components/marketing/how-it-works";
@@ -14,7 +13,6 @@ export default function Home() {
       <Navbar />
       <main className="flex flex-col">
         <Hero />
-        <IntegrationsMarquee />
         <SectionRule />
         <GlobeSection />
         <SectionRule />

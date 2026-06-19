@@ -66,8 +66,12 @@ function Tile({
   return (
     <div
       className={cn(
-        "group/tile flex shrink-0 items-center justify-center rounded-lg border border-white/[0.06] bg-white/[0.02] px-3 transition-colors hover:bg-white/[0.04]",
-        compact ? "h-9 w-[104px]" : "h-14 w-[140px]",
+        "group/tile flex shrink-0 items-center justify-center transition-colors",
+        // Compact (in-hero): borderless, no box — just the logo, so it recedes
+        // behind the ASCII field instead of stacking visual noise.
+        compact
+          ? "h-7 px-5"
+          : "h-14 w-[140px] rounded-lg border border-white/[0.06] bg-white/[0.02] px-3 hover:bg-white/[0.04]",
       )}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -78,8 +82,10 @@ function Tile({
         // brightness(0) invert(1) flattens any source SVG (monochrome or
         // full-color) to pure white silhouette, so the row stays cohesive.
         className={cn(
-          "w-auto object-contain opacity-60 transition-opacity group-hover/tile:opacity-100",
-          compact ? "h-[18px] max-w-[80px]" : "h-6 max-w-[100px]",
+          "w-auto object-contain transition-opacity",
+          compact
+            ? "h-[15px] max-w-[72px] opacity-30 group-hover/tile:opacity-60"
+            : "h-6 max-w-[100px] opacity-60 group-hover/tile:opacity-100",
         )}
         style={{ filter: "brightness(0) invert(1)" }}
       />
@@ -112,11 +118,23 @@ export function IntegrationsMarquee({ compact = false }: { compact?: boolean }) 
           "mx-auto w-full max-w-[1400px] px-6 lg:px-10",
           // In the hero, center the label above the full-bleed marquee so it
           // matches the centered hero rather than floating off to the left.
-          compact ? "mb-3 flex justify-center" : "mb-8 sm:mb-10",
+          compact ? "mb-2.5 flex justify-center" : "mb-8 sm:mb-10",
         )}
       >
-        <div className="inline-flex items-center gap-2.5 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-          <span className="size-1 rounded-full bg-signal" />
+        <div
+          className={cn(
+            "inline-flex items-center gap-2.5 font-mono uppercase",
+            compact
+              ? "gap-2 text-[9px] tracking-[0.2em] text-muted-foreground/45"
+              : "text-[10px] tracking-[0.22em] text-muted-foreground",
+          )}
+        >
+          <span
+            className={cn(
+              "rounded-full bg-signal",
+              compact ? "size-[3px] opacity-60" : "size-1",
+            )}
+          />
           Connects with your stack
         </div>
       </div>
