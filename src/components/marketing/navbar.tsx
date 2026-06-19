@@ -1,0 +1,532 @@
+"use client";
+
+import * as React from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import {
+  useScroll,
+  useMotionValueEvent,
+  motion,
+  AnimatePresence,
+} from "motion/react";
+import { CaretDown } from "@phosphor-icons/react/dist/ssr";
+import { cn } from "@/lib/utils";
+import { BonggyMark } from "./bonggy-mark";
+import { CtaButton } from "./cta-button";
+import { EarlyAccessModal } from "./early-access-modal";
+import { ThemeToggle } from "./theme-toggle";
+import { useScrollShell } from "./scroll-shell";
+
+/* ─────────────────────────── Config ───────────────────────────
+   Edit nav items here. `anchor` links smooth-scroll on the home page;
+   `route` links navigate. Dropdowns hold a label + items array.        */
+
+type NavItem =
+  | { type: "anchor"; label: string; id: string }
+  | { type: "route"; label: string; href: string }
+  | { type: "dropdown"; label: string; items: { label: string; href: string }[] };
+
+const NAV_ITEMS: NavItem[] = [
+  { type: "anchor", label: "What we do", id: "what-we-do" },
+  { type: "anchor", label: "How it works", id: "how-it-works" },
+  {
+    type: "dropdown",
+    label: "Resources",
+    items: [
+      { label: "A note from us", href: "/resources/a-note-from-us" },
+      { label: "FAQ", href: "/faq" },
+    ],
+  },
+  {
+    type: "dropdown",
+    label: "Company",
+    items: [
+      { label: "About", href: "/about" },
+      { label: "Careers", href: "/careers" },
+      { label: "Contact", href: "/contact" },
+    ],
+  },
+];
+
+const FOCUS_RING =
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal focus-visible:ring-offset-2 focus-visible:ring-offset-background";
+
+const HEADER_OFFSET = 76; // px, so smooth-scrolled sections clear the fixed bar
+
+/* ─────────────────────── smooth-scroll helper ─────────────────── */
+
+function smoothScrollToId(
+  id: string,
+  shell: React.RefObject<HTMLElement> | null,
+) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  if (shell?.current) {
+    const top =
+      el.getBoundingClientRect().top -
+      shell.current.getBoundingClientRect().top +
+      shell.current.scrollTop -
+      HEADER_OFFSET;
+    shell.current.scrollTo({ top, behavior: "smooth" });
+  } else {
+    const top = el.getBoundingClientRect().top + window.scrollY - HEADER_OFFSET;
+    window.scrollTo({ top, behavior: "smooth" });
+  }
+  history.replaceState(null, "", `#${id}`);
+}
+
+/* ───────────────────────────── Navbar ─────────────────────────── */
+
+export function Navbar() {
+  const pathname = usePathname();
+  const shellRef = useScrollShell();
+  const { scrollY } = useScroll(
+    shellRef ? { container: shellRef as React.RefObject<HTMLElement> } : undefined,
+  );
+  const [scrolled, setScrolled] = React.useState(false);
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [eaOpen, setEaOpen] = React.useState(false);
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    setScrolled(latest > 24);
+  });
+
+  // Lock the scroll-shell while the mobile menu is open (this site scrolls an
+  // inner container, not the body).
+  React.useEffect(() => {
+    const shell = shellRef?.current;
+    if (!shell) return;
+    if (mobileOpen) shell.style.overflow = "hidden";
+    else if (!eaOpen) shell.style.overflow = "";
+    return () => {
+      if (shell) shell.style.overflow = "";
+    };
+  }, [mobileOpen, eaOpen, shellRef]);
+
+  const openEarlyAccess = React.useCallback(() => {
+    setMobileOpen(false);
+    requestAnimationFrame(() => setEaOpen(true));
+  }, []);
+
+  const handleAnchor = React.useCallback(
+    (id: string) => (e: React.MouseEvent) => {
+      if (pathname === "/") {
+        e.preventDefault();
+        smoothScrollToId(id, shellRef);
+      }
+      // off the home page → let the <Link href="/#id"> navigate normally
+    },
+    [pathname, shellRef],
+  );
+
+  return (
+    <>
+      <header
+        className={cn(
+          "fixed inset-x-0 top-0 z-50 transition-[background-color,backdrop-filter,border-color,box-shadow] duration-200",
+          scrolled || mobileOpen
+            ? "border-b border-border/60 bg-background/75 backdrop-blur-md"
+            : "border-b border-transparent bg-transparent",
+        )}
+      >
+        <div className="mx-auto flex h-15 w-full max-w-[1400px] items-center justify-between px-6 lg:px-10">
+          {/* LEFT: wordmark + center nav (left-aligned next to logo) */}
+          <div className="flex items-center gap-7">
+            <Link
+              href="/"
+              aria-label="Bonggy, home"
+              className={cn(
+                "flex items-center gap-2.5 rounded-md py-1 pr-1",
+                FOCUS_RING,
+              )}
+            >
+              <BonggyMark className="size-6" />
+              <span className="font-mono text-[14px] font-medium uppercase tracking-[0.2em] text-foreground">
+                Bonggy
+              </span>
+            </Link>
+
+            <nav className="hidden items-center gap-1 md:flex" aria-label="Primary">
+              {NAV_ITEMS.map((item) =>
+                item.type === "dropdown" ? (
+                  <NavDropdown key={item.label} label={item.label} items={item.items} />
+                ) : item.type === "anchor" ? (
+                  <Link
+                    key={item.label}
+                    href={`/#${item.id}`}
+                    onClick={handleAnchor(item.id)}
+                    className={cn(
+                      "rounded-md px-3 py-2 text-[14px] text-muted-foreground transition-colors duration-150 hover:text-foreground",
+                      FOCUS_RING,
+                    )}
+                  >
+                    {item.label}
+                  </Link>
+                ) : (
+                  <Link
+                    key={item.label}
+                    href={item.href}
+                    className={cn(
+                      "rounded-md px-3 py-2 text-[14px] text-muted-foreground transition-colors duration-150 hover:text-foreground",
+                      FOCUS_RING,
+                    )}
+                  >
+                    {item.label}
+                  </Link>
+                ),
+              )}
+            </nav>
+          </div>
+
+          {/* RIGHT: theme toggle + early access + CTA (desktop) / hamburger (mobile) */}
+          <div className="flex items-center gap-2 sm:gap-3">
+            <ThemeToggle className={cn("hidden sm:inline-flex", FOCUS_RING)} />
+
+            <button
+              type="button"
+              onClick={openEarlyAccess}
+              className={cn(
+                "hidden rounded-md px-3 py-2 text-[14px] text-muted-foreground transition-colors duration-150 hover:text-foreground md:inline-flex",
+                FOCUS_RING,
+              )}
+            >
+              Early access
+            </button>
+
+            {/* Mobile controls */}
+            <ThemeToggle className={cn("inline-flex sm:hidden", FOCUS_RING)} />
+            <button
+              type="button"
+              aria-label={mobileOpen ? "Close menu" : "Open menu"}
+              aria-expanded={mobileOpen}
+              aria-controls="mobile-menu"
+              onClick={() => setMobileOpen((v) => !v)}
+              className={cn(
+                "flex size-9 items-center justify-center rounded-md border border-border/60 bg-card/40 text-foreground md:hidden",
+                FOCUS_RING,
+              )}
+            >
+              <Hamburger open={mobileOpen} />
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <AnimatePresence>
+        {mobileOpen && (
+          <MobileMenu
+            onClose={() => setMobileOpen(false)}
+            onOpenEarlyAccess={openEarlyAccess}
+            onAnchor={(id) => {
+              setMobileOpen(false);
+              // wait for the panel to start closing, then scroll
+              setTimeout(() => smoothScrollToId(id, shellRef), 80);
+            }}
+            isHome={pathname === "/"}
+          />
+        )}
+      </AnimatePresence>
+
+      <EarlyAccessModal open={eaOpen} onOpenChange={setEaOpen} />
+    </>
+  );
+}
+
+/* ─────────────────────────── NavDropdown ─────────────────────────
+   Opens on hover AND click. Full keyboard support + ARIA menu semantics.   */
+
+function NavDropdown({
+  label,
+  items,
+}: {
+  label: string;
+  items: { label: string; href: string }[];
+}) {
+  const [open, setOpen] = React.useState(false);
+  const wrapRef = React.useRef<HTMLDivElement>(null);
+  const triggerRef = React.useRef<HTMLButtonElement>(null);
+  const itemRefs = React.useRef<(HTMLAnchorElement | null)[]>([]);
+  const closeTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+  const menuId = React.useId();
+
+  const clearClose = () => {
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+  };
+
+  const openMenu = (focusFirst = false) => {
+    clearClose();
+    setOpen(true);
+    if (focusFirst) {
+      requestAnimationFrame(() => itemRefs.current[0]?.focus());
+    }
+  };
+
+  const closeMenu = (returnFocus = false) => {
+    setOpen(false);
+    if (returnFocus) triggerRef.current?.focus();
+  };
+
+  // Hover intent: small delay on leave so moving cursor into the panel
+  // doesn't snap it shut.
+  const onLeave = () => {
+    clearClose();
+    closeTimer.current = setTimeout(() => setOpen(false), 120);
+  };
+
+  // Click-outside + Escape (global, only while open)
+  React.useEffect(() => {
+    if (!open) return;
+    const onDoc = (e: MouseEvent) => {
+      if (wrapRef.current && !wrapRef.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", onDoc);
+    return () => document.removeEventListener("mousedown", onDoc);
+  }, [open]);
+
+  const onTriggerKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "ArrowDown" || e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      openMenu(true);
+    } else if (e.key === "Escape") {
+      closeMenu();
+    }
+  };
+
+  const onItemKeyDown = (i: number) => (e: React.KeyboardEvent) => {
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      itemRefs.current[(i + 1) % items.length]?.focus();
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      itemRefs.current[(i - 1 + items.length) % items.length]?.focus();
+    } else if (e.key === "Home") {
+      e.preventDefault();
+      itemRefs.current[0]?.focus();
+    } else if (e.key === "End") {
+      e.preventDefault();
+      itemRefs.current[items.length - 1]?.focus();
+    } else if (e.key === "Escape") {
+      e.preventDefault();
+      closeMenu(true);
+    } else if (e.key === "Tab") {
+      setOpen(false); // let focus leave naturally
+    }
+  };
+
+  return (
+    <div
+      ref={wrapRef}
+      className="relative"
+      onMouseEnter={() => openMenu(false)}
+      onMouseLeave={onLeave}
+    >
+      <button
+        ref={triggerRef}
+        type="button"
+        aria-haspopup="menu"
+        aria-expanded={open}
+        aria-controls={menuId}
+        onClick={() => (open ? closeMenu() : openMenu(false))}
+        onKeyDown={onTriggerKeyDown}
+        className={cn(
+          "inline-flex items-center gap-1 rounded-md px-3 py-2 text-[14px] transition-colors duration-150",
+          open ? "text-foreground" : "text-muted-foreground hover:text-foreground",
+          FOCUS_RING,
+        )}
+      >
+        {label}
+        <CaretDown
+          weight="bold"
+          className={cn(
+            "size-3 opacity-60 transition-transform duration-200",
+            open && "rotate-180",
+          )}
+        />
+      </button>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            id={menuId}
+            role="menu"
+            aria-label={label}
+            initial={{ opacity: 0, y: -6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
+            className="absolute left-0 top-full mt-2 min-w-[200px] rounded-[10px] border border-border/70 bg-popover/90 p-1.5 shadow-[0_16px_40px_-12px_rgba(0,0,0,0.5)] backdrop-blur-md"
+          >
+            {items.map((it, i) => (
+              <Link
+                key={it.href}
+                href={it.href}
+                ref={(node) => {
+                  itemRefs.current[i] = node;
+                }}
+                role="menuitem"
+                tabIndex={-1}
+                onClick={() => setOpen(false)}
+                onKeyDown={onItemKeyDown(i)}
+                className={cn(
+                  "block rounded-md px-3 py-2 text-[13.5px] text-muted-foreground transition-colors hover:bg-accent hover:text-foreground",
+                  FOCUS_RING,
+                )}
+              >
+                {it.label}
+              </Link>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+/* ─────────────────────────── Hamburger ─────────────────────────── */
+
+function Hamburger({ open }: { open: boolean }) {
+  const t = { type: "spring" as const, stiffness: 380, damping: 28 };
+  return (
+    <svg viewBox="0 0 24 24" className="size-5" aria-hidden>
+      <motion.line
+        x1="3" x2="21" y1="8" y2="8"
+        stroke="currentColor" strokeWidth="1.7" strokeLinecap="round"
+        initial={false}
+        animate={open ? { rotate: 45, translateY: 4 } : { rotate: 0, translateY: 0 }}
+        style={{ transformOrigin: "12px 8px" }}
+        transition={t}
+      />
+      <motion.line
+        x1="3" x2="21" y1="16" y2="16"
+        stroke="currentColor" strokeWidth="1.7" strokeLinecap="round"
+        initial={false}
+        animate={open ? { rotate: -45, translateY: -4 } : { rotate: 0, translateY: 0 }}
+        style={{ transformOrigin: "12px 16px" }}
+        transition={t}
+      />
+    </svg>
+  );
+}
+
+/* ─────────────────────────── MobileMenu ───────────────────────────
+   Slide-in panel from the right. Closes on link tap, Escape, backdrop tap.  */
+
+function MobileMenu({
+  onClose,
+  onOpenEarlyAccess,
+  onAnchor,
+  isHome,
+}: {
+  onClose: () => void;
+  onOpenEarlyAccess: () => void;
+  onAnchor: (id: string) => void;
+  isHome: boolean;
+}) {
+  const panelRef = React.useRef<HTMLDivElement>(null);
+
+  // Escape closes; focus moves into the panel on open.
+  React.useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", onKey);
+    requestAnimationFrame(() => panelRef.current?.focus());
+    return () => document.removeEventListener("keydown", onKey);
+  }, [onClose]);
+
+  // Flatten the nav config into a single vertical list.
+  const flat: { label: string; href: string; id?: string; section?: boolean }[] = [];
+  for (const item of NAV_ITEMS) {
+    if (item.type === "anchor") flat.push({ label: item.label, href: `/#${item.id}`, id: item.id });
+    else if (item.type === "route") flat.push({ label: item.label, href: item.href });
+    else item.items.forEach((s) => flat.push({ label: s.label, href: s.href }));
+  }
+
+  return (
+    <motion.div
+      id="mobile-menu"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.18 }}
+      className="fixed inset-0 z-40 md:hidden"
+    >
+      {/* Backdrop */}
+      <button
+        type="button"
+        aria-label="Close menu"
+        onClick={onClose}
+        className="absolute inset-0 bg-background/85 backdrop-blur-md"
+      />
+
+      {/* Right slide-in panel */}
+      <motion.div
+        ref={panelRef}
+        tabIndex={-1}
+        initial={{ x: "100%" }}
+        animate={{ x: 0 }}
+        exit={{ x: "100%" }}
+        transition={{ type: "spring", stiffness: 320, damping: 34 }}
+        className="absolute inset-y-0 right-0 flex w-[86%] max-w-[360px] flex-col border-l border-border/60 bg-background/95 px-6 pt-24 pb-8 outline-none backdrop-blur-xl"
+      >
+        <nav className="flex flex-col" aria-label="Mobile">
+          {flat.map((l, i) =>
+            l.id && isHome ? (
+              <button
+                key={l.label}
+                type="button"
+                onClick={() => onAnchor(l.id!)}
+                className={cn(
+                  "flex items-center justify-between border-b border-border/50 px-1 py-4 text-left text-[17px] text-foreground transition-colors hover:text-signal",
+                  FOCUS_RING,
+                )}
+              >
+                <span>{l.label}</span>
+                <span className="font-mono text-[10px] tabular-nums text-muted-foreground/50">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+              </button>
+            ) : (
+              <Link
+                key={l.label}
+                href={l.href}
+                onClick={onClose}
+                className={cn(
+                  "flex items-center justify-between border-b border-border/50 px-1 py-4 text-[17px] text-foreground transition-colors hover:text-signal",
+                  FOCUS_RING,
+                )}
+              >
+                <span>{l.label}</span>
+                <span className="font-mono text-[10px] tabular-nums text-muted-foreground/50">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+              </Link>
+            ),
+          )}
+        </nav>
+
+        {/* Pinned CTAs */}
+        <div className="mt-auto flex flex-col gap-3 pt-8">
+          <button
+            type="button"
+            onClick={onOpenEarlyAccess}
+            className={cn(
+              "h-11 rounded-md border border-border/70 text-[13px] font-medium text-muted-foreground transition-colors hover:text-foreground",
+              FOCUS_RING,
+            )}
+          >
+            Early access
+          </button>
+          <CtaButton size="lg" magnetic={false} className="w-full">
+            Strategize
+          </CtaButton>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}

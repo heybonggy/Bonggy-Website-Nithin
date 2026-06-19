@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { motion } from "motion/react";
-import { Nav } from "./nav";
+import { Navbar } from "./navbar";
 import { Footer } from "./footer";
 import { SPRING } from "./_motion";
 import { cn } from "@/lib/utils";
@@ -31,7 +31,7 @@ export function SubPageShell({
 
   return (
     <>
-      <Nav />
+      <Navbar />
       <main className="flex flex-col">
         <section className="relative isolate overflow-hidden pt-32 pb-12 sm:pt-40 sm:pb-16 lg:pt-44">
           <div
