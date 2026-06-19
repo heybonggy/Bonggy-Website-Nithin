@@ -232,6 +232,14 @@
     overscroll-behavior: none;
     overflow-anchor: none;
     -webkit-overflow-scrolling: touch;
+    /* Continuous instrument-panel dot-grid behind every transparent section,
+       echoing the hero ASCII field so the whole page reads as one surface. */
+    background-image: radial-gradient(
+      circle at 1px 1px,
+      var(--grid-line) 1px,
+      transparent 0
+    );
+    background-size: 30px 30px;
   }
 
   /* Desktop (>=768px): revert to native document scroll. Custom scroll

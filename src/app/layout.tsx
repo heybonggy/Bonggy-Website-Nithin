@@ -19,7 +19,7 @@ const SITE_URL =
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Bonggy: align every rep's effort to the goal",
+    default: "Bonggy: align every rep's effort to revenue",
     template: "%s · Bonggy",
   },
   description:
@@ -50,13 +50,13 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: SITE_URL,
     siteName: "Bonggy",
-    title: "Bonggy: align every rep's effort to the goal",
+    title: "Bonggy: align every rep's effort to revenue",
     description:
       "The orchestration layer between rep effort and company goals. Tracks every rep's effort across every tool, aligns it to the goal, and proves what's working.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Bonggy: align every rep's effort to the goal",
+    title: "Bonggy: align every rep's effort to revenue",
     description:
       "The orchestration layer between rep effort and company goals. Tracks every rep's effort across every tool, aligns it to the goal, and proves what's working.",
     creator: "@bonggy",
@@ -95,16 +95,6 @@ export const viewport: Viewport = {
   interactiveWidget: "resizes-content",
 };
 
-// Inline pre-paint script: read localStorage theme and apply `.dark` to <html>
-// BEFORE first paint so there's no white flash on dark-mode visitors.
-// Default = dark. Opt-in light persists across sessions.
-const themeInitScript = `
-(function(){try{
-  var t = localStorage.getItem('bonggy-theme');
-  if (t !== 'light') document.documentElement.classList.add('dark');
-}catch(e){document.documentElement.classList.add('dark');}})();
-`;
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -113,12 +103,10 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`dark ${geistSans.variable} ${geistMono.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <head>
-        {/* Pre-paint theme: must run before body to avoid flash */}
-        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         {/* Organization structured data , readable for AI agents + search */}
         <script
           type="application/ld+json"

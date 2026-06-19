@@ -105,6 +105,7 @@ export function GlobeSection() {
  <Section
  id="coverage"
  eyebrow="The gap nobody closes"
+ tint
  className="py-28 sm:py-32 lg:py-40"
  >
  <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1.05fr_1fr] lg:items-center lg:gap-16">

@@ -9,12 +9,17 @@ type SectionProps = React.ComponentPropsWithoutRef<"section"> & {
   eyebrow?: string;
   containerClassName?: string;
   bleed?: boolean;
+  /** Faint translucent card wash for alternating section rhythm. The
+   *  dot-grid behind still reads through, so tinted bands sit a half-step
+   *  above the page surface rather than fully occluding it. */
+  tint?: boolean;
 };
 
 export function Section({
   eyebrow,
   containerClassName,
   bleed,
+  tint,
   className,
   children,
   ...rest
@@ -24,6 +29,7 @@ export function Section({
       {...rest}
       className={cn(
         "relative w-full py-24 sm:py-28 lg:py-36",
+        tint && "bg-card/30",
         // content-visibility: auto skips paint/layout for the section when
         // it's off-screen. contain-intrinsic-size tells the browser to
         // reserve ~700px height for the unrendered section so the scrollbar

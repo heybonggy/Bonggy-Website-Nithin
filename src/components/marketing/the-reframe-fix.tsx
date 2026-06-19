@@ -44,7 +44,7 @@ const STEPS = [
 
 export function TheReframeFix() {
   return (
- <Section id="what-we-do" eyebrow="One layer above your stack">
+ <Section id="what-we-do" eyebrow="One layer above your stack" tint>
  <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
  <motion.h2
  initial={{ y: 14 }}

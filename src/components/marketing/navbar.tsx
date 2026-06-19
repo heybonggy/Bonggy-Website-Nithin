@@ -14,7 +14,6 @@ import { cn } from "@/lib/utils";
 import { BonggyMark } from "./bonggy-mark";
 import { CtaButton } from "./cta-button";
 import { EarlyAccessModal } from "./early-access-modal";
-import { ThemeToggle } from "./theme-toggle";
 import { useScrollShell } from "./scroll-shell";
 
 /* ─────────────────────────── Config ───────────────────────────
@@ -35,15 +34,6 @@ const NAV_ITEMS: NavItem[] = [
     items: [
       { label: "A note from us", href: "/resources/a-note-from-us" },
       { label: "FAQ", href: "/faq" },
-    ],
-  },
-  {
-    type: "dropdown",
-    label: "Company",
-    items: [
-      { label: "About", href: "/about" },
-      { label: "Careers", href: "/careers" },
-      { label: "Contact", href: "/contact" },
     ],
   },
 ];
@@ -129,59 +119,59 @@ export function Navbar() {
             : "border-b border-transparent bg-transparent",
         )}
       >
-        <div className="mx-auto flex h-15 w-full max-w-[1400px] items-center justify-between px-6 lg:px-10">
-          {/* LEFT: wordmark + center nav (left-aligned next to logo) */}
-          <div className="flex items-center gap-7">
-            <Link
-              href="/"
-              aria-label="Bonggy, home"
-              className={cn(
-                "flex items-center gap-2.5 rounded-md py-1 pr-1",
-                FOCUS_RING,
-              )}
-            >
-              <BonggyMark className="size-6" />
-              <span className="font-mono text-[14px] font-medium uppercase tracking-[0.2em] text-foreground">
-                Bonggy
-              </span>
-            </Link>
+        <div className="relative mx-auto flex h-15 w-full max-w-[1400px] items-center justify-between px-6 lg:px-10">
+          {/* LEFT: wordmark */}
+          <Link
+            href="/"
+            aria-label="Bonggy, home"
+            className={cn(
+              "flex items-center gap-2.5 rounded-md py-1 pr-1",
+              FOCUS_RING,
+            )}
+          >
+            <BonggyMark className="size-6" />
+            <span className="font-mono text-[14px] font-medium uppercase tracking-[0.2em] text-foreground">
+              Bonggy
+            </span>
+          </Link>
 
-            <nav className="hidden items-center gap-1 md:flex" aria-label="Primary">
-              {NAV_ITEMS.map((item) =>
-                item.type === "dropdown" ? (
-                  <NavDropdown key={item.label} label={item.label} items={item.items} />
-                ) : item.type === "anchor" ? (
-                  <Link
-                    key={item.label}
-                    href={`/#${item.id}`}
-                    onClick={handleAnchor(item.id)}
-                    className={cn(
-                      "rounded-md px-3 py-2 font-mono text-[11.5px] uppercase tracking-[0.1em] text-muted-foreground transition-colors duration-150 hover:text-foreground",
-                      FOCUS_RING,
-                    )}
-                  >
-                    {item.label}
-                  </Link>
-                ) : (
-                  <Link
-                    key={item.label}
-                    href={item.href}
-                    className={cn(
-                      "rounded-md px-3 py-2 font-mono text-[11.5px] uppercase tracking-[0.1em] text-muted-foreground transition-colors duration-150 hover:text-foreground",
-                      FOCUS_RING,
-                    )}
-                  >
-                    {item.label}
-                  </Link>
-                ),
-              )}
-            </nav>
-          </div>
+          {/* CENTER: nav, absolutely centered on the bar */}
+          <nav
+            className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-1 md:flex"
+            aria-label="Primary"
+          >
+            {NAV_ITEMS.map((item) =>
+              item.type === "dropdown" ? (
+                <NavDropdown key={item.label} label={item.label} items={item.items} />
+              ) : item.type === "anchor" ? (
+                <Link
+                  key={item.label}
+                  href={`/#${item.id}`}
+                  onClick={handleAnchor(item.id)}
+                  className={cn(
+                    "rounded-md px-3 py-2 font-mono text-[11.5px] uppercase tracking-[0.1em] text-muted-foreground transition-colors duration-150 hover:text-foreground",
+                    FOCUS_RING,
+                  )}
+                >
+                  {item.label}
+                </Link>
+              ) : (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  className={cn(
+                    "rounded-md px-3 py-2 font-mono text-[11.5px] uppercase tracking-[0.1em] text-muted-foreground transition-colors duration-150 hover:text-foreground",
+                    FOCUS_RING,
+                  )}
+                >
+                  {item.label}
+                </Link>
+              ),
+            )}
+          </nav>
 
-          {/* RIGHT: theme toggle + early access + CTA (desktop) / hamburger (mobile) */}
-          <div className="flex items-center gap-2 sm:gap-3">
-            <ThemeToggle className={cn("hidden sm:inline-flex", FOCUS_RING)} />
-
+          {/* RIGHT: early access (desktop) / hamburger (mobile) */}
+          <div className="flex items-center gap-3">
             <button
               type="button"
               onClick={openEarlyAccess}
@@ -193,8 +183,6 @@ export function Navbar() {
               Early access
             </button>
 
-            {/* Mobile controls */}
-            <ThemeToggle className={cn("inline-flex sm:hidden", FOCUS_RING)} />
             <button
               type="button"
               aria-label={mobileOpen ? "Close menu" : "Open menu"}

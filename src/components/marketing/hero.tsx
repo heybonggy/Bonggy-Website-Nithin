@@ -39,7 +39,7 @@ export function Hero() {
           transition={{ duration: 0.5, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
           className="text-display text-display-gradient mx-auto max-w-[20ch] text-balance text-[44px] font-normal sm:text-[64px] lg:text-[80px]"
         >
-          Make every effort count toward the goal.
+          Make every effort count toward revenue.
         </motion.h1>
 
         <motion.p
@@ -48,8 +48,8 @@ export function Hero() {
           transition={{ duration: 0.5, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
           className="mx-auto mt-8 max-w-[54ch] text-[16.5px] leading-relaxed text-muted-foreground"
         >
-          We show you what&apos;s on-goal, what&apos;s drifting, and where to
-          point it back.
+          We show you what&apos;s moving revenue, what&apos;s drifting, and
+          where to point it back.
         </motion.p>
 
         <motion.div
@@ -72,7 +72,7 @@ export function Hero() {
             <span>4 roles aligned</span>
           </div>
           <div className="font-mono text-[11px] text-muted-foreground">
-            <span className="text-foreground/70">92%</span> effort on-goal
+            <span className="text-foreground/70">92%</span> effort on revenue
           </div>
           <div className="font-mono text-[11px] text-muted-foreground">
             <span className="text-foreground/70">7</span> reps drifting, flagged
