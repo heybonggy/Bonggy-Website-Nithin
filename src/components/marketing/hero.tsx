@@ -60,24 +60,6 @@ export function Hero() {
         >
           <CtaButton size="lg">Strategize</CtaButton>
         </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.24, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-14 flex flex-wrap items-center justify-center gap-x-8 gap-y-3"
-        >
-          <div className="flex items-center gap-2 font-mono text-[11px] text-muted-foreground">
-            <span className="size-1.5 rounded-full bg-signal pulse-signal" />
-            <span>4 roles aligned</span>
-          </div>
-          <div className="font-mono text-[11px] text-muted-foreground">
-            <span className="text-foreground/70">92%</span> effort on revenue
-          </div>
-          <div className="font-mono text-[11px] text-muted-foreground">
-            <span className="text-foreground/70">7</span> reps drifting, flagged
-          </div>
-        </motion.div>
       </div>
     </section>
   );

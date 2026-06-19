@@ -47,7 +47,7 @@ const HEADER_OFFSET = 76; // px, so smooth-scrolled sections clear the fixed bar
 
 function smoothScrollToId(
   id: string,
-  shell: React.RefObject<HTMLElement> | null,
+  shell: React.RefObject<HTMLElement | null> | null,
 ) {
   const el = document.getElementById(id);
   if (!el) return;

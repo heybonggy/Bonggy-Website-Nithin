@@ -28,7 +28,7 @@ export function Section({
     <section
       {...rest}
       className={cn(
-        "relative w-full py-24 sm:py-28 lg:py-36",
+        "relative w-full py-20 sm:py-24 lg:py-28",
         tint && "bg-card/30",
         // content-visibility: auto skips paint/layout for the section when
         // it's off-screen. contain-intrinsic-size tells the browser to

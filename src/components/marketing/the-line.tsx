@@ -9,7 +9,7 @@ import { SPRING } from "./_motion";
 export function TheLine() {
   return (
     <Section id="the-line" eyebrow="Where we draw the line">
-      <div className="mx-auto max-w-3xl">
+      <div className="max-w-3xl">
         <motion.div
           initial={{ y: 10 }}
           whileInView={{ y: 0 }}
