@@ -117,7 +117,7 @@ export function GlobeSection() {
  transition={SPRING}
  className="text-display text-balance text-[36px] font-normal leading-none tracking-tight sm:text-[44px] lg:text-[56px]"
  >
- A goal at the top.{" "}
+ Revenue at the top.{" "}
  <span className="text-muted-foreground/85">
  Ten thousand actions at the bottom. Nothing in between.
  </span>
@@ -150,8 +150,9 @@ export function GlobeSection() {
  {SOURCES.map((s) => (
  <span
  key={s}
- className="rounded-full border border-border/60 bg-card/40 px-2.5 py-1 font-mono text-[10px] text-muted-foreground "
+ className="inline-flex items-center gap-1.5 rounded-[3px] border border-border/70 bg-card/30 px-2 py-1 font-mono text-[10px] uppercase tracking-[0.06em] text-muted-foreground/90 transition-colors hover:border-signal/40 hover:text-foreground"
  >
+ <span className="size-1 shrink-0 bg-signal/70" />
  {s}
  </span>
  ))}

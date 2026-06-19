@@ -132,7 +132,7 @@ export function AsciiField() {
           const angleMoon = Math.atan2(dyMoon, dxMoon);
 
           const mouseDistance = Math.hypot(x - mouse.x, y - mouse.y);
-          const mouseField = Math.exp(-mouseDistance * 0.0038);
+          const mouseField = Math.exp(-mouseDistance * 0.0032);
 
           let char = "";
           let opacity = 0;
@@ -205,6 +205,10 @@ export function AsciiField() {
             let density = flowA * 0.42 + flowB * 0.28 + (wave * 0.5 + 0.5) * 0.3;
             const orbitBand = Math.exp(-Math.pow((normMoon - 1.12) * 5.5, 2));
             density += orbitBand * 0.16;
+            // Cursor bloom: the pointer reveals denser, brighter characters so
+            // it leaves a visible signal-green wake even when the field itself
+            // is nearly frozen. This is what makes the hero feel interactive.
+            density += mouseField * 0.5;
 
             if (density > 0.38) {
               const fieldIdx = clamp(
@@ -213,8 +217,9 @@ export function AsciiField() {
                 FIELD_CHARS.length - 1,
               );
               char = FIELD_CHARS[fieldIdx];
-              opacity = 0.03 + density * 0.2;
-              tint = orbitBand > 0.5; // green on the orbiting ring
+              opacity = 0.03 + density * 0.2 + mouseField * 0.28;
+              // Green on the orbiting ring AND in the cursor's wake.
+              tint = orbitBand > 0.5 || mouseField > 0.32;
 
               // Bounded sub-cell jitter only — no large horizontal travel, so
               // characters stay on their grid and never leave an edge strip.

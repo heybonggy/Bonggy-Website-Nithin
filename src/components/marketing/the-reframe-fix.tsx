@@ -80,7 +80,7 @@ export function TheReframeFix() {
  whileInView={{ y: 0 }}
  viewport={{ once: true, amount: 0.15 }}
  transition={{ ...SPRING, delay: i * 0.05 }}
- className="relative flex flex-col gap-4 bg-background/60 p-6  lg:p-7"
+ className="terminal-corners relative flex flex-col gap-4 bg-background/60 p-6 lg:p-7"
  >
  <div className="flex items-center justify-between">
  <s.Icon

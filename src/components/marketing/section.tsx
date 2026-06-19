@@ -53,9 +53,12 @@ export function Section({
             transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             className="mb-10 sm:mb-12"
           >
-            <div className="inline-flex items-center gap-2.5 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-              <span className="size-1 rounded-full bg-signal" />
-              {eyebrow}
+            {/* Terminal section-header: signal tick + mono label + a dotted
+                rule running to the edge, echoing the hero's instrument feel. */}
+            <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+              <span className="h-3 w-[3px] shrink-0 bg-signal" />
+              <span className="shrink-0 whitespace-nowrap">{eyebrow}</span>
+              <span aria-hidden className="ascii-rule h-px flex-1" />
             </div>
           </motion.div>
         ) : null}

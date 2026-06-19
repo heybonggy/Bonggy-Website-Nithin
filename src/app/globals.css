@@ -376,8 +376,49 @@
   }
 
   .section-rule {
-    background: linear-gradient(to right, transparent, var(--border), transparent);
     height: 1px;
+    background-image: repeating-linear-gradient(
+      to right,
+      var(--border) 0 5px,
+      transparent 5px 11px
+    );
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+    mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+  }
+
+  /* Dotted ASCII hairline used in terminal section-headers + card chrome. */
+  .ascii-rule {
+    background-image: repeating-linear-gradient(
+      to right,
+      var(--border) 0 3px,
+      transparent 3px 8px
+    );
+  }
+
+  /* Technical corner ticks on two opposing corners — a quiet "scanning
+     frame" that reads as instrument chrome without adding heavy borders. */
+  .terminal-corners::before,
+  .terminal-corners::after {
+    content: "";
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    pointer-events: none;
+    z-index: 1;
+    border-color: var(--signal);
+    opacity: 0.45;
+  }
+  .terminal-corners::before {
+    top: 9px;
+    left: 9px;
+    border-top: 1px solid;
+    border-left: 1px solid;
+  }
+  .terminal-corners::after {
+    bottom: 9px;
+    right: 9px;
+    border-bottom: 1px solid;
+    border-right: 1px solid;
   }
 
   @keyframes scan {

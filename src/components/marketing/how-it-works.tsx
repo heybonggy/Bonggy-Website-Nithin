@@ -131,7 +131,7 @@ export function HowItWorks() {
 
  <BentoCard
  className="lg:col-span-7 lg:row-span-2"
- step=","
+ step=""
  title="Effort feed"
  sub="Every action across the team, live."
  tallContent
@@ -139,11 +139,11 @@ export function HowItWorks() {
  <SignalStreamDemo />
  </BentoCard>
 
- <BentoCard className="lg:col-span-3" step="," title="Reps on-goal" sub="Right now.">
+ <BentoCard className="lg:col-span-3" step="" title="Reps on-goal" sub="Right now.">
  <AgentStatusDemo />
  </BentoCard>
 
- <BentoCard className="lg:col-span-3" step="," title="Goal coverage" sub="Effort that points at the goal.">
+ <BentoCard className="lg:col-span-3" step="" title="Revenue coverage" sub="Effort that points at revenue.">
  <ThroughputDemo active={active} />
  </BentoCard>
  </div>
@@ -173,7 +173,7 @@ function BentoCard({
  viewport={{ once: true, amount: 0.15 }}
  transition={SPRING}
  className={cn(
- "group relative flex flex-col overflow-hidden rounded-bento border border-border/80 bg-card/60  shadow-diffusion-sm",
+ "terminal-corners group relative flex flex-col overflow-hidden rounded-bento border border-border/80 bg-card/60 shadow-diffusion-sm",
  className,
  )}
  >
@@ -182,8 +182,8 @@ function BentoCard({
  </div>
  <div className="border-t border-border/60 px-5 py-4">
  <div className="mb-1.5 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/70">
- <span>{step}</span>
- <span className="h-px flex-1 bg-border" />
+ {step ? <span className="tabular-nums text-signal/80">{step}</span> : null}
+ <span className="ascii-rule h-px flex-1" />
  <span>{sub}</span>
  </div>
  <h3 className="text-[15.5px] font-medium tracking-tight text-foreground">
@@ -656,14 +656,14 @@ function ThroughputDemo({ active }: { active: boolean }) {
  <div className="relative flex h-full flex-col justify-between p-5">
  <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/70">
  <Pulse weight="regular" className="size-3.5" />
- Goal coverage · 24h
+ Revenue coverage · 24h
  </div>
 
  <div>
  <div className="font-mono text-[40px] font-medium leading-none text-foreground tabular-nums">
  81<span className="text-[22px] text-muted-foreground/60">%</span>
  </div>
- <div className="mt-1 text-[12px] text-muted-foreground">of effort points at the goal</div>
+ <div className="mt-1 text-[12px] text-muted-foreground">of effort points at revenue</div>
  </div>
 
  <Sparkline />
