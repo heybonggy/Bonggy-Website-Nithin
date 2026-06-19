@@ -3,25 +3,43 @@
 import * as React from "react";
 import { motion } from "motion/react";
 import { CtaButton } from "./cta-button";
+import { AsciiField } from "./ascii-field";
 
 export function Hero() {
   return (
-    <section className="relative isolate overflow-hidden">
-      {/* Hero-only grid background , masked so it fades at edges */}
+    <section className="relative isolate min-h-[100svh] overflow-hidden">
+      {/* Full-bleed animated ASCII field behind the centered copy */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10 bg-grid bg-grid-mask opacity-90"
-      />
+        className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
+      >
+        <AsciiField />
+        <div className="hero-scanlines absolute inset-0" />
+        {/* Darken behind the centered text + edge vignette */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(46% 42% at 50% 48%, oklch(0.085 0.005 280 / 0.78), oklch(0.085 0.005 280 / 0.2) 62%, transparent 80%)",
+          }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(to bottom, oklch(0.085 0.005 280 / 0.55), transparent 22%, transparent 78%, oklch(0.085 0.005 280 / 0.85))",
+          }}
+        />
+      </div>
 
-      <div className="relative mx-auto flex min-h-[100svh] w-full max-w-[1400px] flex-col items-center justify-center px-6 pt-44 pb-16 text-center lg:px-10 lg:pt-52 lg:pb-20">
-        {/* Single confident headline. Gradient text fades white to muted. */}
+      <div className="relative mx-auto flex min-h-[100svh] w-full max-w-[1400px] flex-col items-center justify-center px-6 pt-44 pb-16 text-center lg:px-10">
         <motion.h1
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
           className="text-display text-display-gradient mx-auto max-w-[20ch] text-balance text-[44px] font-normal sm:text-[64px] lg:text-[80px]"
         >
-          You changed the strategy. Did the team?
+          Make every effort count toward the goal.
         </motion.h1>
 
         <motion.p
@@ -30,8 +48,8 @@ export function Hero() {
           transition={{ duration: 0.5, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
           className="mx-auto mt-8 max-w-[54ch] text-[16.5px] leading-relaxed text-muted-foreground"
         >
-          Bonggy shows whether your reps&apos; effort actually points at the
-          goal, before the quarter&apos;s gone.
+          We show you what&apos;s on-goal, what&apos;s drifting, and where to
+          point it back.
         </motion.p>
 
         <motion.div

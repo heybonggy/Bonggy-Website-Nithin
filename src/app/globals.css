@@ -437,6 +437,32 @@
   }
   .float-perpetual { animation: float-up 5.6s ease-in-out infinite; }
 
+  /* Faint CRT scanline wash over the hero's ASCII field. */
+  .hero-scanlines {
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 2px,
+      color-mix(in oklab, var(--foreground) 6%, transparent) 3px
+    );
+    animation: hero-scanflicker 5s ease-in-out infinite;
+  }
+  @keyframes hero-scanflicker {
+    0%, 100% { opacity: 0.4; }
+    46%      { opacity: 0.4; }
+    47%      { opacity: 0.18; }
+    48%      { opacity: 0.5; }
+    50%      { opacity: 0.6; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-scanlines { animation: none; opacity: 0.3; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-blob-a, .hero-blob-b, .hero-blob-c,
+    .hero-glitch-bar, .hero-scanlines { animation: none; }
+  }
+
   /* ──────────────────────────────────────────────────────────────────────────
      Two-row integrations marquee — rows scroll in opposite directions and
      pause together when the track is hovered. Duration slows on mobile so
