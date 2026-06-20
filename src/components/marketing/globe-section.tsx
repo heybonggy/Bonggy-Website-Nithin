@@ -106,13 +106,13 @@ export function GlobeSection() {
  id="coverage"
  eyebrow="The gap nobody closes"
  tint
- className="py-24 sm:py-28 lg:py-32"
+ className="pt-10 pb-24 sm:pt-12 sm:pb-28 lg:pt-14 lg:pb-32"
  >
  <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1.05fr_1fr] lg:items-center lg:gap-16">
  <div>
  <motion.h2
- initial={{ y: 14 }}
- whileInView={{ y: 0 }}
+ initial={{ opacity: 0, y: 18 }}
+ whileInView={{ opacity: 1, y: 0 }}
  viewport={{ once: true, amount: 0.15 }}
  transition={SPRING}
  className="text-display text-balance text-[36px] font-normal leading-none tracking-tight sm:text-[44px] lg:text-[56px]"

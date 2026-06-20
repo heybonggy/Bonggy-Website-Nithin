@@ -8,7 +8,7 @@ import { Magnetic } from "./magnetic";
 
 type CtaButtonProps = {
   href?: string;
-  variant?: "primary" | "signal" | "ghost";
+  variant?: "primary" | "signal" | "inverse" | "ghost";
   size?: "sm" | "md" | "lg";
   className?: string;
   magnetic?: boolean;
@@ -49,32 +49,24 @@ export function CtaButton({
   } as const;
 
   const bases = {
- // Primary + signal: bright signal-green face with dark signal-foreground
- // ink. High contrast against both page backgrounds AND text-on-button.
- primary: "bg-signal text-signal-foreground hover:bg-signal/90",
- signal: "bg-signal text-signal-foreground hover:bg-signal/90",
+ // factory.ai treatment: clean monochrome. White face + dark ink on dark
+ // surfaces (the page); a dark `inverse` face for use on LIGHT panels.
+ primary: "bg-foreground text-background hover:bg-foreground/90",
+ signal: "bg-foreground text-background hover:bg-foreground/90",
+ inverse:
+ "bg-[oklch(0.14_0.004_280)] text-[oklch(0.98_0_0)] hover:bg-[oklch(0.24_0.004_280)]",
  ghost:
  "border border-border bg-card/40 text-foreground hover:bg-card hover:border-border/80",
   } as const;
 
   const ringShadow = {
- primary:
- "0 0 0 1px oklch(0.78 0.13 152 / 35%), 0 8px 28px -6px oklch(0.78 0.13 152 / 45%)",
- signal:
- "0 0 0 1px oklch(0.78 0.13 152 / 35%), 0 8px 28px -6px oklch(0.78 0.13 152 / 45%)",
+ primary: "0 1px 0 oklch(1 0 0 / 0.5) inset, 0 10px 30px -12px oklch(0 0 0 / 0.7)",
+ signal: "0 1px 0 oklch(1 0 0 / 0.5) inset, 0 10px 30px -12px oklch(0 0 0 / 0.7)",
+ inverse: "0 10px 30px -12px oklch(0 0 0 / 0.5)",
  ghost: "",
   } as const;
 
   const inner = (
- <>
- {/* Sheen sweep on hover for the premium feel */}
- {variant !== "ghost" && (
- <div
- aria-hidden
- className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/25 to-transparent transition-transform duration-700 group-hover/cta:translate-x-full"
- />
- )}
- {/* Content */}
  <span className="relative z-10 flex items-center gap-2">
  <span>{children}</span>
  <ArrowUpRight
@@ -82,7 +74,6 @@ export function CtaButton({
  className="size-3.5 transition-transform duration-200 group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-0.5"
  />
  </span>
- </>
   );
 
   const sharedClasses = cn(base, sizes[size], bases[variant], className);

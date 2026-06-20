@@ -5,24 +5,24 @@ import { CareersForm } from "@/components/marketing/careers-form";
 export const metadata: Metadata = {
   title: "Careers",
   description:
-    "We're hiring the people who want to fix outbound for real. Engineering, design, and GTM roles open in waves as the team scales.",
+    "We're hiring the people who want to fix GTM for real — to build the layer that connects rep effort to revenue. Engineering, design, and GTM roles open in waves as the team scales.",
 };
 
 const PRINCIPLES = [
   {
     n: "01",
-    title: "Make the average rep work like the great rep.",
-    body: "If the work you ship doesn't make a junior SDR sharper without more hours, it doesn't ship.",
+    title: "Make every rep's effort count.",
+    body: "If what you ship doesn't make a junior rep's work clearer without more hours, it doesn't ship.",
   },
   {
     n: "02",
-    title: "Anti-spray, anti-autopilot, anti-bloat.",
-    body: "We do not chase feature parity. Every send earns the right to the next. So does every feature.",
+    title: "Anti-bloat, anti-vanity-metric.",
+    body: "We don't chase feature parity or activity counts. Every feature has to point at revenue — same as every effort.",
   },
   {
     n: "03",
-    title: "Reps own the relationship. We own the thinking.",
-    body: "Humans send. The reply lands on a person. The product reflects that.",
+    title: "Reps do the work. We make it legible.",
+    body: "Bonggy reads and aligns; it never acts for a rep. The product reflects that.",
   },
 ];
 
@@ -30,9 +30,9 @@ export default function CareersPage() {
   return (
     <SubPageShell
       eyebrow="Careers"
-      title="Fix outbound."
-      titleAccent="Build the thinking layer."
-      lede="We're small on purpose. We hire when a problem genuinely needs a person, not when a hiring plan needs a name. Send a note even if there's no listed role , if you have a strong take on what outbound should become, we want to talk."
+      title="Fix GTM."
+      titleAccent="Build the alignment layer."
+      lede="We're small on purpose. We hire when a problem genuinely needs a person, not when a hiring plan needs a name. Send a note even if there's no listed role — if you have a strong take on how GTM effort should connect to revenue, we want to talk."
       narrow
     >
       <div className="grid grid-cols-1 gap-16 lg:grid-cols-[1fr_1fr] lg:gap-24">
@@ -47,8 +47,8 @@ export default function CareersPage() {
             <p>
               Everyone here ships. The person closing a design partner is the
               same person showing up to a customer call the next week. The
-              person shipping the score-engine is the same person writing the
-              postmortem.
+              person shipping the alignment engine is the same person writing
+              the postmortem.
             </p>
             <p>
               We move quickly because we&apos;ve cut everything that doesn&apos;t
@@ -64,7 +64,7 @@ export default function CareersPage() {
           <ul className="mt-3 space-y-6">
             {PRINCIPLES.map((p) => (
               <li key={p.n} className="flex gap-4">
-                <span className="font-mono text-[14px] tabular-nums text-muted-foreground/60">
+                <span className="font-mono text-[14px] tabular-nums text-signal/80">
                   {p.n}
                 </span>
                 <div>

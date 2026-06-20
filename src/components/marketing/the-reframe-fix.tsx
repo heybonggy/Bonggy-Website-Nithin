@@ -47,8 +47,8 @@ export function TheReframeFix() {
  <Section id="what-we-do" eyebrow="One layer above your stack" tint>
  <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
  <motion.h2
- initial={{ y: 14 }}
- whileInView={{ y: 0 }}
+ initial={{ opacity: 0, y: 18 }}
+ whileInView={{ opacity: 1, y: 0 }}
  viewport={{ once: true, amount: 0.15 }}
  transition={SPRING}
  className="text-display text-balance text-[36px] font-medium leading-none tracking-tight sm:text-[44px] lg:text-[56px]"

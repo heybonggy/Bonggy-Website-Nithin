@@ -17,6 +17,8 @@ import {
   CurrencyDollar,
   BuildingOffice,
   Globe,
+  CaretLeft,
+  CaretRight,
 } from "@phosphor-icons/react/dist/ssr";
 import { Section } from "./section";
 import { SPRING, SPRING_BOUNCE } from "./_motion";
@@ -93,19 +95,59 @@ const QUEUE_POOL: Approval[] = [
   { id: "q10", company: "Jae P. · CS", subject: "Renewal at risk, no effort", decision: "reject" },
 ];
 
+// Carousel cards — equal size, scrolled horizontally with the arrow controls.
+const CARDS: {
+  step: string;
+  title: string;
+  sub: string;
+  render: (active: boolean) => React.ReactNode;
+}[] = [
+  { step: "01", title: "Observe", sub: "Effort in, from every tool.", render: (a) => <CommandInputDemo active={a} /> },
+  { step: "02", title: "Align", sub: "Mapped to the goal.", render: (a) => <WorkflowDemo active={a} /> },
+  { step: "03", title: "Surface the drift", sub: "Reps off-strategy, flagged.", render: (a) => <ApprovalDemo active={a} /> },
+  { step: "", title: "Effort feed", sub: "Every action across the team, live.", render: () => <SignalStreamDemo /> },
+  { step: "", title: "Reps on-goal", sub: "Right now.", render: () => <AgentStatusDemo /> },
+  { step: "", title: "Revenue coverage", sub: "Effort that points at revenue.", render: (a) => <ThroughputDemo active={a} /> },
+];
+
 export function HowItWorks() {
   // Single in-view gate for the whole demo grid. Every JS-driven loop below
   // (typing, ticking counters, the approval queue, the workflow particles)
   // only runs while the grid is near the viewport, so the section stops
   // burning CPU when the user is elsewhere on the page.
-  const gridRef = React.useRef<HTMLDivElement>(null);
-  const active = useInView(gridRef, { margin: "300px 0px 300px 0px" });
+  const scrollerRef = React.useRef<HTMLDivElement>(null);
+  const active = useInView(scrollerRef, { margin: "300px 0px 300px 0px" });
+
+  // Arrow nav with wrap-around (infinite): find the card currently aligned to
+  // the left edge, step one in `dir`, and loop past either end.
+  const go = (dir: 1 | -1) => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    const cards = Array.from(el.querySelectorAll<HTMLElement>("[data-card]"));
+    if (!cards.length) return;
+    const edge = el.getBoundingClientRect().left;
+    let current = 0;
+    let min = Infinity;
+    cards.forEach((c, i) => {
+      const d = Math.abs(c.getBoundingClientRect().left - edge);
+      if (d < min) {
+        min = d;
+        current = i;
+      }
+    });
+    const next = (current + dir + cards.length) % cards.length;
+    cards[next].scrollIntoView({
+      behavior: "smooth",
+      inline: "start",
+      block: "nearest",
+    });
+  };
 
   return (
  <Section id="how-it-works" eyebrow="Every seat, made legible">
  <motion.h2
- initial={{ y: 14 }}
- whileInView={{ y: 0 }}
+ initial={{ opacity: 0, y: 18 }}
+ whileInView={{ opacity: 1, y: 0 }}
  viewport={{ once: true, amount: 0.15 }}
  transition={SPRING}
  className="text-display max-w-[24ch] text-balance text-[36px] font-medium leading-none tracking-tight sm:text-[44px] lg:text-[56px]"
@@ -116,38 +158,65 @@ export function HowItWorks() {
  </span>
  </motion.h2>
 
- <div ref={gridRef} className="mt-14 grid auto-rows-[300px] grid-cols-1 gap-3 sm:auto-rows-[320px] lg:auto-rows-[340px] lg:grid-cols-10 lg:gap-4">
- <BentoCard className="lg:col-span-4" step="01" title="Observe" sub="Effort in, from every tool.">
- <CommandInputDemo active={active} />
- </BentoCard>
+ {/* Header row — label + arrow controls, factory NEWS-carousel style */}
+ <div className="mt-12 flex items-end justify-between gap-4">
+ <GroupLabel>Every seat · live</GroupLabel>
+ <div className="flex items-center gap-2">
+ <CarouselArrow dir="left" onClick={() => go(-1)} />
+ <CarouselArrow dir="right" onClick={() => go(1)} />
+ </div>
+ </div>
 
- <BentoCard className="lg:col-span-3" step="02" title="Align" sub="Mapped to the goal.">
- <WorkflowDemo active={active} />
- </BentoCard>
-
- <BentoCard className="lg:col-span-3" step="03" title="Surface the drift" sub="Reps off-strategy, flagged.">
- <ApprovalDemo active={active} />
- </BentoCard>
-
- <BentoCard
- className="lg:col-span-7 lg:row-span-2"
- step=""
- title="Effort feed"
- sub="Every action across the team, live."
- tallContent
+ {/* Equal-size cards, horizontal snap-scroll. Mobile shows one full-width
+ card at a time; desktop fits several fixed-width cards. */}
+ <div
+ ref={scrollerRef}
+ className="mt-5 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-3 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
  >
- <SignalStreamDemo />
+ {CARDS.map((card) => (
+ <BentoCard
+ key={card.title}
+ data-card
+ className="h-[380px] w-full shrink-0 snap-start sm:w-[340px] lg:w-[368px]"
+ step={card.step}
+ title={card.title}
+ sub={card.sub}
+ >
+ {card.render(active)}
  </BentoCard>
-
- <BentoCard className="lg:col-span-3" step="" title="Reps on-goal" sub="Right now.">
- <AgentStatusDemo />
- </BentoCard>
-
- <BentoCard className="lg:col-span-3" step="" title="Revenue coverage" sub="Effort that points at revenue.">
- <ThroughputDemo active={active} />
- </BentoCard>
+ ))}
  </div>
  </Section>
+  );
+}
+
+/** Small terminal sub-label that heads the carousel. */
+function GroupLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground/70">
+      <span className="h-2.5 w-[2px] shrink-0 bg-signal/70" />
+      <span className="shrink-0 whitespace-nowrap">{children}</span>
+    </div>
+  );
+}
+
+function CarouselArrow({
+  dir,
+  onClick,
+}: {
+  dir: "left" | "right";
+  onClick: () => void;
+}) {
+  const Icon = dir === "left" ? CaretLeft : CaretRight;
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={dir === "left" ? "Previous" : "Next"}
+      className="flex size-9 items-center justify-center rounded-md border border-border/70 bg-card/40 text-muted-foreground transition-colors hover:border-signal/40 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+    >
+      <Icon weight="bold" className="size-4" />
+    </button>
   );
 }
 
@@ -158,6 +227,7 @@ function BentoCard({
   className,
   children,
   tallContent,
+  ...rest
 }: {
   step: string;
   title: string;
@@ -165,9 +235,10 @@ function BentoCard({
   className?: string;
   children: React.ReactNode;
   tallContent?: boolean;
-}) {
+} & Record<string, unknown>) {
   return (
  <motion.article
+ {...rest}
  initial={{ y: 16 }}
  whileInView={{ y: 0 }}
  viewport={{ once: true, amount: 0.15 }}

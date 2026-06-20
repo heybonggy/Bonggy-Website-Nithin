@@ -242,6 +242,45 @@
     background-size: 30px 30px;
   }
 
+  /* Opaque content layer that scrolls UP over the sticky hero and covers it.
+     Carries the dot-grid so the texture survives the cover. */
+  .page-cover {
+    position: relative;
+    z-index: 10;
+    background-color: var(--background);
+    background-image: radial-gradient(
+      circle at 1px 1px,
+      var(--grid-line) 1px,
+      transparent 0
+    );
+    background-size: 30px 30px;
+  }
+
+  /* Black wash over the hero's ASCII field that fades IN as the page scrolls,
+     so the hero "turns black" while the next section rises over it. Driven by
+     a scroll-progress timeline (no JS), which tracks whichever ancestor is the
+     real scroll container — window on desktop, the scroll-shell on mobile.
+     Browsers without scroll-timeline simply keep the hero un-dimmed. */
+  .hero-cover-fade {
+    background-color: oklch(0.085 0.005 280);
+    opacity: 0;
+  }
+  @supports (animation-timeline: scroll()) {
+    .hero-cover-fade {
+      animation: hero-cover-darken linear forwards;
+      animation-timeline: scroll(nearest);
+      animation-range: 0 90vh;
+    }
+  }
+  @keyframes hero-cover-darken {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
   /* Desktop (>=768px): revert to native document scroll. Custom scroll
      containers cost FPS on desktop because the browser can't use the same
      compositor optimizations it applies to document scroll. URL-bar jerk
@@ -395,6 +434,28 @@
     );
   }
 
+  /* Soft light-pool at a section's top edge — lifts each band out of flat
+     black into a shade transition (factory.ai depth). Fades to transparent
+     so the body black + dot-grid still read below it. */
+  .section-glow {
+    background: radial-gradient(
+      ellipse 58% 100% at 50% 0%,
+      oklch(0.2 0.006 280 / 0.5),
+      oklch(0.13 0.005 280 / 0.22) 42%,
+      transparent 72%
+    );
+  }
+
+  /* Light-pool behind a focal element (a chart / mockup / globe), the way
+     factory.ai pools light behind every product surface. */
+  .surface-glow {
+    background: radial-gradient(
+      ellipse 70% 70% at 50% 45%,
+      oklch(0.22 0.01 200 / 0.28),
+      transparent 70%
+    );
+  }
+
   /* Technical corner ticks on two opposing corners — a quiet "scanning
      frame" that reads as instrument chrome without adding heavy borders. */
   .terminal-corners::before,
@@ -434,6 +495,12 @@
     50%      { box-shadow: 0 0 0 6px color-mix(in oklab, var(--signal) 0%, transparent); }
   }
   .pulse-signal { animation: pulse-signal 3.4s ease-out infinite; }
+
+  /* Film grain for the light closing-CTA panel (dark specks, multiplied). */
+  .cta-grain {
+    background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='cg'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.55 0'/></filter><rect width='100%25' height='100%25' filter='url(%23cg)'/></svg>");
+    background-size: 200px 200px;
+  }
 
   @keyframes marquee {
     from { transform: translateX(0); }

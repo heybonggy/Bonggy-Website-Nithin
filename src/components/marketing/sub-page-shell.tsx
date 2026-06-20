@@ -44,13 +44,14 @@ export function SubPageShell({
           <div className="mx-auto w-full max-w-[1400px] px-6 lg:px-10">
             <div className={cn(innerClass)}>
               <motion.div
-                initial={{ y: 10 }}
-                animate={{ y: 0 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
                 transition={SPRING}
-                className="mb-8 inline-flex items-center gap-2.5 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground"
+                className="mb-8 flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground"
               >
-                <span className="size-1 rounded-full bg-signal" />
-                {eyebrow}
+                <span className="h-3 w-[3px] shrink-0 bg-signal" />
+                <span className="shrink-0 whitespace-nowrap">{eyebrow}</span>
+                <span aria-hidden className="ascii-rule h-px flex-1" />
               </motion.div>
 
               <motion.h1

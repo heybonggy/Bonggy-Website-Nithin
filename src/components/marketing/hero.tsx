@@ -5,16 +5,42 @@ import { motion } from "motion/react";
 import { CtaButton } from "./cta-button";
 import { AsciiField } from "./ascii-field";
 import { IntegrationsMarquee } from "./integrations-marquee";
+import { useScrollShell } from "./scroll-shell";
 
 export function Hero() {
+  // Once the next section scrolls up and covers the sticky hero, pause the
+  // ASCII canvas — it's invisible but the rAF would otherwise run the whole
+  // time the user reads the rest of the page.
+  const shellRef = useScrollShell();
+  const [covered, setCovered] = React.useState(false);
+
+  React.useEffect(() => {
+    const container = shellRef?.current ?? null;
+    const target: HTMLElement | Window = container ?? window;
+    const getY = () => (container ? container.scrollTop : window.scrollY);
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        setCovered(getY() > window.innerHeight * 0.85);
+      });
+    };
+    onScroll();
+    target.addEventListener("scroll", onScroll, { passive: true });
+    return () => target.removeEventListener("scroll", onScroll);
+  }, [shellRef]);
+
   return (
-    <section className="relative isolate min-h-[100svh] overflow-hidden">
+    // Fixed so the next section scrolls up and covers it (see .page-cover).
+    <section className="fixed inset-x-0 top-0 z-0 isolate h-[100svh] overflow-hidden">
       {/* Full-bleed animated ASCII field behind the centered copy */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
       >
-        <AsciiField />
+        <AsciiField paused={covered} />
         <div className="hero-scanlines absolute inset-0" />
         {/* Darken behind the centered text + edge vignette */}
         <div
@@ -31,6 +57,9 @@ export function Hero() {
               "linear-gradient(to bottom, oklch(0.085 0.005 280 / 0.55), transparent 22%, transparent 78%, oklch(0.085 0.005 280 / 0.85))",
           }}
         />
+        {/* Scroll-driven black wash: the field darkens as the page scrolls and
+            the next section rises to cover the hero. */}
+        <div className="hero-cover-fade absolute inset-0" />
       </div>
 
       <div className="relative mx-auto flex min-h-[100svh] w-full max-w-[1400px] flex-col items-center justify-center px-6 pt-32 pb-40 text-center lg:px-10">

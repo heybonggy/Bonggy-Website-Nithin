@@ -15,7 +15,7 @@ export default function ContactPage() {
       eyebrow="Contact"
       title="We read every email."
       titleAccent="A call is faster."
-      lede="The fastest path is a 30-minute strategy session. We calibrate Bonggy on your real accounts, live, and show you what's firing this week. Or send us an email , we read every one."
+      lede="The fastest path is a 30-minute strategy session. We calibrate Bonggy on your real team and your real goal, live, and show you what's on-revenue and what's drifting this week. Or send us an email — we read every one."
       narrow
     >
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-12">
@@ -23,7 +23,7 @@ export default function ContactPage() {
           href={CAL_LINK}
           target="_blank"
           rel="noopener noreferrer"
-          className="group/card relative flex flex-col gap-5 rounded-xl border border-border/80 bg-card/60 p-7 transition-colors hover:border-signal/40 hover:bg-card/80"
+          className="terminal-corners group/card relative flex flex-col gap-5 rounded-[6px] border border-border/80 bg-card/60 p-7 transition-colors hover:border-signal/40 hover:bg-card/80"
         >
           <div className="flex items-center justify-between">
             <Clock weight="regular" className="size-6 text-signal" />
@@ -49,7 +49,7 @@ export default function ContactPage() {
 
         <a
           href="mailto:founders@bonggy.com"
-          className="group/card relative flex flex-col gap-5 rounded-xl border border-border/80 bg-card/60 p-7 transition-colors hover:border-signal/40 hover:bg-card/80"
+          className="terminal-corners group/card relative flex flex-col gap-5 rounded-[6px] border border-border/80 bg-card/60 p-7 transition-colors hover:border-signal/40 hover:bg-card/80"
         >
           <div className="flex items-center justify-between">
             <EnvelopeSimple weight="regular" className="size-6 text-foreground/80" />

@@ -20,10 +20,28 @@ import { useScrollShell } from "./scroll-shell";
    Edit nav items here. `anchor` links smooth-scroll on the home page;
    `route` links navigate. Dropdowns hold a label + items array.        */
 
+type DropdownItem = {
+  label: string;
+  href: string;
+  /** Mono uppercase category chip shown on the card (e.g. "Essay"). */
+  tag?: string;
+  /** Small accent badge, e.g. "New". */
+  badge?: string;
+  /** One-line description under the title. */
+  desc?: string;
+};
+
 type NavItem =
   | { type: "anchor"; label: string; id: string }
   | { type: "route"; label: string; href: string }
-  | { type: "dropdown"; label: string; items: { label: string; href: string }[] };
+  | {
+      type: "dropdown";
+      label: string;
+      /** "cards" = factory-style rich card menu; "list" = simple list. */
+      variant?: "list" | "cards";
+      viewAllHref?: string;
+      items: DropdownItem[];
+    };
 
 const NAV_ITEMS: NavItem[] = [
   { type: "anchor", label: "What we do", id: "what-we-do" },
@@ -31,9 +49,22 @@ const NAV_ITEMS: NavItem[] = [
   {
     type: "dropdown",
     label: "Resources",
+    variant: "cards",
+    viewAllHref: "/resources",
     items: [
-      { label: "A note from us", href: "/resources/a-note-from-us" },
-      { label: "FAQ", href: "/faq" },
+      {
+        label: "A note from us",
+        href: "/resources/a-note-from-us",
+        tag: "Essay",
+        badge: "New",
+        desc: "Why GTM is drowning in AI slop — and why the fix is connecting effort to revenue.",
+      },
+      {
+        label: "Questions, answered",
+        href: "/faq",
+        tag: "FAQ",
+        desc: "How Bonggy reads effort across your tools and proves what's actually working.",
+      },
     ],
   },
 ];
@@ -42,6 +73,52 @@ const FOCUS_RING =
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal focus-visible:ring-offset-2 focus-visible:ring-offset-background";
 
 const HEADER_OFFSET = 76; // px, so smooth-scrolled sections clear the fixed bar
+
+/* ───────────────────────── animated wordmark ───────────────────── */
+
+const LOGO_LETTERS = ["B", "o", "n", "g", "g", "y"];
+
+/** Logo with the original hover personality: the planet mark tilts and the
+ *  wordmark letters re-stagger in on every hover. */
+function LogoLink() {
+  const [hovered, setHovered] = React.useState(false);
+  const [hoverKey, setHoverKey] = React.useState(0);
+
+  return (
+    <Link
+      href="/"
+      aria-label="Bonggy, home"
+      onMouseEnter={() => {
+        setHovered(true);
+        setHoverKey((k) => k + 1);
+      }}
+      onMouseLeave={() => setHovered(false)}
+      className={cn(
+        "group/logo flex items-center gap-2.5 rounded-md py-1 pr-1",
+        FOCUS_RING,
+      )}
+    >
+      <BonggyMark className="size-6 transition-transform duration-500 ease-out group-hover/logo:rotate-[10deg]" />
+      <span
+        key={hoverKey}
+        aria-label="Bonggy"
+        className="flex font-mono text-[14px] font-medium uppercase tracking-[0.2em] text-foreground"
+      >
+        {LOGO_LETTERS.map((char, i) => (
+          <motion.span
+            key={i}
+            initial={hovered ? { opacity: 0.15, y: 2 } : false}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.45, delay: i * 0.07, ease: [0.22, 1, 0.36, 1] }}
+            className="inline-block"
+          >
+            {char}
+          </motion.span>
+        ))}
+      </span>
+    </Link>
+  );
+}
 
 /* ─────────────────────── smooth-scroll helper ─────────────────── */
 
@@ -121,57 +198,50 @@ export function Navbar() {
       >
         <div className="relative mx-auto flex h-15 w-full max-w-[1400px] items-center justify-between px-6 lg:px-10">
           {/* LEFT: wordmark */}
-          <Link
-            href="/"
-            aria-label="Bonggy, home"
-            className={cn(
-              "flex items-center gap-2.5 rounded-md py-1 pr-1",
-              FOCUS_RING,
-            )}
-          >
-            <BonggyMark className="size-6" />
-            <span className="font-mono text-[14px] font-medium uppercase tracking-[0.2em] text-foreground">
-              Bonggy
-            </span>
-          </Link>
+          <LogoLink />
 
-          {/* CENTER: nav, absolutely centered on the bar */}
-          <nav
-            className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-1 md:flex"
-            aria-label="Primary"
-          >
-            {NAV_ITEMS.map((item) =>
-              item.type === "dropdown" ? (
-                <NavDropdown key={item.label} label={item.label} items={item.items} />
-              ) : item.type === "anchor" ? (
-                <Link
-                  key={item.label}
-                  href={`/#${item.id}`}
-                  onClick={handleAnchor(item.id)}
-                  className={cn(
-                    "rounded-md px-3 py-2 font-mono text-[11.5px] uppercase tracking-[0.1em] text-muted-foreground transition-colors duration-150 hover:text-foreground",
-                    FOCUS_RING,
-                  )}
-                >
-                  {item.label}
-                </Link>
-              ) : (
-                <Link
-                  key={item.label}
-                  href={item.href}
-                  className={cn(
-                    "rounded-md px-3 py-2 font-mono text-[11.5px] uppercase tracking-[0.1em] text-muted-foreground transition-colors duration-150 hover:text-foreground",
-                    FOCUS_RING,
-                  )}
-                >
-                  {item.label}
-                </Link>
-              ),
-            )}
-          </nav>
+          {/* RIGHT: nav links + early access (desktop) / hamburger (mobile) */}
+          <div className="flex items-center gap-2 md:gap-5">
+            <nav
+              className="hidden items-center gap-1 md:flex"
+              aria-label="Primary"
+            >
+              {NAV_ITEMS.map((item) =>
+                item.type === "dropdown" ? (
+                  <NavDropdown
+                    key={item.label}
+                    label={item.label}
+                    items={item.items}
+                    variant={item.variant}
+                    viewAllHref={item.viewAllHref}
+                  />
+                ) : item.type === "anchor" ? (
+                  <Link
+                    key={item.label}
+                    href={`/#${item.id}`}
+                    onClick={handleAnchor(item.id)}
+                    className={cn(
+                      "rounded-md px-3 py-2 font-mono text-[11.5px] uppercase tracking-[0.1em] text-muted-foreground transition-colors duration-150 hover:text-foreground",
+                      FOCUS_RING,
+                    )}
+                  >
+                    {item.label}
+                  </Link>
+                ) : (
+                  <Link
+                    key={item.label}
+                    href={item.href}
+                    className={cn(
+                      "rounded-md px-3 py-2 font-mono text-[11.5px] uppercase tracking-[0.1em] text-muted-foreground transition-colors duration-150 hover:text-foreground",
+                      FOCUS_RING,
+                    )}
+                  >
+                    {item.label}
+                  </Link>
+                ),
+              )}
+            </nav>
 
-          {/* RIGHT: early access (desktop) / hamburger (mobile) */}
-          <div className="flex items-center gap-3">
             <button
               type="button"
               onClick={openEarlyAccess}
@@ -226,9 +296,13 @@ export function Navbar() {
 function NavDropdown({
   label,
   items,
+  variant = "list",
+  viewAllHref,
 }: {
   label: string;
-  items: { label: string; href: string }[];
+  items: DropdownItem[];
+  variant?: "list" | "cards";
+  viewAllHref?: string;
 }) {
   const [open, setOpen] = React.useState(false);
   const wrapRef = React.useRef<HTMLDivElement>(null);
@@ -338,38 +412,113 @@ function NavDropdown({
       </button>
 
       <AnimatePresence>
-        {open && (
-          <motion.div
-            id={menuId}
-            role="menu"
-            aria-label={label}
-            initial={{ opacity: 0, y: -6 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -6 }}
-            transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
-            className="absolute left-0 top-full mt-2 min-w-[200px] rounded-[10px] border border-border/70 bg-popover/90 p-1.5 shadow-[0_16px_40px_-12px_rgba(0,0,0,0.5)] backdrop-blur-md"
-          >
-            {items.map((it, i) => (
-              <Link
-                key={it.href}
-                href={it.href}
-                ref={(node) => {
-                  itemRefs.current[i] = node;
-                }}
-                role="menuitem"
-                tabIndex={-1}
-                onClick={() => setOpen(false)}
-                onKeyDown={onItemKeyDown(i)}
-                className={cn(
-                  "block rounded-md px-3 py-2 font-mono text-[11px] uppercase tracking-[0.08em] text-muted-foreground transition-colors hover:bg-accent hover:text-foreground",
-                  FOCUS_RING,
-                )}
-              >
-                {it.label}
-              </Link>
-            ))}
-          </motion.div>
-        )}
+        {open &&
+          (variant === "cards" ? (
+            <motion.div
+              id={menuId}
+              role="menu"
+              aria-label={label}
+              initial={{ opacity: 0, y: -6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.16, ease: [0.22, 1, 0.36, 1] }}
+              className="absolute right-0 top-full mt-3 w-[min(600px,calc(100vw-2.5rem))] rounded-[14px] border border-border/70 bg-popover/95 p-3 shadow-[0_24px_60px_-16px_rgba(0,0,0,0.65)] backdrop-blur-xl"
+            >
+              {/* Header row — label + view-all, like factory's NEWS menu */}
+              <div className="mb-2.5 flex items-center justify-between px-2 pt-1">
+                <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/60">
+                  {label}
+                </span>
+                {viewAllHref ? (
+                  <Link
+                    href={viewAllHref}
+                    onClick={() => setOpen(false)}
+                    className={cn(
+                      "inline-flex items-center gap-1 rounded font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:text-foreground",
+                      FOCUS_RING,
+                    )}
+                  >
+                    View all <span aria-hidden>↗</span>
+                  </Link>
+                ) : null}
+              </div>
+
+              <div className="grid grid-cols-2 gap-2">
+                {items.map((it, i) => (
+                  <Link
+                    key={it.href}
+                    href={it.href}
+                    ref={(node) => {
+                      itemRefs.current[i] = node;
+                    }}
+                    role="menuitem"
+                    tabIndex={-1}
+                    onClick={() => setOpen(false)}
+                    onKeyDown={onItemKeyDown(i)}
+                    className={cn(
+                      "group/card flex flex-col rounded-[10px] border border-border/60 bg-card/30 p-4 transition-colors hover:border-signal/40 hover:bg-card/70",
+                      FOCUS_RING,
+                    )}
+                  >
+                    <div className="mb-3 flex items-center gap-1.5">
+                      {it.tag ? (
+                        <span className="rounded-[3px] bg-signal/15 px-1.5 py-0.5 font-mono text-[9px] font-medium uppercase tracking-[0.12em] text-signal">
+                          {it.tag}
+                        </span>
+                      ) : null}
+                      {it.badge ? (
+                        <span className="rounded-[3px] border border-border/70 px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-[0.12em] text-muted-foreground">
+                          {it.badge}
+                        </span>
+                      ) : null}
+                    </div>
+                    <span className="text-[14px] font-medium tracking-tight text-foreground">
+                      {it.label}
+                    </span>
+                    {it.desc ? (
+                      <span className="mt-1.5 font-mono text-[11px] leading-relaxed text-muted-foreground">
+                        {it.desc}
+                      </span>
+                    ) : null}
+                    <span className="mt-3 inline-flex items-center gap-1 font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground transition-colors group-hover/card:text-signal">
+                      Read <span aria-hidden>→</span>
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </motion.div>
+          ) : (
+            <motion.div
+              id={menuId}
+              role="menu"
+              aria-label={label}
+              initial={{ opacity: 0, y: -6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
+              className="absolute right-0 top-full mt-2 min-w-[200px] rounded-[10px] border border-border/70 bg-popover/90 p-1.5 shadow-[0_16px_40px_-12px_rgba(0,0,0,0.5)] backdrop-blur-md"
+            >
+              {items.map((it, i) => (
+                <Link
+                  key={it.href}
+                  href={it.href}
+                  ref={(node) => {
+                    itemRefs.current[i] = node;
+                  }}
+                  role="menuitem"
+                  tabIndex={-1}
+                  onClick={() => setOpen(false)}
+                  onKeyDown={onItemKeyDown(i)}
+                  className={cn(
+                    "block rounded-md px-3 py-2 font-mono text-[11px] uppercase tracking-[0.08em] text-muted-foreground transition-colors hover:bg-accent hover:text-foreground",
+                    FOCUS_RING,
+                  )}
+                >
+                  {it.label}
+                </Link>
+              ))}
+            </motion.div>
+          ))}
       </AnimatePresence>
     </div>
   );

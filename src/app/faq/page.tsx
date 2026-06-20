@@ -1,49 +1,50 @@
 import type { Metadata } from "next";
 import { SubPageShell } from "@/components/marketing/sub-page-shell";
 import { CtaButton } from "@/components/marketing/cta-button";
+import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "FAQ",
   description:
-    "Common questions about Bonggy , how it differs from AI SDRs, Apollo, and Clay; what it integrates with; how it protects your domain; who it's for.",
+    "Common questions about Bonggy — the layer between rep effort and revenue. How it differs from your CRM, sequencer, and AI SDRs; what it reads, what it integrates with, and who it's for.",
 };
 
 const QUESTIONS = [
   {
     q: "Is Bonggy an AI SDR?",
-    a: "No. AI SDRs automate the typing and skip the thinking , they send more and mean less. Bonggy puts the AI on the judgment: which account, why now, what to say. Your reps still send, still own the relationship. We arm them; we don't replace them.",
+    a: "No — and it isn't an AI anything that sends for your reps. AI SDRs automate the typing and skip the thinking: they send more and mean less. Bonggy doesn't send, doesn't act, doesn't replace anyone. It reads the effort your team already makes across every tool, aligns it to revenue, and shows you what's working. The reps stay; the guesswork goes.",
   },
   {
-    q: "How is this different from Apollo or Clay?",
-    a: "Apollo is a database , it tells you who exists. Clay is a workbench , it lets you build the pipeline, if you know how. Bonggy is the layer in between: it decides which accounts to work, what to say, and why it matters right now, then runs it as an agent. Keep your database and your sequencer. We're the thinking between them.",
+    q: "How is this different from Apollo, Clay, or my CRM?",
+    a: "Those tell you who exists, help you build pipeline, or store what already happened. None of them tell you whether the effort actually points at revenue. Bonggy is the layer above your stack: it ties every action your team takes to the goal it serves, flags the work that's drifting, and proves what's moving the number. Keep your tools — Bonggy makes them make sense together.",
   },
   {
-    q: "Do I need to be technical to use it?",
-    a: "No. You describe the motion you want in plain English and Bonggy builds the agent. No pipeline to wire, no formulas, no specialist to hire.",
+    q: "Is this a leaderboard or a surveillance tool?",
+    a: "No. We measure effort against revenue, never reps against each other. No leaderboard, no scoreboard, no ranking. The same picture a manager sees, every rep sees too. Bonggy exists so a rep's work finally counts — not so anyone gets a new stick.",
+  },
+  {
+    q: "What does it actually do?",
+    a: "Four things. It tracks what every rep does across every tool, maps each action to the revenue goal it serves, nudges the work that's drifting back on-strategy, and reports one connected picture from rep to CRO. Observe, align, surface the drift, prove it.",
   },
   {
     q: "Where does the data come from?",
-    a: "Bonggy watches public buying signals across your target accounts , job changes, funding, tech-stack moves, hiring, news , and structures them into a scored, account-level view. It connects to the tools you already use to act on them.",
+    a: "From the work your team already does. Bonggy reads effort across the tools you already run — CRM, sequencer, email, calendar, Slack, call recordings, notes — and structures it into one account-level, revenue-aligned view. No new data to buy, no new workflow to adopt.",
   },
   {
-    q: "Does anything send automatically?",
-    a: "Not without you. Every draft is queued for human approval before it leaves your domain. The thinking is automated; the sending stays a decision.",
+    q: "Does it do the work for my reps?",
+    a: "No. Bonggy doesn't send, sequence, or act on your reps' behalf. It reads what they do and points it at revenue. The thinking is surfaced; the doing stays with your team.",
   },
   {
     q: "What does it integrate with?",
-    a: "The tools you already run , Instantly, Mailchimp, your CRM, LinkedIn, email, and common sequencers. It pushes approved outreach into your existing workflow rather than replacing it.",
+    a: "The tools you already run — your CRM, sequencer, email, calendar, Slack, call recording, and more. It sits above them and connects the effort, rather than replacing anything in your stack.",
   },
   {
-    q: "Will it hurt my domain reputation?",
-    a: "The opposite is the point. Bonggy is built to send fewer, sharper, signal-backed messages , the spray-and-pray motion that burns domains is exactly what it replaces.",
-  },
-  {
-    q: "Who is it for?",
-    a: "SDR and AE teams first, then the wider GTM motion , managers, RevOps, AMs, marketing, agencies, founders doing their own sales. If pipeline touches your day, it's for you.",
+    q: "Does it work for the whole GTM team, or just sales?",
+    a: "The whole motion. SDRs, AEs, and CS — anyone whose effort should roll up to revenue. Expansion and retention count the same as new logos. If the work touches the number, Bonggy reads it.",
   },
   {
     q: "How do we start?",
-    a: "A 30-minute strategy session. We calibrate Bonggy on your real accounts, live, and show you what's firing this week. If it's not obviously useful in the first ten minutes, we'll tell you.",
+    a: "A 30-minute strategy session. We calibrate Bonggy on your real team and your real goal, live, and show you what's on-revenue and what's drifting this week. If it's not obviously useful in the first ten minutes, we'll tell you.",
   },
 ];
 
@@ -71,27 +72,35 @@ export default function FaqPage() {
         lede="Tight, conversion-aware answers. If a question isn't here and you think it should be, email founders@bonggy.com and we'll add it."
         narrow
       >
-        <div className="divide-y divide-border/60">
+        {/* Terminal-styled accordion — signal numerals, dotted rules, and a
+            bordered +/× toggle that turns signal-green on open. */}
+        <div className="border-y border-border/50">
           {QUESTIONS.map((item, i) => (
             <details
               key={item.q}
-              open={i < 2}
-              className="group/q py-7 lg:py-9"
+              open={i < 1}
+              className={cn(
+                "group/q border-border/40 px-1",
+                i > 0 && "border-t",
+              )}
             >
-              <summary className="flex cursor-pointer items-baseline justify-between gap-6 list-none [&::-webkit-details-marker]:hidden">
-                <div className="flex items-baseline gap-4">
-                  <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/70 tabular-nums">
+              <summary className="flex cursor-pointer items-center justify-between gap-6 py-6 list-none [&::-webkit-details-marker]:hidden lg:py-7">
+                <div className="flex items-baseline gap-4 sm:gap-5">
+                  <span className="font-mono text-[11px] tabular-nums text-signal/80">
                     {String(i + 1).padStart(2, "0")}
                   </span>
-                  <h3 className="text-[18px] font-medium tracking-tight text-foreground sm:text-[20px]">
+                  <h3 className="text-[17px] font-medium tracking-tight text-foreground transition-colors group-hover/q:text-foreground sm:text-[19px]">
                     {item.q}
                   </h3>
                 </div>
-                <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/70 transition-transform group-open/q:rotate-45">
+                <span
+                  aria-hidden
+                  className="flex size-7 shrink-0 items-center justify-center rounded-[5px] border border-border/70 font-mono text-[14px] leading-none text-muted-foreground transition-all duration-200 group-open/q:rotate-45 group-open/q:border-signal/50 group-open/q:text-signal"
+                >
                   +
                 </span>
               </summary>
-              <p className="mt-4 max-w-[68ch] pl-0 text-[15.5px] leading-relaxed text-muted-foreground lg:pl-[42px]">
+              <p className="max-w-[70ch] pb-7 text-[15px] leading-relaxed text-muted-foreground sm:pl-[42px]">
                 {item.a}
               </p>
             </details>

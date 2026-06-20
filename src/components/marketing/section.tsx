@@ -3,7 +3,6 @@
 import * as React from "react";
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
-import { SPRING } from "./_motion";
 
 type SectionProps = React.ComponentPropsWithoutRef<"section"> & {
   eyebrow?: string;
@@ -13,6 +12,9 @@ type SectionProps = React.ComponentPropsWithoutRef<"section"> & {
    *  dot-grid behind still reads through, so tinted bands sit a half-step
    *  above the page surface rather than fully occluding it. */
   tint?: boolean;
+  /** Soft light-pool at the section's top edge. Off by default — the static
+   *  version banded badly; depth is being reworked as a scroll-driven effect. */
+  glow?: boolean;
 };
 
 export function Section({
@@ -20,6 +22,7 @@ export function Section({
   containerClassName,
   bleed,
   tint,
+  glow = false,
   className,
   children,
   ...rest
@@ -39,8 +42,12 @@ export function Section({
         className,
       )}
     >
+      {glow ? (
+        <div aria-hidden className="section-glow pointer-events-none absolute inset-x-0 top-0 z-0 h-[460px]" />
+      ) : null}
       <div
         className={cn(
+          "relative z-10",
           !bleed && "mx-auto w-full max-w-[1400px] px-6 lg:px-10",
           containerClassName,
         )}

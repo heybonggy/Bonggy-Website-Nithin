@@ -11,11 +11,11 @@ export const metadata: Metadata = {
 const SECTIONS = [
   {
     h: "What you get",
-    body: "Bonggy is an outbound intelligence platform. We watch for buying signals, cluster them into account narratives, and generate account-specific outreach. What we don't do: guarantee pipeline, promise specific reply rates, or replace skilled salespeople. We arm them.",
+    body: "Bonggy is an orchestration layer for GTM. It reads the effort your team already makes across your tools, ties each action to the revenue goal it serves, flags what's drifting, and reports one shared picture from rep to CRO. What we don't do: send, sequence, or act on your reps' behalf, guarantee pipeline, or replace anyone. We make the work legible.",
   },
   {
     h: "Acceptable use",
-    body: "Use Bonggy to reach accounts that should want to hear from you. Don't use it to spam, to scrape in violation of any site's terms, or to break anti-spam laws. If your sequences get reported as spam at a rate that damages sender reputation, we may pause your account and work with you to fix it.",
+    body: "Use Bonggy to read and align your own team's effort. Connect only the tools and accounts you're authorized to. Don't use it to ingest data you don't have rights to, or to monitor individuals outside a legitimate GTM context. Bonggy is read-only — it doesn't send, so the rules are about what you connect, not what goes out.",
   },
   {
     h: "Billing",
@@ -23,11 +23,11 @@ const SECTIONS = [
   },
   {
     h: "Data ownership",
-    body: "Your account data, contacts, and sequences are yours. We provide the intelligence layer; you provide the strategy. Export anytime, leave anytime, no lock-in.",
+    body: "Your account data, contacts, and activity are yours. We provide the alignment layer; you provide the work and the strategy. Export anytime, leave anytime, no lock-in.",
   },
   {
     h: "Limitation of liability",
-    body: "Bonggy helps you find the right accounts and say the right things. We're not responsible for what your reps actually send, how prospects respond, or whether a deal closes. Sales is still a human skill , we make the research part less painful. The service is provided “as is,” to the fullest extent permitted by law.",
+    body: "Bonggy reads and aligns your team's effort; it doesn't send, act, or close deals. We're not responsible for what your reps actually do, how prospects respond, or whether a deal closes. The work stays human. The service is provided “as is,” to the fullest extent permitted by law.",
   },
   {
     h: "Contact",
@@ -41,7 +41,7 @@ export default function TermsPage() {
       eyebrow="Terms of Service"
       title="Plain English."
       titleAccent="No legalese tricks."
-      lede="Last updated: May 2026. We make the research part of outbound less painful. Sales is still a human skill. Here's what you get, what you can do, and what's on you."
+      lede="Last updated: May 2026. Bonggy reads your team's effort and points it at revenue. The work stays human. Here's what you get, what you can do, and what's on you."
       narrow
     >
       <div className="max-w-[68ch] space-y-12">

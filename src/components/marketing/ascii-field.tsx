@@ -43,8 +43,14 @@ const noise2D = (x: number, y: number) => {
 const clamp = (v: number, min: number, max: number) =>
   Math.max(min, Math.min(max, v));
 
-export function AsciiField() {
+export function AsciiField({ paused = false }: { paused?: boolean }) {
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
+  // `paused` is driven by the sticky hero once the next section covers it —
+  // the rAF would otherwise run forever (a covered sticky element still counts
+  // as "in viewport", so the IntersectionObserver never fires).
+  const pausedRef = React.useRef(paused);
+  pausedRef.current = paused;
+  const restartRef = React.useRef<(() => void) | null>(null);
 
   React.useEffect(() => {
     const canvas = canvasRef.current;
@@ -96,7 +102,8 @@ export function AsciiField() {
     const draw = (now = 0) => {
       // Reschedule first so throttled (skipped) frames still keep the loop
       // alive. IntersectionObserver restarts the loop when it returns to view.
-      if (!reduce && visible) rafId = requestAnimationFrame(draw);
+      if (!reduce && visible && !pausedRef.current)
+        rafId = requestAnimationFrame(draw);
 
       // Cap mobile at ~30fps — halves the canvas work on phones where the loop
       // is the main jank source. Motion is advanced by real elapsed time so the
@@ -260,17 +267,23 @@ export function AsciiField() {
       }
     };
 
+    // Single gate: run only while on-screen AND not covered (paused). Resets
+    // the frame timer so resume doesn't jump the motion.
+    const maybeRun = () => {
+      if (reduce) return;
+      cancelAnimationFrame(rafId);
+      if (visible && !pausedRef.current) {
+        lastDraw = 0;
+        rafId = requestAnimationFrame(draw);
+      }
+    };
+    restartRef.current = maybeRun;
+
     // Pause the loop when the hero scrolls out of view.
     const io = new IntersectionObserver(
       (entries) => {
         visible = entries[0]?.isIntersecting ?? false;
-        if (visible && !reduce) {
-          cancelAnimationFrame(rafId);
-          lastDraw = 0; // reset frame timer so resume doesn't jump the motion
-          rafId = requestAnimationFrame(draw);
-        } else {
-          cancelAnimationFrame(rafId);
-        }
+        maybeRun();
       },
       { threshold: 0 },
     );
@@ -279,7 +292,7 @@ export function AsciiField() {
       resize();
       io.observe(canvas);
       if (reduce) draw();
-      else rafId = requestAnimationFrame(draw);
+      else maybeRun();
     };
 
     if (document.fonts?.ready) document.fonts.ready.then(start);
@@ -290,10 +303,16 @@ export function AsciiField() {
     return () => {
       cancelAnimationFrame(rafId);
       io.disconnect();
+      restartRef.current = null;
       window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", onMouseMove);
     };
   }, []);
+
+  // Start/stop the loop when the covered (paused) state flips.
+  React.useEffect(() => {
+    restartRef.current?.();
+  }, [paused]);
 
   return (
     <canvas
