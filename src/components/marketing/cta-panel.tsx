@@ -33,12 +33,11 @@ export function CtaPanel() {
               Build with us
             </div>
             <h2 className="text-display max-w-[16ch] text-balance text-[34px] font-medium leading-[1.02] tracking-tight text-zinc-950 sm:text-[46px] lg:text-[58px]">
-              Point every effort at revenue.
+              See your team&apos;s drift this week.
             </h2>
             <p className="max-w-[46ch] text-[15.5px] leading-relaxed text-zinc-700">
-              Thirty minutes. We calibrate Bonggy on your real team and your real
-              goal, live — and show you what&apos;s on-revenue and what&apos;s
-              drifting this week.
+              Bring a real quarter. In 15 minutes we&apos;ll read your
+              team&apos;s actual effort and show you where it&apos;s leaking.
             </p>
             <div>
               <CtaButton size="lg" variant="inverse">Strategize</CtaButton>
