@@ -44,13 +44,18 @@ export default function TermsPage() {
       lede="Last updated: May 2026. Bonggy reads your team's effort and points it at revenue. The work stays human. Here's what you get, what you can do, and what's on you."
       narrow
     >
-      <div className="max-w-[68ch] space-y-12">
-        {SECTIONS.map((s) => (
-          <section key={s.h}>
-            <h2 className="text-[20px] font-medium tracking-tight text-foreground">
-              {s.h}
-            </h2>
-            <p className="mt-3 text-[15.5px] leading-relaxed text-muted-foreground">
+      <div className="max-w-[70ch] divide-y divide-border/40">
+        {SECTIONS.map((s, i) => (
+          <section key={s.h} className="py-8 first:pt-0">
+            <div className="flex items-baseline gap-3">
+              <span className="font-mono text-[11px] tabular-nums text-signal/70">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <h2 className="text-[19px] font-medium tracking-tight text-foreground">
+                {s.h}
+              </h2>
+            </div>
+            <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground sm:pl-[26px]">
               {s.body}
             </p>
           </section>

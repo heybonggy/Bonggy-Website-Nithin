@@ -4,18 +4,18 @@ import { SubPageShell } from "@/components/marketing/sub-page-shell";
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description:
-    "Bonggy privacy policy. We collect only what we need, we don't sell your data, and we don't train AI models on your proprietary account information.",
+    "Bonggy privacy policy. We collect only what we need, we don't sell your data, and we don't train AI models on your proprietary account information. Bonggy is read-only.",
   robots: { index: true, follow: true },
 };
 
 const SECTIONS = [
   {
     h: "What we collect",
-    body: "We collect only what we need to make Bonggy work for your team: account information (your email, company name), product usage data to improve the service, and the signals you choose to track through your integrations. We do not sell your data. We do not train AI models on your proprietary account information.",
+    body: "We collect only what we need to make Bonggy work for your team: account information (your email, company name), product usage data to improve the service, and the effort data Bonggy reads through the tools you connect. We do not sell your data. We do not train AI models on your proprietary account information.",
   },
   {
     h: "How we use it",
-    body: "Your data powers your outbound intelligence. Signal clustering, narrative generation, and win-pattern matching all happen on your data, for your benefit. We use anonymized, aggregate metrics to improve the product , never your specific account narratives or contact lists.",
+    body: "Your data powers your own picture. Reading effort across your tools, aligning it to revenue, and surfacing drift all happen on your data, for your team. We use anonymized, aggregate metrics to improve the product — never your specific account data or contact lists.",
   },
   {
     h: "Cookies and website analytics",
@@ -23,11 +23,11 @@ const SECTIONS = [
   },
   {
     h: "Data retention",
-    body: "We keep your data as long as you're a customer. If you cancel, we offer a 30-day grace period to export everything before deletion. You own your data , we're just the layer that makes it useful.",
+    body: "We keep your data as long as you're a customer. If you cancel, we offer a 30-day grace period to export everything before deletion. You own your data — we're just the layer that makes it useful.",
   },
   {
     h: "Third-party integrations",
-    body: "Bonggy connects to your CRM, sequencer, and outreach tools to read signals and push approved account data. We request only the permissions necessary, and we never write to your CRM without explicit approval.",
+    body: "Bonggy connects to the tools your team already uses — CRM, sequencer, email, calendar, Slack, calls — to read the effort they already log. It's read-only: we request only the permissions needed to read, and Bonggy doesn't write back, send, or act on your behalf.",
   },
   {
     h: "Your choices",
@@ -48,13 +48,18 @@ export default function PrivacyPage() {
       lede="Last updated: May 2026. Plain language. No tracking surprises. We collect only what we need to make Bonggy work for your team."
       narrow
     >
-      <div className="max-w-[68ch] space-y-12">
-        {SECTIONS.map((s) => (
-          <section key={s.h}>
-            <h2 className="text-[20px] font-medium tracking-tight text-foreground">
-              {s.h}
-            </h2>
-            <p className="mt-3 text-[15.5px] leading-relaxed text-muted-foreground">
+      <div className="max-w-[70ch] divide-y divide-border/40">
+        {SECTIONS.map((s, i) => (
+          <section key={s.h} className="py-8 first:pt-0">
+            <div className="flex items-baseline gap-3">
+              <span className="font-mono text-[11px] tabular-nums text-signal/70">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <h2 className="text-[19px] font-medium tracking-tight text-foreground">
+                {s.h}
+              </h2>
+            </div>
+            <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground sm:pl-[26px]">
               {s.body}
             </p>
           </section>
