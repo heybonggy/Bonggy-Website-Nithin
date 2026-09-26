@@ -8,7 +8,7 @@ export const metadata: Metadata = pageMetadata({
   path: "/contact",
   title: "Contact",
   description:
-    "Get in touch with the Bonggy team. We read every email. A 30-minute call is the fastest way to see Bonggy on your accounts.",
+    "Get in touch with the Bonggy team. A 30-minute call is the fastest way to see what agents would do for your team, and we read every email.",
 });
 
 export default function ContactPage() {
@@ -17,7 +17,7 @@ export default function ContactPage() {
       eyebrow="Contact"
       title="We read every email."
       titleAccent="A call is faster."
-      lede="The fastest path is a 30-minute strategy session. We calibrate Bonggy on your real team and your real goal, live, and show you what's on-revenue and what's drifting this week. Or send us an email — we read every one."
+      lede="The fastest path is a 30-minute call. We map your market with you, sketch the first agents your team would build, and show how their work ties to your revenue goal. Or send us an email — we read every one."
       narrow
     >
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-12">
@@ -42,9 +42,9 @@ export default function ContactPage() {
               Book a 30-minute call
             </h2>
             <p className="mt-3 text-[14.5px] leading-relaxed text-muted-foreground">
-              We&apos;ll run Bonggy on your real accounts during the call. If
-              it&apos;s not obviously useful in the first ten minutes,
-              we&apos;ll tell you.
+              We&apos;ll sketch your first agents on a real account from your
+              list. If it&apos;s not obviously useful in the first ten
+              minutes, we&apos;ll tell you.
             </p>
           </div>
         </a>
