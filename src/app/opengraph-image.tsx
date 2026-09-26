@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "Bonggy: align every rep's effort to revenue";
+export const alt = "Bonggy: agents for the work before the conversation";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -91,7 +91,7 @@ export default async function OG() {
         >
           <div
             style={{
-              fontSize: "84px",
+              fontSize: "64px",
               fontWeight: 500,
               letterSpacing: "-0.035em",
               lineHeight: 1.02,
@@ -100,8 +100,10 @@ export default async function OG() {
               flexWrap: "wrap",
             }}
           >
-            <span>Align every rep&apos;s effort&nbsp;</span>
-            <span style={{ color: "#888888" }}>to revenue.</span>
+            <span>Agents for the work before the conversation.&nbsp;</span>
+            <span style={{ color: "#888888" }}>
+              You still have the conversation.
+            </span>
           </div>
           <div
             style={{
@@ -111,9 +113,9 @@ export default async function OG() {
               maxWidth: "880px",
             }}
           >
-            The orchestration layer between rep effort and company goals.
-            Track the effort, align it to the goal, nudge the drift, prove
-            what&apos;s working.
+            A studio for sales agents that model your market, research your
+            accounts and draft the work, aligned to revenue and reviewed by
+            your team.
           </div>
         </div>
 

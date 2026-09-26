@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL || "https://bonggy.com";
 
-export const HOME_TITLE = "Bonggy: align every rep's effort to revenue";
+export const HOME_TITLE = "Bonggy: agents for the work before the conversation";
 
 const OG_IMAGE = {
   url: "/opengraph-image",

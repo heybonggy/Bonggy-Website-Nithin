@@ -17,7 +17,7 @@ import { Footer } from "@/components/marketing/footer";
 export const metadata: Metadata = pageMetadata({
   path: "/",
   description:
-    "Bonggy is the orchestration layer between rep effort and company goals. It tracks what every rep does across every tool, aligns it to the goal, nudges the drift, and proves what's working.",
+    "Bonggy is a studio for sales agents that model your market, research your accounts and draft the work, aligned to revenue and reviewed by your team.",
 });
 
 export default function Home() {
