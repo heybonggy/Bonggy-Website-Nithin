@@ -458,6 +458,12 @@
   }
   .pulse-signal { animation: pulse-signal 3.4s ease-out infinite; }
 
+  /* Product mock: soft ring around Approve (used with a finite count). */
+  @keyframes approve-pulse {
+    0%   { opacity: 0.9; transform: scale(1); }
+    100% { opacity: 0;   transform: scale(1.35, 1.6); }
+  }
+
   /* Film grain for the light closing-CTA panel (dark specks, multiplied). */
   .cta-grain {
     background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='cg'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.55 0'/></filter><rect width='100%25' height='100%25' filter='url(%23cg)'/></svg>");
