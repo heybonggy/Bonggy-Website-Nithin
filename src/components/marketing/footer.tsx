@@ -82,7 +82,7 @@ export function Footer() {
             © {new Date().getFullYear()} Bonggy. All rights reserved.
           </div>
           <div className="font-mono text-[11px] text-muted-foreground/90">
-            Built for the people who have to live with the reply.
+            Built for the teams who own the number.
           </div>
         </div>
       </div>
