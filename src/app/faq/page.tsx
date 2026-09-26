@@ -115,7 +115,7 @@ export default function FaqPage() {
               Got a different question?
             </h2>
             <div className="flex items-start lg:justify-end">
-              <CtaButton variant="signal">Strategize</CtaButton>
+              <CtaButton variant="signal">Book a 30-min call</CtaButton>
             </div>
           </div>
         </div>

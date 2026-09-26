@@ -6,7 +6,7 @@ import { ArrowUpRight } from "@phosphor-icons/react/dist/ssr/ArrowUpRight";
 import { cn } from "@/lib/utils";
 import { Magnetic } from "./magnetic";
 
-type CtaButtonProps = {
+export type CtaButtonProps = {
   href?: string;
   variant?: "primary" | "signal" | "inverse" | "ghost";
   size?: "sm" | "md" | "lg";
@@ -34,7 +34,7 @@ export function CtaButton({
   size = "lg",
   className,
   magnetic = true,
-  children = "Strategize",
+  children = "Book a 30-min call",
   asButton = false,
   onClick,
   type = "button",
@@ -83,7 +83,7 @@ export function CtaButton({
  : { boxShadow: ringShadow[variant] };
 
   // External links (the cal.com booking link) open in a new tab so the user
-  // never leaves the site — clicking "Strategize" and hitting Back used to
+  // never leaves the site — clicking "Book a 30-min call" and hitting Back used to
   // restore them mid-page because the custom scroll container breaks native
   // scroll restoration. Internal hrefs keep normal in-tab navigation.
   const isExternal = /^https?:\/\//.test(href);

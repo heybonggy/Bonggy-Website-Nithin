@@ -88,7 +88,7 @@ export function Hero() {
           transition={{ duration: 0.5, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
           className="mt-10 flex justify-center"
         >
-          <CtaButton size="lg">Strategize</CtaButton>
+          <CtaButton size="lg">Book a 30-min call</CtaButton>
         </motion.div>
       </div>
 

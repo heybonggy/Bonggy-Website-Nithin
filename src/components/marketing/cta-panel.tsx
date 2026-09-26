@@ -40,7 +40,7 @@ export function CtaPanel() {
               team&apos;s actual effort and show you where it&apos;s leaking.
             </p>
             <div>
-              <CtaButton size="lg" variant="inverse">Strategize</CtaButton>
+              <CtaButton size="lg" variant="inverse">Book a 30-min call</CtaButton>
             </div>
           </div>
         </div>

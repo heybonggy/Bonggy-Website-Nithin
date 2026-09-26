@@ -12,7 +12,7 @@ import {
 import { CaretDown } from "@phosphor-icons/react/dist/ssr";
 import { cn } from "@/lib/utils";
 import { BonggyMark } from "./bonggy-mark";
-import { CtaButton } from "./cta-button";
+import { CtaButton, CAL_LINK } from "./cta-button";
 import { EarlyAccessModal } from "./early-access-modal";
 import { useScrollShell } from "./scroll-shell";
 
@@ -44,27 +44,19 @@ type NavItem =
     };
 
 const NAV_ITEMS: NavItem[] = [
-  { type: "anchor", label: "What we do", id: "what-we-do" },
+  // "Product" targets the roles strip, which keeps the #what-we-do id the
+  // footer links to.
+  { type: "anchor", label: "Product", id: "what-we-do" },
   { type: "anchor", label: "How it works", id: "how-it-works" },
+  { type: "anchor", label: "Pricing", id: "pricing" },
+  { type: "anchor", label: "FAQ", id: "faq" },
   {
     type: "dropdown",
     label: "Resources",
-    variant: "cards",
-    viewAllHref: "/resources",
+    variant: "list",
     items: [
-      {
-        label: "A note from us",
-        href: "/resources/a-note-from-us",
-        tag: "Essay",
-        badge: "New",
-        desc: "Why GTM is drowning in AI slop — and why the fix is connecting effort to revenue.",
-      },
-      {
-        label: "Questions, answered",
-        href: "/faq",
-        tag: "FAQ",
-        desc: "How Bonggy reads effort across your tools and proves what's actually working.",
-      },
+      { label: "All resources", href: "/resources" },
+      { label: "A note from us", href: "/resources/a-note-from-us" },
     ],
   },
 ];
@@ -205,9 +197,9 @@ export function Navbar() {
           <LogoLink />
 
           {/* RIGHT: nav links + early access (desktop) / hamburger (mobile) */}
-          <div className="flex items-center gap-2 md:gap-5">
+          <div className="flex items-center gap-2 lg:gap-4">
             <nav
-              className="hidden items-center gap-1 md:flex"
+              className="hidden items-center gap-0.5 lg:flex"
               aria-label="Primary"
             >
               {NAV_ITEMS.map((item) =>
@@ -246,16 +238,23 @@ export function Navbar() {
               )}
             </nav>
 
-            <button
-              type="button"
-              onClick={openEarlyAccess}
+            <a
+              href={CAL_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
               className={cn(
-                "hidden h-9 items-center rounded-md border border-border/70 px-4 font-mono text-[11px] uppercase tracking-[0.1em] text-foreground transition-colors duration-150 hover:bg-card/60 md:inline-flex",
+                "hidden h-8 items-center whitespace-nowrap rounded-md border border-border/70 px-3.5 font-mono text-[10.5px] uppercase tracking-[0.1em] text-foreground transition-colors duration-150 hover:bg-card/60 xl:inline-flex",
                 FOCUS_RING,
               )}
             >
-              Early access
-            </button>
+              Book a 30-min call
+            </a>
+
+            <div className="hidden lg:block">
+              <CtaButton size="sm" asButton onClick={openEarlyAccess}>
+                Get early access
+              </CtaButton>
+            </div>
 
             <button
               type="button"
@@ -264,7 +263,7 @@ export function Navbar() {
               aria-controls="mobile-menu"
               onClick={() => setMobileOpen((v) => !v)}
               className={cn(
-                "flex size-9 items-center justify-center rounded-md border border-border/60 bg-card/40 text-foreground md:hidden",
+                "flex size-9 items-center justify-center rounded-md border border-border/60 bg-card/40 text-foreground lg:hidden",
                 FOCUS_RING,
               )}
             >
@@ -595,7 +594,7 @@ function MobileMenu({
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.18 }}
-      className="fixed inset-0 z-40 md:hidden"
+      className="fixed inset-0 z-40 lg:hidden"
     >
       {/* Backdrop */}
       <button
@@ -653,19 +652,26 @@ function MobileMenu({
 
         {/* Pinned CTAs */}
         <div className="mt-auto flex flex-col gap-3 pt-8">
-          <button
-            type="button"
+          <CtaButton
+            size="lg"
+            magnetic={false}
+            asButton
             onClick={onOpenEarlyAccess}
+            className="w-full"
+          >
+            Get early access
+          </CtaButton>
+          <a
+            href={CAL_LINK}
+            target="_blank"
+            rel="noopener noreferrer"
             className={cn(
-              "h-11 rounded-md border border-border/70 text-[13px] font-medium text-muted-foreground transition-colors hover:text-foreground",
+              "flex h-11 items-center justify-center rounded-md border border-border/70 font-mono text-[12px] uppercase tracking-[0.18em] text-foreground transition-colors hover:bg-card/60",
               FOCUS_RING,
             )}
           >
-            Early access
-          </button>
-          <CtaButton size="lg" magnetic={false} className="w-full">
-            Strategize
-          </CtaButton>
+            Book a 30-min call
+          </a>
         </div>
       </motion.div>
     </motion.div>
