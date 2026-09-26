@@ -6,6 +6,7 @@ import { TheReframeFix } from "@/components/marketing/the-reframe-fix";
 import { RolesStrip } from "@/components/marketing/roles-strip";
 import { BotBuilder } from "@/components/marketing/bot-builder";
 import { MemoryGraph } from "@/components/marketing/memory-graph";
+import { AnalyticsDashboard } from "@/components/marketing/analytics-dashboard";
 import { CtaPanel } from "@/components/marketing/cta-panel";
 import { SectionRule } from "@/components/marketing/section";
 import { Footer } from "@/components/marketing/footer";
@@ -27,6 +28,8 @@ export default function Home() {
         <BotBuilder />
         <SectionRule />
         <MemoryGraph />
+        <SectionRule />
+        <AnalyticsDashboard />
         <SectionRule />
         <TheReframeFix />
         <CtaPanel />
