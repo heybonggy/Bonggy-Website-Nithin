@@ -2,51 +2,53 @@ import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/metadata";
 import { SubPageShell } from "@/components/marketing/sub-page-shell";
 import { CtaButton } from "@/components/marketing/cta-button";
-import { cn } from "@/lib/utils";
+import { FaqList, type FaqItem } from "@/components/marketing/faq-list";
+import { HOME_FAQ } from "@/components/marketing/home-faq";
 
 export const metadata: Metadata = pageMetadata({
   path: "/faq",
   title: "FAQ",
   description:
-    "Common questions about Bonggy — the layer between rep effort and revenue. How it differs from your CRM, sequencer, and AI SDRs; what it reads, what it integrates with, and who it's for.",
+    "Common questions about Bonggy, the studio where GTM teams build their own sales agents: what agents do, how approval works, groups and shared memory, the tools it connects to, and pricing.",
 });
 
-const QUESTIONS = [
+// The five homepage answers are reused word for word so the two stay
+// consistent.
+const [isAiSdr, sendsEmail, buildOwn, tools, pricing] = HOME_FAQ;
+
+const QUESTIONS: FaqItem[] = [
+  isAiSdr,
+  sendsEmail,
   {
-    q: "Is Bonggy an AI SDR?",
-    a: "No — and it isn't an AI anything that sends for your reps. AI SDRs automate the typing and skip the thinking: they send more and mean less. Bonggy doesn't send, doesn't act, doesn't replace anyone. It reads the effort your team already makes across every tool, aligns it to revenue, and shows you what's working. The reps stay; the guesswork goes.",
+    q: "What does it actually do?",
+    a: "Your team builds agents that model your market, research your accounts and draft the work: briefs, account plans and messages. Every agent runs on one loop (track, align, nudge, report), so its work ties back to a revenue goal. Agents build shared memory from what they learn, and a person approves anything that goes out.",
+  },
+  buildOwn,
+  {
+    q: "What's a group?",
+    a: "A group, or pod, is a set of agents that work together toward the same revenue goal and share memory. For example, a Market Modeller, an Account Researcher and a Brief Writer working the same segment.",
   },
   {
-    q: "How is this different from Apollo, Clay, or my CRM?",
-    a: "Those tell you who exists, help you build pipeline, or store what already happened. None of them tell you whether the effort actually points at revenue. Bonggy is the layer above your stack: it ties every action your team takes to the goal it serves, flags the work that's drifting, and proves what's moving the number. Keep your tools — Bonggy makes them make sense together.",
+    q: "What is shared memory?",
+    a: "Agents keep what they learn from conversations, call notes and deals: accounts, people, objections and wins. Every agent in the pod can use it, so the tenth brief is smarter than the first.",
   },
   {
     q: "Is this a leaderboard or a surveillance tool?",
-    a: "No. We measure effort against revenue, never reps against each other. No leaderboard, no scoreboard, no ranking. The same picture a manager sees, every rep sees too. Bonggy exists so a rep's work finally counts — not so anyone gets a new stick.",
+    a: "No. We measure work against revenue, never reps against each other. No leaderboard, no scoreboard, no ranking. The same picture a manager sees, every rep sees too.",
   },
   {
-    q: "What does it actually do?",
-    a: "Four things. It tracks what every rep does across every tool, maps each action to the revenue goal it serves, nudges the work that's drifting back on-strategy, and reports one connected picture from rep to CRO. Observe, align, surface the drift, prove it.",
+    q: "How is this different from Apollo, Clay, or my CRM?",
+    a: "Those give you data, run sequences or store what already happened. Bonggy is where your team builds agents that do the thinking work on top: modelling the market, researching accounts and drafting the work, each tied to a revenue goal. Keep your tools; agents work alongside them.",
   },
-  {
-    q: "Where does the data come from?",
-    a: "From the work your team already does. Bonggy reads effort across the tools you already run — CRM, sequencer, email, calendar, Slack, call recordings, notes — and structures it into one account-level, revenue-aligned view. No new data to buy, no new workflow to adopt.",
-  },
-  {
-    q: "Does it do the work for my reps?",
-    a: "No. Bonggy doesn't send, sequence, or act on your reps' behalf. It reads what they do and points it at revenue. The thinking is surfaced; the doing stays with your team.",
-  },
-  {
-    q: "What does it integrate with?",
-    a: "The tools you already run — your CRM, sequencer, email, calendar, Slack, call recording, and more. It sits above them and connects the effort, rather than replacing anything in your stack.",
-  },
+  tools,
   {
     q: "Does it work for the whole GTM team, or just sales?",
-    a: "The whole motion. SDRs, AEs, and CS — anyone whose effort should roll up to revenue. Expansion and retention count the same as new logos. If the work touches the number, Bonggy reads it.",
+    a: "The whole motion. SDRs, AEs, account managers and CS: anyone whose work should roll up to revenue. Renewal and expansion agents count the same as new-logo ones.",
   },
+  pricing,
   {
     q: "How do we start?",
-    a: "A 30-minute strategy session. We calibrate Bonggy on your real team and your real goal, live, and show you what's on-revenue and what's drifting this week. If it's not obviously useful in the first ten minutes, we'll tell you.",
+    a: "A 30-minute call. We map your market with you, sketch the first agents your team would build, and show how their work ties to your revenue goal. If it's not obviously useful in the first ten minutes, we'll tell you.",
   },
 ];
 
@@ -71,43 +73,10 @@ export default function FaqPage() {
         eyebrow="FAQ"
         title="The questions"
         titleAccent="every VP asks before booking."
-        lede="Straight answers on what Bonggy does, what it doesn't, and how to get started. If your question isn't here, email founders@bonggy.com and we'll add it."
+        lede="Straight answers on what Bonggy's agents do, what they don't, and how to get started. If your question isn't here, email founders@bonggy.com and we'll add it."
         narrow
       >
-        {/* Terminal-styled accordion — signal numerals, dotted rules, and a
-            bordered +/× toggle that turns signal-green on open. */}
-        <div className="border-y border-border/50">
-          {QUESTIONS.map((item, i) => (
-            <details
-              key={item.q}
-              open={i < 1}
-              className={cn(
-                "group/q border-border/40 px-1",
-                i > 0 && "border-t",
-              )}
-            >
-              <summary className="flex cursor-pointer items-center justify-between gap-6 py-6 list-none [&::-webkit-details-marker]:hidden lg:py-7">
-                <div className="flex items-baseline gap-4 sm:gap-5">
-                  <span className="font-mono text-[11px] tabular-nums text-signal/80">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <h2 className="text-[17px] font-medium tracking-tight text-foreground transition-colors group-hover/q:text-foreground sm:text-[19px]">
-                    {item.q}
-                  </h2>
-                </div>
-                <span
-                  aria-hidden
-                  className="flex size-7 shrink-0 items-center justify-center rounded-[5px] border border-border/70 font-mono text-[14px] leading-none text-muted-foreground transition-all duration-200 group-open/q:rotate-45 group-open/q:border-signal/50 group-open/q:text-signal"
-                >
-                  +
-                </span>
-              </summary>
-              <p className="max-w-[70ch] pb-7 text-[15px] leading-relaxed text-muted-foreground sm:pl-[42px]">
-                {item.a}
-              </p>
-            </details>
-          ))}
-        </div>
+        <FaqList items={QUESTIONS} headingLevel="h2" />
 
         <div className="mt-20 border-t border-border/60 pt-12">
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
