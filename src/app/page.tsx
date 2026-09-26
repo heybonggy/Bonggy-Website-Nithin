@@ -8,6 +8,7 @@ import { BotBuilder } from "@/components/marketing/bot-builder";
 import { MemoryGraph } from "@/components/marketing/memory-graph";
 import { AnalyticsDashboard } from "@/components/marketing/analytics-dashboard";
 import { TrustSection } from "@/components/marketing/trust-section";
+import { PricingTeaser } from "@/components/marketing/pricing-teaser";
 import { CtaPanel } from "@/components/marketing/cta-panel";
 import { SectionRule } from "@/components/marketing/section";
 import { Footer } from "@/components/marketing/footer";
@@ -35,6 +36,7 @@ export default function Home() {
         <TheReframeFix />
         <TrustSection />
         <SectionRule />
+        <PricingTeaser />
         <CtaPanel />
       </main>
       <Footer />
