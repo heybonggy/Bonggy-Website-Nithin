@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/metadata";
 import { SubPageShell } from "@/components/marketing/sub-page-shell";
 import {
   ShieldCheck,
@@ -8,12 +9,13 @@ import {
   Database,
 } from "@phosphor-icons/react/dist/ssr";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/security",
   title: "Security",
   description:
     "How Bonggy protects your data. Encryption in transit and at rest, scoped read-only permissions, no model training on your account data. Bonggy reads effort — it never sends or acts.",
   robots: { index: true, follow: true },
-};
+});
 
 const COMMITMENTS = [
   {

@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/metadata";
 import { SubPageShell } from "@/components/marketing/sub-page-shell";
 import { CtaButton } from "@/components/marketing/cta-button";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/about",
   title: "About",
   description:
     "We built Bonggy because GTM teams generate enormous effort every day and almost none of it is connected to the revenue it's supposed to serve. Bonggy is the layer that reads that effort across every tool, aligns it to revenue, and shows everyone the same picture.",
-};
+});
 
 const PRINCIPLES = [
   {

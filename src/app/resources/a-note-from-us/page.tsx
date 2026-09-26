@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/metadata";
 import { SubPageShell } from "@/components/marketing/sub-page-shell";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/resources/a-note-from-us",
   title: "A note from us",
   description:
     "A note from the Bonggy team on why GTM is drowning in AI slop, and why the fix is not more sending. It is connecting the effort you already have to the goal.",
-};
+});
 
 export default function ANoteFromUsPage() {
   return (

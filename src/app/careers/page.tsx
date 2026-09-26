@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/metadata";
 import { SubPageShell } from "@/components/marketing/sub-page-shell";
 import { CareersForm } from "@/components/marketing/careers-form";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/careers",
   title: "Careers",
   description:
     "We're hiring the people who want to fix GTM for real — to build the layer that connects rep effort to revenue. Engineering, design, and GTM roles open in waves as the team scales.",
-};
+});
 
 const PRINCIPLES = [
   {

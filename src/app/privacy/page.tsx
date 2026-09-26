@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/metadata";
 import { SubPageShell } from "@/components/marketing/sub-page-shell";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/privacy",
   title: "Privacy Policy",
   description:
     "Bonggy privacy policy. We collect only what we need, we don't sell your data, and we don't train AI models on your proprietary account information. Bonggy is read-only.",
   robots: { index: true, follow: true },
-};
+});
 
 const SECTIONS = [
   {

@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ScrollShell } from "@/components/marketing/scroll-shell";
+import { SITE_URL, HOME_TITLE } from "@/lib/metadata";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,13 +14,10 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://bonggy.com";
-
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Bonggy: align every rep's effort to revenue",
+    default: HOME_TITLE,
     template: "%s · Bonggy",
   },
   description:
@@ -41,21 +39,17 @@ export const metadata: Metadata = {
   publisher: "Bonggy",
   applicationName: "Bonggy",
   category: "Sales technology",
-  alternates: {
-    canonical: "/",
-  },
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: SITE_URL,
     siteName: "Bonggy",
-    title: "Bonggy: align every rep's effort to revenue",
+    title: HOME_TITLE,
     description:
       "The orchestration layer between rep effort and company goals. Tracks every rep's effort across every tool, aligns it to the goal, and proves what's working.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Bonggy: align every rep's effort to revenue",
+    title: HOME_TITLE,
     description:
       "The orchestration layer between rep effort and company goals. Tracks every rep's effort across every tool, aligns it to the goal, and proves what's working.",
     creator: "@bonggy",

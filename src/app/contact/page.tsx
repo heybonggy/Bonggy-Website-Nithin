@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/metadata";
 import { SubPageShell } from "@/components/marketing/sub-page-shell";
 import { CtaButton, CAL_LINK } from "@/components/marketing/cta-button";
 import { EnvelopeSimple, Clock, ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/contact",
   title: "Contact",
   description:
     "Get in touch with the Bonggy team. We read every email. A 30-minute call is the fastest way to see Bonggy on your accounts.",
-};
+});
 
 export default function ContactPage() {
   return (

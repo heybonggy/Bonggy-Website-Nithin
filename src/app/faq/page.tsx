@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/metadata";
 import { SubPageShell } from "@/components/marketing/sub-page-shell";
 import { CtaButton } from "@/components/marketing/cta-button";
 import { cn } from "@/lib/utils";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/faq",
   title: "FAQ",
   description:
     "Common questions about Bonggy — the layer between rep effort and revenue. How it differs from your CRM, sequencer, and AI SDRs; what it reads, what it integrates with, and who it's for.",
-};
+});
 
 const QUESTIONS = [
   {

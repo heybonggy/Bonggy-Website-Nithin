@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/metadata";
 import { SubPageShell } from "@/components/marketing/sub-page-shell";
 import { BlogPostCard } from "@/components/ui/blog-post-card";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/resources",
   title: "Resources",
   description:
     "Long-form thinking from the Bonggy team on connecting rep effort to revenue, the state of GTM today, and how Bonggy fits in.",
-};
+});
 
 type Post = {
   slug: string;

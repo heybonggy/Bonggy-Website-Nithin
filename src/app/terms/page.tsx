@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/metadata";
 import { SubPageShell } from "@/components/marketing/sub-page-shell";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/terms",
   title: "Terms of Service",
   description:
     "Bonggy terms of service. What you get, how you can use it, who owns the data, and what we're not liable for.",
   robots: { index: true, follow: true },
-};
+});
 
 const SECTIONS = [
   {
