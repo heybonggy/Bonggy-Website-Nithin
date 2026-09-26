@@ -2,7 +2,7 @@
   <defs>
     <radialGradient id="bonggy-planet" cx="38%" cy="30%" r="72%">
       <stop offset="0%" stop-color="#6ee7b7" />
-      <stop offset="35%" stop-color="#10b981" />
+      <stop offset="35%" stop-color="#72cf8e" />
       <stop offset="75%" stop-color="#064e3b" />
       <stop offset="100%" stop-color="#022c22" />
     </radialGradient>
@@ -19,7 +19,7 @@
   <path
     d="M 220.7 90.5 A 100 32 -22 0 0 35.3 165.5"
     fill="none"
-    stroke="#5eead4"
+    stroke="#72cf8e"
     stroke-width="4"
     stroke-linecap="round"
     filter="url(#bonggy-glow)"
@@ -43,7 +43,7 @@
   <path
     d="M 220.7 90.5 A 100 32 -22 0 1 35.3 165.5"
     fill="none"
-    stroke="#5eead4"
+    stroke="#72cf8e"
     stroke-width="4"
     stroke-linecap="round"
     filter="url(#bonggy-glow)"

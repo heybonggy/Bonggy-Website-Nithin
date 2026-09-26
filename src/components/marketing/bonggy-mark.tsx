@@ -26,7 +26,7 @@ export function BonggyMark({
       <defs>
         <radialGradient id={gradId} cx="38%" cy="30%" r="72%">
           <stop offset="0%" stopColor="#6ee7b7" />
-          <stop offset="35%" stopColor="#10b981" />
+          <stop offset="35%" stopColor="#72cf8e" />
           <stop offset="75%" stopColor="#064e3b" />
           <stop offset="100%" stopColor="#022c22" />
         </radialGradient>
@@ -43,7 +43,7 @@ export function BonggyMark({
       <path
         d="M 220.7 90.5 A 100 32 -22 0 0 35.3 165.5"
         fill="none"
-        stroke="#5eead4"
+        stroke="#72cf8e"
         strokeWidth="4"
         strokeLinecap="round"
         filter={`url(#${glowId})`}
@@ -67,7 +67,7 @@ export function BonggyMark({
       <path
         d="M 220.7 90.5 A 100 32 -22 0 1 35.3 165.5"
         fill="none"
-        stroke="#5eead4"
+        stroke="#72cf8e"
         strokeWidth="4"
         strokeLinecap="round"
         filter={`url(#${glowId})`}
