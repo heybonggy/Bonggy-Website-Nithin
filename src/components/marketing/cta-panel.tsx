@@ -36,7 +36,7 @@ export function CtaPanel() {
               See your team&apos;s drift this week.
             </h2>
             <p className="max-w-[46ch] text-[15.5px] leading-relaxed text-zinc-700">
-              Bring a real quarter. In 15 minutes we&apos;ll read your
+              Bring a real quarter. In 30 minutes we&apos;ll read your
               team&apos;s actual effort and show you where it&apos;s leaking.
             </p>
             <div>
