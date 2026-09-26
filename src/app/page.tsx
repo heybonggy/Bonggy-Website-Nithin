@@ -5,6 +5,7 @@ import { Hero } from "@/components/marketing/hero";
 import { GlobeSection } from "@/components/marketing/globe-section";
 import { TheReframeFix } from "@/components/marketing/the-reframe-fix";
 import { RolesStrip } from "@/components/marketing/roles-strip";
+import { BotBuilder } from "@/components/marketing/bot-builder";
 import { CtaPanel } from "@/components/marketing/cta-panel";
 import { SectionRule } from "@/components/marketing/section";
 import { Footer } from "@/components/marketing/footer";
@@ -22,6 +23,8 @@ export default function Home() {
       <main className="flex flex-col">
         <Hero />
         <RolesStrip />
+        <SectionRule />
+        <BotBuilder />
         <SectionRule />
         <GlobeSection />
         <SectionRule />
