@@ -34,7 +34,7 @@ Volume was never the bottleneck. Good prep, pointed at the right goal, was.
 | **Researcher** | Digs into accounts, signals and people. |
 | **Value generator** | Turns it into briefs, drafts and nudges your team can use. |
 
-Teams start from templates (for example Market Modeller, Account Researcher, Brief Writer) or **build any bot from scratch**: a name, a role, instructions, the tools it can use, a revenue goal, and memory on or off.
+Teams start from templates (for example Market Modeller, Account Researcher, Brief Writer) or **describe any job in a new chat**. The agent confirms what it will do and which revenue goal it serves, then appears in the sidebar.
 
 ### Groups
 
@@ -54,6 +54,16 @@ Agents build shared, dynamic memory from every conversation, call note and deal:
 ### Analytics
 
 One view of what each bot is doing, what it knows, which revenue goal its work maps to, and where effort is drifting (for example, a pod spending most of its effort on accounts outside the ICP).
+
+---
+
+### The three screens
+
+The product UI is three screens in one app shell (a sidebar of agents and groups, a top bar, a main pane). The homepage previews are built from the same components (`src/components/product-mock`).
+
+1. **Agents**: one chat per agent or group. You ask; the agent shows what it's reading, then returns work as cards (an account brief, a draft that needs approval) with the revenue goal it maps to.
+2. **Analytics**: activity per agent, what each agent has learned (dated memory), work mapped to revenue goals, and drift alerts.
+3. **Company context**: company, what you sell, ideal customer, revenue goals, voice and connected tools. Every agent reads this first.
 
 ---
 

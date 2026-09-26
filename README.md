@@ -30,7 +30,7 @@ Open http://localhost:3000
 
 | Route | What's there |
 |---|---|
-| `/` | Landing page: Hero with scripted demo → Roles (`#what-we-do`) → Build your own bots (`#build`) → Memory (`#memory`) → Analytics (`#analytics`) → The loop (`#how-it-works`) → Human in the loop (`#trust`) → Pricing (`#pricing`) → FAQ (`#faq`) → CTA |
+| `/` | Landing page: Hero (Agents screen preview) → Roles (`#what-we-do`) → An agent for every job (`#agents`) → Analytics + memory (`#analytics`) → Your context (`#context`) → The loop (`#how-it-works`) → Human in the loop (`#trust`) → Pricing (`#pricing`) → FAQ (`#faq`) → CTA |
 | `/resources` | Long-form notes index |
 | `/resources/a-note-from-us` | The team's note on AI slop and agents for the work before the conversation |
 | `/about` | Mission and principles |
@@ -69,6 +69,8 @@ src/
 │   └── globals.css               # design tokens, utilities
 ├── components/
 │   ├── marketing/                # all section + page components
+│   ├── product-mock/             # product UI seed: AppShell, Sidebar, chat,
+│   │                             #   Analytics and Company context screens
 │   └── ui/                       # shadcn primitives
 └── lib/
     ├── sheets.ts                 # webhook URL + appendToSheet helper
