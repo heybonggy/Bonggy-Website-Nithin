@@ -6,7 +6,7 @@ export const metadata: Metadata = pageMetadata({
   path: "/resources/a-note-from-us",
   title: "A note from us",
   description:
-    "A note from the Bonggy team on why GTM is drowning in AI slop, and why the fix is not more sending. It is connecting the effort you already have to the goal.",
+    "A note from the Bonggy team on why GTM is drowning in AI slop, and why the fix is not more sending. It is agents that do the work before the conversation, with people deciding what goes out.",
 });
 
 export default function ANoteFromUsPage() {
@@ -15,7 +15,7 @@ export default function ANoteFromUsPage() {
       eyebrow="Resources · Note"
       title="A note from us"
       titleAccent="<3"
-      lede="On why GTM is drowning in AI slop, and why the fix is not more sending. It is connecting the effort you already have to the goal."
+      lede="On why GTM is drowning in AI slop, and why the fix is not more sending. It is agents that do the work before the conversation, with people deciding what goes out."
       narrow
     >
       <article className="mx-auto w-full max-w-[680px]">
@@ -54,14 +54,15 @@ export default function ANoteFromUsPage() {
             would have been to build more slop.
           </p>
           <p>
-            We are not another tool that generates outreach. We are not an AI
-            SDR. We do not write your emails, we do not send them, we do not add
-            a single message to the pile.
+            We are not an AI SDR. We do not blast outreach, and nothing an
+            agent drafts goes out without a person approving it. We are not
+            trying to add volume to the pile.
           </p>
           <p>
-            We are the opposite of that. Bonggy is the layer that reads the
-            effort your team already makes and connects it to the goal you are
-            actually trying to hit.
+            Bonggy is a studio where your team builds its own agents for the
+            work before the conversation: modelling the market, researching
+            the account, drafting the brief. Every piece of that work ties back
+            to the goal you are actually trying to hit.
           </p>
         </section>
 
@@ -90,18 +91,19 @@ export default function ANoteFromUsPage() {
 
         {/* Section 4 — What we do */}
         <section className="space-y-5 text-[16px] leading-[1.75] text-muted-foreground sm:text-[17px]">
-          <p>So we built the layer that connects the two.</p>
+          <p>So we built a studio for it.</p>
           <p>
-            Bonggy watches every action your reps take, across every tool, and
-            ties it to the company goal it serves. It shows you the effort that
-            is on-goal, the effort that has drifted, and the play one rep found
-            that the rest of the team should be running.
+            Teams build agents and groups of agents: a Market Modeller that
+            maps the segments, an Account Researcher that digs into accounts
+            and people, a Brief Writer that turns it into something a rep can
+            use. They share memory, so what one agent learns the rest can use.
           </p>
           <p>
-            Think of it as the Head of Sales who actually saw everything. Not a
-            chatbot you prompt when you feel like it. A continuous read on
-            whether the work points where you said it should, and a nudge back
-            when it does not.
+            Every agent runs on one loop. Track the work across your tools,
+            align it to a revenue goal, nudge when it drifts, and report one
+            picture from rep to CRO. Think of it as the research bench every
+            rep wishes they had. Not a chatbot you prompt when you feel like
+            it.
           </p>
         </section>
 
@@ -110,8 +112,8 @@ export default function ANoteFromUsPage() {
         {/* Section 5 — The human, the line */}
         <section className="space-y-5 text-[16px] leading-[1.75] text-muted-foreground sm:text-[17px]">
           <p>
-            We do not replace the rep. We do not automate the send. We do not
-            generate a word of outreach.
+            We do not replace the rep. Agents draft; people decide. Nothing
+            goes out on its own, and nothing gets sent at volume.
           </p>
           <p>
             The conversation is the rep&apos;s. The relationship is the
@@ -120,7 +122,7 @@ export default function ANoteFromUsPage() {
             channel until it dies.
           </p>
           <p>
-            We measure effort against the goal. We never rank reps against each
+            We measure work against the goal. We never rank reps against each
             other. No leaderboard, no scoreboard, no new stick for a manager to
             swing. The picture is shared, not weaponized. That is the line and
             we are not moving it.
@@ -143,7 +145,8 @@ export default function ANoteFromUsPage() {
             alike.
           </p>
           <p>
-            The effort was always there. We just connect it to the goal.
+            The effort was always there. Now it gets a bench, and a line to the
+            goal.
           </p>
         </section>
 
