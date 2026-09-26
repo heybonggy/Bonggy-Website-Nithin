@@ -7,7 +7,7 @@ export const metadata: Metadata = pageMetadata({
   path: "/resources",
   title: "Resources",
   description:
-    "Long-form thinking from the Bonggy team on connecting rep effort to revenue, the state of GTM today, and how Bonggy fits in.",
+    "Long-form thinking from the Bonggy team on sales agents, the work before the conversation, and keeping people in charge of what goes out.",
 });
 
 type Post = {
@@ -45,7 +45,7 @@ export default function ResourcesPage() {
       eyebrow="Resources"
       title="What we&apos;ve been"
       titleAccent="writing."
-      lede="Long-form thinking from the Bonggy team — on connecting rep effort to revenue, and the parts of the sales job a human still has to do."
+      lede="Long-form thinking from the Bonggy team — on sales agents, the work before the conversation, and the parts of the job a human still has to do."
     >
       {featured && (
         <div className="mb-12 md:mb-16">
