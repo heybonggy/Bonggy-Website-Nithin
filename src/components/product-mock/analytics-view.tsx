@@ -47,15 +47,16 @@ export function AnalyticsView({ memoryCount = MEMORY.length }: { memoryCount?: n
             {GOALS.map((g) => {
               const unmapped = g.goal.startsWith("Not mapped");
               return (
-                <li key={g.goal} className="grid grid-cols-[minmax(0,1fr)_56px_36px] items-center gap-3 text-[12.5px] sm:grid-cols-[minmax(0,1fr)_110px_36px]">
+                <li key={g.goal} className="grid grid-cols-[minmax(0,1fr)_36px] items-center gap-x-3 gap-y-1.5 text-[12.5px] sm:grid-cols-[minmax(0,1fr)_110px_36px]">
                   <span className={cn("truncate", unmapped ? "text-muted-foreground" : "text-foreground")}>{g.goal}</span>
-                  <span className="h-2 overflow-hidden rounded-full bg-foreground/[0.06]">
+                  {/* On phones the bar drops to its own row under the goal. */}
+                  <span className="col-span-2 row-start-2 h-2 overflow-hidden rounded-full bg-foreground/[0.06] sm:col-span-1 sm:col-start-2 sm:row-start-1">
                     <span
                       className={cn("block h-full rounded-full", unmapped ? "bg-foreground/25" : "bg-signal")}
                       style={{ width: `${g.share}%` }}
                     />
                   </span>
-                  <span className="text-right font-mono tabular-nums text-muted-foreground">{g.share}%</span>
+                  <span className="text-right font-mono tabular-nums text-muted-foreground sm:col-start-3 sm:row-start-1">{g.share}%</span>
                 </li>
               );
             })}

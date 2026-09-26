@@ -5,8 +5,7 @@ import { Hero } from "@/components/marketing/hero";
 import { TheReframeFix } from "@/components/marketing/the-reframe-fix";
 import { RolesStrip } from "@/components/marketing/roles-strip";
 import { NewAgentSection } from "@/components/marketing/new-agent-section";
-import { MemoryGraph } from "@/components/marketing/memory-graph";
-import { AnalyticsDashboard } from "@/components/marketing/analytics-dashboard";
+import { AnalyticsSection } from "@/components/marketing/analytics-section";
 import { TrustSection } from "@/components/marketing/trust-section";
 import { PricingTeaser } from "@/components/marketing/pricing-teaser";
 import { HomeFaq } from "@/components/marketing/home-faq";
@@ -30,9 +29,7 @@ export default function Home() {
         <SectionRule />
         <NewAgentSection />
         <SectionRule />
-        <MemoryGraph />
-        <SectionRule />
-        <AnalyticsDashboard />
+        <AnalyticsSection />
         <SectionRule />
         <TheReframeFix />
         <TrustSection />
