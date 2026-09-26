@@ -56,7 +56,7 @@ src/
 │   ├── api/early-access/route.ts # → src/lib/sheets.ts
 │   ├── api/careers/route.ts      # → src/lib/sheets.ts
 │   ├── layout.tsx                # root layout + SEO metadata
-│   ├── sitemap.ts robots.ts manifest.ts icon.svg apple-icon.svg
+│   ├── sitemap.ts robots.ts manifest.ts icon.svg apple-icon.tsx
 │   └── globals.css               # design tokens, utilities
 ├── components/
 │   ├── marketing/                # all section + page components

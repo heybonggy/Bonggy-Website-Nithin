@@ -73,7 +73,7 @@ export const metadata: Metadata = {
   },
   // Icons + manifest are auto-detected by Next.js from:
   //   src/app/icon.svg            → favicon (browser tabs)
-  //   src/app/apple-icon.svg      → iOS home-screen icon
+  //   src/app/apple-icon.tsx      → /apple-icon (iOS home-screen PNG)
   //   src/app/opengraph-image.tsx → /opengraph-image (link previews)
   //   src/app/manifest.ts         → /manifest.webmanifest
   // No explicit `icons` field needed.
