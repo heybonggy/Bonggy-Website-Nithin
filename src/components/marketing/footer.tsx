@@ -16,6 +16,7 @@ const FOOTER_LINKS: {
   {
     heading: "Resources",
     items: [
+      { label: "All resources", href: "/resources" },
       { label: "A note from us", href: "/resources/a-note-from-us" },
     ],
   },
