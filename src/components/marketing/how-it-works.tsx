@@ -195,7 +195,7 @@ export function HowItWorks() {
 /** Small terminal sub-label that heads the carousel. */
 function GroupLabel({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground/70">
+    <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground/90">
       <span className="h-2.5 w-[2px] shrink-0 bg-signal/70" />
       <span className="shrink-0 whitespace-nowrap">{children}</span>
     </div>
@@ -254,7 +254,7 @@ function BentoCard({
  {children}
  </div>
  <div className="border-t border-border/60 px-5 py-4">
- <div className="mb-1.5 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/70">
+ <div className="mb-1.5 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/90">
  {step ? <span className="tabular-nums text-signal/80">{step}</span> : null}
  <span className="ascii-rule h-px flex-1" />
  <span>{sub}</span>
@@ -299,7 +299,7 @@ function CommandInputDemo({ active }: { active: boolean }) {
 
   return (
  <div className="flex h-full flex-col gap-3 p-5">
- <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/70">
+ <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/90">
  <CursorClick weight="regular" className="size-3.5" />
  Reading effort
  </div>
@@ -515,7 +515,7 @@ function ApprovalDemo({ active }: { active: boolean }) {
 
   return (
  <div className="flex h-full flex-col gap-2.5 p-5">
- <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/70">
+ <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/90">
  <div className="flex items-center gap-1.5">
  <PaperPlaneTilt weight="regular" className="size-3.5" />
  Drift check
@@ -599,7 +599,7 @@ function ApprovalDemo({ active }: { active: boolean }) {
 function SignalStreamDemo() {
   return (
  <div className="relative flex h-full flex-col gap-3 overflow-hidden p-5 sm:p-6">
- <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/70">
+ <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/90">
  <div className="flex items-center gap-1.5">
  <Pulse weight="fill" className="size-3.5 text-signal" />
  <span>Reading 14 tools</span>
@@ -670,9 +670,9 @@ function SignalPill({ signal: s }: { signal: Signal }) {
  {s.co}
  </span>
  <span className="font-mono text-[10px] text-muted-foreground">{s.event}</span>
- <span className="font-mono text-[10px] text-muted-foreground/60">·</span>
- <span className="text-[11px] text-muted-foreground/85">{s.detail}</span>
- <span className="font-mono text-[10px] text-muted-foreground/50">{s.source} · {s.time}</span>
+ <span className="font-mono text-[10px] text-muted-foreground/90">·</span>
+ <span className="text-[11px] text-muted-foreground/90">{s.detail}</span>
+ <span className="font-mono text-[10px] text-muted-foreground/90">{s.source} · {s.time}</span>
  </div>
   );
 }
@@ -682,14 +682,14 @@ function SignalPill({ signal: s }: { signal: Signal }) {
 function AgentStatusDemo() {
   return (
  <div className="relative flex h-full flex-col justify-between p-5">
- <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/70">
+ <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/90">
  <Lightning weight="fill" className="size-3.5 text-signal" />
  On-strategy
  </div>
 
  <div>
  <div className="font-mono text-[64px] font-medium leading-none text-foreground tabular-nums">
- 18<span className="text-[28px] text-muted-foreground/60">/21</span>
+ 18<span className="text-[28px] text-muted-foreground/90">/21</span>
  </div>
  <div className="mt-1 text-[12px] text-muted-foreground">
  reps on-goal right now
@@ -727,14 +727,14 @@ function ThroughputDemo({ active }: { active: boolean }) {
 
   return (
  <div className="relative flex h-full flex-col justify-between p-5">
- <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/70">
+ <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/90">
  <Pulse weight="regular" className="size-3.5" />
  Revenue coverage · 24h
  </div>
 
  <div>
  <div className="font-mono text-[40px] font-medium leading-none text-foreground tabular-nums">
- 81<span className="text-[22px] text-muted-foreground/60">%</span>
+ 81<span className="text-[22px] text-muted-foreground/90">%</span>
  </div>
  <div className="mt-1 text-[12px] text-muted-foreground">of effort points at revenue</div>
  </div>

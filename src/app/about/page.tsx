@@ -39,12 +39,12 @@ export default function AboutPage() {
     >
       <div className="grid grid-cols-1 gap-16 lg:grid-cols-[1fr_1fr] lg:gap-24">
         <div>
-          <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/80">
+          <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/90">
             The bet
           </div>
-          <h3 className="mt-3 text-display text-[26px] font-normal leading-tight tracking-tight text-foreground sm:text-[32px]">
+          <h2 className="mt-3 text-display text-[26px] font-normal leading-tight tracking-tight text-foreground sm:text-[32px]">
             Volume was never the bottleneck. Alignment was.
-          </h3>
+          </h2>
           <div className="mt-5 space-y-4 text-[15.5px] leading-relaxed text-muted-foreground">
             <p>
               Every GTM tool over the last decade bet on doing more — more
@@ -65,12 +65,12 @@ export default function AboutPage() {
         </div>
 
         <div>
-          <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/80">
+          <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/90">
             What we&apos;re building
           </div>
-          <h3 className="mt-3 text-display text-[26px] font-normal leading-tight tracking-tight text-foreground sm:text-[32px]">
+          <h2 className="mt-3 text-display text-[26px] font-normal leading-tight tracking-tight text-foreground sm:text-[32px]">
             One layer above your stack.
-          </h3>
+          </h2>
           <div className="mt-5 space-y-4 text-[15.5px] leading-relaxed text-muted-foreground">
             <p>
               Bonggy sits above every tool your team uses. It reads what every
@@ -94,13 +94,13 @@ export default function AboutPage() {
               key={v.label}
               className="terminal-corners relative rounded-[5px] border border-border/70 bg-card/40 p-5 lg:p-6"
             >
-              <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/70">
+              <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/90">
                 <span className="tabular-nums text-signal/80">{v.label}</span>
                 {" · Principle"}
               </div>
-              <h4 className="mt-3 text-[17px] font-medium tracking-tight text-foreground">
+              <h3 className="mt-3 text-[17px] font-medium tracking-tight text-foreground">
                 {v.title}
-              </h4>
+              </h3>
               <p className="mt-2 text-[14px] leading-relaxed text-muted-foreground">
                 {v.body}
               </p>
@@ -111,9 +111,9 @@ export default function AboutPage() {
 
       <div className="mt-24 border-t border-border/60 pt-12">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
-          <h3 className="text-display text-balance text-[28px] font-normal leading-tight tracking-tight sm:text-[36px]">
+          <h2 className="text-display text-balance text-[28px] font-normal leading-tight tracking-tight sm:text-[36px]">
             Help us shape it.
-          </h3>
+          </h2>
           <div className="flex items-start lg:justify-end">
             <CtaButton variant="signal">Strategize</CtaButton>
           </div>

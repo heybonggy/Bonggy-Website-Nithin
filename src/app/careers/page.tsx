@@ -39,12 +39,12 @@ export default function CareersPage() {
     >
       <div className="grid grid-cols-1 gap-16 lg:grid-cols-[1fr_1fr] lg:gap-24">
         <div>
-          <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/80">
+          <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/90">
             How we work
           </div>
-          <h3 className="mt-3 text-display text-[26px] font-normal leading-tight tracking-tight text-foreground sm:text-[32px]">
+          <h2 className="mt-3 text-display text-[26px] font-normal leading-tight tracking-tight text-foreground sm:text-[32px]">
             Small team. Strong taste. No layers.
-          </h3>
+          </h2>
           <div className="mt-5 space-y-4 text-[15.5px] leading-relaxed text-muted-foreground">
             <p>
               Everyone here ships. The person closing a design partner is the
@@ -60,7 +60,7 @@ export default function CareersPage() {
         </div>
 
         <div>
-          <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/80">
+          <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/90">
             What we care about
           </div>
           <ul className="mt-3 space-y-6">

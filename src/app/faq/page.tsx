@@ -91,9 +91,9 @@ export default function FaqPage() {
                   <span className="font-mono text-[11px] tabular-nums text-signal/80">
                     {String(i + 1).padStart(2, "0")}
                   </span>
-                  <h3 className="text-[17px] font-medium tracking-tight text-foreground transition-colors group-hover/q:text-foreground sm:text-[19px]">
+                  <h2 className="text-[17px] font-medium tracking-tight text-foreground transition-colors group-hover/q:text-foreground sm:text-[19px]">
                     {item.q}
-                  </h3>
+                  </h2>
                 </div>
                 <span
                   aria-hidden
@@ -111,9 +111,9 @@ export default function FaqPage() {
 
         <div className="mt-20 border-t border-border/60 pt-12">
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
-            <h3 className="text-display text-balance text-[28px] font-normal leading-tight tracking-tight sm:text-[36px]">
+            <h2 className="text-display text-balance text-[28px] font-normal leading-tight tracking-tight sm:text-[36px]">
               Got a different question?
-            </h3>
+            </h2>
             <div className="flex items-start lg:justify-end">
               <CtaButton variant="signal">Strategize</CtaButton>
             </div>

@@ -49,12 +49,12 @@ export function CareersForm() {
   return (
     <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
       <div>
-        <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/80">
+        <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/90">
           No listed roles · Hiring quietly
         </div>
-        <h3 className="mt-3 text-display text-[26px] font-normal leading-tight tracking-tight text-foreground sm:text-[32px]">
+        <h2 className="mt-3 text-display text-[26px] font-normal leading-tight tracking-tight text-foreground sm:text-[32px]">
           Tell us what you would build.
-        </h3>
+        </h2>
         <p className="mt-5 max-w-[52ch] text-[15.5px] leading-relaxed text-muted-foreground">
           We&apos;re hiring in waves for engineering, design, and early GTM. We
           don&apos;t list roles publicly — if your work would help align every
@@ -94,12 +94,12 @@ export function CareersForm() {
         ) : (
           <form onSubmit={handleSubmit} className="flex flex-col gap-3">
             <div className="mb-1">
-              <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/80">
+              <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/90">
                 Send a pitch
               </div>
-              <h4 className="mt-1.5 text-[16px] font-medium tracking-tight text-foreground">
+              <h3 className="mt-1.5 text-[16px] font-medium tracking-tight text-foreground">
                 What would you build at Bonggy?
-              </h4>
+              </h3>
             </div>
 
             {/* Honeypot */}
@@ -111,8 +111,15 @@ export function CareersForm() {
               <input type="text" name="hp_field" tabIndex={-1} autoComplete="off" />
             </label>
 
-            <Field name="name" placeholder="Your name" autoComplete="name" required />
             <Field
+              label="Your name"
+              name="name"
+              placeholder="Your name"
+              autoComplete="name"
+              required
+            />
+            <Field
+              label="Email"
               name="email"
               type="email"
               placeholder="Email"
@@ -121,11 +128,13 @@ export function CareersForm() {
             />
             <AreaSelect />
             <Field
+              label="Links (optional)"
               name="links"
               placeholder="Links: portfolio, GitHub, LinkedIn (optional)"
               autoComplete="off"
             />
             <TextArea
+              label="Your pitch"
               name="pitch"
               placeholder="What would you build? What's the take you keep arguing for?"
               required
@@ -162,7 +171,7 @@ export function CareersForm() {
               </button>
             </Magnetic>
 
-            <p className="mt-1 text-center font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground/70">
+            <p className="mt-1 text-center font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground/90">
               48-hour response · We read every one
             </p>
           </form>
@@ -174,30 +183,53 @@ export function CareersForm() {
 
 /* ---------- field primitives ---------- */
 
-function Field(props: React.InputHTMLAttributes<HTMLInputElement>) {
-  const { className, ...rest } = props;
+/** Visually hidden label; the placeholder alone isn't an accessible name. */
+function HiddenLabel({ htmlFor, children }: { htmlFor: string; children: string }) {
   return (
-    <input
-      {...rest}
-      className={cn(
-        "h-11 w-full rounded-md border border-border/80 bg-background/60 px-3.5 text-[14px] text-foreground placeholder:text-muted-foreground/60 outline-none transition-colors focus:border-signal/60 focus:ring-2 focus:ring-signal/20",
-        className,
-      )}
-    />
+    <label htmlFor={htmlFor} className="sr-only">
+      {children}
+    </label>
   );
 }
 
-function TextArea(props: React.TextareaHTMLAttributes<HTMLTextAreaElement>) {
-  const { className, ...rest } = props;
+function Field(
+  props: React.InputHTMLAttributes<HTMLInputElement> & { label: string },
+) {
+  const { label, className, ...rest } = props;
+  const id = React.useId();
   return (
-    <textarea
-      {...rest}
-      className={cn(
-        "w-full rounded-md border border-border/80 bg-background/60 px-3.5 py-3 text-[14px] text-foreground placeholder:text-muted-foreground/60 outline-none transition-colors focus:border-signal/60 focus:ring-2 focus:ring-signal/20",
-        "resize-none",
-        className,
-      )}
-    />
+    <>
+      <HiddenLabel htmlFor={id}>{label}</HiddenLabel>
+      <input
+        {...rest}
+        id={id}
+        className={cn(
+          "h-11 w-full rounded-md border border-border/80 bg-background/60 px-3.5 text-[14px] text-foreground placeholder:text-muted-foreground/90 outline-none transition-colors focus:border-signal/60 focus:ring-2 focus:ring-signal/20",
+          className,
+        )}
+      />
+    </>
+  );
+}
+
+function TextArea(
+  props: React.TextareaHTMLAttributes<HTMLTextAreaElement> & { label: string },
+) {
+  const { label, className, ...rest } = props;
+  const id = React.useId();
+  return (
+    <>
+      <HiddenLabel htmlFor={id}>{label}</HiddenLabel>
+      <textarea
+        {...rest}
+        id={id}
+        className={cn(
+          "w-full rounded-md border border-border/80 bg-background/60 px-3.5 py-3 text-[14px] text-foreground placeholder:text-muted-foreground/90 outline-none transition-colors focus:border-signal/60 focus:ring-2 focus:ring-signal/20",
+          "resize-none",
+          className,
+        )}
+      />
+    </>
   );
 }
 
@@ -205,6 +237,8 @@ function AreaSelect() {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
   const ref = React.useRef<HTMLDivElement | null>(null);
+  const labelId = React.useId();
+  const valueId = React.useId();
 
   React.useEffect(() => {
     if (!open) return;
@@ -227,18 +261,25 @@ function AreaSelect() {
   return (
     <div ref={ref} className="relative">
       <input type="hidden" name="area" value={value} required />
+      <span id={labelId} className="sr-only">
+        Area of interest
+      </span>
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-haspopup="listbox"
         aria-expanded={open}
+        aria-labelledby={`${labelId} ${valueId}`}
         className={cn(
           "flex h-11 w-full items-center justify-between rounded-md border border-border/80 bg-background/60 px-3.5 text-left text-[14px] outline-none transition-colors",
           "hover:border-border focus:border-signal/60 focus:ring-2 focus:ring-signal/20",
           open && "border-signal/60 ring-2 ring-signal/20",
         )}
       >
-        <span className={value ? "text-foreground" : "text-muted-foreground/60"}>
+        <span
+          id={valueId}
+          className={value ? "text-foreground" : "text-muted-foreground/90"}
+        >
           {value || "Area of interest"}
         </span>
         <svg
@@ -261,6 +302,7 @@ function AreaSelect() {
         {open && (
           <motion.ul
             role="listbox"
+            aria-labelledby={labelId}
             initial={{ opacity: 0, y: -4, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -4, scale: 0.98 }}

@@ -88,7 +88,7 @@ export function TheReframeFix() {
  weight="regular"
  className="size-5 text-signal"
  />
- <span className="font-mono text-[10px] tabular-nums text-muted-foreground/60 tracking-[0.18em]">
+ <span className="font-mono text-[10px] tabular-nums text-muted-foreground/90 tracking-[0.18em]">
  {s.n}
  </span>
  </div>

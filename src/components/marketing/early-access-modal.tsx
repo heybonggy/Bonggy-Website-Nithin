@@ -235,6 +235,7 @@ export function EarlyAccessModal({
                     />
 
                     <FormField
+                      label="Work email"
                       name="email"
                       type="email"
                       placeholder="Work email"
@@ -242,6 +243,7 @@ export function EarlyAccessModal({
                       required
                     />
                     <FormField
+                      label="Company"
                       name="company"
                       placeholder="Company"
                       autoComplete="organization"
@@ -256,6 +258,7 @@ export function EarlyAccessModal({
                       error={roleError}
                     />
                     <FormField
+                      label="Team size (optional)"
                       name="teamSize"
                       placeholder="Team size (optional)"
                       autoComplete="off"
@@ -294,7 +297,7 @@ export function EarlyAccessModal({
                       </button>
                     </Magnetic>
 
-                    <p className="text-center font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground/70">
+                    <p className="text-center font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground/90">
                       No card required · 30-min call · We respond within 48h
                     </p>
                   </form>
@@ -310,17 +313,27 @@ export function EarlyAccessModal({
 
 /* ---------- form bits ---------- */
 
-type FieldProps = React.InputHTMLAttributes<HTMLInputElement>;
+type FieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
+  /** Visually hidden label; the placeholder alone isn't an accessible name. */
+  label: string;
+};
 
-function FormField({ className, ...rest }: FieldProps) {
+function FormField({ label, className, ...rest }: FieldProps) {
+  const id = React.useId();
   return (
-    <input
-      {...rest}
-      className={cn(
-        "h-11 w-full rounded-md border border-border/80 bg-background/60 px-3.5 text-[14px] text-foreground placeholder:text-muted-foreground/60 outline-none transition-colors focus:border-signal/60 focus:ring-2 focus:ring-signal/20",
-        className,
-      )}
-    />
+    <>
+      <label htmlFor={id} className="sr-only">
+        {label}
+      </label>
+      <input
+        {...rest}
+        id={id}
+        className={cn(
+          "h-11 w-full rounded-md border border-border/80 bg-background/60 px-3.5 text-[14px] text-foreground placeholder:text-muted-foreground/90 outline-none transition-colors focus:border-signal/60 focus:ring-2 focus:ring-signal/20",
+          className,
+        )}
+      />
+    </>
   );
 }
 
@@ -335,6 +348,8 @@ function RoleSelect({
 }) {
   const [open, setOpen] = React.useState(false);
   const ref = React.useRef<HTMLDivElement | null>(null);
+  const labelId = React.useId();
+  const valueId = React.useId();
 
   React.useEffect(() => {
     if (!open) return;
@@ -359,11 +374,15 @@ function RoleSelect({
 
   return (
     <div ref={ref} className="relative">
+      <span id={labelId} className="sr-only">
+        Your role
+      </span>
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-haspopup="listbox"
         aria-expanded={open}
+        aria-labelledby={`${labelId} ${valueId}`}
         className={cn(
           "flex h-11 w-full items-center justify-between rounded-md border bg-background/60 px-3.5 text-left text-[14px] outline-none transition-colors",
           error
@@ -372,7 +391,10 @@ function RoleSelect({
           open && !error && "border-signal/60 ring-2 ring-signal/20",
         )}
       >
-        <span className={value ? "text-foreground" : "text-muted-foreground/60"}>
+        <span
+          id={valueId}
+          className={value ? "text-foreground" : "text-muted-foreground/90"}
+        >
           {value || "Your role"}
         </span>
         <svg
@@ -395,6 +417,7 @@ function RoleSelect({
         {open && (
           <motion.ul
             role="listbox"
+            aria-labelledby={labelId}
             initial={{ opacity: 0, y: -4, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -4, scale: 0.98 }}

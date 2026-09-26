@@ -61,9 +61,9 @@ export default function SecurityPage() {
             className="terminal-corners relative rounded-[6px] border border-border/80 bg-card/60 p-7"
           >
             <c.Icon weight="regular" className="size-6 text-signal" />
-            <h3 className="mt-4 text-[18px] font-medium tracking-tight text-foreground">
+            <h2 className="mt-4 text-[18px] font-medium tracking-tight text-foreground">
               {c.title}
-            </h3>
+            </h2>
             <p className="mt-2 text-[14.5px] leading-relaxed text-muted-foreground">
               {c.body}
             </p>
@@ -72,7 +72,7 @@ export default function SecurityPage() {
       </div>
 
       <div className="mt-16 rounded-[6px] border border-dashed border-border/70 bg-card/30 p-8">
-        <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/80">
+        <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/90">
           Compliance roadmap
         </div>
         <p className="mt-3 max-w-[68ch] text-[15px] leading-relaxed text-muted-foreground">

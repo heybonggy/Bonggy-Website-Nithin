@@ -58,7 +58,7 @@ export function Footer() {
 
           {FOOTER_LINKS.map((col) => (
             <div key={col.heading}>
-              <div className="font-mono text-[10px] font-medium uppercase tracking-[0.22em] text-muted-foreground/70">
+              <div className="font-mono text-[10px] font-medium uppercase tracking-[0.22em] text-muted-foreground/90">
                 {col.heading}
               </div>
               <ul className="mt-4 space-y-2.5">
@@ -81,7 +81,7 @@ export function Footer() {
           <div className="font-mono text-[11px] text-muted-foreground">
             © {new Date().getFullYear()} Bonggy. All rights reserved.
           </div>
-          <div className="font-mono text-[11px] text-muted-foreground/60">
+          <div className="font-mono text-[11px] text-muted-foreground/90">
             Built for the people who have to live with the reply.
           </div>
         </div>

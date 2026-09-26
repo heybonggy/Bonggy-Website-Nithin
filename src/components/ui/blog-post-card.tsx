@@ -114,10 +114,10 @@ const BlogPostCard = React.forwardRef<HTMLDivElement, BlogPostCardProps>(
                 <span className="rounded-full bg-signal/10 px-2.5 py-1 text-signal">
                   {tag}
                 </span>
-                {date && <span className="text-muted-foreground/70">{date}</span>}
+                {date && <span className="text-muted-foreground/90">{date}</span>}
               </div>
 
-              <h3
+              <h2
                 className={cn(
                   "text-display font-normal leading-tight tracking-tight text-foreground",
                   isFeatured
@@ -126,7 +126,7 @@ const BlogPostCard = React.forwardRef<HTMLDivElement, BlogPostCardProps>(
                 )}
               >
                 {title}
-              </h3>
+              </h2>
 
               <p className="mt-5 text-[15.5px] leading-relaxed text-muted-foreground">
                 {description}

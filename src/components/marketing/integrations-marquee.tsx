@@ -125,7 +125,7 @@ export function IntegrationsMarquee({ compact = false }: { compact?: boolean }) 
           className={cn(
             "inline-flex items-center gap-2.5 font-mono uppercase",
             compact
-              ? "gap-2 text-[9px] tracking-[0.2em] text-muted-foreground/45"
+              ? "gap-2 text-[9px] tracking-[0.2em] text-muted-foreground/90"
               : "text-[10px] tracking-[0.22em] text-muted-foreground",
           )}
         >

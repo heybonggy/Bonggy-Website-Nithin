@@ -143,7 +143,7 @@ export function GlobeSection() {
  transition={{ ...SPRING, delay: 0.1 }}
  className="mt-10"
  >
- <div className="mb-3 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/70">
+ <div className="mb-3 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/90">
  Effort we read · across every tool
  </div>
  <div className="flex flex-wrap gap-1.5">
@@ -354,7 +354,7 @@ function SignalPopups() {
  <div className="mt-0.5 text-[11px] font-medium tracking-tight text-foreground">
  {s.event}
  </div>
- <div className="mt-0.5 text-[10px] text-muted-foreground/85">
+ <div className="mt-0.5 text-[10px] text-muted-foreground/90">
  {s.detail}
  </div>
  </div>

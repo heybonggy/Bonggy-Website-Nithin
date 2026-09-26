@@ -426,7 +426,7 @@ function NavDropdown({
             >
               {/* Header row — label + view-all, like factory's NEWS menu */}
               <div className="mb-2.5 flex items-center justify-between px-2 pt-1">
-                <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/60">
+                <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/90">
                   {label}
                 </span>
                 {viewAllHref ? (
@@ -624,7 +624,7 @@ function MobileMenu({
                 )}
               >
                 <span>{l.label}</span>
-                <span className="font-mono text-[10px] tabular-nums text-muted-foreground/50">
+                <span className="font-mono text-[10px] tabular-nums text-muted-foreground/90">
                   {String(i + 1).padStart(2, "0")}
                 </span>
               </button>
@@ -639,7 +639,7 @@ function MobileMenu({
                 )}
               >
                 <span>{l.label}</span>
-                <span className="font-mono text-[10px] tabular-nums text-muted-foreground/50">
+                <span className="font-mono text-[10px] tabular-nums text-muted-foreground/90">
                   {String(i + 1).padStart(2, "0")}
                 </span>
               </Link>

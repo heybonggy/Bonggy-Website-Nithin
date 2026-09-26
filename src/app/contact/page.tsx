@@ -35,12 +35,12 @@ export default function ContactPage() {
             />
           </div>
           <div>
-            <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/80">
+            <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/90">
               Strategy session
             </div>
-            <h3 className="mt-2 text-display text-[24px] font-normal leading-tight tracking-tight text-foreground sm:text-[28px]">
+            <h2 className="mt-2 text-display text-[24px] font-normal leading-tight tracking-tight text-foreground sm:text-[28px]">
               Book a 30-minute call
-            </h3>
+            </h2>
             <p className="mt-3 text-[14.5px] leading-relaxed text-muted-foreground">
               We&apos;ll run Bonggy on your real accounts during the call. If
               it&apos;s not obviously useful in the first ten minutes,
@@ -61,12 +61,12 @@ export default function ContactPage() {
             />
           </div>
           <div>
-            <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/80">
+            <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/90">
               Email
             </div>
-            <h3 className="mt-2 text-display text-[24px] font-normal leading-tight tracking-tight text-foreground sm:text-[28px]">
+            <h2 className="mt-2 text-display text-[24px] font-normal leading-tight tracking-tight text-foreground sm:text-[28px]">
               founders@bonggy.com
-            </h3>
+            </h2>
             <p className="mt-3 text-[14.5px] leading-relaxed text-muted-foreground">
               Long-form questions, partnerships, press, pilots, anything else.
               We read every one and we reply within 48 hours.
@@ -77,9 +77,9 @@ export default function ContactPage() {
 
       <div className="mt-20 border-t border-border/60 pt-12">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
-          <h3 className="text-display text-balance text-[28px] font-normal leading-tight tracking-tight sm:text-[36px]">
+          <h2 className="text-display text-balance text-[28px] font-normal leading-tight tracking-tight sm:text-[36px]">
             Ready to see it live?
-          </h3>
+          </h2>
           <div className="flex items-start lg:justify-end">
             <CtaButton variant="signal">Strategize</CtaButton>
           </div>
