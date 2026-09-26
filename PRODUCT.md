@@ -6,182 +6,126 @@ A reference describing what Bonggy is, the problem it solves, how it works, and 
 
 ## 1. The one-liner
 
-**Bonggy is a full-stack AI sales agency.** Not a platform you operate. An agency that already knows how you sell, runs the motion underneath your team continuously, and leaves every decision to the human. It reads the public surface area of every account on your list, identifies what changed and why it matters, drafts the outreach grounded in that change, and queues everything for human approval before it sends.
+**Bonggy: align every rep's effort to revenue.**
 
-We are not a CRM. We are not a sequencer. We are not an autopilot. We are the part of the sales job that is supposed to happen before a rep types a single word — automated, continuous, and built for humans to act on.
+Bonggy is the orchestration layer between rep effort and company goals. It tracks what every rep does across every tool, aligns each action to the revenue goal it serves, nudges the work that's drifting, and proves what's working, with one connected picture from rep to CRO.
 
-> _We read the world for you._
+Bonggy is **read-only**. It doesn't send, doesn't sequence, and doesn't act on a rep's behalf. It reads the effort your team already makes and points it at revenue. The work stays human; the guesswork goes.
+
+We are not a CRM. We are not a sequencer. We are not an AI SDR. We are the layer that makes the stack make sense.
 
 ---
 
 ## 2. The problem we are pointed at
 
-Modern outbound is failing for one reason: reps cannot read every account on their book every day. A rep with two hundred accounts physically cannot monitor LinkedIn posts, funding announcements, job board moves, conference attendance, G2 reviews, Reddit threads, podcast appearances, earnings prints, and product launches across all of them. So the work compresses into the only shape it can: template emails sent at volume to accounts that should never have been targeted, with the rep guessing the angle because there was no time to find a real one.
+GTM teams generate enormous effort every day: sends, calls, meetings, notes, Slack threads, deals moved. Almost none of it is connected to the number it's supposed to serve.
 
-The downstream cost is well-known:
+- **Revenue at the top, ten thousand actions at the bottom, nothing in between.** Your CRM shows pipeline. Your sequencer shows sends. None of them tell you whether the effort actually points at what you're trying to win this quarter.
+- **The effort is scattered and invisible.** A rep works across eight tools all day. The work is real, but it's spread across those tools, invisible to the people above them, and disconnected from the goal at the top.
+- **Goals dilute on the way down.** A leader sets a strategy; by the time it reaches the rep, it's a vague instruction. Managers end up coaching on activity instead of strategy.
+- **More AI sending makes it worse.** Every quarter brings another tool that sends more, drafts more, books more. The result is more activity pointed in more directions, and still no way to tell which of it moved the number.
 
-- Reply rates have been collapsing because inboxes are saturated with messages that nobody calibrated.
-- Domain reputation burns when teams compensate for bad targeting with volume.
-- The rep's job becomes 80% research + drafting and 20% conversation, when it should be the inverse.
-- Sales managers coach on whether the rep researched the account, not on the conversation itself.
-- Pipeline reviews get filled with gut feels instead of signal-backed narratives.
+Volume was never the bottleneck. Alignment was.
 
-The job has always been about two things: **noticing first, and saying the right thing**. Reps don't fail because they don't know that. They fail because doing it at scale is physically impossible without a layer that handles the reading.
-
-**Bonggy is that layer.**
+**Bonggy is the layer that connects the two.**
 
 ---
 
 ## 3. What Bonggy does
 
-Five modules, all wired into one continuous motion. Each module corresponds to a step in the journey from a public signal to a calibrated message a rep approves.
+Four steps, running continuously. This is the same Track / Align / Nudge / Report sequence shown in the homepage's "How it works" section.
 
-### Agents
+### 01 · Track the effort
 
-Continuously monitor public signals across every account on a customer's list. Job changes, funding rounds, infrastructure migrations, hiring spikes, leadership announcements, product launches, customer reviews, podcast appearances, intent bursts. When several signals fire at one company, the agent groups them into a single account view rather than scattered alerts. Each account is scored against patterns from the customer's own closed-won deals — not vendor benchmarks. The agent also maps the buying committee so reps see who matters beyond the first contact.
+Every action, across every tool. Sends, calls, meetings, notes, the Slack thread. The real work, not the summary reps backfill into the CRM. Bonggy reads effort from the tools a team already runs, so there's no new data to buy and no new workflow to adopt.
 
-### Lists
+### 02 · Align it to the goal
 
-Dynamic account lists driven by saved queries, not static exports. Pull by signal cluster, playbook fit, or territory. Lists are ranked by intent so reps spend time on the accounts most likely to convert this quarter. Each list is paired with the right outreach motion (new-logo, expansion, win-back, displacement). New accounts that match the criteria get added; accounts that no longer fit get archived. The lists update themselves.
+Each action is mapped to the revenue goal it serves: on-goal, off-goal, or going nowhere. Effort rolls up at the account level, so it's clear which work supports this quarter's strategy and which doesn't.
 
-### Enrich
+### 03 · Nudge the drift
 
-For every contact on a prioritized account, Bonggy builds a full profile: job history, posted content, publicly stated priorities, communication style. Tone is inferred from public activity so drafts land in a register the buyer actually responds to. Recent activity surfaces from LinkedIn, X, news features, and event listings — context that's current, not pulled from a stale data provider profile. If a deal needs stakeholders the rep hasn't reached yet, the committee gap gets flagged before the sequence goes out.
+When a rep slides off strategy, Bonggy flags it and points them back before the quarter is lost. For example: "Sixty percent of your week is off-ICP. Here are five accounts that fit." The nudge surfaces the thinking; the doing stays with the rep.
 
-### Drafts
+### 04 · Report to everyone
 
-Multi-touch sequences generated for one specific buyer at one specific account, grounded in the signals that triggered the outreach. The rep picks a tone (direct, value-led, question-led, social-proof, competitive, advisory) that fits the relationship. Every draft is tagged and queued for human approval. **Nothing leaves the customer's domain without a rep sign-off.** Approved drafts push to Outreach, Apollo, or Salesloft — or export as CSV for manual workflows.
-
-### Playbooks
-
-The strategy layer above the agents. The customer defines their ICP from their actual closed-won data rather than a guess. Persona pain points get mapped per buyer role. Competitor positioning is captured so reps know why the customer wins head-to-head. Closed deals feed back into the system so signal weights and messaging patterns improve over time — the system gets sharper as the team uses it.
+The same truth at every altitude, rep to CRO. The rep sees what counts. The manager sees who is on-strategy. The CRO sees where the effort leaks. When one rep finds a play that works, the rest of the team can see it and run it too.
 
 ---
 
 ## 4. The bright lines — what Bonggy will never do
 
-There is a version of this product that goes wrong, and we are explicit about not building it.
-
-- **No autopilot.** Bonggy will never send an unsupervised message. The agent prepares; the human decides. This is a permanent design constraint, not a phase.
-- **No autonomous booking.** No "meetings booked while you sleep." If a meeting was worth booking, a human reviewed the message that led to it.
-- **No volume optimization.** Bonggy is anti-spray. The product optimizes for fewer, sharper sends — not throughput. If a customer asks us to make their motion higher-volume rather than higher-quality, that's outside the use case.
-- **No replacement for the conversation.** We do not believe a machine can sell. Selling requires being a person in a room — a stance, a judgment, a relationship. We handle the preparation. The conversation stays human.
-- **No bigger database.** We are not selling a list. Bonggy works on the list a customer already owns. We help them work it better, not buy more of it.
-
-The reason we're firm on these is partly principled and partly practical. The thing that makes cold outreach work at all is the recipient's belief that a real person thought about them specifically. The moment that belief disappears, the channel collapses. We have a strong interest in not killing the channel.
+- **Never sends or acts.** Bonggy doesn't send, sequence, book, or act on a rep's behalf. It reads, aligns, and reports. This is a permanent design constraint, not a phase.
+- **Never generates outreach.** We don't write emails and we don't add a single message to the pile. We are not an AI SDR.
+- **Never replaces the rep.** The conversation, the relationship, and the judgment stay with the rep.
+- **Never ranks reps against each other.** We measure effort against revenue, not reps against each other. No leaderboard, no scoreboard, no new stick for a manager to swing. The picture is shared, not weaponized: whatever a manager sees, the rep sees too.
+- **Never trains on customer data.** Account context, contact lists, and notes don't train any foundation model and aren't pooled across customers.
 
 ---
 
 ## 5. Who it's for
 
-Built **SDRs-first**, but the same agency runs underneath every GTM seat. Seven named user types, each with a different reason to hire it:
+The whole GTM motion: anyone whose effort should roll up to revenue. Expansion and retention count the same as new logos.
 
 | Role | What changes |
 |---|---|
-| **SDR / BDR** _(the beachhead)_ | Walks into the day with the top accounts already researched and the first drafts already written. Reviews and sends instead of researching and writing. |
-| **Account Executive** | Walks into every call with the account's full context — what changed, who's involved, what to lead with, what to avoid. |
-| **Account Manager** | Catches renewal risk, expansion signals, and champion job-changes before they become a problem. |
-| **Sales Manager** | Coaches on strategy, not on "did you research this account." The research is done. Pipeline reviews are signal-backed instead of gut-felt. |
-| **RevOps** | One sync replaces the export-clean-upload waterfall. Every data point is field-level reviewable before it hits the CRM. Cost-per-field visibility across enrichment providers. |
-| **Agency** | Runs signal-led outbound across every client from per-client workspaces. Same headcount, 3× the account coverage. Portfolio-wide pattern sharing. |
-| **Founder doing their own sales** | Runs the motion an SDR would, without the hire. When the hire eventually happens, the system is already in place. |
+| **SDR / BDR / AE** | Finally sees which of their work counts toward the goal, and gets pointed back when they drift, instead of working hard with no way to show it mattered. |
+| **Account Manager / CS** | Renewal and expansion effort is tied to the revenue goal it serves, the same as new business. |
+| **Sales Manager** | Coaches on strategy instead of activity counts. Sees who is on-strategy and where to step in, without a leaderboard. |
+| **CRO / VP Sales** | One connected picture of where the team's effort goes and where it leaks against the goal they set. |
+| **RevOps** | Effort across the stack structured into one account-level, revenue-aligned view, without replacing any tool. |
 
-The product's primary buyer is typically a VP of Sales or a Head of Revenue Operations. The primary user is the SDR. The two audiences see different surfaces of the same system.
+The primary buyer is typically a VP of Sales, CRO, or Head of Revenue Operations. Every seat sees the same picture.
 
 ---
 
-## 6. The motion
+## 6. How teams start
 
-A typical day in Bonggy, end to end:
-
-**Overnight.** Agents read across the customer's account list. Signals fire. Accounts get scored. Lists update. Drafts get generated for the highest-intent accounts.
-
-**Monday morning.** The rep opens Bonggy. Today's queue surfaces 5 accounts ranked by intent. Each card shows: what changed, who the decision-maker is, what the first draft says, and a confidence score.
-
-**Pre-call (12 minutes out).** The rep opens an account brief. It already contains: the trigger timeline for the last 30 days, the current stakeholders mapped from public signals, three opening lines tailored to this call, and what not to mention.
-
-**Approval flow.** Every drafted message is reviewable as a sequence. The rep edits, approves, or rejects per step. Approved messages push to the customer's sequencer (Outreach, Apollo, Salesloft) under the rep's identity. **Nothing sends without a rep clicking approve.**
-
-**Pipeline review.** The manager opens a team view: which reps are stuck on which accounts, which angles are converting, which signals are over-indexed in the closed-won corpus. Coaching focuses on the conversation, not on whether the homework was done.
-
-**Continuously.** Closed deals feed back. Signal weights tighten. The next Monday morning's queue is slightly sharper than the last.
+- **Early access, in waves.** We onboard in small cohorts because we'd rather onboard ten teams properly than a hundred poorly. Teams request access through the Early-access form on the site.
+- **A 30-minute strategy session.** We calibrate Bonggy on the team's real goal and real effort, live, and show what's on-revenue and what's drifting this week. If it's not obviously useful in the first ten minutes, we say so.
 
 ---
 
-## 7. The category
+## 7. Integrations
 
-Bonggy is a **full-stack AI sales agency**. We sit in the gap that already exists between databases (Apollo, ZoomInfo, Cognism, Crunchbase, etc.) and sequencers (Outreach, Apollo, Salesloft, Instantly, etc.). Neither side of that gap currently does the thinking. They do the data and the dispatch.
+Bonggy connects to the tools a team already runs and **reads** the effort they already log. It requests only the permissions needed to read. It doesn't write back, send, or act through any of them.
 
-Our claim is that this gap is a new category, not a feature of an existing one. The economics of running an agency at scale only became viable with AI. The cost curve for reading fourteen sources every morning across two hundred accounts, synthesizing what matters, and producing a calibrated first draft dropped by a factor that makes a genuine service commitment economically real for the first time. We are not building cheaper software. We are building an entirely different shape of company: an agency that runs continuously, priced like software because the unit economics now allow it.
+Effort sources include CRM activity, sequencer sends, email, calendar, Slack threads, call recordings, meeting notes, pipeline edits, deal stages, account notes, task logs, support tickets, and renewal data.
 
-Not a tool that sits on a rep's desk waiting to be used well.
-**An agency that runs.**
+Representative tools (the homepage integrations strip shows the full logo set):
 
----
-
-## 8. Integrations
-
-Bonggy connects to the stack a customer already owns. The integrations marquee on the homepage shows ~40 partners with real SVG logos and another ~30 in text — covering the categories below.
-
-**CRM** — Salesforce, HubSpot, Pipedrive, Attio, Bullhorn
-**Sequencers** — Outreach, Salesloft, Apollo, Instantly, Smartlead, Lemlist, Reply.io
-**Email & calendar** — Gmail, Outlook, Cal.com, Calendly, Chili Piper
-**Comms** — Slack, Microsoft Teams, Discord, WhatsApp, Aircall, Dialpad, Twilio
-**Productivity** — Notion, Linear, Asana, Jira, ClickUp, Monday, Airtable
-**Storage** — Google Drive, Dropbox
-**Data / databases** — Apollo, ZoomInfo, Lusha, Hunter, Cognism, LeadIQ, Clay, Crunchbase, PitchBook, CB Insights
-**Intent & ABM** — 6sense, Demandbase, Warmly, Koala, RB2B, Common Room, UserGems
-**Web / research** — Tavily, Firecrawl, Perplexity, Exa, Wappalyzer, BuiltWith, SimilarWeb
-**Public records** — USASpending, SAM.gov, GovWin, SEC EDGAR, ClinicalTrials.gov, Definitive Healthcare, KLAS, Veeva
-**HR / hiring signal** — Greenhouse, Lever, Workday
-**Data warehouse / ETL** — Snowflake, BigQuery, Databricks, Census, Hightouch
-**Social / public web** — LinkedIn (integration only — intentionally not shown publicly), X, Reddit, Hacker News, GitHub, Product Hunt, Substack
-**Conversation intel** — Gong, Chorus, Fathom, Granola
-**Automation** — Zapier, Webhooks
-
-The list grows. The pattern is: anywhere a buyer leaves a public trail, Bonggy reads it. Anywhere a rep already sends from, Bonggy writes into it.
+- **CRM**: Salesforce, HubSpot, Pipedrive
+- **Sequencers** (read-only): Outreach, Salesloft, Apollo
+- **Email & calendar**: Gmail, Outlook, Calendly, Cal.com
+- **Comms & calls**: Slack, Microsoft Teams, Aircall, Twilio
+- **Call recording & notes**: Gong, Fathom, Notion
+- **Work management**: Asana, Jira, Linear, ClickUp, Monday, Airtable
+- **Data warehouse**: Snowflake, BigQuery, Databricks
+- **Automation**: Zapier, Webhooks
 
 ---
 
-## 9. Principles we operate by
+## 8. Principles we operate by
 
-Three anti-rules that anchor product decisions:
-
-1. **Anti-spray** — Every send earns the right to the next. We optimize for fewer, sharper messages.
-2. **Anti-autopilot** — AI on the judgment, humans on the send. The reply lands on someone who has to live with it.
-3. **Anti-database-of-everything** — We don't sell a bigger list. We help customers work the list they already have, better.
+1. **Alignment, not volume.** We don't help your team do more. We make sure the effort they already make points at revenue.
+2. **Read, don't act.** Bonggy reads what your team does and aligns it. It never sends or acts in their place. The work stays human.
+3. **Shared, not weaponized.** We measure effort against revenue, never reps against each other. The same picture, rep to CRO. No leaderboard.
 
 These translate to product constraints, not slogans:
 
-- No automatic send action exists in the product. The send button requires a human click.
-- The signal layer is open about what fired and why — no black-box scoring.
-- The customer's data and brand are bounded to their workspace; agencies get per-client separation by default.
-- Audit trail is permanent: every draft, every approval, every send is logged with the human who clicked.
+- No send, sequence, or write-back action exists in the product.
+- Permissions are scoped to read-only.
+- The same view a manager sees is visible to the rep it describes.
+- Customer data stays in the customer's tenant and chosen region. It's encrypted in transit (TLS 1.3) and at rest (AES-256), exportable at any time, and kept for a 30-day grace period after cancellation before deletion. SOC 2 Type II is on the path for the first enterprise cohort.
 
 ---
 
-## 10. Where we are heading
+## 9. The team
 
-Bonggy is in private beta. The early customer base is small and intentional — sales teams who already know their motion and want to run it sharper, not teams looking for software to substitute for strategy. Closed-won feedback is being baked back into the signal-weighting layer.
-
-Near-term product direction (in rough order of priority):
-
-- **Account graph** — explicit account-to-account relationships (subsidiary, vendor, customer-of-customer) so signal in one place propagates intelligently to the related accounts.
-- **Sequence-level coaching** — the manager view that suggests angle changes when a rep is stuck, surfaced from what other reps closed in similar shapes.
-- **Cross-channel drafting** — the same signal-grounded draft, fitted automatically to email, LinkedIn, and voicemail rather than each channel re-written from scratch.
-- **Closed-loop intent** — feed the customer's closed-lost reasons back into the prioritization layer so the system learns when an account looks great on paper but never converts in practice.
-- **Public APIs** — let internal tools and data warehouses read the signal layer programmatically.
-
-We are not racing to add modules. We are racing to make the agency good enough that a rep would refuse to start a Monday morning without it running underneath them.
-
----
-
-## 11. The team
-
-Three salespeople from Bengaluru. We did the job for a living before we started this company — cold calls, cold emails, conference dinners, missed quarters, hit quarters. The complaint about the stack and the observation that the rep who wins is the rep who notices first, not the rep with the fanciest tools, both come from years of having the same conversation with each other over coffee in Indiranagar and beers in Koramangala. We met on a sales floor. We never stopped meeting after that floor scattered. Eventually you can only have a conversation that many times before you either stop having it or do something about it.
+Three salespeople from Bengaluru. We did the job for a living before we started this company — cold calls, cold emails, conference dinners, missed quarters, hit quarters. We watched good reps work hard all week with no way to show that the work counted, and watched goals set at the top dilute before they reached the floor. We had that conversation over coffee in Indiranagar and beers in Koramangala for years. We met on a sales floor. We never stopped meeting after that floor scattered. Eventually you can only have a conversation that many times before you either stop having it or do something about it.
 
 We did the second one.
 
 ---
 
-_Last updated alongside the most recent product or positioning commit. If the bright lines in §4, the integrations in §8, or the principles in §9 change, update this file in the same commit._
+_Update this file in the same commit as any product or positioning change. In particular, keep the bright lines (§4), integrations (§7) and principles (§8) in sync with the site._

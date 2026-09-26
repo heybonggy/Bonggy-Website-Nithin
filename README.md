@@ -1,6 +1,13 @@
 # Bonggy
 
-A full-stack AI sales agency that already knows how you sell. Marketing site + early-access capture.
+**Bonggy: align every rep's effort to revenue.** Bonggy is the orchestration
+layer between rep effort and company goals. It reads what every rep does
+across every tool, aligns it to the goal, nudges the drift, and reports one
+connected picture from rep to CRO. It is read-only: it never sends,
+sequences or acts on a rep's behalf.
+
+This repo is the marketing site plus early-access and careers capture. See
+[PRODUCT.md](./PRODUCT.md) for the full product overview.
 
 ## Stack
 
@@ -23,14 +30,16 @@ Open http://localhost:3000
 
 | Route | What's there |
 |---|---|
-| `/` | Landing page (Hero → Integrations → Coverage → How It Works → Problem → Tailored → Proof → Close) |
+| `/` | Landing page (Hero + integrations strip → The gap (`#coverage`) → What we do (`#what-we-do`) → How it works (`#how-it-works`) → Call-to-action) |
 | `/resources` | Long-form notes index |
-| `/resources/a-note-from-us` | The founders' essay on tool-vs-service |
+| `/resources/a-note-from-us` | The team's note on AI slop and connecting effort to revenue |
 | `/about` | Mission and principles |
 | `/contact` | 30-min call link + email |
 | `/careers` | Pitch form (writes to Sheets) |
 | `/faq` | Q&As + FAQPage JSON-LD |
 | `/privacy` `/terms` `/security` | Legal + trust pages |
+
+`/fix` was removed and permanently redirects (308) to `/` (see `next.config.ts`).
 
 ## Forms
 
