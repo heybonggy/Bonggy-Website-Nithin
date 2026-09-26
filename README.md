@@ -15,7 +15,6 @@ This repo is the marketing site plus early-access and careers capture. See
 - **Tailwind v4** + **shadcn/ui** (base-nova preset)
 - **Motion 12** (framer-motion) for animations
 - **Phosphor Icons** for iconography
-- **cobe** for the rotating globe in the coverage section
 
 ## Develop
 
