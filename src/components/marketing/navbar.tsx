@@ -120,7 +120,13 @@ function LogoLink() {
   );
 }
 
-/* ─────────────────────── smooth-scroll helper ─────────────────── */
+/* ─────────────────────── scroll-shell helpers ─────────────────── */
+
+// Kept outside the component: the React Compiler lint rejects mutating a
+// hook-returned ref's element inline.
+function setOverflow(el: HTMLElement, value: string) {
+  el.style.overflow = value;
+}
 
 function smoothScrollToId(
   id: string,
@@ -163,11 +169,9 @@ export function Navbar() {
   React.useEffect(() => {
     const shell = shellRef?.current;
     if (!shell) return;
-    if (mobileOpen) shell.style.overflow = "hidden";
-    else if (!eaOpen) shell.style.overflow = "";
-    return () => {
-      if (shell) shell.style.overflow = "";
-    };
+    if (mobileOpen) setOverflow(shell, "hidden");
+    else if (!eaOpen) setOverflow(shell, "");
+    return () => setOverflow(shell, "");
   }, [mobileOpen, eaOpen, shellRef]);
 
   const openEarlyAccess = React.useCallback(() => {

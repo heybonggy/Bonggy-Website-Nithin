@@ -49,7 +49,6 @@ export function AsciiField({ paused = false }: { paused?: boolean }) {
   // the rAF would otherwise run forever (a covered sticky element still counts
   // as "in viewport", so the IntersectionObserver never fires).
   const pausedRef = React.useRef(paused);
-  pausedRef.current = paused;
   const restartRef = React.useRef<(() => void) | null>(null);
 
   React.useEffect(() => {
@@ -311,6 +310,7 @@ export function AsciiField({ paused = false }: { paused?: boolean }) {
 
   // Start/stop the loop when the covered (paused) state flips.
   React.useEffect(() => {
+    pausedRef.current = paused;
     restartRef.current?.();
   }, [paused]);
 

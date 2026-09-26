@@ -280,17 +280,22 @@ function CommandInputDemo({ active }: { active: boolean }) {
  let i = 0;
  let timer: ReturnType<typeof setTimeout>;
  const current = PROMPTS[idx];
- setPhase("typing");
- setTyped("");
 
  const tick = () => {
  i += 1;
+ // Also covers resuming mid-cycle after the card scrolls back into view.
+ setPhase("typing");
  setTyped(current.slice(0, i));
  if (i < current.length) {
  timer = setTimeout(tick, 28 + Math.random() * 32);
  } else {
  timer = setTimeout(() => setPhase("compiling"), 1200);
- timer = setTimeout(() => setIdx((p) => (p + 1) % PROMPTS.length), 4800);
+ timer = setTimeout(() => {
+ // Clear for the next prompt in the same tick that advances it.
+ setPhase("typing");
+ setTyped("");
+ setIdx((p) => (p + 1) % PROMPTS.length);
+ }, 4800);
  }
  };
  timer = setTimeout(tick, 500);
@@ -534,7 +539,7 @@ function ApprovalDemo({ active }: { active: boolean }) {
 
  <div className="relative flex-1 overflow-hidden">
  <AnimatePresence initial={false}>
- {items.map((item, idx) => (
+ {items.map((item) => (
  <motion.div
  key={item.key}
  layout

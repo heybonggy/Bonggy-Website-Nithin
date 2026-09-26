@@ -56,13 +56,16 @@ export function EarlyAccessModal({
   const [role, setRole] = React.useState("");
   const [roleError, setRoleError] = React.useState(false);
 
-  // Reset form state whenever the modal opens
-  React.useEffect(() => {
+  // Reset form state whenever the modal opens. Adjusted during render rather
+  // than in an effect, so the reset lands in the same render as the open.
+  const [prevOpen, setPrevOpen] = React.useState(open);
+  if (open !== prevOpen) {
+    setPrevOpen(open);
     if (open) {
       setSubmitted(false);
       setRoleError(false);
     }
-  }, [open]);
+  }
 
   // Lock scroll while open + close on Escape.
   // Mobile (<768px): the .bonggy-scroll-shell is the scroll container, freeze
@@ -111,7 +114,6 @@ export function EarlyAccessModal({
         throw new Error(`HTTP ${res.status}`);
       }
     } catch (err) {
-      // eslint-disable-next-line no-console
       console.error("early-access submit failed", err);
     } finally {
       setSubmitting(false);

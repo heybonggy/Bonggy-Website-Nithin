@@ -38,7 +38,6 @@ export function CareersForm() {
         throw new Error(`HTTP ${res.status}`);
       }
     } catch (err) {
-      // eslint-disable-next-line no-console
       console.error("careers submit failed", err);
     } finally {
       setSubmitting(false);

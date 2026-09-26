@@ -23,7 +23,7 @@ const page = await ctx.newPage();
 
 try {
   await page.goto("https://factory.ai", { waitUntil: "networkidle", timeout: 45000 });
-} catch (e) {
+} catch {
   console.warn("networkidle slow, falling back to load");
   await page.goto("https://factory.ai", { waitUntil: "load", timeout: 45000 });
 }
