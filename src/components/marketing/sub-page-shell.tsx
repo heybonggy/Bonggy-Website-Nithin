@@ -92,37 +92,3 @@ export function SubPageShell({
     </>
   );
 }
-
-/** Small block component for divider-led lists used across sub-pages */
-export function SubPageBlock({
-  index,
-  tag,
-  title,
-  children,
-}: {
-  index: string;
-  tag: string;
-  title: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="grid grid-cols-1 gap-x-12 gap-y-6 py-14 lg:grid-cols-[180px_1fr] lg:py-16">
-      <div className="flex flex-col gap-3">
-        <div className="font-mono text-[48px] font-normal leading-none tabular-nums text-foreground/30">
-          {index}
-        </div>
-        <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/80">
-          {tag}
-        </div>
-      </div>
-      <div className="max-w-[64ch]">
-        <h3 className="text-display text-[26px] font-normal leading-tight tracking-tight text-foreground sm:text-[32px]">
-          {title}
-        </h3>
-        <div className="mt-5 space-y-4 text-[16px] leading-relaxed text-muted-foreground">
-          {children}
-        </div>
-      </div>
-    </div>
-  );
-}

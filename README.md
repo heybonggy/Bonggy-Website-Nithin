@@ -24,7 +24,6 @@ Open http://localhost:3000
 | Route | What's there |
 |---|---|
 | `/` | Landing page (Hero → Integrations → Coverage → How It Works → Problem → Tailored → Proof → Close) |
-| `/fix` | The agency-model breakdown |
 | `/resources` | Long-form notes index |
 | `/resources/a-note-from-us` | The founders' essay on tool-vs-service |
 | `/about` | Mission and principles |

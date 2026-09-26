@@ -17,7 +17,6 @@ const ROUTES: Entry[] = [
 
   // Marketing
   { path: "/about",     priority: 0.8, changeFrequency: "monthly" },
-  { path: "/fix",       priority: 0.8, changeFrequency: "monthly" },
   { path: "/contact",   priority: 0.7, changeFrequency: "monthly" },
   { path: "/faq",       priority: 0.7, changeFrequency: "monthly" },
   { path: "/careers",   priority: 0.7, changeFrequency: "weekly" },
