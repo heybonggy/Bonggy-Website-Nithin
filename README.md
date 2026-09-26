@@ -1,10 +1,11 @@
 # Bonggy
 
-**Bonggy: align every rep's effort to revenue.** Bonggy is the orchestration
-layer between rep effort and company goals. It reads what every rep does
-across every tool, aligns it to the goal, nudges the drift, and reports one
-connected picture from rep to CRO. It is read-only: it never sends,
-sequences or acts on a rep's behalf.
+**Agents for the work before the conversation.** Bonggy is a studio where GTM
+teams build their own sales agents and groups of agents. Agents model the
+market, research accounts and draft the work (briefs, account plans,
+messages). Nothing goes out without human approval. Every agent's work ties
+back to a revenue goal through the loop Track, Align, Nudge, Report, and
+agents build shared memory from everything they learn.
 
 This repo is the marketing site plus early-access and careers capture. See
 [PRODUCT.md](./PRODUCT.md) for the full product overview.
@@ -29,9 +30,9 @@ Open http://localhost:3000
 
 | Route | What's there |
 |---|---|
-| `/` | Landing page (Hero + integrations strip → The gap (`#coverage`) → What we do (`#what-we-do`) → How it works (`#how-it-works`) → Call-to-action) |
+| `/` | Landing page: Hero with scripted demo → Roles (`#what-we-do`) → Build your own bots (`#build`) → Memory (`#memory`) → Analytics (`#analytics`) → The loop (`#how-it-works`) → Human in the loop (`#trust`) → Pricing (`#pricing`) → FAQ (`#faq`) → CTA |
 | `/resources` | Long-form notes index |
-| `/resources/a-note-from-us` | The team's note on AI slop and connecting effort to revenue |
+| `/resources/a-note-from-us` | The team's note on AI slop and agents for the work before the conversation |
 | `/about` | Mission and principles |
 | `/contact` | 30-min call link + email |
 | `/careers` | Pitch form (writes to Sheets) |
