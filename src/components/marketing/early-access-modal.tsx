@@ -182,11 +182,11 @@ export function EarlyAccessModal({
                     id="ea-title"
                     className="text-balance text-[22px] font-medium leading-tight tracking-tight text-foreground"
                   >
-                    Early access for teams done waiting for better outbound.
+                    Early access: align every rep&apos;s effort to revenue.
                   </h2>
                   <p className="text-[13.5px] leading-relaxed text-muted-foreground">
-                    We built Bonggy because great reps shouldn&apos;t burn out
-                    on bad data. We&apos;re rolling out in waves, not to
+                    We built Bonggy because reps put in real effort that never
+                    gets connected to the number. We&apos;re rolling out in waves, not to
                     gatekeep, but because we&apos;d rather onboard ten teams
                     properly than a hundred poorly.
                   </p>
@@ -205,7 +205,7 @@ export function EarlyAccessModal({
                     <p className="text-[13.5px] leading-relaxed text-foreground/90">
                       We onboard in small waves. We&apos;ll email you when the
                       next cohort opens to book a 30-minute session where we
-                      calibrate Bonggy on your accounts.
+                      calibrate Bonggy on your team and your goal.
                     </p>
                     <a
                       href={CAL_LINK}

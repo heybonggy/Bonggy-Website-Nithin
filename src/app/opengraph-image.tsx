@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "Bonggy: The command centre for sales teams";
+export const alt = "Bonggy: align every rep's effort to revenue";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -100,8 +100,8 @@ export default async function OG() {
               flexWrap: "wrap",
             }}
           >
-            <span>The command centre&nbsp;</span>
-            <span style={{ color: "#888888" }}>for sales teams.</span>
+            <span>Align every rep&apos;s effort&nbsp;</span>
+            <span style={{ color: "#888888" }}>to revenue.</span>
           </div>
           <div
             style={{
@@ -111,8 +111,9 @@ export default async function OG() {
               maxWidth: "880px",
             }}
           >
-            Find the signal, decide the move. Bonggy runs your whole outbound
-            sales motion from one place, with your judgement.
+            The orchestration layer between rep effort and company goals.
+            Track the effort, align it to the goal, nudge the drift, prove
+            what&apos;s working.
           </div>
         </div>
 
