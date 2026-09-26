@@ -21,7 +21,7 @@ const SECTIONS = [
   },
   {
     h: "Billing",
-    body: "Flexible billing , monthly, quarterly, or annual. Cancel anytime. No implementation fees, no surprise charges. If your team needs a different structure, talk to us.",
+    body: "Flexible billing: monthly, quarterly, or annual. Cancel anytime. No implementation fees, no surprise charges. If your team needs a different structure, talk to us.",
   },
   {
     h: "Data ownership",
