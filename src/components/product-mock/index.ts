@@ -7,6 +7,7 @@ export { AgentAvatar, AvatarStack } from "./avatar";
 export { UserMessage, AgentMessage, StatusLine, GoalChip } from "./chat-message";
 export { BriefCard, type Brief } from "./brief-card";
 export { DraftCard, type Draft, type DraftStatus } from "./draft-card";
+export { SetupCard } from "./setup-card";
 export { Composer } from "./composer";
 export { ChatView } from "./chat-view";
 export { AnalyticsView } from "./analytics-view";

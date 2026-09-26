@@ -4,7 +4,7 @@ import { Navbar } from "@/components/marketing/navbar";
 import { Hero } from "@/components/marketing/hero";
 import { TheReframeFix } from "@/components/marketing/the-reframe-fix";
 import { RolesStrip } from "@/components/marketing/roles-strip";
-import { BotBuilder } from "@/components/marketing/bot-builder";
+import { NewAgentSection } from "@/components/marketing/new-agent-section";
 import { MemoryGraph } from "@/components/marketing/memory-graph";
 import { AnalyticsDashboard } from "@/components/marketing/analytics-dashboard";
 import { TrustSection } from "@/components/marketing/trust-section";
@@ -28,7 +28,7 @@ export default function Home() {
         <Hero />
         <RolesStrip />
         <SectionRule />
-        <BotBuilder />
+        <NewAgentSection />
         <SectionRule />
         <MemoryGraph />
         <SectionRule />
