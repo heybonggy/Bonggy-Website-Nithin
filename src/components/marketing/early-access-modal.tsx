@@ -186,13 +186,14 @@ export function EarlyAccessModal({
                     id="ea-title"
                     className="text-balance text-[22px] font-medium leading-tight tracking-tight text-foreground"
                   >
-                    Early access: align every rep&apos;s effort to revenue.
+                    Early access: build your team&apos;s first agents.
                   </h2>
                   <p className="text-[13.5px] leading-relaxed text-muted-foreground">
-                    We built Bonggy because reps put in real effort that never
-                    gets connected to the number. We&apos;re rolling out in waves, not to
-                    gatekeep, but because we&apos;d rather onboard ten teams
-                    properly than a hundred poorly.
+                    Bonggy is a studio where GTM teams build agents that model
+                    the market, research accounts and draft the work, with a
+                    person approving anything that goes out. We&apos;re rolling
+                    out in waves, not to gatekeep, but because we&apos;d rather
+                    set up ten teams properly than a hundred poorly.
                   </p>
                 </div>
 
@@ -209,7 +210,8 @@ export function EarlyAccessModal({
                     <p className="text-[13.5px] leading-relaxed text-foreground/90">
                       We onboard in small waves. We&apos;ll email you when the
                       next cohort opens to book a 30-minute session where we
-                      calibrate Bonggy on your team and your goal.
+                      set up your first agents on your market and your
+                      revenue goal.
                     </p>
                     <a
                       href={CAL_LINK}
