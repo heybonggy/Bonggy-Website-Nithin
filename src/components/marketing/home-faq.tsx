@@ -15,7 +15,7 @@ export const HOME_FAQ: FaqItem[] = [
   },
   {
     q: "Can I build my own bots?",
-    a: "Yes. Start from a template like Market Modeller, Account Researcher or Brief Writer, or build one from scratch: give it a role, instructions, the tools it can use and a revenue goal. Then group bots into pods that share memory.",
+    a: "Yes. Start from a template like Market Modeller, Account Researcher or Brief Writer, or open a new chat and describe the job in plain words. The agent confirms what it will do and which revenue goal it serves. Agents can also work together in groups.",
   },
   {
     // TODO(integrations): confirm the supported tools before naming any.
