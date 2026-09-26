@@ -2,7 +2,12 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ScrollShell } from "@/components/marketing/scroll-shell";
-import { SITE_URL, HOME_TITLE } from "@/lib/metadata";
+import {
+  SITE_URL,
+  HOME_TITLE,
+  SITE_DESCRIPTION,
+  SITE_DESCRIPTION_SHORT,
+} from "@/lib/metadata";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,18 +25,17 @@ export const metadata: Metadata = {
     default: HOME_TITLE,
     template: "%s · Bonggy",
   },
-  description:
-    "Bonggy is the orchestration layer between rep effort and company goals. It tracks what every rep does across every tool, aligns it to the goal, nudges the drift, and proves what's working.",
+  description: SITE_DESCRIPTION,
   keywords: [
+    "sales agents",
+    "AI agents for sales",
+    "GTM studio",
+    "sales agent builder",
+    "account research",
+    "account briefs",
+    "human-in-the-loop sales AI",
     "revenue alignment",
-    "sales effort tracking",
-    "GTM orchestration",
-    "sales rep activity",
-    "sales strategy alignment",
-    "sales coaching",
-    "revenue operations",
     "RevOps",
-    "pipeline visibility",
     "AI SDR alternative",
   ],
   authors: [{ name: "Bonggy" }],
@@ -44,14 +48,12 @@ export const metadata: Metadata = {
     locale: "en_US",
     siteName: "Bonggy",
     title: HOME_TITLE,
-    description:
-      "The orchestration layer between rep effort and company goals. Tracks every rep's effort across every tool, aligns it to the goal, and proves what's working.",
+    description: SITE_DESCRIPTION_SHORT,
   },
   twitter: {
     card: "summary_large_image",
     title: HOME_TITLE,
-    description:
-      "The orchestration layer between rep effort and company goals. Tracks every rep's effort across every tool, aligns it to the goal, and proves what's working.",
+    description: SITE_DESCRIPTION_SHORT,
     creator: "@bonggy",
   },
   robots: {
@@ -110,15 +112,10 @@ export default function RootLayout({
               name: "Bonggy",
               applicationCategory: "BusinessApplication",
               operatingSystem: "Web",
-              description:
-                "The orchestration layer between rep effort and company goals. Tracks every rep's effort across every tool, aligns it to the goal, nudges the drift, and proves what's working.",
+              description: SITE_DESCRIPTION,
               url: SITE_URL,
-              offers: {
-                "@type": "Offer",
-                price: "0",
-                priceCurrency: "USD",
-                availability: "https://schema.org/InStock",
-              },
+              // No `offers` until pricing is public (it previously claimed a
+              // free, in-stock product).
               creator: {
                 "@type": "Organization",
                 name: "Bonggy",

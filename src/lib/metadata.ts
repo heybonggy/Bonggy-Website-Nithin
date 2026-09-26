@@ -5,6 +5,14 @@ export const SITE_URL =
 
 export const HOME_TITLE = "Bonggy: agents for the work before the conversation";
 
+/** Site-wide description (layout default, manifest, structured data). */
+export const SITE_DESCRIPTION =
+  "Bonggy is a studio where GTM teams build their own sales agents. Agents model your market, research your accounts and draft the work. Nothing goes out without human approval, and every agent's work ties back to a revenue goal.";
+
+/** Shorter version for link previews. */
+export const SITE_DESCRIPTION_SHORT =
+  "A studio where GTM teams build sales agents that model the market, research accounts and draft the work, with a person approving anything that goes out.";
+
 const OG_IMAGE = {
   url: "/opengraph-image",
   width: 1200,
