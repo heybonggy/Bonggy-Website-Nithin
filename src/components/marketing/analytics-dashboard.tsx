@@ -62,16 +62,16 @@ export function AnalyticsDashboard() {
         {/* KPIs */}
         <dl className="grid grid-cols-1 gap-px border-b border-border/60 bg-border/40 sm:grid-cols-3">
           {KPIS.map((k) => (
-            <div key={k.label} className="flex items-end justify-between gap-4 bg-card px-5 py-4">
-              <div>
-                <dt className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
-                  {k.label}
-                </dt>
-                <dd className="mt-1.5 font-mono text-[30px] leading-none tabular-nums text-foreground">
+            <div key={k.label} className="bg-card px-5 py-4">
+              <dt className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+                {k.label}
+              </dt>
+              <dd className="mt-1.5 flex items-end justify-between gap-4">
+                <span className="font-mono text-[30px] leading-none tabular-nums text-foreground">
                   {k.value}
-                </dd>
-              </div>
-              <Sparkline seed={k.seed} reduce={reduce} className="h-9 w-24" />
+                </span>
+                <Sparkline seed={k.seed} reduce={reduce} className="-mt-3 h-9 w-24" />
+              </dd>
             </div>
           ))}
         </dl>

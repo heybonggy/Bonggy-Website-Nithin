@@ -77,14 +77,14 @@ function BuilderCard() {
         </span>
       </div>
 
-      <dl className="flex flex-1 flex-col gap-4 p-5">
-        <Field label="Name">
+      <dl className="grid flex-1 grid-cols-1 content-start gap-4 p-5 sm:grid-cols-2">
+        <Field label="Name" wide>
           <div className="rounded-md border border-border/80 bg-background/60 px-3 py-2 text-[14px] text-foreground">
             Renewal Scout
           </div>
         </Field>
 
-        <Field label="Role">
+        <Field label="Role" wide>
           <div className="flex flex-wrap gap-1.5">
             {ROLES.map((r) => (
               <span
@@ -102,13 +102,13 @@ function BuilderCard() {
           </div>
         </Field>
 
-        <Field label="Instructions">
+        <Field label="Instructions" wide>
           <div className="min-h-[88px] rounded-md border border-border/80 bg-background/60 px-3 py-2 text-[13px] leading-relaxed text-foreground/90 sm:min-h-[68px]">
             <TypeOnce text={INSTRUCTIONS} run={inView} instant={reduce} />
           </div>
         </Field>
 
-        <Field label="Tools it can use">
+        <Field label="Tools it can use" wide>
           <ul className="flex flex-wrap gap-1.5">
             {TOOLS.map(({ label, Icon }, i) => (
               <motion.li
@@ -125,22 +125,20 @@ function BuilderCard() {
           </ul>
         </Field>
 
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <Field label="Revenue goal">
-            <div className="text-[13.5px] text-foreground">Net revenue retention</div>
-          </Field>
-          <Field label="Memory">
-            <div className="flex items-center gap-2 text-[13.5px] text-foreground">
-              <span
-                aria-hidden
-                className="relative inline-flex h-4 w-7 items-center rounded-full bg-signal"
-              >
-                <span className="absolute right-0.5 size-3 rounded-full bg-background" />
-              </span>
-              On · shared with Enterprise pod
-            </div>
-          </Field>
-        </div>
+        <Field label="Revenue goal">
+          <div className="text-[13.5px] text-foreground">Net revenue retention</div>
+        </Field>
+        <Field label="Memory">
+          <div className="flex items-center gap-2 text-[13.5px] text-foreground">
+            <span
+              aria-hidden
+              className="relative inline-flex h-4 w-7 items-center rounded-full bg-signal"
+            >
+              <span className="absolute right-0.5 size-3 rounded-full bg-background" />
+            </span>
+            On · shared with Enterprise pod
+          </div>
+        </Field>
       </dl>
 
       <figcaption className="border-t border-border/60 px-5 py-3 text-[12px] leading-snug text-muted-foreground">
@@ -151,9 +149,18 @@ function BuilderCard() {
   );
 }
 
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
+/** One dt/dd pair; `wide` spans both columns of the dl grid. */
+function Field({
+  label,
+  wide = false,
+  children,
+}: {
+  label: string;
+  wide?: boolean;
+  children: React.ReactNode;
+}) {
   return (
-    <div>
+    <div className={wide ? "sm:col-span-2" : undefined}>
       <dt className="mb-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
         {label}
       </dt>
