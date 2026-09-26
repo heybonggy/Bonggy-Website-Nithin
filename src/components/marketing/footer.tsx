@@ -51,8 +51,8 @@ export function Footer() {
               </span>
             </Link>
             <p className="mt-4 max-w-xs text-[13.5px] leading-relaxed text-muted-foreground">
-              The layer that connects what your reps do to what your company is
-              trying to win.
+              A studio for sales agents that do the work before the
+              conversation, with your team deciding what goes out.
             </p>
           </div>
 
