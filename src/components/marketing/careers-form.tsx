@@ -18,12 +18,22 @@ const AREAS = [
 export function CareersForm() {
   const [submitting, setSubmitting] = React.useState(false);
   const [submitted, setSubmitted] = React.useState(false);
+  const [area, setArea] = React.useState("");
+  const [areaError, setAreaError] = React.useState(false);
+  const areaButtonRef = React.useRef<HTMLButtonElement>(null);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     if ((formData.get("hp_field") as string)?.length) {
       setSubmitted(true);
+      return;
+    }
+    // The area is a hidden input, which native `required` validation skips,
+    // and the API rejects a pitch without one.
+    if (!area) {
+      setAreaError(true);
+      areaButtonRef.current?.focus();
       return;
     }
     setSubmitting(true);
@@ -125,7 +135,15 @@ export function CareersForm() {
               autoComplete="email"
               required
             />
-            <AreaSelect />
+            <AreaSelect
+              value={area}
+              onChange={(v) => {
+                setArea(v);
+                setAreaError(false);
+              }}
+              error={areaError}
+              buttonRef={areaButtonRef}
+            />
             <Field
               label="Links (optional)"
               name="links"
@@ -182,6 +200,15 @@ export function CareersForm() {
 
 /* ---------- field primitives ---------- */
 
+/** Short inline validation message, announced when it appears. */
+function FieldError({ id, children }: { id: string; children: string }) {
+  return (
+    <p id={id} role="alert" className="mt-1.5 text-[12.5px] text-destructive">
+      {children}
+    </p>
+  );
+}
+
 /** Visually hidden label; the placeholder alone isn't an accessible name. */
 function HiddenLabel({ htmlFor, children }: { htmlFor: string; children: string }) {
   return (
@@ -232,12 +259,22 @@ function TextArea(
   );
 }
 
-function AreaSelect() {
+function AreaSelect({
+  value,
+  onChange,
+  error,
+  buttonRef,
+}: {
+  value: string;
+  onChange: (v: string) => void;
+  error?: boolean;
+  buttonRef?: React.Ref<HTMLButtonElement>;
+}) {
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState("");
   const ref = React.useRef<HTMLDivElement | null>(null);
   const labelId = React.useId();
   const valueId = React.useId();
+  const errorId = React.useId();
 
   React.useEffect(() => {
     if (!open) return;
@@ -259,20 +296,24 @@ function AreaSelect() {
 
   return (
     <div ref={ref} className="relative">
-      <input type="hidden" name="area" value={value} required />
+      <input type="hidden" name="area" value={value} />
       <span id={labelId} className="sr-only">
         Area of interest
       </span>
       <button
+        ref={buttonRef}
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-labelledby={`${labelId} ${valueId}`}
+        aria-describedby={error ? errorId : undefined}
         className={cn(
-          "flex h-11 w-full items-center justify-between rounded-md border border-border/80 bg-background/60 px-3.5 text-left text-[14px] outline-none transition-colors",
-          "hover:border-border focus:border-signal/60 focus:ring-2 focus:ring-signal/20",
-          open && "border-signal/60 ring-2 ring-signal/20",
+          "flex h-11 w-full items-center justify-between rounded-md border bg-background/60 px-3.5 text-left text-[14px] outline-none transition-colors",
+          error
+            ? "border-destructive/70 ring-2 ring-destructive/20"
+            : "border-border/80 hover:border-border focus:border-signal/60 focus:ring-2 focus:ring-signal/20",
+          open && !error && "border-signal/60 ring-2 ring-signal/20",
         )}
       >
         <span
@@ -296,6 +337,7 @@ function AreaSelect() {
           <path d="m6 9 6 6 6-6" />
         </svg>
       </button>
+      {error ? <FieldError id={errorId}>Pick an area of interest.</FieldError> : null}
 
       <AnimatePresence>
         {open && (
@@ -317,7 +359,7 @@ function AreaSelect() {
                     role="option"
                     aria-selected={active}
                     onClick={() => {
-                      setValue(r);
+                      onChange(r);
                       setOpen(false);
                     }}
                     className={cn(
