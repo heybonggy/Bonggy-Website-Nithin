@@ -5,7 +5,8 @@ import {
   ShieldCheck,
   Lock,
   Eye,
-  Users,
+  UserCheck,
+  ClipboardText,
   Database,
 } from "@phosphor-icons/react/dist/ssr";
 
@@ -13,32 +14,43 @@ export const metadata: Metadata = pageMetadata({
   path: "/security",
   title: "Security",
   description:
-    "How Bonggy protects your data. Encryption in transit and at rest, scoped read-only permissions, no model training on your account data. Bonggy reads effort — it never sends or acts.",
+    "How Bonggy protects your data: agents only use the permissions you connect, every outbound action needs human approval, there's a full log of what each agent did, and no training on your data.",
   robots: { index: true, follow: true },
 });
 
+// TODO(security): none of these claims can be verified from this repo (it's
+// the marketing site only). Confirm each with engineering before launch.
 const COMMITMENTS = [
   {
-    Icon: Lock,
-    title: "Encrypted in transit and at rest",
-    body: "TLS 1.3 in transit. AES-256 at rest. Every connection between Bonggy and your CRM, sequencer, email, and the other tools it reads is encrypted end to end.",
-  },
-  {
     Icon: ShieldCheck,
-    title: "Scoped, read-only permissions",
-    body: "We request only the permissions needed to read the effort your team already logs. Bonggy doesn't write back, send, or act on your reps' behalf.",
+    title: "Agents only use the permissions you connect",
+    body: "You choose which tools each agent can reach and what it's allowed to do there. Nothing beyond what you connect.",
   },
   {
+    Icon: UserCheck,
+    title: "Every outbound action needs human approval",
+    body: "Emails, messages and CRM updates an agent proposes wait for a person on your team. Nothing goes out on its own.",
+  },
+  {
+    // TODO(security): confirm the per-agent audit log exists as described.
+    Icon: ClipboardText,
+    title: "A full log of what each agent did",
+    body: "Every draft, edit, approval and send is recorded against the agent and the person who approved it.",
+  },
+  {
+    // TODO(security): confirm with engineering/legal. Title wording approved.
     Icon: Eye,
     title: "No training on your data",
-    body: "Your account context, contact lists, and notes do not train any foundation model or get pooled across customers. Anything we tune runs on your tenant.",
+    body: "Your account context, contact lists and notes don't train any foundation model or get pooled across customers. Anything we tune runs on your tenant.",
   },
   {
-    Icon: Users,
-    title: "Read-only by design",
-    body: "Bonggy reads and aligns effort — it never sends, sequences, or acts. Nothing leaves your domain, because Bonggy isn't the one doing the sending.",
+    // TODO(security): confirm TLS 1.3 and AES-256.
+    Icon: Lock,
+    title: "Encrypted in transit and at rest",
+    body: "TLS 1.3 in transit. AES-256 at rest. Every connection between Bonggy and the tools you connect is encrypted.",
   },
   {
+    // TODO(security): confirm region choice, export and the 30-day grace period.
     Icon: Database,
     title: "Data residency and retention",
     body: "Data lives in your chosen region. You can export everything at any time. If you cancel, we offer a 30-day grace period before deletion. You own your data.",
@@ -51,7 +63,7 @@ export default function SecurityPage() {
       eyebrow="Security"
       title="Built for the rep,"
       titleAccent="hardened for the VP doing diligence."
-      lede="A privacy-conscious VP doing diligence on a vendor that reads their team's data should walk away comfortable. Here's how we earn that."
+      lede="A privacy-conscious VP doing diligence on a vendor whose agents work with their team's data should walk away comfortable. Here's how we earn that."
       narrow
     >
       <div className="grid grid-cols-1 gap-3 lg:grid-cols-2 lg:gap-4">
@@ -75,6 +87,7 @@ export default function SecurityPage() {
         <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/90">
           Compliance roadmap
         </div>
+        {/* TODO(security): confirm the SOC 2 Type II timeline. */}
         <p className="mt-3 max-w-[68ch] text-[15px] leading-relaxed text-muted-foreground">
           SOC 2 Type II is on the path for our first enterprise cohort. If
           your procurement requires it ahead of pilot, email{" "}
