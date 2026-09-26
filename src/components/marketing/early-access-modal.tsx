@@ -55,6 +55,7 @@ export function EarlyAccessModal({
   const [submitted, setSubmitted] = React.useState(false);
   const [role, setRole] = React.useState("");
   const [roleError, setRoleError] = React.useState(false);
+  const roleButtonRef = React.useRef<HTMLButtonElement>(null);
 
   // Reset form state whenever the modal opens. Adjusted during render rather
   // than in an effect, so the reset lands in the same render as the open.
@@ -99,6 +100,7 @@ export function EarlyAccessModal({
     }
     if (!role) {
       setRoleError(true);
+      roleButtonRef.current?.focus();
       return;
     }
     setRoleError(false);
@@ -258,6 +260,7 @@ export function EarlyAccessModal({
                         setRoleError(false);
                       }}
                       error={roleError}
+                      buttonRef={roleButtonRef}
                     />
                     <FormField
                       label="Team size (optional)"
@@ -343,15 +346,18 @@ function RoleSelect({
   value,
   onChange,
   error,
+  buttonRef,
 }: {
   value: string;
   onChange: (v: string) => void;
   error?: boolean;
+  buttonRef?: React.Ref<HTMLButtonElement>;
 }) {
   const [open, setOpen] = React.useState(false);
   const ref = React.useRef<HTMLDivElement | null>(null);
   const labelId = React.useId();
   const valueId = React.useId();
+  const errorId = React.useId();
 
   React.useEffect(() => {
     if (!open) return;
@@ -380,11 +386,13 @@ function RoleSelect({
         Your role
       </span>
       <button
+        ref={buttonRef}
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-labelledby={`${labelId} ${valueId}`}
+        aria-describedby={error ? errorId : undefined}
         className={cn(
           "flex h-11 w-full items-center justify-between rounded-md border bg-background/60 px-3.5 text-left text-[14px] outline-none transition-colors",
           error
@@ -414,6 +422,15 @@ function RoleSelect({
           <path d="m6 9 6 6 6-6" />
         </svg>
       </button>
+      {error ? (
+        <p
+          id={errorId}
+          role="alert"
+          className="mt-1.5 text-[12.5px] text-destructive"
+        >
+          Pick your role.
+        </p>
+      ) : null}
 
       <AnimatePresence>
         {open && (
