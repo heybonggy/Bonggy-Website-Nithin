@@ -7,6 +7,7 @@ import { RolesStrip } from "@/components/marketing/roles-strip";
 import { BotBuilder } from "@/components/marketing/bot-builder";
 import { MemoryGraph } from "@/components/marketing/memory-graph";
 import { AnalyticsDashboard } from "@/components/marketing/analytics-dashboard";
+import { TrustSection } from "@/components/marketing/trust-section";
 import { CtaPanel } from "@/components/marketing/cta-panel";
 import { SectionRule } from "@/components/marketing/section";
 import { Footer } from "@/components/marketing/footer";
@@ -32,6 +33,8 @@ export default function Home() {
         <AnalyticsDashboard />
         <SectionRule />
         <TheReframeFix />
+        <TrustSection />
+        <SectionRule />
         <CtaPanel />
       </main>
       <Footer />
