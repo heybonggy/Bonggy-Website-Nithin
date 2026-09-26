@@ -6,6 +6,7 @@ import { TheReframeFix } from "@/components/marketing/the-reframe-fix";
 import { RolesStrip } from "@/components/marketing/roles-strip";
 import { NewAgentSection } from "@/components/marketing/new-agent-section";
 import { AnalyticsSection } from "@/components/marketing/analytics-section";
+import { ContextSection } from "@/components/marketing/context-section";
 import { TrustSection } from "@/components/marketing/trust-section";
 import { PricingTeaser } from "@/components/marketing/pricing-teaser";
 import { HomeFaq } from "@/components/marketing/home-faq";
@@ -30,6 +31,8 @@ export default function Home() {
         <NewAgentSection />
         <SectionRule />
         <AnalyticsSection />
+        <SectionRule />
+        <ContextSection />
         <SectionRule />
         <TheReframeFix />
         <TrustSection />
