@@ -44,7 +44,8 @@ const STEPS = [
 
 export function TheReframeFix() {
   return (
- <Section id="what-we-do" eyebrow="One layer above your stack" tint>
+ // Four-step Track / Align / Nudge / Report: the nav's "How it works" target.
+ <Section id="how-it-works" eyebrow="One layer above your stack" tint>
  <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
  <motion.h2
  initial={{ opacity: 0, y: 18 }}

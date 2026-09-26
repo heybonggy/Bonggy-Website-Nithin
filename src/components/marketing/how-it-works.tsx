@@ -144,7 +144,9 @@ export function HowItWorks() {
   };
 
   return (
- <Section id="how-it-works" eyebrow="Every seat, made legible">
+ // What Bonggy shows each seat: the nav's "What we do" target. The four-step
+ // "How it works" section lives in the-reframe-fix.tsx.
+ <Section id="what-we-do" eyebrow="Every seat, made legible">
  <motion.h2
  initial={{ opacity: 0, y: 18 }}
  whileInView={{ opacity: 1, y: 0 }}
