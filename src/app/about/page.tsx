@@ -7,24 +7,24 @@ export const metadata: Metadata = pageMetadata({
   path: "/about",
   title: "About",
   description:
-    "We built Bonggy because GTM teams generate enormous effort every day and almost none of it is connected to the revenue it's supposed to serve. Bonggy is the layer that reads that effort across every tool, aligns it to revenue, and shows everyone the same picture.",
+    "We're building Bonggy, a studio where GTM teams build their own sales agents. Agents model the market, research accounts and draft the work, people approve what goes out, and every piece of work ties back to a revenue goal.",
 });
 
 const PRINCIPLES = [
   {
     label: "01",
     title: "Alignment, not volume",
-    body: "We don't help your team do more. We make sure the effort they already make points at revenue.",
+    body: "We don't help your team send more. Every agent's work ties back to a revenue goal.",
   },
   {
     label: "02",
-    title: "Read, don't act",
-    body: "Bonggy reads what your team does and aligns it. It never sends or acts in their place. The work stays human.",
+    title: "Humans approve",
+    body: "Agents research and draft. A person on your team approves anything that goes out. The relationship stays human.",
   },
   {
     label: "03",
     title: "Shared, not weaponized",
-    body: "We measure effort against revenue, never reps against each other. The same picture, rep to CRO. No leaderboard.",
+    body: "We measure work against revenue, never reps against each other. The same picture, rep to CRO. No leaderboard.",
   },
 ];
 
@@ -32,9 +32,9 @@ export default function AboutPage() {
   return (
     <SubPageShell
       eyebrow="About"
-      title="The effort was always there."
-      titleAccent="Nothing connected it to revenue."
-      lede="We built Bonggy because GTM teams generate enormous effort every day — calls, emails, notes, deals moved — and almost none of it is connected to the number it's supposed to serve. Bonggy is the layer that reads that effort across every tool, aligns it to revenue, and shows everyone the same picture."
+      title="Reps should spend their time"
+      titleAccent="in the conversation."
+      lede="GTM teams do enormous work before every conversation: mapping the market, researching the account, writing the brief. Most of it is manual, and almost none of it connects to the number. We built Bonggy so teams can build agents for that work, keep people on every decision, and tie it all back to revenue."
       narrow
     >
       <div className="grid grid-cols-1 gap-16 lg:grid-cols-[1fr_1fr] lg:gap-24">
@@ -52,14 +52,15 @@ export default function AboutPage() {
               faster. The result: more activity, and no clearer line to revenue.
             </p>
             <p>
-              The teams winning today aren&apos;t doing more. They make sure the
-              effort they already have points at the goal. The bottleneck was
-              never volume. It was knowing whether the work was aimed at the
-              right thing.
+              The teams winning today don&apos;t send more. They do better work
+              before the conversation and point it at the goal. That work —
+              modelling the market, researching the account, writing the
+              brief — is exactly what agents are good at, as long as a person
+              stays in charge of what goes out.
             </p>
             <p>
-              That&apos;s the bet. The effort is already there. Connect it to
-              revenue and you don&apos;t need more of it — you need it aligned.
+              That&apos;s the bet. Give teams agents for the prep, tie every
+              piece of it to revenue, and keep the conversation human.
             </p>
           </div>
         </div>
@@ -69,19 +70,19 @@ export default function AboutPage() {
             What we&apos;re building
           </div>
           <h2 className="mt-3 text-display text-[26px] font-normal leading-tight tracking-tight text-foreground sm:text-[32px]">
-            One layer above your stack.
+            A studio for your own agents.
           </h2>
           <div className="mt-5 space-y-4 text-[15.5px] leading-relaxed text-muted-foreground">
             <p>
-              Bonggy sits above every tool your team uses. It reads what every
-              rep does — across CRM, sequencer, email, calendar, Slack, calls —
-              ties each action to the revenue goal it serves, nudges the work
-              that&apos;s drifting, and reports one connected picture from rep to
-              CRO.
+              Bonggy is where GTM teams build agents and groups of agents.
+              Agents model the market, research accounts and draft briefs,
+              account plans and messages. They share memory, so what one agent
+              learns the rest of the pod can use.
             </p>
             <p>
-              It doesn&apos;t send. It doesn&apos;t act for your reps. It reads,
-              aligns, and proves. The work stays human; the guesswork goes.
+              Every agent runs on the same loop: track, align, nudge, report.
+              Nothing goes out without a person approving it. The prep gets
+              done; the conversation stays human.
             </p>
           </div>
         </div>
