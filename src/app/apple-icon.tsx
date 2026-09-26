@@ -27,14 +27,14 @@ export default function AppleIcon() {
           <defs>
             <radialGradient id="p" cx="36%" cy="28%" r="78%">
               <stop offset="0%" stopColor="#7ef0c0" />
-              <stop offset="40%" stopColor="#10b981" />
+              <stop offset="40%" stopColor="#72cf8e" />
               <stop offset="100%" stopColor="#053826" />
             </radialGradient>
           </defs>
           <path
             d="M 224 86 A 110 36 -22 0 0 32 170"
             fill="none"
-            stroke="#5eead4"
+            stroke="#72cf8e"
             strokeWidth="10"
             strokeLinecap="round"
           />
@@ -51,7 +51,7 @@ export default function AppleIcon() {
           <path
             d="M 224 86 A 110 36 -22 0 1 32 170"
             fill="none"
-            stroke="#5eead4"
+            stroke="#72cf8e"
             strokeWidth="10"
             strokeLinecap="round"
           />

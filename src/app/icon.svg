@@ -2,7 +2,7 @@
   <defs>
     <radialGradient id="p" cx="36%" cy="28%" r="78%">
       <stop offset="0%" stop-color="#7ef0c0" />
-      <stop offset="40%" stop-color="#10b981" />
+      <stop offset="40%" stop-color="#72cf8e" />
       <stop offset="100%" stop-color="#053826" />
     </radialGradient>
   </defs>
@@ -11,7 +11,7 @@
   <path
     d="M 224 86 A 110 36 -22 0 0 32 170"
     fill="none"
-    stroke="#5eead4"
+    stroke="#72cf8e"
     stroke-width="10"
     stroke-linecap="round"
   />
@@ -34,7 +34,7 @@
   <path
     d="M 224 86 A 110 36 -22 0 1 32 170"
     fill="none"
-    stroke="#5eead4"
+    stroke="#72cf8e"
     stroke-width="10"
     stroke-linecap="round"
   />

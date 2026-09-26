@@ -17,7 +17,7 @@ export default async function OG() {
           justifyContent: "space-between",
           padding: "72px",
           background:
-            "radial-gradient(ellipse 60% 40% at 80% 25%, rgba(94, 234, 212, 0.22), transparent 60%), radial-gradient(ellipse 40% 30% at 10% 95%, rgba(94, 234, 212, 0.18), transparent 60%), #000000",
+            "radial-gradient(ellipse 60% 40% at 80% 25%, rgba(114, 207, 142, 0.22), transparent 60%), radial-gradient(ellipse 40% 30% at 10% 95%, rgba(114, 207, 142, 0.18), transparent 60%), #000000",
           color: "#fafafa",
           fontFamily: "system-ui, -apple-system, Segoe UI, Geist, sans-serif",
         }}
@@ -39,14 +39,14 @@ export default async function OG() {
             <defs>
               <radialGradient id="p" cx="36%" cy="28%" r="78%">
                 <stop offset="0%" stopColor="#7ef0c0" />
-                <stop offset="40%" stopColor="#10b981" />
+                <stop offset="40%" stopColor="#72cf8e" />
                 <stop offset="100%" stopColor="#053826" />
               </radialGradient>
             </defs>
             <path
               d="M 224 86 A 110 36 -22 0 0 32 170"
               fill="none"
-              stroke="#5eead4"
+              stroke="#72cf8e"
               strokeWidth="10"
               strokeLinecap="round"
             />
@@ -63,7 +63,7 @@ export default async function OG() {
             <path
               d="M 224 86 A 110 36 -22 0 1 32 170"
               fill="none"
-              stroke="#5eead4"
+              stroke="#72cf8e"
               strokeWidth="10"
               strokeLinecap="round"
             />
@@ -136,8 +136,8 @@ export default async function OG() {
                 width: 10,
                 height: 10,
                 borderRadius: 9999,
-                background: "#5eead4",
-                boxShadow: "0 0 12px #5eead4",
+                background: "#72cf8e",
+                boxShadow: "0 0 12px #72cf8e",
               }}
             />
             <span>Early access · open</span>
