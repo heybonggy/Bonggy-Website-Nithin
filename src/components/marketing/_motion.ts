@@ -1,6 +1,29 @@
 "use client";
 
+import * as React from "react";
 import type { Variants, Transition } from "motion/react";
+
+const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
+
+function subscribeReducedMotion(cb: () => void) {
+  const mq = window.matchMedia(REDUCED_MOTION_QUERY);
+  mq.addEventListener("change", cb);
+  return () => mq.removeEventListener("change", cb);
+}
+
+/**
+ * Hydration-safe prefers-reduced-motion. Motion's useReducedMotion reads the
+ * media query on the first client render, so markup that branches on it
+ * mismatches the server HTML. This renders the server (motion-on) version
+ * during hydration, then switches.
+ */
+export function usePrefersReducedMotion(): boolean {
+  return React.useSyncExternalStore(
+    subscribeReducedMotion,
+    () => window.matchMedia(REDUCED_MOTION_QUERY).matches,
+    () => false,
+  );
+}
 
 /**
  * Per taste-skill: spring physics with stiffness 100, damping 20 for premium weight.

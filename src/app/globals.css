@@ -242,44 +242,6 @@
     background-size: 30px 30px;
   }
 
-  /* Opaque content layer that scrolls UP over the sticky hero and covers it.
-     Carries the dot-grid so the texture survives the cover. */
-  .page-cover {
-    position: relative;
-    z-index: 10;
-    background-color: var(--background);
-    background-image: radial-gradient(
-      circle at 1px 1px,
-      var(--grid-line) 1px,
-      transparent 0
-    );
-    background-size: 30px 30px;
-  }
-
-  /* Black wash over the hero's ASCII field that fades IN as the page scrolls,
-     so the hero "turns black" while the next section rises over it. Driven by
-     a scroll-progress timeline (no JS), which tracks whichever ancestor is the
-     real scroll container — window on desktop, the scroll-shell on mobile.
-     Browsers without scroll-timeline simply keep the hero un-dimmed. */
-  .hero-cover-fade {
-    background-color: oklch(0.085 0.005 280);
-    opacity: 0;
-  }
-  @supports (animation-timeline: scroll()) {
-    .hero-cover-fade {
-      animation: hero-cover-darken linear forwards;
-      animation-timeline: scroll(nearest);
-      animation-range: 0 90vh;
-    }
-  }
-  @keyframes hero-cover-darken {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
 
   /* Desktop (>=768px): revert to native document scroll. Custom scroll
      containers cost FPS on desktop because the browser can't use the same
@@ -553,62 +515,5 @@
   }
   .float-perpetual { animation: float-up 5.6s ease-in-out infinite; }
 
-  /* Faint CRT scanline wash over the hero's ASCII field. */
-  .hero-scanlines {
-    background-image: repeating-linear-gradient(
-      to bottom,
-      transparent 0,
-      transparent 2px,
-      color-mix(in oklab, var(--foreground) 6%, transparent) 3px
-    );
-    animation: hero-scanflicker 5s ease-in-out infinite;
-  }
-  @keyframes hero-scanflicker {
-    0%, 100% { opacity: 0.4; }
-    46%      { opacity: 0.4; }
-    47%      { opacity: 0.18; }
-    48%      { opacity: 0.5; }
-    50%      { opacity: 0.6; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .hero-scanlines { animation: none; opacity: 0.3; }
-  }
 
-  @media (prefers-reduced-motion: reduce) {
-    .hero-blob-a, .hero-blob-b, .hero-blob-c,
-    .hero-glitch-bar, .hero-scanlines { animation: none; }
-  }
-
-  /* ──────────────────────────────────────────────────────────────────────────
-     Two-row integrations marquee — rows scroll in opposite directions and
-     pause together when the track is hovered. Duration slows on mobile so
-     small-screen scroll doesn't read as chaos. prefers-reduced-motion fully
-     halts the animation and parks the rows at a static offset.
-     ────────────────────────────────────────────────────────────────────── */
-  @keyframes marquee-left {
-    from { transform: translateX(0); }
-    to   { transform: translateX(-50%); }
-  }
-  @keyframes marquee-right {
-    from { transform: translateX(-50%); }
-    to   { transform: translateX(0); }
-  }
-  .marquee-row {
-    animation-duration: 150s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-    will-change: transform;
-  }
-  .marquee-row--left  { animation-name: marquee-left; }
-  .marquee-row--right { animation-name: marquee-right; }
-  .marquee-track:hover .marquee-row { animation-play-state: paused; }
-  @media (max-width: 768px) {
-    .marquee-row { animation-duration: 220s; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .marquee-row {
-      animation: none !important;
-      transform: translateX(-12.5%);
-    }
-  }
 }

@@ -19,19 +19,16 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      {/* Fixed hero stays put; the opaque layer below scrolls up over it. */}
-      <Hero />
-      <div className="page-cover mt-[100svh]">
-        <main className="flex flex-col">
-          <GlobeSection />
-          <SectionRule />
-          <HowItWorks />
-          <SectionRule />
-          <TheReframeFix />
-          <CtaPanel />
-        </main>
-        <Footer />
-      </div>
+      <main className="flex flex-col">
+        <Hero />
+        <GlobeSection />
+        <SectionRule />
+        <HowItWorks />
+        <SectionRule />
+        <TheReframeFix />
+        <CtaPanel />
+      </main>
+      <Footer />
     </>
   );
 }

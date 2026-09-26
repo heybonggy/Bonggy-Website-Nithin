@@ -1,108 +1,121 @@
 "use client";
 
 import * as React from "react";
+import dynamic from "next/dynamic";
 import { motion } from "motion/react";
 import { CtaButton } from "./cta-button";
-import { AsciiField } from "./ascii-field";
-import { IntegrationsMarquee } from "./integrations-marquee";
-import { useScrollShell } from "./scroll-shell";
+import { EarlyAccessCta } from "./early-access-cta";
+import { HeroDemo } from "./hero-demo";
+import { useLoopFocus } from "./loop-focus";
+import { EASE_OUT } from "./_motion";
+
+// The ASCII field is decorative and the heaviest thing on the page, so it's
+// split out of the main bundle and only mounted on desktop, after load.
+const AsciiField = dynamic(
+  () => import("./ascii-field").then((m) => m.AsciiField),
+  { ssr: false },
+);
+
+/** True once the page has settled, on desktop, without reduced motion. */
+function useAmbientBackground() {
+  const [enabled, setEnabled] = React.useState(false);
+  React.useEffect(() => {
+    const mq = window.matchMedia(
+      "(min-width: 768px) and (prefers-reduced-motion: no-preference)",
+    );
+    if (!mq.matches) return;
+    let idleId: number | undefined;
+    const start = () => {
+      const ric =
+        window.requestIdleCallback ??
+        ((cb: () => void) => window.setTimeout(cb, 200));
+      idleId = ric(() => setEnabled(true), { timeout: 2500 });
+    };
+    if (document.readyState === "complete") start();
+    else window.addEventListener("load", start, { once: true });
+    return () => {
+      window.removeEventListener("load", start);
+      if (idleId !== undefined) window.cancelIdleCallback?.(idleId);
+    };
+  }, []);
+  return enabled;
+}
 
 export function Hero() {
-  // Once the next section scrolls up and covers the sticky hero, pause the
-  // ASCII canvas — it's invisible but the rAF would otherwise run the whole
-  // time the user reads the rest of the page.
-  const shellRef = useScrollShell();
-  const [covered, setCovered] = React.useState(false);
-
-  React.useEffect(() => {
-    const container = shellRef?.current ?? null;
-    const target: HTMLElement | Window = container ?? window;
-    const getY = () => (container ? container.scrollTop : window.scrollY);
-    let ticking = false;
-    const onScroll = () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => {
-        ticking = false;
-        setCovered(getY() > window.innerHeight * 0.85);
-      });
-    };
-    onScroll();
-    target.addEventListener("scroll", onScroll, { passive: true });
-    return () => target.removeEventListener("scroll", onScroll);
-  }, [shellRef]);
+  const sectionRef = React.useRef<HTMLElement>(null);
+  const focused = useLoopFocus(sectionRef);
+  const ambient = useAmbientBackground();
+  const [demoPlaying, setDemoPlaying] = React.useState(false);
 
   return (
-    // Fixed so the next section scrolls up and covers it (see .page-cover).
-    <section className="fixed inset-x-0 top-0 z-0 isolate h-[100svh] overflow-hidden">
-      {/* Full-bleed animated ASCII field behind the centered copy */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
-      >
-        <AsciiField paused={covered} />
-        <div className="hero-scanlines absolute inset-0" />
-        {/* Darken behind the centered text + edge vignette */}
+    <section
+      ref={sectionRef}
+      className="relative isolate overflow-hidden pt-28 pb-16 sm:pt-36 sm:pb-20 lg:pt-40 lg:pb-28"
+    >
+      {/* Background: static gradient everywhere; the ASCII field fades in on
+          top of it on desktop once the page has settled. */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
         <div
           className="absolute inset-0"
           style={{
             background:
-              "radial-gradient(58% 52% at 50% 47%, oklch(0.085 0.005 280 / 0.66), oklch(0.085 0.005 280 / 0.34) 50%, transparent 80%)",
+              "radial-gradient(60% 55% at 70% 35%, oklch(0.78 0.13 152 / 7%), transparent 70%), radial-gradient(50% 40% at 15% 10%, oklch(1 0 0 / 3%), transparent 70%)",
           }}
         />
+        {ambient ? (
+          <motion.div
+            className="absolute inset-0"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.32 }}
+            transition={{ duration: 1.2, ease: EASE_OUT }}
+          >
+            {/* Paused while the demo script plays or another section holds
+                loop focus, so only one loop runs at a time. */}
+            <AsciiField paused={!focused || demoPlaying} />
+          </motion.div>
+        ) : null}
         <div
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(to bottom, oklch(0.085 0.005 280 / 0.55), transparent 22%, transparent 78%, oklch(0.085 0.005 280 / 0.85))",
+              "radial-gradient(70% 60% at 30% 45%, oklch(0.085 0.005 280 / 0.75), transparent 75%), linear-gradient(to bottom, transparent 70%, var(--background))",
           }}
         />
-        {/* Scroll-driven black wash: the field darkens as the page scrolls and
-            the next section rises to cover the hero. */}
-        <div className="hero-cover-fade absolute inset-0" />
       </div>
 
-      <div className="relative mx-auto flex min-h-[100svh] w-full max-w-[1400px] flex-col items-center justify-center px-6 pt-32 pb-40 text-center lg:px-10">
-        <motion.h1
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
-          className="text-display text-display-gradient mx-auto max-w-[20ch] text-balance text-[44px] font-normal sm:text-[64px] lg:text-[80px]"
-        >
-          Make every effort count toward revenue.
-        </motion.h1>
+      <div className="mx-auto grid w-full max-w-[1400px] grid-cols-1 items-center gap-12 px-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,540px)] lg:gap-16 lg:px-10">
+        <div>
+          <div className="mb-7 flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+            <span className="h-3 w-[3px] shrink-0 bg-signal" />
+            GTM studio · Early access
+          </div>
 
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
-          className="mx-auto mt-8 max-w-[54ch] text-[16.5px] leading-relaxed text-muted-foreground"
-        >
-          We show you what&apos;s moving revenue, what&apos;s drifting, and
-          where to point it back.
-        </motion.p>
+          <h1 className="text-display max-w-[16ch] text-balance text-[40px] font-normal leading-none tracking-tight sm:text-[56px] lg:text-[64px]">
+            Agents for the work before the conversation.{" "}
+            <span className="text-muted-foreground/85">
+              You still have the conversation.
+            </span>
+          </h1>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-10 flex justify-center"
-        >
-          <CtaButton size="lg">Book a 30-min call</CtaButton>
-        </motion.div>
+          <p className="mt-7 max-w-[54ch] text-[16.5px] leading-relaxed text-muted-foreground">
+            Bonggy is a studio for sales agents that model your market,
+            research your accounts and draft the work, aligned to revenue and
+            reviewed by your team.
+          </p>
+
+          <div className="mt-9 flex flex-wrap items-center gap-3">
+            <EarlyAccessCta size="lg" />
+            <CtaButton size="lg" variant="ghost" magnetic={false}>
+              Book a 30-min call
+            </CtaButton>
+          </div>
+
+          {/* TODO(social-proof): no customer logos, quotes or counts until
+              they're real and approved. Leave this slot empty until then. */}
+        </div>
+
+        <HeroDemo onPlayingChange={setDemoPlaying} />
       </div>
-
-      {/* Whisper-quiet integrations strip pinned to the hero's bottom edge —
-          borderless, low-opacity logos so it reads as faint social proof at
-          the fold without competing with the ASCII field above it. */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-        className="absolute inset-x-0 bottom-0 z-10 pb-6 sm:pb-8"
-      >
-        <IntegrationsMarquee compact />
-      </motion.div>
     </section>
   );
 }
