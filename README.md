@@ -29,7 +29,7 @@ Open http://localhost:3000
 | `/about` | Mission and principles |
 | `/contact` | 30-min call link + email |
 | `/careers` | Pitch form (writes to Sheets) |
-| `/faq` | Conversion-aware Q&As + FAQPage JSON-LD |
+| `/faq` | Q&As + FAQPage JSON-LD |
 | `/privacy` `/terms` `/security` | Legal + trust pages |
 
 ## Forms

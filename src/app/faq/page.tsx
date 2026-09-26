@@ -71,7 +71,7 @@ export default function FaqPage() {
         eyebrow="FAQ"
         title="The questions"
         titleAccent="every VP asks before booking."
-        lede="Tight, conversion-aware answers. If a question isn't here and you think it should be, email founders@bonggy.com and we'll add it."
+        lede="Straight answers on what Bonggy does, what it doesn't, and how to get started. If your question isn't here, email founders@bonggy.com and we'll add it."
         narrow
       >
         {/* Terminal-styled accordion — signal numerals, dotted rules, and a
