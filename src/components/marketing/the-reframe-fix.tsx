@@ -15,48 +15,48 @@ const STEPS = [
   {
  n: "01",
  Icon: Eye,
- title: "Track the effort",
- head: "Every action, across every tool.",
- body: "Sends, calls, meetings, notes, the Slack thread. The real work, not the summary they backfill into the CRM.",
+ title: "Track",
+ head: "Bots read activity across your tools.",
+ body: "Calls, emails, meetings, notes and CRM changes, from your reps and your agents. The real work, not the summary backfilled into the CRM.",
   },
   {
  n: "02",
  Icon: Target,
- title: "Align it to the goal",
- head: "Each action mapped to what it serves.",
- body: "Every action tied to the goal it points at. On-goal, off-goal, and going nowhere.",
+ title: "Align",
+ head: "Map every action to a revenue goal.",
+ body: "Every brief, draft and call is tied to the goal it serves: on-goal, off-goal or going nowhere.",
   },
   {
  n: "03",
  Icon: Compass,
- title: "Nudge the drift",
- head: "Reps pointed back before the quarter is lost.",
- body: "A rep slides off strategy, Bonggy flags it and points back. Sixty percent of your week is off-ICP. Here are five that fit.",
+ title: "Nudge",
+ head: "Flag drift and suggest the next move.",
+ body: "When a rep or a pod slides off strategy, Bonggy flags it and proposes what to do instead. A person decides whether to act.",
   },
   {
  n: "04",
  Icon: ChartBar,
- title: "Report to everyone",
- head: "The same truth at every altitude.",
- body: "Rep to CRO, one connected picture. The rep sees what counts. The manager sees who is on-strategy. The CRO sees where the effort leaks.",
+ title: "Report",
+ head: "One shared picture from rep to CRO.",
+ body: "The rep sees what counts, the manager sees what's on-strategy, the CRO sees where effort leaks. No leaderboards, no ranking reps against each other.",
   },
 ];
 
 export function TheReframeFix() {
   return (
  // Four-step Track / Align / Nudge / Report: the nav's "How it works" target.
- <Section id="how-it-works" eyebrow="One layer above your stack" tint>
+ <Section id="how-it-works" eyebrow="How it works · the loop" tint>
  <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
  <motion.h2
  initial={{ opacity: 0, y: 18 }}
  whileInView={{ opacity: 1, y: 0 }}
  viewport={{ once: true, amount: 0.15 }}
  transition={SPRING}
- className="text-display text-balance text-[36px] font-medium leading-none tracking-tight sm:text-[44px] lg:text-[56px]"
+ className="text-display text-balance text-[36px] font-normal leading-none tracking-tight sm:text-[44px] lg:text-[56px]"
  >
- Bonggy reads the effort,{" "}
+ Every bot runs on one loop.{" "}
  <span className="text-muted-foreground/85">
- and points it at the goal.
+ Track, align, nudge, report.
  </span>
  </motion.h2>
 
@@ -67,8 +67,8 @@ export function TheReframeFix() {
  transition={{ ...SPRING, delay: 0.05 }}
  className="max-w-[58ch] text-[16px] leading-relaxed text-muted-foreground lg:pt-2"
  >
- It sits above every tool your team uses, connects every action to
- the goal, and keeps the whole team pulling one direction.
+ It&apos;s how every agent&apos;s work ties back to a revenue goal,
+ and how your team keeps agents and reps pulling in one direction.
  </motion.p>
  </div>
 
@@ -114,9 +114,9 @@ export function TheReframeFix() {
  transition={SPRING}
  className="mt-14 max-w-3xl text-pretty text-[20px] font-medium leading-snug tracking-tight"
  >
- Not another tool in the stack.{" "}
+ Alignment, not volume.{" "}
  <span className="text-muted-foreground">
- The layer that makes the stack make sense.
+ Agents that answer to the number, and to your team.
  </span>
  </motion.p>
  </Section>
