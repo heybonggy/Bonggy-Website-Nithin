@@ -3,6 +3,7 @@
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { motion, type HTMLMotionProps } from "motion/react";
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
@@ -88,11 +89,12 @@ const BlogPostCard = React.forwardRef<HTMLDivElement, BlogPostCardProps>(
         <div className="relative z-0 flex h-full w-full flex-col md:flex-row">
           {isFeatured && imageUrl && (
             <div className="relative aspect-[16/10] w-full overflow-hidden md:aspect-auto md:w-1/2 lg:w-3/5">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <Image
                 src={imageUrl}
                 alt={title}
-                className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                fill
+                sizes="(min-width: 1024px) 60vw, (min-width: 768px) 50vw, 100vw"
+                className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
               />
               {/* Tint so the image sits in the editorial palette rather than
                   popping against the dark background. */}

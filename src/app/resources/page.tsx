@@ -31,8 +31,8 @@ const POSTS: Post[] = [
     date: "",
     kind: "Note",
     featured: true,
-    imageUrl:
-      "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070&auto=format&fit=crop",
+    // Unsplash photo 1522071820081-009f0129c71c, served locally.
+    imageUrl: "/images/resources/a-note-from-us.jpg",
   },
 ];
 
