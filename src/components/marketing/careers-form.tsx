@@ -66,8 +66,8 @@ export function CareersForm() {
         </h2>
         <p className="mt-5 max-w-[52ch] text-[15.5px] leading-relaxed text-muted-foreground">
           We&apos;re hiring in waves for engineering, design, and early GTM. We
-          don&apos;t list roles publicly — if your work would help align every
-          rep&apos;s effort to revenue, send us your take and we&apos;ll figure
+          don&apos;t list roles publicly — if you want to build agents that do
+          real GTM work with people in charge, send us your take and we&apos;ll figure
           out the right shape together.
         </p>
         <ul className="mt-7 space-y-2.5 text-[14px] text-muted-foreground">
