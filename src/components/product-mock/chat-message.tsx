@@ -47,7 +47,7 @@ export function AgentMessage({
           <span className="text-[13px] font-medium text-foreground">{agent.name}</span>
           {time ? <span className="font-mono text-[10px] text-muted-foreground">{time}</span> : null}
         </div>
-        <div className="grid gap-2.5">{children}</div>
+        <div className="grid grid-cols-1 gap-2.5">{children}</div>
       </div>
       <MessageActions visible={showActions} />
     </div>

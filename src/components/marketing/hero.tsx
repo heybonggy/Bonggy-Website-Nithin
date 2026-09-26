@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import { motion } from "motion/react";
 import { CtaButton } from "./cta-button";
 import { EarlyAccessCta } from "./early-access-cta";
-import { HeroDemo } from "./hero-demo";
+import { AgentsPreview } from "./agents-preview";
 import { useLoopFocus } from "./loop-focus";
 import { EASE_OUT } from "./_motion";
 
@@ -50,11 +50,11 @@ export function Hero() {
   return (
     <section
       ref={sectionRef}
-      className="relative isolate overflow-hidden pt-28 pb-16 sm:pt-36 sm:pb-20 lg:pt-40 lg:pb-28"
+      className="relative isolate overflow-hidden pt-28 pb-16 sm:pt-36 sm:pb-20 lg:pt-40 lg:pb-24"
     >
-      {/* Background: static gradient everywhere; the ASCII field fades in on
-          top of it on desktop once the page has settled. */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
+      {/* Background behind the headline: static gradient everywhere; the
+          ASCII field fades in on top of it on desktop once the page settles. */}
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[620px]">
         <div
           className="absolute inset-0"
           style={{
@@ -83,38 +83,39 @@ export function Hero() {
         />
       </div>
 
-      <div className="mx-auto grid w-full max-w-[1400px] grid-cols-1 items-center gap-12 px-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,540px)] lg:gap-16 lg:px-10">
-        <div>
-          <div className="mb-7 flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-            <span className="h-3 w-[3px] shrink-0 bg-signal" />
-            GTM studio · Early access
+      <div className="mx-auto grid w-full max-w-[1400px] grid-cols-1 gap-12 px-6 lg:gap-16 lg:px-10">
+        <div className="grid grid-cols-1 gap-x-16 gap-y-7 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] lg:items-end">
+          <div>
+            <div className="mb-7 flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+              <span className="h-3 w-[3px] shrink-0 bg-signal" />
+              GTM studio · Early access
+            </div>
+            <h1 className="text-display max-w-[18ch] text-balance text-[40px] font-normal leading-none tracking-tight sm:text-[56px] lg:text-[68px]">
+              Agents for the work before the conversation.{" "}
+              <span className="text-muted-foreground/85">
+                You still have the conversation.
+              </span>
+            </h1>
           </div>
 
-          <h1 className="text-display max-w-[16ch] text-balance text-[40px] font-normal leading-none tracking-tight sm:text-[56px] lg:text-[64px]">
-            Agents for the work before the conversation.{" "}
-            <span className="text-muted-foreground/85">
-              You still have the conversation.
-            </span>
-          </h1>
-
-          <p className="mt-7 max-w-[54ch] text-[16.5px] leading-relaxed text-muted-foreground">
-            Bonggy is a studio for sales agents that model your market,
-            research your accounts and draft the work, aligned to revenue and
-            reviewed by your team.
-          </p>
-
-          <div className="mt-9 flex flex-wrap items-center gap-3">
-            <EarlyAccessCta size="lg" />
-            <CtaButton size="lg" variant="ghost" magnetic={false}>
-              Book a 30-min call
-            </CtaButton>
+          <div>
+            <p className="max-w-[48ch] text-[16.5px] leading-relaxed text-muted-foreground">
+              Bonggy is a studio for sales agents that model your market,
+              research your accounts and draft the work, aligned to revenue
+              and reviewed by your team.
+            </p>
+            <div className="mt-7 flex flex-wrap items-center gap-3">
+              <EarlyAccessCta size="lg" />
+              <CtaButton size="lg" variant="ghost" magnetic={false}>
+                Book a 30-min call
+              </CtaButton>
+            </div>
+            {/* TODO(social-proof): no customer logos, quotes or counts until
+                they're real and approved. Leave this slot empty until then. */}
           </div>
-
-          {/* TODO(social-proof): no customer logos, quotes or counts until
-              they're real and approved. Leave this slot empty until then. */}
         </div>
 
-        <HeroDemo onPlayingChange={setDemoPlaying} />
+        <AgentsPreview onPlayingChange={setDemoPlaying} />
       </div>
     </section>
   );

@@ -59,14 +59,14 @@ export function BriefCard({
           Brief
         </span>
       </div>
-      <dl className="grid">
+      <dl className="grid grid-cols-1">
         {rows.map(([label, value], i) => (
           <motion.div
             key={label}
             initial={build ? { opacity: 0, y: 6 } : false}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: build ? i * 0.28 : 0, duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="grid gap-1 border-t border-border px-4 py-2.5 first:border-t-0 sm:grid-cols-[132px_minmax(0,1fr)] sm:gap-4"
+            className="grid grid-cols-1 gap-1 border-t border-border px-4 py-2.5 first:border-t-0 sm:grid-cols-[132px_minmax(0,1fr)] sm:gap-4"
           >
             <dt className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground sm:pt-0.5">
               {label}

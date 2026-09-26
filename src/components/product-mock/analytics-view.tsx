@@ -24,7 +24,7 @@ export function AnalyticsView({ memoryCount = MEMORY.length }: { memoryCount?: n
         </span>
       </div>
 
-      <div className="grid gap-3 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
         <Panel title="Agent activity" note="Actions this week">
           <ul className="grid gap-2.5">
             {ACTIVITY.map((a) => (

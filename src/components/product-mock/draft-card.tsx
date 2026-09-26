@@ -44,7 +44,7 @@ export function DraftCard({
           {badge}
         </span>
       </div>
-      <div className="grid gap-2 px-4 py-3 text-[12.5px] leading-relaxed">
+      <div className="grid grid-cols-1 gap-2 px-4 py-3 text-[12.5px] leading-relaxed">
         <div>
           <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">Subject </span>
           <span className="text-foreground">{draft.subject}</span>

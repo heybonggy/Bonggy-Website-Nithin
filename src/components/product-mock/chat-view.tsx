@@ -21,7 +21,7 @@ export function ChatView({
   return (
     <div className="flex h-full flex-col">
       <div className="flex min-h-0 flex-1 flex-col justify-end overflow-hidden">
-        <div className="mx-auto grid w-full max-w-[760px] gap-5 px-4 pb-4 pt-6 sm:px-6">{children}</div>
+        <div className="mx-auto grid w-full max-w-[760px] grid-cols-1 gap-5 px-4 pb-4 pt-6 sm:px-6">{children}</div>
       </div>
       <div className="mx-auto w-full max-w-[760px] px-3 pb-3 sm:px-6 sm:pb-4">
         <Composer

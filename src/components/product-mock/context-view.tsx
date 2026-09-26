@@ -21,7 +21,7 @@ export function ContextView() {
   return (
     <div className="h-full overflow-hidden p-4 sm:p-5">
       <p className="m-0 mb-4 text-[12.5px] text-muted-foreground">Every agent reads this first.</p>
-      <dl className="grid gap-3 sm:grid-cols-2">
+      <dl className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         <Field label="Company">{CONTEXT.company}</Field>
         <Field label="What you sell">{CONTEXT.sells}</Field>
         <Field label="Ideal customer" wide>
