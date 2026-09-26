@@ -1,4 +1,5 @@
 import { CtaButton } from "./cta-button";
+import { EarlyAccessCta } from "./early-access-cta";
 import { BonggyMark } from "./bonggy-mark";
 
 /**
@@ -30,17 +31,27 @@ export function CtaPanel() {
           <div className="relative flex flex-col gap-8 p-10 sm:p-14 lg:p-16">
             <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.22em] text-zinc-700/80">
               <span className="size-1.5 rounded-full bg-signal" />
-              Build with us
+              Early access
             </div>
-            <h2 className="text-display max-w-[16ch] text-balance text-[34px] font-medium leading-[1.02] tracking-tight text-zinc-950 sm:text-[46px] lg:text-[58px]">
-              See your team&apos;s drift this week.
+            <h2 className="text-display max-w-[18ch] text-balance text-[34px] font-medium leading-[1.02] tracking-tight text-zinc-950 sm:text-[46px] lg:text-[58px]">
+              Build the agents.{" "}
+              <span className="text-zinc-600">Keep the conversation.</span>
             </h2>
-            <p className="max-w-[46ch] text-[15.5px] leading-relaxed text-zinc-700">
-              Bring a real quarter. In 30 minutes we&apos;ll read your
-              team&apos;s actual effort and show you where it&apos;s leaking.
+            <p className="max-w-[48ch] text-[15.5px] leading-relaxed text-zinc-700">
+              Bring a real account list. In 30 minutes we&apos;ll map your
+              market with you and sketch the first agents your team would
+              build.
             </p>
-            <div>
-              <CtaButton size="lg" variant="inverse">Book a 30-min call</CtaButton>
+            <div className="flex flex-wrap items-center gap-3">
+              <EarlyAccessCta size="lg" variant="inverse" />
+              <CtaButton
+                size="lg"
+                variant="ghost"
+                magnetic={false}
+                className="border-zinc-900/25 bg-transparent text-zinc-950 hover:border-zinc-900/40 hover:bg-zinc-900/[0.06]"
+              >
+                Book a 30-min call
+              </CtaButton>
             </div>
           </div>
         </div>
