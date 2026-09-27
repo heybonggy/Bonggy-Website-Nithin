@@ -1,68 +1,47 @@
-import { Robot, Gauge } from "@phosphor-icons/react/dist/ssr";
-import { Section } from "./section";
+import { Check } from "@phosphor-icons/react/dist/ssr";
+import { Section, SectionHeader } from "./section";
 import { CtaButton } from "./cta-button";
+import { EarlyAccessCta } from "./early-access-cta";
 
 // TODO(pricing): no plans or numbers yet. Replace with real tiers once set
-// with early-access teams.
-const PARTS = [
-  {
-    Icon: Robot,
-    title: "Active agents",
-    body: "The agents your team has running.",
-  },
-  {
-    Icon: Gauge,
-    title: "Usage",
-    body: "The research and drafting they do.",
-  },
+// with early-access teams. Keep JSON-LD free of offers/prices until then.
+const INCLUDED = [
+  "Bots for sales, RevOps and marketing",
+  "Flows with all six parts",
+  "Approvals inbox",
+  "Analytics",
+  "Company context with team overrides",
 ];
 
+/** #pricing: active bots plus usage; no public numbers yet. */
 export function PricingTeaser() {
   return (
-    <Section id="pricing" eyebrow="Pricing">
-      <div className="terminal-corners relative grid grid-cols-1 gap-10 rounded-lg border border-border/80 bg-card/60 p-6 sm:p-10 lg:grid-cols-[1.2fr_1fr] lg:gap-16 lg:p-12">
+    <Section id="pricing" aria-labelledby="pricing-title" card>
+      <div className="grid gap-10 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:gap-16">
         <div>
-          <h2 className="text-display text-balance text-[36px] font-normal leading-none tracking-tight sm:text-[44px] lg:text-[56px]">
-            Pay for the agents you run.{" "}
-            <span className="text-muted-foreground/85">Plus what they use.</span>
-          </h2>
-          <p className="mt-6 max-w-[52ch] text-[16px] leading-relaxed text-muted-foreground">
-            Pricing is based on active agents plus usage. We&apos;re setting
-            plans with our early-access teams, so there are no public numbers
-            yet.
-          </p>
-          <div className="mt-8">
-            <CtaButton
-              size="lg"
-              variant="primary"
-              className="h-auto min-h-11 w-full whitespace-normal py-3 text-center sm:w-auto"
-            >
-              Talk to us about early access
+          <SectionHeader
+            title={<span id="pricing-title">Pay for the bots you run.</span>}
+            muted="Plus what they use."
+            intro="Pricing is based on active bots plus usage. Flow runs count toward usage. We're setting plans with early-access teams, so there are no public numbers yet."
+          />
+          <div className="mt-8 flex flex-wrap gap-3">
+            <CtaButton size="lg" variant="primary">
+              Book a 30-min call
             </CtaButton>
+            <EarlyAccessCta size="lg" variant="soft" />
           </div>
         </div>
-
-        <ul className="grid grid-cols-1 gap-3 self-center sm:grid-cols-2 lg:grid-cols-1">
-          {PARTS.map(({ Icon, title, body }, i) => (
-            <li
-              key={title}
-              className="flex items-start gap-4 rounded-md border border-border/70 bg-background/50 p-5"
-            >
-              <span className="flex size-9 shrink-0 items-center justify-center rounded-md bg-signal/10 text-signal">
-                <Icon weight="regular" className="size-4.5" aria-hidden />
-              </span>
-              <div>
-                <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
-                  {i === 0 ? "Based on" : "Plus"}
-                </div>
-                <h3 className="mt-1 text-[17px] font-normal tracking-tight text-foreground">
-                  {title}
-                </h3>
-                <p className="mt-1 text-[14px] leading-relaxed text-muted-foreground">{body}</p>
-              </div>
-            </li>
-          ))}
-        </ul>
+        <div className="self-center rounded-2xl bg-background p-5 sm:p-6">
+          <h3 className="text-ui font-semibold text-foreground">Included</h3>
+          <ul className="mt-4 flex flex-col gap-3">
+            {INCLUDED.map((item) => (
+              <li key={item} className="flex items-start gap-3 text-ui text-fg-2">
+                <Check weight="bold" className="mt-0.5 size-4 shrink-0 text-foreground" aria-hidden />
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </Section>
   );
