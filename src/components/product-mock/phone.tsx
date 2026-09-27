@@ -67,8 +67,10 @@ export function PhoneChatHeader({
   status,
   statusLabel,
   character = "idle",
+  avatarLayoutId,
   right,
 }: {
+  avatarLayoutId?: string;
   botId?: string;
   title: string;
   subtitle?: string;
@@ -80,7 +82,11 @@ export function PhoneChatHeader({
   return (
     <div className="flex shrink-0 items-center gap-2.5 border-b-[0.5px] border-border-strong px-3 pb-2.5 pt-1">
       <CaretLeft weight="bold" className="size-5 shrink-0 text-fg-2" aria-hidden />
-      {botId ? <BotAvatar botId={botId} size={30} state={character} /> : null}
+      {botId ? (
+        <motion.span layoutId={avatarLayoutId} className="inline-flex" transition={{ type: "spring", stiffness: 340, damping: 32, mass: 0.9 }}>
+          <BotAvatar botId={botId} size={30} state={character} />
+        </motion.span>
+      ) : null}
       <span className="min-w-0 flex-1">
         <span className="block truncate text-[14px] font-semibold text-foreground">{title}</span>
         {status ? (

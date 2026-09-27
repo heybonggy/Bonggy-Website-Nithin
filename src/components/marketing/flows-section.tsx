@@ -31,6 +31,7 @@ import {
   PhoneComposer,
 } from "@/components/product-mock";
 import { Section, SectionHeader } from "./section";
+import { BotAvatar } from "@/components/ui/mascot";
 import { useLoopFocus } from "./loop-focus";
 
 type State = {
@@ -100,7 +101,7 @@ export function FlowsSection() {
   };
 
   return (
-    <Section id="flows" card aria-labelledby="flows-title">
+    <Section id="flows" card peek={<BotAvatar botId="pipeline-watch" size={48} state="idle" interactive />} aria-labelledby="flows-title">
       <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-end">
         <SectionHeader
           title={<span id="flows-title">Every bot runs a flow you design.</span>}

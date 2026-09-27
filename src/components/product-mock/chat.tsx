@@ -64,7 +64,7 @@ export function UserBubble({ text, limit, className }: { text: string; limit?: s
 function BubbleName({ botId, name }: { botId?: string; name: string }) {
   const look = useBotLook(botId);
   return (
-    <span className="font-medium text-[var(--bot-ink)]" style={botColorVars(look.color)}>
+    <span className="rounded-full bg-[var(--bot-tint)] px-2 py-px font-medium text-[var(--bot-ink)]" style={botColorVars(look.color)}>
       {name}
     </span>
   );

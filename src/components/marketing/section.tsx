@@ -6,6 +6,10 @@ type SectionProps = Omit<React.ComponentPropsWithoutRef<"section">, "title"> & {
   width?: "content" | "wide";
   /** Wrap the content in a gray surface card (rounded-3xl). */
   card?: boolean;
+  /** A full-width surface band instead of a card. */
+  band?: boolean;
+  /** A bot peeking over the card's top edge (cards only). */
+  peek?: React.ReactNode;
   containerClassName?: string;
 };
 
@@ -13,21 +17,29 @@ type SectionProps = Omit<React.ComponentPropsWithoutRef<"section">, "title"> & {
 export function Section({
   width = "wide",
   card = false,
+  band = false,
+  peek,
   className,
   containerClassName,
   children,
   ...rest
 }: SectionProps) {
   return (
-    <section {...rest} className={cn("px-4 py-20 sm:px-6 sm:py-24", className)}>
+    <section {...rest} className={cn("px-4 py-20 sm:px-6 sm:py-24", band && "bg-surface", className)}>
       <div
         className={cn(
-          "mx-auto w-full",
+          "relative mx-auto w-full",
           width === "content" ? "max-w-content" : "max-w-wide",
           card && "rounded-3xl bg-surface p-6 sm:p-10",
           containerClassName,
         )}
       >
+        {card && peek ? (
+          // Only the top of the bot shows above the card edge.
+          <span className="pointer-events-none absolute right-10 top-0 h-9 w-14 -translate-y-full overflow-hidden sm:right-16">
+            <span className="pointer-events-auto absolute left-1 top-2">{peek}</span>
+          </span>
+        ) : null}
         {children}
       </div>
     </section>
@@ -50,14 +62,18 @@ export function SectionHeader({
   muted?: React.ReactNode;
   intro?: React.ReactNode;
   kicker?: string;
-  align?: "left" | "center";
+  align?: "left" | "center" | "right";
   className?: string;
 }) {
   return (
     <div
       className={cn(
         "flex flex-col gap-4",
-        align === "center" ? "mx-auto max-w-2xl items-center text-center" : "max-w-copy",
+        align === "center"
+          ? "mx-auto max-w-2xl items-center text-center"
+          : align === "right"
+            ? "ml-auto max-w-copy items-end text-right"
+            : "max-w-copy",
         className,
       )}
     >

@@ -150,11 +150,11 @@ const CARDS = [
 /** #how-it-works: the loop every flow runs on, as four live cards. */
 export function HowItWorks() {
   return (
-    <Section id="how-it-works" aria-labelledby="how-title">
+    <Section id="how-it-works" band aria-labelledby="how-title">
       <SectionHeader title={<span id="how-title">Every flow runs on one loop.</span>} />
       <ul className="mt-10 grid gap-4 md:grid-cols-2">
         {CARDS.map(({ title, lead, rest, Stage }) => (
-          <li key={title} className="reveal flex flex-col overflow-hidden rounded-3xl bg-surface">
+          <li key={title} className="reveal flex flex-col overflow-hidden rounded-3xl bg-background shadow-e1">
             <div aria-hidden className="h-[230px] border-b border-border bg-surface-sunken">
               <Stage />
             </div>

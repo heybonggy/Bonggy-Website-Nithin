@@ -75,7 +75,7 @@
   --status-muted: var(--gray-600);
   --status-track: var(--gray-200);
   --hatch: repeating-linear-gradient(135deg, rgb(10 10 10 / 0.18) 0 1px, transparent 1px 5px);
-  --hatch-faint: repeating-linear-gradient(135deg, rgb(10 10 10 / 0.04) 0 1px, transparent 1px 6px);
+  --hatch-faint: repeating-linear-gradient(135deg, rgb(10 10 10 / 0.07) 0 1px, transparent 1px 6px);
   --sweep-ink: rgb(10 10 10 / 0.12);
 
   /* the one functional accent: errors + destructive confirmation only */
@@ -162,7 +162,7 @@
   --status-muted: #9f9f9d;
   --status-track: #333333;
   --hatch: repeating-linear-gradient(135deg, rgb(255 255 255 / 0.20) 0 1px, transparent 1px 5px);
-  --hatch-faint: repeating-linear-gradient(135deg, rgb(255 255 255 / 0.05) 0 1px, transparent 1px 6px);
+  --hatch-faint: repeating-linear-gradient(135deg, rgb(255 255 255 / 0.06) 0 1px, transparent 1px 6px);
   --sweep-ink: rgb(255 255 255 / 0.12);
   --danger: #f97066;              /* 6.2:1 on bg, 5.4:1 on surface-2 */
   --danger-wash: rgb(249 112 102 / 0.12);

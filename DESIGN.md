@@ -103,7 +103,7 @@ Geist Sans for everything; Geist Mono only for inline `code` in bot messages. Lo
 ## 4. Layout
 
 - Containers: `max-w-prose` (36rem), `max-w-copy` (42rem), `max-w-window` (49rem), `max-w-content` (64rem), `max-w-wide` (80rem).
-- Section rhythm: `<Section>` gives `px-4 py-20 sm:px-6 sm:py-24` and a centred container (`width="wide"` default, or `"content"`). `card` wraps content in `rounded-3xl bg-surface p-6 sm:p-10`, with the mock raised on it. Flows, groups, approvals, analytics and pricing sit in cards; teams, context and FAQ stay on the white page, so the rhythm alternates. Heading to mock: 40px.
+- Section rhythm: `<Section>` gives `px-4 py-20 sm:px-6 sm:py-24` and a centred container (`width="wide"` default, or `"content"`). `card` wraps content in `rounded-3xl bg-surface p-6 sm:p-10`, with the mock raised on it. Flows, groups, approvals, analytics and pricing sit in cards; teams, context and FAQ stay on the white page; How it works is a full-width surface band. Headings alternate: flows and approvals left, groups right. Two cards (flows, approvals) have a bot peeking over the top edge (`Section peek`), which reacts when clicked. Heading to mock: 40px.
 - `<SectionHeader title muted intro kicker align>` for every section heading.
 - Anchors get `scroll-margin-top` from `[id]` in globals, so the fixed 64px header never covers them.
 - Mobile first. Everything must work at 375px with a 16px gutter, no horizontal scroll, and tap targets of at least 44px (small pills extend their hit area with an `after:` inset).
@@ -115,7 +115,7 @@ Geist Sans for everything; Geist Mono only for inline `code` in bot messages. Lo
 - Radii: `2xs` 2, `xs` 4, `sm` 6, `md` 10, `lg` 12, `xl` 16, `2xl` 20, `3xl` 24, `4xl` 32. Buttons and pills are `rounded-full`. Section cards and the app window are `rounded-3xl`; flow cards `rounded-2xl`; bubbles and result cards `rounded-xl`; rows `rounded-md`.
 - Shadows: `shadow-e1` (resting card), `e2` (floating composer, tables), `e3` (menus), `e4` (modal), `shadow-window` (app window, phone), `shadow-knob` (switch).
 - `hairline` / `hairline-strong` draw a 1px inset ring instead of a border.
-- `hatch-faint` (4% ink, 5% white in dark) is the only page texture: the plate behind the hero window, masked to fade out at the bottom.
+- `hatch-faint` (7% ink, 6% white in dark) is the only page texture: the plates behind the hero window and the phones, masked to fade out at the bottom.
 - `fade-y` masks both edges of a scroller; `fade-t` masks only the top (chat transcripts that grow from the bottom).
 
 ---
@@ -161,6 +161,8 @@ The Bonggy logo is the **planet mark** ([`ui/logo.tsx`](src/components/ui/logo.t
 - **Defaults** ([`data.ts`](src/components/product-mock/data.ts) `DEFAULT_LOOKS`): every bot is distinct (Champion Tracker coral pebble, Deal Coach graphite squircle with a visor, Pipeline Watch sky round with dots, Campaign Researcher violet blob with glasses, Inbound Router teal capsule with a headset…). The team is carried by the team tag, not the avatar.
 - **Store** ([`bot-looks.ts`](src/components/product-mock/bot-looks.ts)): `useBotLook(botId)` on `useSyncExternalStore`, saved in `localStorage["bonggy:bot-looks:v1"]` as partial looks over the defaults and validated on read. The server snapshot is the defaults, and an unsaved bot returns the same default object on the client, so hydration never re-renders. Tabs sync through `storage`. A change updates the bot everywhere at once.
 - **"Make it yours"** (`#make-it-yours`, after "A bot for every job", in the Product menu): pick a bot, then a colour (8 swatches in a radiogroup), shape, eyes and accessory (44px chips with a live mini preview). Arrow keys move and select; changes are announced politely ("Deal Coach is now sky"). Reset, and "saved on this device". A 160px live preview reacts (excited for 1.2s on each change; click for reactions), with a sidebar row and a bubble showing the accents.
+- **Naming moment.** When Champion Tracker names itself in the hero, it appears at 72px in the chat (waking, then excited), then a shared-layout move (`layoutId`) shrinks it into its sidebar row (desktop) or header (phone).
+- **Bubble names** sit in a small chip in the bot's tint with its ink.
 - **Hero tie-in.** After the hero take ends, a line under the demo, "customise champion tracker →" (a real button outside the inert demo, in a reserved 44px slot), jumps to the customiser with that bot selected.
 - **Performance.** NumberFlow mounts lazily (`LazyNumber`): plain numbers until a table scrolls in or a filter changes. Mounting it everywhere on load cost about 1.4s of style and layout on a throttled phone.
 

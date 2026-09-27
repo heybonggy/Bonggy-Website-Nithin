@@ -132,6 +132,7 @@ export function GroupsSection() {
   return (
     <Section id="groups" card aria-labelledby="groups-title">
       <SectionHeader
+        align="right"
         title={<span id="groups-title">Bots hand off work.</span>}
         intro="Put bots from different teams in one group. Marketing's research reaches sales without anyone copying it across."
       />

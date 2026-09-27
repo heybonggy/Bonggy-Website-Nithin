@@ -39,7 +39,7 @@ import {
   type Timeline,
 } from "@/components/product-mock";
 import { motion } from "motion/react";
-import { Mascot } from "@/components/ui/mascot";
+import { BotAvatar, Mascot } from "@/components/ui/mascot";
 import { SPRING, usePrefersReducedMotion } from "./_motion";
 import { CUSTOMISE_EVENT } from "./make-it-yours";
 import { ArrowRight, PaintBrush } from "@phosphor-icons/react/dist/ssr";
@@ -71,6 +71,8 @@ type State = {
   pending: "none" | "reply" | "found";
   reply: boolean;
   named: boolean;
+  /** The naming moment: the character shows big in the chat. */
+  hatch: boolean;
   parts: FlowPart[];
   status: StatusKind;
   statusLabel?: string;
@@ -87,6 +89,7 @@ const INITIAL: State = {
   pending: "none",
   reply: false,
   named: false,
+  hatch: false,
   parts: [],
   status: "off",
   statusLabel: "draft",
@@ -112,7 +115,8 @@ const TIMELINE: Timeline<Partial<State>> = [
   { action: { composer: "", user: true, cursor: CURSOR_IDLE }, hold: 300 },
   { action: { pending: "reply" }, hold: pendingDuration(REPLY, HERO_PACE) },
   { action: { pending: "none", reply: true }, hold: readDuration(REPLY) },
-  { action: { named: true }, hold: 600 },
+  { action: { named: true, hatch: true }, hold: 1500 },
+  { action: { hatch: false }, hold: 300 },
   ...FLOW_PARTS.map((_, i) => ({ action: { parts: FLOW_PARTS.slice(0, i + 1) }, hold: 420 })),
   { action: { status: "scheduled" as const, statusLabel: "daily 07:00" }, hold: 900 },
   { action: { tomorrow: true, status: "running" as const, statusLabel: "running" }, hold: 500 },
@@ -183,11 +187,18 @@ export function HeroDemo() {
   const fresh = s.status === "off" ? (s.parts.at(-1) ?? null) : null;
   const trackerStatus: StatusKind = s.named ? s.status : "off";
 
-  const messages = (
+  const renderMessages = (where: "desk" | "phone") => (
     <>
               {s.user ? <UserBubble text={INSTRUCTION} /> : null}
               {s.pending === "reply" ? <PendingRow label="thinking" botId="champion-tracker" /> : null}
               {s.reply ? <BotBubble botId="champion-tracker" name="new bot" time="mon 16:40" text={REPLY} /> : null}
+              {s.hatch ? (
+                <div className="flex justify-center py-2">
+                  <motion.span layoutId={`ct-${where}`} className="inline-flex" transition={SPRING.morph}>
+                    <BotAvatar botId="champion-tracker" size={72} state="excited" />
+                  </motion.span>
+                </div>
+              ) : null}
               {s.named ? <SystemLine text="named itself **champion tracker**" /> : null}
               {s.named ? (
                 <BotBubble botId="champion-tracker">
@@ -237,10 +248,11 @@ export function HeroDemo() {
     <>
       {TEAM_LIST.map((t) => (
         <SidebarTeam key={t.id} team={t.id}>
-          {t.id === "sales" && s.named ? (
+          {t.id === "sales" && s.named && !s.hatch ? (
             <div data-bot-row="champion-tracker">
             <BotRow
               bot={CHAMPION_TRACKER}
+              avatarLayoutId="ct-desk"
               active
               fresh
               status={trackerStatus}
@@ -276,7 +288,7 @@ export function HeroDemo() {
         <AppWindow screen="bots" title={s.named ? "Champion Tracker" : "new bot"} sidebar={sidebar} className="lg:h-[560px]">
           <div ref={transcriptRef} className="fade-t flex min-h-0 flex-1 flex-col gap-4 overflow-hidden px-4 pb-2 pt-8 sm:px-6">
             <div className="mx-auto flex w-full max-w-[600px] flex-col gap-4">
-              {messages}
+              {renderMessages("desk")}
             </div>
             {/* Room below the newest message so it can scroll up into view. */}
             <div aria-hidden className="h-[260px] shrink-0" />
@@ -314,7 +326,8 @@ export function HeroDemo() {
       <div ref={phoneRef} className="relative">
         <PhoneFrame plate={false}>
           <PhoneChatHeader
-            botId={s.named ? "champion-tracker" : undefined}
+            botId={s.named && !s.hatch ? "champion-tracker" : undefined}
+            avatarLayoutId="ct-phone"
             title={s.named ? "Champion Tracker" : "new bot"}
             subtitle={s.named ? undefined : "describe the work in a sentence"}
             status={s.named ? trackerStatus : undefined}
@@ -328,7 +341,7 @@ export function HeroDemo() {
                 <p className="max-w-[26ch] text-ui-sm text-fg-3">describe the work in a sentence. i&apos;ll turn it into a flow.</p>
               </div>
             ) : null}
-            {messages}
+            {renderMessages("phone")}
           </PhoneTranscript>
           <PhoneComposer value={s.composer} caret={!s.user} keyboard={!!s.composer && !s.user} />
         </PhoneFrame>

@@ -2,7 +2,9 @@
 
 import type * as React from "react";
 import { cn } from "@/lib/utils";
+import { motion } from "motion/react";
 import { BotAvatar } from "@/components/ui/mascot";
+import { SPRING } from "@/components/marketing/_motion";
 import { botColorVars } from "@/components/ui/bot-look";
 import { useBotLook } from "./bot-looks";
 import type { Bot, StatusKind } from "./data";
@@ -22,8 +24,11 @@ export function BotRow({
   status,
   preview,
   time,
+  avatarLayoutId,
   className,
 }: {
+  /** Shared-layout id for the avatar (a character moving into its row). */
+  avatarLayoutId?: string;
   bot: Bot;
   active?: boolean;
   /** Newly created: slides in. */
@@ -47,7 +52,9 @@ export function BotRow({
     >
       {active ? <ActiveBar botId={bot.id} /> : null}
       <span className="relative shrink-0">
-        <BotAvatar botId={bot.id} size={32} state={s === "running" ? "working" : s === "needs-you" ? "waiting" : s === "done" ? "happy" : s === "off" ? "drowsy" : "idle"} />
+        <motion.span layoutId={avatarLayoutId} className="inline-flex" transition={SPRING.morph}>
+          <BotAvatar botId={bot.id} size={32} state={s === "running" ? "working" : s === "needs-you" ? "waiting" : s === "done" ? "happy" : s === "off" ? "drowsy" : "idle"} />
+        </motion.span>
         {badge ? (
           <span
             className={cn(
