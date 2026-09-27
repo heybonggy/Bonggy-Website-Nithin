@@ -24,6 +24,12 @@ type Options<S, A> = {
   focused?: boolean;
   /** Restart from the top after this many ms at the end. Off by default. */
   loopAfter?: number;
+  /**
+   * What to show before the demo starts (and on the server / without JS):
+   * "end" for the finished take, or a step index for a mid-take frame.
+   * Without it, the initial state shows.
+   */
+  poster?: "end" | number;
 };
 
 export type DemoPlayer<S> = {
@@ -33,6 +39,14 @@ export type DemoPlayer<S> = {
   done: boolean;
   /** Element is out of view: pause CSS animations via data-demo-offscreen. */
   offscreen: boolean;
+  /**
+   * "poster": not started yet, `state` is the poster frame.
+   * "live": playing (or finished / skipped) from step 0.
+   * "static": reduced motion, `state` is the end state.
+   */
+  phase: "poster" | "live" | "static";
+  /** The finished take, for rendering it as history above a live take. */
+  end: S;
   skip: () => void;
   replay: () => void;
 };
@@ -54,6 +68,7 @@ export function useDemoPlayer<S, A>({
   startDelay = 1000,
   focused = true,
   loopAfter,
+  poster,
 }: Options<S, A>): DemoPlayer<S> {
   const reduced = usePrefersReducedMotion();
   const total = timeline.length;
@@ -66,10 +81,16 @@ export function useDemoPlayer<S, A>({
   const effectiveIndex = reduced || skipped ? total : index;
   const done = effectiveIndex >= total;
 
-  const state = React.useMemo(
-    () => timeline.slice(0, effectiveIndex).reduce<S>((s, step) => reducer(s, step.action), initial),
-    [timeline, reducer, initial, effectiveIndex],
+  const phase: DemoPlayer<S>["phase"] = reduced ? "static" : started || skipped ? "live" : "poster";
+  const posterIndex = poster === "end" ? total : (poster ?? 0);
+  const shownIndex = phase === "poster" ? posterIndex : effectiveIndex;
+
+  const fold = React.useCallback(
+    (n: number) => timeline.slice(0, n).reduce<S>((s, step) => reducer(s, step.action), initial),
+    [timeline, reducer, initial],
   );
+  const state = React.useMemo(() => fold(shownIndex), [fold, shownIndex]);
+  const end = React.useMemo(() => fold(total), [fold, total]);
 
   // Visibility of the element: start once past `startAt` (or past
   // `startWhenVisiblePx`), pause when out.
@@ -153,5 +174,5 @@ export function useDemoPlayer<S, A>({
     return () => window.removeEventListener("keydown", onKey);
   }, [playing, skip]);
 
-  return { state, playing, done, offscreen: started && !inView, skip, replay };
+  return { state, playing, done, offscreen: started && !inView, skip, replay, phase, end };
 }

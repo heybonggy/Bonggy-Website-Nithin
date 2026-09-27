@@ -149,6 +149,8 @@ Rules:
 - **The hero starts without scrolling.** It uses a pixel rule instead (`startWhenVisiblePx: 160`, `notBeforeMs`: 600ms after the 1.5s intro), never loops, and runs a short take (about 14s, `pendingDuration(…, 0.7)`). Its composer floats in the window's top third until you send, then docks to the bottom. The transcript fills from the top and scrolls each new message near the top of the pane, because on a laptop only the top of the window is above the fold. At lg the H1 is two lines at `text-display-xl`.
 - Timing helpers ([`demo/types.ts`](src/components/product-mock/demo/types.ts)): bot "thinking" = min(1900 + 22×words, 3000)ms × pace; reading = clamp(420 + 32×words, 700, 1700)ms; composer typing in chunks of 1–3 words every 70–110ms, capped at 2.4s; cursor travel clamp(320, 1.05×distance, 850)ms + 80ms press; approval "sending" 1600ms.
 - Skip: a transparent overlay catches pointer-down anywhere on a playing demo; Escape skips too.
+- **No empty panes.** `poster: "end"` renders the finished take on the server and before playback. When playback starts (`phase: "live"`), `<TakeHistory>` dims that take to 40% over 300ms as chat history above a divider, and the new take builds below it. Reduced motion (`phase: "static"`) shows only the end state. The hero's poster is its starting frame (full sidebar, visible composer), since it plays about 2s after load.
+- The history copy never carries `data-cursor-target`, so the scripted cursor only clicks the live take.
 - Team tabs auto-advance 4s after a take ends, until someone picks a tab.
 
 ---

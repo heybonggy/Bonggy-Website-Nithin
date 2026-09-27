@@ -11,13 +11,14 @@ import {
   PendingRow,
   SidebarTeam,
   SystemLine,
+  TakeHistory,
   botById,
   pendingDuration,
   readDuration,
   useDemoPlayer,
   type Timeline,
 } from "@/components/product-mock";
-import { GroupAvatar } from "@/components/ui/mascot";
+import { GroupAvatar, type Team } from "@/components/ui/mascot";
 import { Section, SectionHeader } from "./section";
 import { useLoopFocus } from "./loop-focus";
 
@@ -51,6 +52,17 @@ const TIMELINE: Timeline<Partial<State>> = [
 const SUMMARY =
   "Demo: a group called Marketing → Sales handoff with three bots: Campaign Researcher, Deal Coach and Inbound Router. Campaign Researcher posts the top pains from 24 calls (slow onboarding, manual quotes, no forecast view) and hands them to Deal Coach. Deal Coach adds the matching pain to each stuck deal's next-step note and sends nothing.";
 
+function Take({ s, researcherTeam }: { s: State; researcherTeam: Team }) {
+  return (
+    <>
+      {s.research ? <BotBubble team={researcherTeam} text={RESEARCH} /> : null}
+      {s.system ? <SystemLine text="**Campaign Researcher** handed off to **Deal Coach**" /> : null}
+      {s.coach ? <BotBubble team="sales" text={COACH} /> : null}
+      {s.pending ? <PendingRow label="working" /> : null}
+    </>
+  );
+}
+
 /** #groups: bots from different teams in one group, handing off work. */
 export function GroupsSection() {
   const frameRef = React.useRef<HTMLDivElement>(null);
@@ -62,6 +74,7 @@ export function GroupsSection() {
     ref: frameRef,
     focused,
     loopAfter: 4000,
+    poster: "end",
   });
   const s = player.state;
   const members = HANDOFF_GROUP.members.map(botById);
@@ -96,8 +109,8 @@ export function GroupsSection() {
         offscreen={player.offscreen}
         onSkip={player.skip}
       >
-        <AppWindow screen="bots" title={HANDOFF_GROUP.name} sidebar={sidebar} className="lg:h-[560px]">
-          <div className="flex items-center justify-end gap-3 border-b sm:justify-between-[0.5px] border-border-strong px-4 py-2.5 sm:px-6">
+        <AppWindow screen="bots" title={HANDOFF_GROUP.name} sidebar={sidebar} className="sm:h-[520px] lg:h-[520px]">
+          <div className="flex items-center justify-end gap-3 border-b-[0.5px] border-border-strong px-4 py-2.5 sm:justify-between sm:px-6">
             <span className="hidden text-caption text-fg-3 sm:inline">group · marketing and sales</span>
             <HandoffPill
               members={members.map((m) => ({ id: m.id, team: m.team }))}
@@ -107,10 +120,12 @@ export function GroupsSection() {
           </div>
           <div className="fade-t flex min-h-0 flex-1 flex-col justify-end overflow-hidden px-4 pb-6 pt-8 sm:px-6">
             <div className="mx-auto flex w-full max-w-[600px] flex-col gap-4">
-              {s.research ? <BotBubble team={researcher.team} text={RESEARCH} /> : null}
-              {s.system ? <SystemLine text="**Campaign Researcher** handed off to **Deal Coach**" /> : null}
-              {s.coach ? <BotBubble team="sales" text={COACH} /> : null}
-              {s.pending ? <PendingRow label="working" /> : null}
+              {player.phase === "live" ? (
+                <TakeHistory label="today">
+                  <Take s={player.end} researcherTeam={researcher.team} />
+                </TakeHistory>
+              ) : null}
+              <Take s={s} researcherTeam={researcher.team} />
             </div>
           </div>
         </AppWindow>

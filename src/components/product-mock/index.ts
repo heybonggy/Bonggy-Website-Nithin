@@ -23,3 +23,4 @@ export { ScriptedCursor, CURSOR_IDLE, type CursorState } from "./scripted-cursor
 export { DemoFrame } from "./demo-frame";
 export * from "./demo/types";
 export { useDemoPlayer, type DemoPlayer } from "./demo/player";
+export { TakeHistory } from "./take-history";

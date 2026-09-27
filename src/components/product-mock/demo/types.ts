@@ -2,7 +2,8 @@
  * Scripted demos (DESIGN.md §8). A demo is a list of steps. Each step applies
  * one action to the demo's state, then holds for `hold` ms of virtual time
  * before the next step. The end state is every action applied in order, which
- * is what reduced motion, skip, and the server render show.
+ * is what reduced motion and skip show. Before a demo starts (and on the
+ * server), the player shows its `poster` frame, or the initial state if none.
  */
 export type DemoStep<A> = { action: A; hold: number };
 

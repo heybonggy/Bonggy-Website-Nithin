@@ -14,6 +14,7 @@ import {
   PillTabs,
   ScriptedCursor,
   SystemLine,
+  TakeHistory,
   TEAM_TAKES,
   UserBubble,
   botById,
@@ -25,7 +26,7 @@ import {
   type TeamTake,
   type Timeline,
 } from "@/components/product-mock";
-import { BotAvatar } from "@/components/ui/mascot";
+import { BotAvatar, type Team } from "@/components/ui/mascot";
 import { cn } from "@/lib/utils";
 import { Section, SectionHeader } from "./section";
 import { useLoopFocus } from "./loop-focus";
@@ -81,6 +82,33 @@ function summaryFor(take: TeamTake) {
   return `Demo: you tell ${bot.name} “${take.instruction}” The flow saves as ${take.flowSaved}, with the hard limit “${take.limit}” The bot reports: ${take.report} You ${take.human}. It confirms: ${take.confirmation}`;
 }
 
+/** One take's bubbles. `history` drops the cursor target so the scripted
+    cursor only ever clicks the live take. */
+function TakeBubbles({ take, s, team, history = false }: { take: TeamTake; s: State; team: Team; history?: boolean }) {
+  return (
+    <>
+      {s.sent ? <UserBubble text={take.instruction} limit={take.limit} /> : null}
+      {s.saved ? <SystemLine text={`flow saved · **${take.flowSaved}**`} /> : null}
+      {s.report ? (
+        <BotBubble team={team} text={take.report.toLowerCase()}>
+          <span
+            data-cursor-target={history ? undefined : "human"}
+            className={cn(
+              "inline-flex h-7 w-fit items-center gap-1 rounded-full px-3 text-caption font-medium",
+              s.acted ? "bg-surface-2 text-foreground" : "bg-surface-inverse text-fg-inverse",
+            )}
+          >
+            {s.acted ? <Check weight="bold" className="size-3 animate-check-in" aria-hidden /> : null}
+            {take.human}
+          </span>
+        </BotBubble>
+      ) : null}
+      {s.confirmed ? <BotBubble team={team} text={take.confirmation} /> : null}
+      {s.pending ? <PendingRow label="working" /> : null}
+    </>
+  );
+}
+
 function TakeDemo({ take, onDone }: { take: TeamTake; onDone: () => void }) {
   const frameRef = React.useRef<HTMLDivElement>(null);
   const phoneRef = React.useRef<HTMLDivElement>(null);
@@ -93,6 +121,7 @@ function TakeDemo({ take, onDone }: { take: TeamTake; onDone: () => void }) {
     ref: frameRef,
     focused,
     startDelay: 600,
+    poster: "end",
   });
   const s = player.state;
   const bot = botById(take.botId);
@@ -124,27 +153,15 @@ function TakeDemo({ take, onDone }: { take: TeamTake; onDone: () => void }) {
             </span>
           </div>
           <div className="fade-t flex min-h-0 flex-1 flex-col justify-end gap-3 overflow-hidden px-3 pb-2 pt-6">
-            {s.sent ? <UserBubble text={take.instruction} limit={take.limit} /> : null}
-            {s.saved ? <SystemLine text={`flow saved · **${take.flowSaved}**`} /> : null}
-            {s.report ? (
-              <BotBubble team={bot.team} text={take.report.toLowerCase()}>
-                <span
-                  data-cursor-target="human"
-                  className={cn(
-                    "inline-flex h-7 w-fit items-center gap-1 rounded-full px-3 text-caption font-medium",
-                    s.acted ? "bg-surface-2 text-foreground" : "bg-surface-inverse text-fg-inverse",
-                  )}
-                >
-                  {s.acted ? <Check weight="bold" className="size-3 animate-check-in" aria-hidden /> : null}
-                  {take.human}
-                </span>
-              </BotBubble>
+            {player.phase === "live" ? (
+              <TakeHistory label="this week">
+                <TakeBubbles take={take} s={player.end} team={bot.team} history />
+              </TakeHistory>
             ) : null}
-            {s.confirmed ? <BotBubble team={bot.team} text={take.confirmation} /> : null}
-            {s.pending ? <PendingRow label="working" /> : null}
+            <TakeBubbles take={take} s={s} team={bot.team} />
           </div>
           <div className="px-2.5 pb-3">
-            <ChatComposer value={s.composer} caret={!s.sent} className="shadow-e1" />
+            <ChatComposer value={player.phase === "poster" ? "" : s.composer} caret={!s.sent || player.phase === "poster"} className="shadow-e1" />
           </div>
         </PhoneFrame>
         <ScriptedCursor containerRef={phoneRef} cursor={s.cursor} />
