@@ -198,7 +198,7 @@
   --sidebar-ring: var(--ring);
 
   /* Bot palette, dark: same discs, lighter inks, deep tints. */
-  --bot-graphite-ink: #e6e6e4; --bot-graphite-tint: #2a2a2a; --bot-graphite-ring: rgb(255 255 255 / 0.18);
+  --bot-graphite-disc: #3a3a3a; --bot-graphite-ink: #e6e6e4; --bot-graphite-tint: #2a2a2a; --bot-graphite-ring: rgb(255 255 255 / 0.3);
   --bot-coral-ink: #ff9a85; --bot-coral-tint: #422823; --bot-coral-ring: transparent;
   --bot-amber-ink: #f7c261; --bot-amber-tint: #41341d; --bot-amber-ring: transparent;
   --bot-lime-ink: #a6dd72; --bot-lime-tint: #2c3a20; --bot-lime-ring: transparent;

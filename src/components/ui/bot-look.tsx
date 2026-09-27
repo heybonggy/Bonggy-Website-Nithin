@@ -116,7 +116,7 @@ export function BotFace({ look, happy = false, size }: { look: BotLook; happy?: 
   const showAcc = size >= 20 && look.accessory !== "none";
   return (
     <svg viewBox="-8 -16 116 116" className="block size-full overflow-visible" style={botColorVars(look.color)}>
-      <path d={BODY[look.shape]} fill="var(--bot-disc)" stroke="var(--bot-ring)" strokeWidth={2.5} />
+      <path d={BODY[look.shape]} fill="var(--bot-disc)" stroke="var(--bot-ring)" strokeWidth={1.5} vectorEffect="non-scaling-stroke" />
       <Eyes eyes={look.eyes} happy={happy} />
       {showAcc ? <Accessory accessory={look.accessory} /> : null}
     </svg>

@@ -51,11 +51,11 @@ shadcn names (`card`, `muted`, `primary`, …) are mapped onto these for compati
 
 ### 2.4 Bot palette
 
-Eight curated colours, as tokens in `:root` (dark overrides ink, tint and ring). **disc** is the avatar fill in both themes; **ink** is text or icons in that colour; **tint** is a pill or bubble background. Faces are drawn in #141414, except on graphite (#ffffff). Every ink is at least 4.7:1 on its own tint and on the page, in both themes. Discs under 3:1 against the page get a 1px ring (amber, lime, teal and sky on white; graphite on graphite dark).
+Eight curated colours, as tokens in `:root` (dark overrides ink, tint and ring). **disc** is the avatar fill in both themes; **ink** is text or icons in that colour; **tint** is a pill or bubble background. Faces are drawn in #141414, except on graphite (#ffffff). Every ink is at least 4.7:1 on its own tint and on the page, in both themes. Discs under 3:1 against the page get a ring, a fixed 1.5px at every size (amber, lime, teal and sky on white at 12% ink; graphite in dark at 30% white, with its disc lifted to #3a3a3a).
 
 | name | disc | light ink / tint | dark ink / tint |
 |---|---|---|---|
-| graphite (default) | #2b2b2b | #2b2b2b / #e1e1e1 | #e6e6e4 / #2a2a2a |
+| graphite (default) | #2b2b2b (dark: #3a3a3a) | #2b2b2b / #e1e1e1 | #e6e6e4 / #2a2a2a |
 | coral | #f2644a | #b93a22 / #fde9e6 | #ff9a85 / #422823 |
 | amber | #f0a524 | #8f5a00 / #fdf2e0 | #f7c261 / #41341d |
 | lime | #7cc639 | #3f7a12 / #edf7e3 | #a6dd72 / #2c3a20 |
