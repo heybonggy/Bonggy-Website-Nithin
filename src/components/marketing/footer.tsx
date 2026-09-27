@@ -44,7 +44,7 @@ export function Footer() {
       <div className="mx-auto w-full max-w-wide">
         <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-[280px_repeat(4,minmax(0,1fr))]">
           <div className="col-span-2 md:col-span-1">
-            <Link href="/" aria-label="Bonggy, home" className="inline-flex items-center gap-2">
+            <Link href="/" aria-label="Bonggy, home" className="inline-flex min-h-11 items-center gap-2">
               <Mascot className="size-5" />
               <Wordmark />
             </Link>
@@ -57,12 +57,12 @@ export function Footer() {
           {COLUMNS.map((col) => (
             <div key={col.heading}>
               <h2 className="text-ui-sm font-medium text-foreground">{col.heading}</h2>
-              <ul className="mt-3 grid gap-1">
+              <ul className="mt-2 grid pointer-fine:mt-3 pointer-fine:gap-1">
                 {col.items.map((it) => (
                   <li key={it.label}>
                     <Link
                       href={it.href}
-                      className="inline-flex min-h-8 items-center text-ui text-fg-2 transition-colors hover:text-foreground"
+                      className="inline-flex min-h-11 items-center text-ui text-fg-2 transition-colors hover:text-foreground pointer-fine:min-h-8"
                     >
                       {it.label}
                     </Link>

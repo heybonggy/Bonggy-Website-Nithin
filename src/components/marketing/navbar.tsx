@@ -75,7 +75,7 @@ export function Navbar() {
           )}
         />
         <div className="mx-auto flex h-full w-full max-w-wide items-center justify-between gap-4 px-4 lg:px-6">
-          <Link href="/" aria-label="Bonggy, home" className="flex items-center gap-2 rounded-full py-1 pr-2">
+          <Link href="/" aria-label="Bonggy, home" className="flex min-h-11 items-center gap-2 rounded-full pr-2">
             <Mascot className="size-5" />
             <Wordmark />
           </Link>
