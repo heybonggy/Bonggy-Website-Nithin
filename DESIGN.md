@@ -199,6 +199,7 @@ Rules:
 - **Once-only entrances** (`<Rise>`, `<Stagger>` in [`entrances.tsx`](src/components/marketing/entrances.tsx), built on `useEntrance`): section headings and intros fade and rise (y 16 → 0, 0.6s outExpo, intro 0.08s later, at 30% in view). Team columns, How it works tiles, the bright lines, FAQ rows and footer columns stagger in (y 12 → 0, 0.45s, 60ms apart, at 25%). Pre-states apply only while hydrated and off screen, so nothing is hidden for crawlers or before hydration.
 - **Reduced motion:** none of this runs.
 - **Budget:** transforms and opacity only; no width/height animation; no sideways overflow; Lighthouse mobile Performance ≥ 90 and TBT within ±50ms.
+- **Measured, not assumed.** Lazy-mounting the phone hero's contents until the intro finishes was tried and reverted: on a phone the screen's opening line then paints late and becomes the LCP (mobile Performance 95 → 91, LCP 2.9s → 3.5s), even with an identical static placeholder, because the demo area fades in with the intro. Rendering it with the page keeps the LCP on text that paints at once. Re-measure before changing how the hero mounts.
 
 ### Entrances
 
