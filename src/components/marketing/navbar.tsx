@@ -11,7 +11,7 @@ import {
 } from "motion/react";
 import { CaretDown } from "@phosphor-icons/react/dist/ssr";
 import { cn } from "@/lib/utils";
-import { BonggyMark } from "./bonggy-mark";
+import { Mascot as BonggyMark } from "@/components/ui/mascot";
 import { CtaButton, CAL_LINK } from "./cta-button";
 import { EarlyAccessModal } from "./early-access-modal";
 

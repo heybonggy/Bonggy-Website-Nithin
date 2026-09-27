@@ -1,6 +1,6 @@
 import { CtaButton } from "./cta-button";
 import { EarlyAccessCta } from "./early-access-cta";
-import { BonggyMark } from "./bonggy-mark";
+import { Mascot as BonggyMark } from "@/components/ui/mascot";
 
 /**
  * Closing CTA — a light, film-grained panel that pops against the dark page,

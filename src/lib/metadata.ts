@@ -3,15 +3,15 @@ import type { Metadata } from "next";
 export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL || "https://bonggy.com";
 
-export const HOME_TITLE = "Bonggy: agents for the work before the conversation";
+export const HOME_TITLE = "Bonggy: the agent workspace for sales, RevOps and marketing teams";
 
 /** Site-wide description (layout default, manifest, structured data). */
 export const SITE_DESCRIPTION =
-  "Bonggy is a studio where GTM teams build their own sales agents. Agents model your market, research your accounts and draft the work. Nothing goes out without human approval, and every agent's work ties back to a revenue goal.";
+  "Bonggy lets sales, RevOps and marketing teams build bots from a sentence. Each flow maps to a revenue goal, and humans approve what customers see.";
 
 /** Shorter version for link previews. */
 export const SITE_DESCRIPTION_SHORT =
-  "A studio where GTM teams build sales agents that model the market, research accounts and draft the work, with a person approving anything that goes out.";
+  "Build the bots your GTM team needs, running the flows you want, pointed at revenue. The agent workspace for sales, RevOps and marketing teams.";
 
 const OG_IMAGE = {
   url: "/opengraph-image",

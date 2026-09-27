@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BonggyMark } from "./bonggy-mark";
+import { Mascot as BonggyMark } from "@/components/ui/mascot";
 
 const FOOTER_LINKS: {
   heading: string;

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { pageMetadata } from "@/lib/metadata";
+import { pageMetadata, SITE_DESCRIPTION } from "@/lib/metadata";
 import { Navbar } from "@/components/marketing/navbar";
 import { Hero } from "@/components/marketing/hero";
 import { TheReframeFix } from "@/components/marketing/the-reframe-fix";
@@ -16,8 +16,7 @@ import { Footer } from "@/components/marketing/footer";
 
 export const metadata: Metadata = pageMetadata({
   path: "/",
-  description:
-    "Bonggy is a studio for sales agents that model your market, research your accounts and draft the work, aligned to revenue and reviewed by your team.",
+  description: SITE_DESCRIPTION,
 });
 
 export default function Home() {

@@ -1,10 +1,12 @@
 import { ImageResponse } from "next/og";
+import { HOME_TITLE } from "@/lib/metadata";
 
 export const runtime = "edge";
-export const alt = "Bonggy: agents for the work before the conversation";
+export const alt = HOME_TITLE;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
+// Black ink on white, no colour (DESIGN.md §2).
 export default async function OG() {
   return new ImageResponse(
     (
@@ -16,133 +18,50 @@ export default async function OG() {
           flexDirection: "column",
           justifyContent: "space-between",
           padding: "72px",
-          background:
-            "radial-gradient(ellipse 60% 40% at 80% 25%, rgba(114, 207, 142, 0.22), transparent 60%), radial-gradient(ellipse 40% 30% at 10% 95%, rgba(114, 207, 142, 0.18), transparent 60%), #000000",
-          color: "#fafafa",
+          background: "#ffffff",
+          color: "#0a0a0a",
           fontFamily: "system-ui, -apple-system, Segoe UI, Geist, sans-serif",
         }}
       >
-        {/* Top: logo lockup */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "16px",
-          }}
-        >
-          <svg
-            width="56"
-            height="56"
-            viewBox="0 0 256 256"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <defs>
-              <radialGradient id="p" cx="36%" cy="28%" r="78%">
-                <stop offset="0%" stopColor="#7ef0c0" />
-                <stop offset="40%" stopColor="#72cf8e" />
-                <stop offset="100%" stopColor="#053826" />
-              </radialGradient>
-            </defs>
-            <path
-              d="M 224 86 A 110 36 -22 0 0 32 170"
-              fill="none"
-              stroke="#72cf8e"
-              strokeWidth="10"
-              strokeLinecap="round"
-            />
-            <circle cx="128" cy="128" r="82" fill="url(#p)" />
-            <ellipse
-              cx="104"
-              cy="94"
-              rx="24"
-              ry="10"
-              fill="white"
-              opacity="0.4"
-              transform="rotate(-18 104 94)"
-            />
-            <path
-              d="M 224 86 A 110 36 -22 0 1 32 170"
-              fill="none"
-              stroke="#72cf8e"
-              strokeWidth="10"
-              strokeLinecap="round"
-            />
+        <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+          <svg width="52" height="52" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <path d="M50 4 C85 4 96 15 96 50 C96 85 85 96 50 96 C15 96 4 85 4 50 C4 15 15 4 50 4 Z" fill="#0a0a0a" />
+            <rect x="31" y="37.5" width="38" height="13" rx="6.5" fill="#ffffff" />
           </svg>
-          <span
-            style={{
-              fontSize: "28px",
-              fontWeight: 600,
-              letterSpacing: "0.18em",
-              textTransform: "uppercase",
-            }}
-          >
-            Bonggy
-          </span>
+          <span style={{ fontSize: "34px", fontWeight: 600, letterSpacing: "-0.03em" }}>bonggy</span>
         </div>
 
-        {/* Middle: headline */}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "20px",
-            maxWidth: "1000px",
-          }}
-        >
+        <div style={{ display: "flex", flexDirection: "column", gap: "22px", maxWidth: "1020px" }}>
           <div
             style={{
-              fontSize: "64px",
+              fontSize: "68px",
               fontWeight: 500,
-              letterSpacing: "-0.035em",
-              lineHeight: 1.02,
-              color: "#fafafa",
+              letterSpacing: "-0.03em",
+              lineHeight: 1.04,
               display: "flex",
-              flexWrap: "wrap",
+              flexDirection: "column",
             }}
           >
-            <span>Agents for the work before the conversation.&nbsp;</span>
-            <span style={{ color: "#888888" }}>
-              You still have the conversation.
-            </span>
+            <span>Build the bots your GTM team needs.</span>
+            <span style={{ color: "#6b6b6b" }}>Running the flows you want, pointed at revenue.</span>
           </div>
-          <div
-            style={{
-              fontSize: "26px",
-              lineHeight: 1.45,
-              color: "#a3a3a3",
-              maxWidth: "880px",
-            }}
-          >
-            A studio for sales agents that model your market, research your
-            accounts and draft the work, aligned to revenue and reviewed by
-            your team.
+          <div style={{ fontSize: "28px", lineHeight: 1.45, color: "#525252" }}>
+            The agent workspace for sales, RevOps and marketing teams.
           </div>
         </div>
 
-        {/* Bottom: meta strip */}
         <div
           style={{
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            fontSize: "20px",
-            color: "#7e7e7e",
-            fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
-            letterSpacing: "0.18em",
-            textTransform: "uppercase",
+            fontSize: "22px",
+            color: "#525252",
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-            <div
-              style={{
-                width: 10,
-                height: 10,
-                borderRadius: 9999,
-                background: "#72cf8e",
-                boxShadow: "0 0 12px #72cf8e",
-              }}
-            />
-            <span>Early access · open</span>
+            <div style={{ width: 10, height: 10, borderRadius: 9999, background: "#0a0a0a" }} />
+            <span>Early access is open</span>
           </div>
           <span>bonggy.com</span>
         </div>
