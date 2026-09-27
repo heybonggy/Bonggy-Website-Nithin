@@ -94,14 +94,14 @@ Sales, RevOps and marketing teams. It usually lands with one team's flows and sp
 
 ## 6. How teams start
 
-- **Early access, in waves**, so every team gets set up properly.
-- **A 30-minute call** where we map one flow with the team on real work.
+- **A strategy call** where we map one flow with the team on real work.
+- **Onboarding in small groups**, so every team gets set up properly.
 
 ---
 
 ## 7. Pricing
 
-Pricing is based on active bots plus usage. Flow runs count toward usage. We're setting plans with early-access teams, so there are no public numbers yet.
+Pricing is based on active bots plus usage. Flow runs count toward usage. We're setting plans with our first teams, so there are no public numbers yet.
 
 ---
 

@@ -1,29 +1,25 @@
 # Form submissions → Google Sheets
 
-Both forms (Early Access + Careers) write into a single Google Spreadsheet
-with two tabs. One Apps Script web-app, one URL, pasted in one file.
+The careers form writes into a Google Spreadsheet (tab `Careers`). One Apps
+Script web-app, one URL, pasted in one file.
+
+> The early-access form was removed (every CTA now books a strategy call).
+> If your spreadsheet still has an `Early Access` tab, its existing rows are
+> untouched; nothing writes to it any more.
 
 Total time: ~5 minutes.
 
 ---
 
-## 1. The spreadsheet (two tabs)
+## 1. The spreadsheet
 
-You already have this part done — one spreadsheet with two tabs.
+Make sure the **tab name is exactly**:
 
-Make sure the **tab names are exactly**:
-
-- `Early Access`
 - `Careers`
 
 (Case-sensitive. Rename tabs by double-clicking the tab label at the bottom.)
 
-### Row 1 headers per tab
-
-**Early Access** tab:
-
-| timestamp | email | company | role | teamSize |
-| --- | --- | --- | --- | --- |
+### Row 1 headers
 
 **Careers** tab:
 
@@ -118,14 +114,13 @@ Vercel builds and the live forms write to your spreadsheet immediately.
 npm run dev
 ```
 
-- Submit the Early Access modal → row appears in the **Early Access** tab
 - Submit the Careers form (`/careers`) → row appears in the **Careers** tab
 
 If nothing appears:
 - Dev server console will log `SHEETS_WEBHOOK_URL is empty` → the paste
   didn't take. Open `src/lib/sheets.ts` and check the constant.
-- Or `tab not found: ...` → tab name mismatch. The tabs must be named exactly
-  `Early Access` and `Careers`.
+- Or `tab not found: ...` → tab name mismatch. The tab must be named exactly
+  `Careers`.
 - Or `append to "..." failed` → URL is set but Apps Script returned an
   error. Check the Apps Script execution log (in the script editor sidebar).
 - Confirm the URL is the deployed **web app** URL (ends in `/exec`).

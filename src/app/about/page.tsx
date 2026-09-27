@@ -71,7 +71,7 @@ export default function AboutPage() {
       </div>
 
       <SubPageCta title="Help us shape it.">
-        <CtaButton size="lg">Book a 30-min call</CtaButton>
+        <CtaButton size="lg">Book a strategy call</CtaButton>
       </SubPageCta>
     </SubPageShell>
   );

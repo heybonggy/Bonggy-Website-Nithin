@@ -1,10 +1,9 @@
 import { Section, SectionHeader } from "./section";
 import { CtaButton } from "./cta-button";
-import { EarlyAccessCta } from "./early-access-cta";
 import { IncludedList } from "./included-list";
 
 // TODO(pricing): no plans or numbers yet. Replace with real tiers once set
-// with early-access teams. Keep JSON-LD free of offers/prices until then.
+// with our first teams. Keep JSON-LD free of offers/prices until then.
 const INCLUDED = [
   "Bots for sales, RevOps and marketing",
   "Flows with all six parts",
@@ -22,13 +21,12 @@ export function PricingTeaser() {
           <SectionHeader
             title={<span id="pricing-title">Pay for the bots you run.</span>}
             muted="Plus what they use."
-            intro="Pricing is based on active bots plus usage. Flow runs count toward usage. We're setting plans with early-access teams, so there are no public numbers yet."
+            intro="Pricing is based on active bots plus usage. Flow runs count toward usage. We're setting plans with our first teams, so there are no public numbers yet."
           />
           <div className="mt-8 flex flex-wrap gap-3">
             <CtaButton size="lg" variant="primary">
-              Book a 30-min call
+              Book a strategy call
             </CtaButton>
-            <EarlyAccessCta size="lg" variant="soft" />
           </div>
         </div>
         <div className="reveal self-center rounded-2xl bg-background p-5 sm:p-6">

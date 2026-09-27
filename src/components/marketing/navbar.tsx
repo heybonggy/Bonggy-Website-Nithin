@@ -7,7 +7,6 @@ import { CaretDown, List, X } from "@phosphor-icons/react/dist/ssr";
 import { cn } from "@/lib/utils";
 import { Logo } from "@/components/ui/logo";
 import { CtaButton, CAL_LINK } from "./cta-button";
-import { EarlyAccessModal } from "./early-access-modal";
 import { SPRING } from "./_motion";
 import { ThemeSegmented, ThemeToggle } from "./theme-toggle";
 
@@ -34,7 +33,6 @@ const LINK_CLASS =
 export function Navbar() {
   const [scrolled, setScrolled] = React.useState(false);
   const [menuOpen, setMenuOpen] = React.useState(false);
-  const [eaOpen, setEaOpen] = React.useState(false);
 
   React.useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -56,10 +54,6 @@ export function Navbar() {
     };
   }, [menuOpen]);
 
-  const openEarlyAccess = React.useCallback(() => {
-    setMenuOpen(false);
-    requestAnimationFrame(() => setEaOpen(true));
-  }, []);
 
   return (
     <>
@@ -93,11 +87,8 @@ export function Navbar() {
           <div className="flex items-center gap-2">
             <div className="hidden items-center gap-2 lg:flex">
               <ThemeToggle />
-              <CtaButton href={CAL_LINK} variant="soft" size="sm">
-                Book a call
-              </CtaButton>
-              <CtaButton asButton size="sm" onClick={openEarlyAccess}>
-                Get early access
+              <CtaButton href={CAL_LINK} size="sm">
+                Strategy call
               </CtaButton>
             </div>
             <button
@@ -139,18 +130,14 @@ export function Navbar() {
             </nav>
             <div className="mt-auto grid gap-3">
               <ThemeSegmented className="mb-2" />
-              <CtaButton asButton size="lg" onClick={openEarlyAccess} className="w-full">
-                Get early access
-              </CtaButton>
-              <CtaButton href={CAL_LINK} variant="soft" size="lg" className="w-full">
-                Book a 30-min call
+              <CtaButton href={CAL_LINK} size="lg" className="w-full">
+                Book a strategy call
               </CtaButton>
             </div>
           </motion.div>
         ) : null}
       </AnimatePresence>
 
-      <EarlyAccessModal open={eaOpen} onOpenChange={setEaOpen} />
     </>
   );
 }

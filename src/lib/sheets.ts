@@ -1,9 +1,9 @@
 /**
  * Google Sheets integration , single source of truth.
  *
- * Both signup forms (Early Access + Careers) write into ONE spreadsheet with
- * two tabs. ONE Apps Script web-app URL, pasted ONCE below. The route file
- * tells the script which tab to append to via the `sheet` field in the body.
+ * The careers form writes into a Google spreadsheet, tab "Careers", through
+ * ONE Apps Script web-app URL pasted below. The route tells the script which
+ * tab to append to via the `sheet` field in the body.
  *
  * SETUP , one step:
  *   Paste your deployed Apps Script web-app URL between the quotes below.
@@ -12,7 +12,7 @@
 export const SHEETS_WEBHOOK_URL =
   "https://script.google.com/macros/s/AKfycbxcioKsdV700EPMTnyN8zFii-Blgs_3epTCrGj5c7fIJQOsA_LvXCD4e3Z5mv_FSdg/exec";
 
-export type SheetTab = "Early Access" | "Careers";
+export type SheetTab = "Careers";
 
 export async function appendToSheet(
   tab: SheetTab,

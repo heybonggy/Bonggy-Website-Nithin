@@ -1,6 +1,5 @@
 import { CtaComposer } from "./cta-composer";
 import { CtaButton } from "./cta-button";
-import { EarlyAccessCta } from "./early-access-cta";
 
 /** Closing call to action, with a read-only composer waiting for a sentence. */
 export function FinalCta() {
@@ -14,10 +13,7 @@ export function FinalCta() {
           Start from a preset, or from a sentence. Either way, the flow is yours.
         </p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-          <EarlyAccessCta size="lg" />
-          <CtaButton size="lg" variant="soft">
-            Book a 30-min call
-          </CtaButton>
+          <CtaButton size="lg">Book a strategy call</CtaButton>
         </div>
         <CtaComposer />
       </div>

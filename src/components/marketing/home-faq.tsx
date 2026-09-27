@@ -42,11 +42,11 @@ export const HOME_FAQ: FaqItem[] = [
   },
   {
     q: "How is it priced?",
-    a: "Pricing is based on active bots plus usage. Flow runs count toward usage. We're setting plans with early-access teams, so there are no public numbers yet.",
+    a: "Pricing is based on active bots plus usage. Flow runs count toward usage. We're setting plans with our first teams, so there are no public numbers yet.",
   },
   {
     q: "How do we start?",
-    a: "A 30-minute call. We'll map one flow with you on real work.",
+    a: "A strategy call. We'll map one flow with you on real work.",
   },
 ];
 

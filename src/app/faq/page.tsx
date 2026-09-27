@@ -48,7 +48,7 @@ export default function FaqPage() {
         <FaqList items={QUESTIONS} headingLevel={2} />
 
         <SubPageCta title="Got a different question?">
-          <CtaButton size="lg">Book a 30-min call</CtaButton>
+          <CtaButton size="lg">Book a strategy call</CtaButton>
         </SubPageCta>
       </SubPageShell>
     </>

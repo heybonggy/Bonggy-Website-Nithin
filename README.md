@@ -5,7 +5,7 @@ bots from a sentence. Each bot runs a flow with six parts (trigger, context,
 steps, approval, output, goal), every flow maps to a revenue goal, and a person
 approves anything a customer would see.
 
-This repo is the marketing site plus early-access and careers capture. See
+This repo is the marketing site plus careers capture. See
 [PRODUCT.md](./PRODUCT.md) for the product and [DESIGN.md](./DESIGN.md) for
 the "Paper" design system.
 
@@ -39,7 +39,7 @@ URL=http://localhost:3000 node scripts/screenshot.mjs
 |---|---|
 | `/` | Hero (a bot builds from your sentence, `#top`) → Teams (`#what-we-do`) → Flows (`#flows`) → A bot for every job (`#agents`) → Groups (`#groups`) → Approvals and bright lines (`#approvals`) → Analytics (`#analytics`) → Company context (`#context`) → How it works (`#how-it-works`) → Pricing (`#pricing`) → FAQ (`#faq`) → Final CTA |
 | `/about` | Mission and principles |
-| `/contact` | 30-min call link + email |
+| `/contact` | Strategy call link + email |
 | `/careers` | Pitch form (writes to Sheets) |
 | `/faq` | Q&As + FAQPage JSON-LD |
 | `/security` | Bright lines and data handling (softened, pending engineering) |
@@ -50,10 +50,10 @@ URL=http://localhost:3000 node scripts/screenshot.mjs
 
 ## Forms
 
-Early access (header modal) and careers (`/careers`) write to one Google
-Spreadsheet (tabs `Early Access`, `Careers`) through a Google Apps Script
-webhook. The URL lives in `src/lib/sheets.ts`; roles are validated against
-`src/lib/early-access.ts`. Setup: [INTEGRATIONS.md](./INTEGRATIONS.md).
+The careers form (`/careers`) writes to a Google Spreadsheet (tab `Careers`)
+through a Google Apps Script webhook. The URL lives in `src/lib/sheets.ts`.
+Every call CTA ("Book a strategy call") points at one booking link, `CAL_LINK`
+in `src/components/marketing/cta-button.tsx`. Setup: [INTEGRATIONS.md](./INTEGRATIONS.md).
 
 ## Deploy
 
@@ -69,5 +69,5 @@ src/
 │   ├── marketing/               # header, footer, homepage sections, sub-page shell
 │   ├── product-mock/            # drawn product UI + data.ts + demo/ (scripted player)
 │   └── ui/                      # logo (planet mark), bot characters, shadcn primitives
-└── lib/                         # metadata, early-access roles, sheets, utils (cn)
+└── lib/                         # metadata, sheets (careers), utils (cn)
 ```

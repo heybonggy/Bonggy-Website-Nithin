@@ -13,7 +13,7 @@ export type CtaButtonProps = {
   size?: "sm" | "md" | "lg";
   className?: string;
   children?: React.ReactNode;
-  /** Render a <button> (e.g. to open the early-access modal). */
+  /** Render a <button> instead of a link (for in-page actions). */
   asButton?: boolean;
   onClick?: () => void;
   type?: "button" | "submit" | "reset";
@@ -45,7 +45,7 @@ export function CtaButton({
   variant = "primary",
   size = "md",
   className,
-  children = "Book a 30-min call",
+  children = "Book a strategy call",
   asButton = false,
   onClick,
   type = "button",

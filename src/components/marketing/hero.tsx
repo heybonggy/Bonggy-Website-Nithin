@@ -1,6 +1,5 @@
 import { ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
 import { CtaButton, CAL_LINK } from "./cta-button";
-import { EarlyAccessCta } from "./early-access-cta";
 import { HeroDemo } from "./hero-demo";
 
 const HEADLINE = "Build the bots your GTM team needs.";
@@ -36,9 +35,9 @@ export function Hero() {
           className="inline-flex min-h-11 animate-rise-in items-center"
         >
           <span className="inline-flex h-7 items-center gap-1.5 rounded-full bg-surface-2 px-3 text-ui-sm text-fg-2 transition-colors duration-[var(--dur-fast)] hover:bg-surface-3">
-            <span className="font-medium text-foreground">Early access</span>
+            <span className="font-medium text-foreground">Strategy call</span>
             <span aria-hidden className="text-fg-3">·</span>
-            Book a 30-min call
+            map your first flow with us
             <ArrowUpRight className="size-3.5" aria-hidden />
           </span>
           <span className="sr-only"> (opens in a new tab)</span>
@@ -62,13 +61,17 @@ export function Hero() {
         </p>
 
         <div
-          className="mt-6 flex animate-rise-in flex-nowrap items-center justify-center gap-2 sm:mt-7 sm:flex-wrap sm:gap-3"
+          className="mt-6 flex animate-rise-in flex-wrap items-center justify-center gap-x-3 gap-y-1 sm:mt-7"
           style={{ animationDelay: "650ms" }}
         >
-          <EarlyAccessCta size="lg" className="max-sm:px-4 max-sm:text-ui" />
-          <CtaButton size="lg" variant="soft" className="max-sm:px-4 max-sm:text-ui">
-            Book a 30-min call
-          </CtaButton>
+          <CtaButton size="lg">Book a strategy call</CtaButton>
+          <a
+            href="#how-it-works"
+            className="inline-flex min-h-11 items-center gap-1 whitespace-nowrap rounded-full px-3 text-ui font-medium text-fg-2 transition-colors duration-150 hover:text-foreground"
+          >
+            see how it works
+            <span aria-hidden>↓</span>
+          </a>
         </div>
         {/* TODO(social-proof): no customer logos, quotes or counts until
             they're real and approved. */}

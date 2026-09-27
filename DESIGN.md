@@ -228,11 +228,10 @@ Everything lives in [`src/components/product-mock/`](src/components/product-mock
 
 ## 10. Components
 
-- **Buttons** ([`cta-button.tsx`](src/components/marketing/cta-button.tsx)): pills. `primary` (inverse), `soft` (surface-2), `outline`, `ghost`; sizes sm/md/lg. External links open in a new tab with an arrow and sr-only note. Default copy: "Book a 30-min call"; "Get early access" opens the modal.
+- **Buttons** ([`cta-button.tsx`](src/components/marketing/cta-button.tsx)): pills. `primary` (inverse), `soft` (surface-2), `outline`, `ghost`; sizes sm/md/lg. External links open in a new tab with an arrow and sr-only note. Default copy: "Book a strategy call" (navbar: "Strategy call"). Every call CTA points at the one `CAL_LINK`. Each block has one primary CTA: navbar pill; hero button plus a quiet "see how it works ↓" link; pricing; the final CTA with its composer.
 - **Header:** fixed 64px, blurs after 8px of scroll, Product menu (Bots, Flows, Approvals, Analytics), Teams, How it works, Pricing, FAQ; full-screen sheet below lg.
 - **Footer:** the logo lockup, "Your process, not ours.", four link columns.
 - **FAQ:** base-ui accordion, hairline dividers, plus icon turns 45°. FAQPage JSON-LD is generated from the same array.
-- **Early-access modal:** role select, inline error with a Warning icon in `text-danger`.
 - **Sub-pages:** `<SubPageShell>` (kicker, two-tone H1, lede), `<SubPageSection>`, `<SubPageCta>`.
 
 ---
@@ -262,7 +261,7 @@ Team ownership in mocks: Account Researcher, Deal Coach, Brief Writer, Champion 
 ## 12. Copy rules
 
 - The bright lines, word for word: **Approval by action.** Anything customer-facing (emails, posts, sequencer pushes, published content) needs a person. Internal output (a brief in chat, a Slack summary) can run without approval if your team chooses. **No volume blasting.** Marketing bots draft and research; they don't mass-send. Campaign sends stay in your own tools, after approval. **No leaderboards.** Work is measured against revenue, never person against person. **Humans stay in charge.** Bots work only through the tools and permissions you connect.
-- Pricing, word for word: "Pricing is based on active bots plus usage. Flow runs count toward usage. We're setting plans with early-access teams, so there are no public numbers yet." No prices in structured data.
+- Pricing, word for word: "Pricing is based on active bots plus usage. Flow runs count toward usage. We're setting plans with our first teams, so there are no public numbers yet." No prices in structured data.
 - Security until engineering confirms: "Built for read-scoped permissions, encryption in transit and at rest, and no training on your data" and "SOC 2 Type II: on the path, not attained". Don't name protocols or ciphers.
 - Key lines: "Start from a preset, or from a sentence. Either way, the flow is yours." and "Your process, not ours." Presets are "Flows teams have built".
 - Banned: AI-powered, supercharge, 10x, autopilot, AI SDR, seamless, leverage, revolutionize, "Templates". Never name a competitor anywhere in the repo.

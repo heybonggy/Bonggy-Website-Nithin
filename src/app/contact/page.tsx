@@ -8,7 +8,7 @@ export const metadata: Metadata = pageMetadata({
   path: "/contact",
   title: "Contact",
   description:
-    "Get in touch with the Bonggy team. A 30-minute call is the fastest way to map your first flow, and we read every email.",
+    "Get in touch with the Bonggy team. A strategy call is the fastest way to map your first flow, and we read every email.",
 });
 
 const card =
@@ -20,7 +20,7 @@ export default function ContactPage() {
       eyebrow="Contact"
       title="We read every email."
       titleAccent="A call is faster."
-      lede="The fastest path is a 30-minute call. We'll map your first flow with you on real work and show how it ties to your revenue goal. Or send us an email; we read every one."
+      lede="The fastest path is a strategy call. We'll map your first flow with you on real work and show how it ties to your revenue goal. Or send us an email; we read every one."
       narrow
     >
       <div className="grid gap-4 sm:grid-cols-2">
@@ -31,7 +31,7 @@ export default function ContactPage() {
           </span>
           <span>
             <span className="text-ui-sm font-medium text-fg-3">Call</span>
-            <h2 className="mt-1 text-title font-medium text-foreground">Book a 30-minute call</h2>
+            <h2 className="mt-1 text-title font-medium text-foreground">Book a strategy call</h2>
             <p className="mt-2 text-ui text-fg-2">
               We&apos;ll map your first flow on a real account from your list. If it&apos;s not obviously useful in the
               first ten minutes, we&apos;ll tell you.
@@ -57,7 +57,7 @@ export default function ContactPage() {
       </div>
 
       <SubPageCta title="Ready to see it live?">
-        <CtaButton size="lg">Book a 30-min call</CtaButton>
+        <CtaButton size="lg">Book a strategy call</CtaButton>
       </SubPageCta>
     </SubPageShell>
   );

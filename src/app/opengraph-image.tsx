@@ -59,7 +59,7 @@ export default async function OG() {
         >
           <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
             <div style={{ width: 10, height: 10, borderRadius: 9999, background: "#0a0a0a" }} />
-            <span>Early access is open</span>
+            <span>Book a strategy call</span>
           </div>
           <span>bonggy.com</span>
         </div>
