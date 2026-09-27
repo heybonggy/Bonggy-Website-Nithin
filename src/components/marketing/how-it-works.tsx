@@ -38,15 +38,15 @@ function TrackStage() {
           <div
             key={l.src}
             className={cn(
-              "flex items-center gap-2.5 rounded-lg bg-surface-raised px-3 py-2 text-ui-sm shadow-e1 transition-opacity duration-300",
-              on ? "opacity-100" : "opacity-35",
+              "flex items-center gap-2.5 rounded-lg px-3 py-2 text-ui-sm transition-colors duration-300",
+              on ? "bg-surface-raised shadow-e1" : "bg-transparent hairline",
             )}
           >
             <span className={cn("inline-flex size-4 items-center justify-center rounded-full", on ? "bg-surface-inverse text-fg-inverse" : "hairline-strong")}>
               {on ? <Check weight="bold" className="size-2.5 animate-check-in" aria-hidden /> : null}
             </span>
             <span className="text-fg-3">{l.src}</span>
-            <span className="text-foreground">{l.text}</span>
+            <span className={on ? "text-foreground" : "text-fg-3"}>{on ? l.text : "waiting…"}</span>
           </div>
         );
       })}

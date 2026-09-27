@@ -214,13 +214,14 @@ export function HeroDemo() {
                     statusLabel={s.statusLabel}
                     state={s.parts.length < FLOW_PARTS.length ? "draft" : s.status === "running" ? "running" : "on"}
                     fresh={fresh}
+                    avatarState={s.parts.length < FLOW_PARTS.length || s.status === "off" ? "excited" : undefined}
                   />
                 </BotBubble>
               ) : null}
               {s.tomorrow ? <SystemLine timestamp text="tomorrow 07:02" /> : null}
               {s.pending === "found" ? <PendingRow label="checking the job-change feed" /> : null}
               {s.found ? (
-                <BotBubble team="sales" name="champion tracker" time="tue 07:02" text={FOUND}>
+                <BotBubble team="sales" name="champion tracker" time="tue 07:02" text={FOUND} state={s.receipt ? "happy" : "waiting"}>
                   <ApprovalCard
                     strip={CHAMPION_NOTE.strip}
                     to={CHAMPION_NOTE.to}
@@ -232,7 +233,7 @@ export function HeroDemo() {
                 </BotBubble>
               ) : null}
               {s.receipt ? (
-                <BotBubble team="sales">
+                <BotBubble team="sales" state="celebrate">
                   <RunReceipt
                     className="w-fit"
                     title="run receipt · tue 07:02"

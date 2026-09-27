@@ -142,6 +142,7 @@ export function FlowsSection() {
                 statusLabel={s.statusLabel}
                 state={s.card}
                 edits={s.edits}
+                avatarState={s.receipt ? "celebrate" : undefined}
                 lastRun={DEAL_COACH_FLOW.lastRun}
               />
               <div className="flex flex-col gap-4">

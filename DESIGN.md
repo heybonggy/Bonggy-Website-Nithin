@@ -143,6 +143,20 @@ Rules:
 - Only one scripted take runs at a time: `useLoopFocus` gives focus to the looping section covering most of the viewport (at least 12%). Sections start at 25% in view after 400ms.
 - **Ambient motion** runs whenever a window is on screen, independent of takes and loop focus ([`ambient.tsx`](src/components/product-mock/ambient.tsx)): one sidebar row always running (live dot, a preview that cycles every 1.8s with typing dots), one row with a "needs you" pill, and the group handoff pill cycling every 2.3s. It pauses off screen and on hidden tabs, and is static under reduced motion. Off-screen demos get `data-demo-offscreen`, which pauses CSS animations.
 
+### 8.1 Character engine
+
+[`ui/bot-character.tsx`](src/components/ui/bot-character.tsx) makes every bot avatar a living character. It stays our mascot (the pebble with one pill eye); only the motion model is new.
+
+- **One loop.** A module-level registry shares a single rAF loop. Each character advances in fixed 1/120s substeps with a semi-implicit spring per channel: `v += (−2ζωv − ω²(x − target))·dt; x += v·dt`. Results go to CSS variables on the element (`--bot-rot/x/y/s`, `--eye-open`, `--eye-s`, `--gaze-x/y`) with no React render per frame. `.bot-body` and `.bot-eye` read them.
+- **Springs (ω rad/s, ζ).** rotation 5/0.9, x 3.5/1, y 4/1, scale 10/0.8, blink 26/1, eye size 9/0.85, gaze 13/1, spin 6.2/1.
+- **Units.** 1u = size/114. Under 40px, translation and rotation ×2.2 and no gaze; 16–18px avatars only blink and pop.
+- **States** (targets rewritten every frame, t = seconds in state): idle (slow bob and sway, gaze re-targets every 2.5–5.5s), thinking (tilted −9°, gaze up and to a side), working (typing nod with squash, gaze down, a spin every 6–9s), waiting (tilted 8°, a 380ms hop every 1.8–3.2s, gaze toward approve), happy (✓ eye, bounce, 3.2s → idle), excited (hop loop at 2.2Hz with squash and stretch, 2.2s → happy), celebrate (one spin + 16 sparks, 2.2s → happy), drowsy (eye nearly shut, sunk), sad (tilted, sunk, eye 70%). Every character wakes once, the first time it's seen.
+- **Blink** every 4.5–10s in calm states (seeded from the bot id), 20% double; never during thinking.
+- **Status mapping.** running → working, needs you → waiting, done → happy, off → drowsy. Demos add beats: pending → thinking, a flow being built → excited, receipt → celebrate.
+- **Hover and click** (only when `interactive`, outside inert demos): a curious tilt with the gaze following the pointer; clicks cycle spin, double spin, spin-bounce, dizzy wobble, and spin plus sparks.
+- **Budget.** Off-screen characters and hidden tabs are skipped, and the loop stops when none are visible. At most 24 characters run fully; the smallest beyond that only blink.
+- **Reduced motion.** No loop at all. Each state is a static pose (thinking tilted with gaze up-left, waiting tilted with gaze up-right, happy with the ✓ eye, drowsy eye shut), and pose changes fade over 150ms. Status words and pills carry the meaning.
+
 ### Entrances
 
 - `useEntrance(ref, amount)` returns `static` (server render, reduced motion, or already on screen at mount), `armed` (hydrated and still off screen) or `go` (scrolled into view). Pre-animation states (zeros, hidden rows) only apply while `armed`, so crawlers and no-JS readers always get the real content.

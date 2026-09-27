@@ -35,7 +35,7 @@ export function BotRow({
       )}
     >
       <span className="relative shrink-0">
-        <BotAvatar team={bot.team} size={32} state={s === "running" ? "working" : s === "needs-you" ? "needs-you" : "idle"} />
+        <BotAvatar team={bot.team} size={32} seed={bot.id} state={s === "running" ? "working" : s === "needs-you" ? "waiting" : s === "done" ? "happy" : s === "off" ? "drowsy" : "idle"} />
         {badge ? (
           <span
             className={cn(

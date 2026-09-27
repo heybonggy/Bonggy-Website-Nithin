@@ -348,7 +348,6 @@
   --animate-caret: caret 1s steps(1) infinite;
   --animate-word-in: word-in 650ms var(--ease-out-expo) both;
   --animate-rise-in: rise-in 700ms var(--ease-out-expo) both;
-  --animate-blink: blink 5.2s var(--ease-standard) infinite;
   --animate-bar-draw: bar-draw 450ms var(--ease-out-expo) both;
 
   @keyframes typing-dot {
@@ -388,11 +387,6 @@
   }
   @keyframes rise-in {
     from { opacity: 0; transform: translateY(var(--rise-from, 10px)); }
-  }
-  /* Interim bot blink (replaced by the character engine). */
-  @keyframes blink {
-    0%, 93%, 100% { transform: scaleY(1); }
-    95.5% { transform: scaleY(0.1); }
   }
   @keyframes bar-draw {
     from { transform: scaleY(0); }
@@ -456,6 +450,25 @@
   background-image: linear-gradient(90deg, transparent 0%, var(--sweep-ink) 45%, transparent 55%, transparent 100%);
   background-size: 250% 100%;
   background-repeat: no-repeat;
+}
+
+/* Bot characters (bot-character.tsx): the engine writes these variables. */
+.bot-character > .bot-body {
+  transform: translate(var(--bot-x, 0px), var(--bot-y, 0px)) rotate(var(--bot-rot, 0deg)) scale(var(--bot-s, 1));
+  transform-origin: 50% 70%;
+  will-change: transform;
+}
+.bot-eye {
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: translate(var(--gaze-x, 0px), var(--gaze-y, 0px)) scale(var(--eye-s, 1), calc(var(--eye-s, 1) * var(--eye-open, 1)));
+}
+.bot-spark {
+  transform: translate(-50%, -50%) rotate(var(--a)) translateY(0) scale(1);
+  animation: spark 700ms var(--ease-out-expo) forwards;
+}
+@keyframes spark {
+  to { transform: translate(-50%, -50%) rotate(var(--a)) translateY(calc(var(--d, 1) * -30px)) scale(0.4); opacity: 0; }
 }
 
 /* Scroll reveal for mocks and cards (not headings): transform only, never

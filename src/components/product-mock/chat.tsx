@@ -3,7 +3,8 @@
 import * as React from "react";
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
-import { BotAvatar, Mascot, type Team } from "@/components/ui/mascot";
+import { BotAvatar, type Team } from "@/components/ui/mascot";
+import type { CharacterState } from "@/components/ui/bot-character";
 import { TypingDots } from "@/components/ui/typing-dots";
 import { DUR, EASE } from "@/components/marketing/_motion";
 import { LimitChip } from "./tags";
@@ -63,10 +64,13 @@ export function BotBubble({
   text,
   name,
   time,
+  state,
   children,
   className,
 }: {
   team: Team;
+  /** The avatar's character state (reacts to the demo). */
+  state?: CharacterState;
   text?: string;
   /** Optional header: the bot's name and a timestamp. */
   name?: string;
@@ -76,7 +80,7 @@ export function BotBubble({
 }) {
   return (
     <motion.div {...bubbleIn} className={cn("flex items-start gap-2", className)}>
-      <BotAvatar team={team} size={24} className="mt-0.5" />
+      <BotAvatar team={team} size={24} state={state} className="mt-0.5" />
       <div className={cn("flex min-w-0 max-w-[86%] flex-col gap-2", children && "flex-1")}>
         {name || time ? (
           <p className="-mb-1 flex items-baseline gap-2 text-ui-sm">
@@ -114,10 +118,18 @@ export function SystemLine({ text, timestamp = false, className }: { text: strin
 }
 
 /** A bot working: the mascot, typing dots and a short label. */
-export function PendingRow({ label = "thinking", className }: { label?: string; className?: string }) {
+export function PendingRow({
+  label = "thinking",
+  team = "sales",
+  className,
+}: {
+  label?: string;
+  team?: Team;
+  className?: string;
+}) {
   return (
-    <motion.div {...bubbleIn} className={cn("flex items-center gap-2 text-caption text-fg-3", className)}>
-      <Mascot state="working" className="size-10" />
+    <motion.div {...bubbleIn} className={cn("flex items-center gap-2 text-ui-sm text-fg-3", className)}>
+      <BotAvatar team={team} size={40} state="thinking" />
       <TypingDots label={label} />
       <span>{label}</span>
     </motion.div>

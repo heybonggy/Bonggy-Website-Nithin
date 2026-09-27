@@ -36,7 +36,7 @@ export function ApprovalsInbox({
               selected ? "bg-wash-selected before:absolute before:inset-y-2 before:left-0 before:w-0.5 before:rounded-full before:bg-foreground" : "hover:bg-wash-hover",
             )}
           >
-            <BotAvatar team={bot.team} size={32} />
+            <BotAvatar team={bot.team} size={32} seed={a.botId} state={a.status === "needs-you" ? "waiting" : a.status === "done" ? "happy" : "idle"} />
             <span className="min-w-0">
               <span className="block text-ui-sm">
                 <span className="font-medium text-foreground">{bot.name}</span>{" "}

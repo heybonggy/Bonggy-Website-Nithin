@@ -3,6 +3,7 @@
 import * as React from "react";
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
+import { BotCharacter, type CharacterState } from "./bot-character";
 
 /**
  * "Bong", the Bonggy bot face. First pass, pending design review (DESIGN.md §9).
@@ -145,45 +146,67 @@ export function Wordmark({ className }: { className?: string }) {
   );
 }
 
+/** Legacy face states map onto character states. */
+const TO_CHARACTER: Record<MascotState, CharacterState> = {
+  idle: "idle",
+  thinking: "thinking",
+  working: "working",
+  "needs-you": "waiting",
+  done: "happy",
+  off: "drowsy",
+};
+
 /**
- * A bot avatar: a round disc with the Bong face. The team is encoded by
- * pattern, never colour: sales = solid ink, revops = white with an ink ring,
+ * A bot avatar: a round disc with the Bong face, alive through the
+ * character engine (idle bob, blinks, reactions to its state). The team is
+ * encoded by pattern: sales = solid ink, revops = white with an ink ring,
  * marketing = light gray with a diagonal hatch.
  */
 export function BotAvatar({
   team,
   size = 32,
   state = "idle",
+  seed,
+  interactive = false,
   className,
 }: {
   team: Team;
   size?: number;
-  state?: MascotState;
+  state?: MascotState | CharacterState;
+  /** Stable per-bot seed for its motion (defaults to a per-instance id). */
+  seed?: string;
+  interactive?: boolean;
   className?: string;
 }) {
+  const id = React.useId();
   const ink = team === "sales" ? "var(--foreground-inverse)" : "var(--foreground)";
+  const cs: CharacterState = state in TO_CHARACTER ? TO_CHARACTER[state as MascotState] : (state as CharacterState);
   return (
-    <span
-      aria-hidden
-      className={cn(
-        "relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full",
-        team === "sales" && "bg-surface-inverse",
-        team === "revops" && "bg-background shadow-[inset_0_0_0_1.5px_var(--foreground)]",
-        team === "marketing" && "hatch bg-status-track",
-        className,
-      )}
-      style={{ width: size, height: size }}
-    >
-      <svg viewBox="0 0 100 100" className="size-full">
-        {/* Interim CSS blink; staggered per team so rows don't blink in sync. */}
-        <g
-          className={state === "idle" || state === "needs-you" ? "animate-blink" : undefined}
-          style={{ transformOrigin: "50px 44px", animationDelay: `${{ sales: 0, revops: 1.7, marketing: 3.1 }[team]}s` }}
+    <BotCharacter
+      state={cs}
+      size={size}
+      seed={seed ?? `${team}:${id}`}
+      interactive={interactive}
+      className={className}
+      render={(eye) => (
+        <span
+          className={cn(
+            "relative inline-flex size-full items-center justify-center overflow-hidden rounded-full",
+            team === "sales" && "bg-surface-inverse",
+            team === "revops" && "bg-background shadow-[inset_0_0_0_1.5px_var(--foreground)]",
+            team === "marketing" && "hatch bg-status-track",
+          )}
         >
-          <Eye state={state} ink={ink} blink={false} />
-        </g>
-      </svg>
-    </span>
+          <svg viewBox="0 0 100 100" className="size-full overflow-visible">
+            {eye === "happy" ? (
+              <path className="bot-eye" d="M33 45 L45 56 L67 34" fill="none" stroke={ink} strokeWidth={7} strokeLinecap="round" strokeLinejoin="round" />
+            ) : (
+              <rect className="bot-eye" x={31} y={37.5} width={38} height={13} rx={6.5} fill={ink} />
+            )}
+          </svg>
+        </span>
+      )}
+    />
   );
 }
 

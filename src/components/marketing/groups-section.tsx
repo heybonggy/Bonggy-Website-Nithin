@@ -76,7 +76,7 @@ function Take({ s, researcherTeam }: { s: State; researcherTeam: Team }) {
       {s.research ? <BotBubble team={researcherTeam} name="campaign researcher" time="fri 15:58" text={RESEARCH} /> : null}
       {s.system ? <SystemLine text="**Campaign Researcher** handed off to **Deal Coach**" /> : null}
       {s.coach ? <BotBubble team="sales" name="deal coach" time="fri 16:01" text={COACH} /> : null}
-      {s.pending ? <PendingRow label="working" /> : null}
+      {s.pending ? <PendingRow label="working" team={s.research ? "sales" : researcherTeam} /> : null}
     </>
   );
 }

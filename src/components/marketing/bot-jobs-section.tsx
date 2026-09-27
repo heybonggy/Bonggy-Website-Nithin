@@ -104,7 +104,7 @@ function TakeBubbles({ take, s, team, history = false }: { take: TeamTake; s: St
         </BotBubble>
       ) : null}
       {s.confirmed ? <BotBubble team={team} text={take.confirmation} /> : null}
-      {s.pending ? <PendingRow label="working" /> : null}
+      {s.pending ? <PendingRow label="working" team={team} /> : null}
     </>
   );
 }
@@ -148,7 +148,7 @@ function TakeDemo({ take, onDone }: { take: TeamTake; onDone: () => void }) {
       <div ref={phoneRef} className="relative">
         <PhoneFrame>
           <div className="flex items-center gap-2 border-b border-border px-4 pb-3 pt-10">
-            <BotAvatar team={bot.team} size={28} />
+            <BotAvatar team={bot.team} size={28} seed={bot.id} state={s.confirmed ? "celebrate" : s.pending ? "thinking" : s.report && !s.acted ? "waiting" : s.saved && !s.report ? "excited" : "idle"} />
             <span className="min-w-0">
               <span className="block truncate text-ui-sm font-semibold text-foreground">{bot.name}</span>
               <span className="block text-caption text-fg-3">{bot.team}</span>

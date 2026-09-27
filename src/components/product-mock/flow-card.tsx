@@ -13,6 +13,7 @@ import {
 import type { Icon as PhosphorIcon } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 import { BotAvatar } from "@/components/ui/mascot";
+import type { CharacterState } from "@/components/ui/bot-character";
 import { DUR, EASE } from "@/components/marketing/_motion";
 import { FLOW_PARTS, type Bot, type FlowPart, type StatusKind } from "./data";
 import { StatusPill } from "./status-pill";
@@ -95,8 +96,11 @@ export function FlowCard({
   size = "full",
   lastRun,
   onToggle,
+  avatarState,
   className,
 }: {
+  /** Override the avatar's character state (e.g. "excited" while filling). */
+  avatarState?: CharacterState;
   bot: Pick<Bot, "name" | "team">;
   /** Filled parts. Missing parts render empty. */
   parts: Partial<Record<FlowPart, string | string[]>>;
@@ -132,7 +136,7 @@ export function FlowCard({
         </span>
       ) : null}
       <div className="flex flex-wrap items-center gap-2">
-        <BotAvatar team={bot.team} size={compact ? 24 : 28} state={state === "running" ? "working" : undefined} />
+        <BotAvatar team={bot.team} size={compact ? 24 : 28} state={avatarState ?? (state === "running" ? "working" : state === "needs-you" ? "waiting" : "idle")} />
         <span className="text-ui font-semibold text-foreground">{bot.name}</span>
         {!compact ? <TeamTag team={bot.team} /> : null}
         <span className="ml-auto flex items-center gap-2">
