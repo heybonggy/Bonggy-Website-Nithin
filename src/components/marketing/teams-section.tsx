@@ -54,7 +54,7 @@ function TeamColumn({ team }: { team: (typeof TEAM_LIST)[number]["id"] }) {
   const tick = useAmbientTick(ref, 2600, 1400);
   const bots = BOTS.filter((b) => b.team === team);
   return (
-    <div ref={ref} className="reveal flex flex-col gap-4 rounded-3xl bg-surface p-5 sm:p-6">
+    <div ref={ref} className="reveal flex min-w-0 flex-col gap-4 rounded-3xl bg-surface p-5 sm:p-6">
       <div className="flex items-center gap-3">
         <GroupAvatar botIds={bots.slice(0, 3).map((b) => b.id)} size={28} />
         <h3 className="text-title font-medium text-foreground">{TEAM_NAME[team]}</h3>
