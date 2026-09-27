@@ -1,11 +1,11 @@
 // Screenshots of the homepage (full page and each section) and every
-// sub-page at 375, 768, 1280 and 1440px, plus a reduced-motion pass that
-// shows each demo's end state.
+// sub-page at 375, 768, 1280 and 1440px, in light and dark, plus a
+// reduced-motion pass that shows each demo's end state.
 //
 //   URL=http://localhost:3000 node scripts/screenshot.mjs
 //   CHROME_PATH="/path/to/chrome" node scripts/screenshot.mjs   # optional
 //
-// Output: screenshots/<width>/<name>.png. Logs horizontal overflow per page.
+// Output: screenshots/<theme>-<width>[-reduced]/<name>.png. Logs horizontal overflow.
 import { chromium } from "playwright";
 import { mkdir } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
@@ -20,7 +20,7 @@ const browser = await chromium.launch(
 
 const WIDTHS = [375, 768, 1280, 1440];
 const SECTIONS = [
-  "top", "what-we-do", "flows", "agents", "groups", "approvals",
+  "top", "what-we-do", "flows", "agents", "make-it-yours", "groups", "approvals",
   "analytics", "context", "how-it-works", "pricing", "faq",
 ];
 const PAGES = [
@@ -28,12 +28,13 @@ const PAGES = [
   "resources/a-note-from-us", "privacy", "terms",
 ];
 
-async function shoot(width, reduce) {
-  const dir = resolve(outRoot, reduce ? `${width}-reduced` : String(width));
+async function shoot(width, reduce, theme) {
+  const dir = resolve(outRoot, `${theme}-${width}${reduce ? "-reduced" : ""}`);
   await mkdir(dir, { recursive: true });
   const page = await browser.newPage({
     viewport: { width, height: width < 600 ? 812 : 900 },
     reducedMotion: reduce ? "reduce" : "no-preference",
+    colorScheme: theme,
   });
   await page.goto(`${base}/`, { waitUntil: "networkidle" });
   await page.waitForTimeout(1200);
@@ -45,18 +46,20 @@ async function shoot(width, reduce) {
     await el.screenshot({ path: resolve(dir, `home-${id}.png`) });
   }
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
-  console.log(`${width}${reduce ? " reduced" : ""} /: overflow ${overflow}px`);
+  console.log(`${theme} ${width}${reduce ? " reduced" : ""} /: overflow ${overflow}px`);
   if (!reduce) {
     for (const p of PAGES) {
       await page.goto(`${base}/${p}`, { waitUntil: "networkidle" });
       await page.screenshot({ path: resolve(dir, `${p.replace(/\//g, "-")}.png`), fullPage: true });
       const o = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
-      console.log(`${width} /${p}: overflow ${o}px`);
+      console.log(`${theme} ${width} /${p}: overflow ${o}px`);
     }
   }
   await page.close();
 }
 
-for (const w of WIDTHS) await shoot(w, false);
-for (const w of WIDTHS) await shoot(w, true);
+for (const theme of ["light", "dark"]) {
+  for (const w of WIDTHS) await shoot(w, false, theme);
+  for (const w of WIDTHS) await shoot(w, true, theme);
+}
 await browser.close();

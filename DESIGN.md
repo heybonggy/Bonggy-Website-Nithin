@@ -68,7 +68,7 @@ Eight curated colours, as tokens in `:root` (dark overrides ink, tint and ring).
 
 ### 2.1 Dark mode (graphite)
 
-- **Tokens.** `.dark` on `<html>` swaps every semantic token to grey values: page #1b1b1b, surface #202020, surface-2 #262626, surface-3 #2e2e2e, raised #242424, sunken #161616, text #edecec / #a8a8a6 / #9a9a98, white hairlines at 10% and 18%, and `--danger` #f97066. Shadows switch too (darker drops plus a 1px top highlight). All text pairs meet WCAG AA.
+- **Tokens.** `.dark` on `<html>` swaps every semantic token to grey values: page #1b1b1b, surface #202020, surface-2 #262626, surface-3 #2e2e2e, raised #242424, sunken #161616, text #edecec / #a8a8a6 / #9f9f9d, white hairlines at 10% and 18%, and `--danger` #f97066. Shadows switch too (darker drops plus a 1px top highlight). All text pairs meet WCAG AA.
 - **Choosing.** The first visit follows `prefers-color-scheme`. The header toggle (a 36px Sun/Moon button; a Light · Dark control in the mobile sheet) stores `localStorage["bonggy-theme"]`, and from then on the stored choice wins. With nothing stored, live system changes are followed. Tabs stay in sync through the `storage` event. Logic: [`theme.ts`](src/components/marketing/theme.ts).
 - **No flash.** [`theme-script.ts`](src/components/marketing/theme-script.ts) is inlined in `<head>`. Next places its own meta, preloads and stylesheet first, but ours is the only synchronous script, and it runs before `<body>` parses, so the first paint is already themed.
 - **Switching** adds `.theme-switching` for one frame so colours don't transition unevenly.

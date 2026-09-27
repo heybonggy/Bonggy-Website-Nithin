@@ -47,7 +47,7 @@ function PartValue({ value, edit }: { value: string | string[]; edit?: FlowEdit 
       <span className="flex flex-col gap-0.5">
         <motion.span
           initial={{ opacity: 1 }}
-          animate={{ opacity: 0.55 }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 0.2 }}
           className="text-fg-3 line-through decoration-1"
         >
@@ -63,8 +63,8 @@ function PartValue({ value, edit }: { value: string | string[]; edit?: FlowEdit 
         </motion.span>
         <motion.span
           initial={{ opacity: 0 }}
-          animate={{ opacity: [0, 1, 1, 0.6] }}
-          transition={{ duration: 2, times: [0, 0.1, 0.85, 1], delay: 0.8 }}
+          animate={{ opacity: [0, 1] }}
+          transition={{ duration: 0.3, delay: 0.8 }}
           className="text-caption text-fg-3"
         >
           edited by you

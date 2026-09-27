@@ -65,10 +65,10 @@ export function BotRow({
           {s === "needs-you" ? (
             <StatusPill status="needs-you" className="hidden h-4 px-1.5 text-micro @min-[180px]:inline-flex" />
           ) : (
-            <span className="hidden shrink-0 text-caption text-fg-3 @min-[160px]:inline">{time ?? bot.time}</span>
+            <span className={cn("hidden shrink-0 text-caption @min-[160px]:inline", active ? "text-fg-2" : "text-fg-3")}>{time ?? bot.time}</span>
           )}
         </span>
-        <span className={cn("block truncate text-ui-sm", s === "needs-you" ? "font-medium text-foreground" : "text-fg-3")}>
+        <span className={cn("block truncate text-ui-sm", s === "needs-you" ? "font-medium text-foreground" : active ? "text-fg-2" : "text-fg-3")}>
           {preview ?? bot.preview}
         </span>
       </span>

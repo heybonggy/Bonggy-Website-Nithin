@@ -143,7 +143,7 @@
   --overlay: rgb(0 0 0 / 0.55);
   --foreground: #edecec;          /* 14.6:1 on bg, 11.5:1 on surface-3 */
   --foreground-2: #a8a8a6;        /* 7.2:1 on bg, 5.7:1 on surface-3 */
-  --foreground-3: #9a9a98;        /* 6.1:1 on bg, 4.8:1 on surface-3 */
+  --foreground-3: #9f9f9d;        /* 6.4:1 on bg, ≥4.5:1 on a selected row (wash over raised) */
   --foreground-disabled: #6e6e6c; /* decorative only */
   --foreground-inverse: #141414;
   --border: rgb(255 255 255 / 0.10);
@@ -159,7 +159,7 @@
   --bubble-bot: rgb(255 255 255 / 0.06);
   --bubble-bot-ink: #edecec;
   --status-ink: #edecec;
-  --status-muted: #9a9a98;
+  --status-muted: #9f9f9d;
   --status-track: #333333;
   --hatch: repeating-linear-gradient(135deg, rgb(255 255 255 / 0.20) 0 1px, transparent 1px 5px);
   --hatch-faint: repeating-linear-gradient(135deg, rgb(255 255 255 / 0.05) 0 1px, transparent 1px 6px);
