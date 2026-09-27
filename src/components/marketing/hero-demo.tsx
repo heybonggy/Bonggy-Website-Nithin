@@ -20,6 +20,10 @@ import {
   SENDING_MS,
   RunningBotRow,
   ScriptedCursor,
+  PhoneFrame,
+  PhoneChatHeader,
+  PhoneTranscript,
+  PhoneComposer,
   SidebarTeam,
   SystemLine,
   TEAM_LIST,
@@ -125,6 +129,15 @@ const SUMMARY =
 
 export function HeroDemo() {
   const frameRef = React.useRef<HTMLDivElement>(null);
+  const phoneRef = React.useRef<HTMLDivElement>(null);
+  const [narrow, setNarrow] = React.useState(false);
+  React.useEffect(() => {
+    const mq = window.matchMedia("(max-width: 639px)");
+    const on = () => setNarrow(mq.matches);
+    on();
+    mq.addEventListener("change", on);
+    return () => mq.removeEventListener("change", on);
+  }, []);
   const windowRef = React.useRef<HTMLDivElement>(null);
   const player = useDemoPlayer({
     timeline: TIMELINE,
@@ -133,7 +146,8 @@ export function HeroDemo() {
     ref: frameRef,
     // Start without scrolling: 600ms after the intro, once 160px of the
     // window is on screen.
-    startWhenVisiblePx: 160,
+    // On phones any visible part counts (the phone screen sits lower).
+    startWhenVisiblePx: narrow ? 1 : 160,
     notBeforeMs: INTRO_MS + 600,
     startDelay: 600,
   });
@@ -185,48 +199,8 @@ export function HeroDemo() {
   const fresh = s.status === "off" ? (s.parts.at(-1) ?? null) : null;
   const trackerStatus: StatusKind = s.named ? s.status : "off";
 
-  const sidebar = (
+  const messages = (
     <>
-      {TEAM_LIST.map((t) => (
-        <SidebarTeam key={t.id} team={t.id}>
-          {t.id === "sales" && s.named ? (
-            <div data-bot-row="champion-tracker">
-            <BotRow
-              bot={CHAMPION_TRACKER}
-              active
-              fresh
-              status={trackerStatus}
-              preview={s.found && !s.receipt ? "needs you: note to dana" : s.receipt ? "sent after your ok" : CHAMPION_TRACKER.preview}
-            />
-            </div>
-          ) : null}
-          {BOTS.filter((b) => b.team === t.id)
-            .slice(0, t.id === "sales" && s.named ? 1 : 2)
-            .map((b) =>
-              b.id === "pipeline-watch" ? (
-                <RunningBotRow key={b.id} bot={b} labels={AMBIENT.pipeline} />
-              ) : (
-                <BotRow key={b.id} bot={b} />
-              ),
-            )}
-        </SidebarTeam>
-      ))}
-    </>
-  );
-
-  return (
-    <div ref={outerRef} className="relative">
-    <DemoFrame
-      ref={frameRef}
-      summary={SUMMARY}
-      playing={player.playing}
-      offscreen={player.offscreen}
-      onSkip={player.skip}
-    >
-      <div ref={windowRef} className="relative">
-        <AppWindow screen="bots" title={s.named ? "Champion Tracker" : "new bot"} sidebar={sidebar} className="lg:h-[560px]">
-          <div ref={transcriptRef} className="fade-t flex min-h-0 flex-1 flex-col gap-4 overflow-hidden px-4 pb-2 pt-8 sm:px-6">
-            <div className="mx-auto flex w-full max-w-[600px] flex-col gap-4">
               {s.user ? <UserBubble text={INSTRUCTION} /> : null}
               {s.pending === "reply" ? <PendingRow label="thinking" botId="champion-tracker" /> : null}
               {s.reply ? <BotBubble botId="champion-tracker" name="new bot" time="mon 16:40" text={REPLY} /> : null}
@@ -272,6 +246,53 @@ export function HeroDemo() {
                   />
                 </BotBubble>
               ) : null}
+    </>
+  );
+
+  const sidebar = (
+    <>
+      {TEAM_LIST.map((t) => (
+        <SidebarTeam key={t.id} team={t.id}>
+          {t.id === "sales" && s.named ? (
+            <div data-bot-row="champion-tracker">
+            <BotRow
+              bot={CHAMPION_TRACKER}
+              active
+              fresh
+              status={trackerStatus}
+              preview={s.found && !s.receipt ? "needs you: note to dana" : s.receipt ? "sent after your ok" : CHAMPION_TRACKER.preview}
+            />
+            </div>
+          ) : null}
+          {BOTS.filter((b) => b.team === t.id)
+            .slice(0, t.id === "sales" && s.named ? 1 : 2)
+            .map((b) =>
+              b.id === "pipeline-watch" ? (
+                <RunningBotRow key={b.id} bot={b} labels={AMBIENT.pipeline} />
+              ) : (
+                <BotRow key={b.id} bot={b} />
+              ),
+            )}
+        </SidebarTeam>
+      ))}
+    </>
+  );
+
+  return (
+    <div ref={outerRef} className="relative">
+    <div ref={frameRef}>
+    <DemoFrame
+      className="hidden sm:block"
+      summary={SUMMARY}
+      playing={player.playing}
+      offscreen={player.offscreen}
+      onSkip={player.skip}
+    >
+      <div ref={windowRef} className="relative">
+        <AppWindow screen="bots" title={s.named ? "Champion Tracker" : "new bot"} sidebar={sidebar} className="lg:h-[560px]">
+          <div ref={transcriptRef} className="fade-t flex min-h-0 flex-1 flex-col gap-4 overflow-hidden px-4 pb-2 pt-8 sm:px-6">
+            <div className="mx-auto flex w-full max-w-[600px] flex-col gap-4">
+              {messages}
             </div>
             {/* Room below the newest message so it can scroll up into view. */}
             <div aria-hidden className="h-[260px] shrink-0" />
@@ -298,6 +319,39 @@ export function HeroDemo() {
         <ScriptedCursor containerRef={windowRef} cursor={s.cursor} />
       </div>
     </DemoFrame>
+    {/* Below 640px the hero is a phone screen, driven by the same take. */}
+    <DemoFrame
+      className="sm:hidden"
+      summary={SUMMARY}
+      playing={player.playing}
+      offscreen={player.offscreen}
+      onSkip={player.skip}
+    >
+      <div ref={phoneRef} className="relative">
+        <PhoneFrame plate={false}>
+          <PhoneChatHeader
+            botId={s.named ? "champion-tracker" : undefined}
+            title={s.named ? "Champion Tracker" : "new bot"}
+            subtitle={s.named ? undefined : "describe the work in a sentence"}
+            status={s.named ? trackerStatus : undefined}
+            statusLabel={s.statusLabel}
+            character={s.receipt ? "celebrate" : s.found ? "waiting" : s.pending !== "none" ? "thinking" : s.named ? "excited" : "idle"}
+          />
+          <PhoneTranscript deps={s} follow="top">
+            {!s.user ? (
+              <div className="flex flex-col items-center gap-2 pt-10 text-center">
+                <Mascot state="idle" className="size-12" />
+                <p className="max-w-[26ch] text-ui-sm text-fg-3">describe the work in a sentence. i&apos;ll turn it into a flow.</p>
+              </div>
+            ) : null}
+            {messages}
+          </PhoneTranscript>
+          <PhoneComposer value={s.composer} caret={!s.user} keyboard={!!s.composer && !s.user} />
+        </PhoneFrame>
+        <ScriptedCursor containerRef={phoneRef} cursor={s.cursor} variant="touch" />
+      </div>
+    </DemoFrame>
+    </div>
     {takeDone && chip ? (
       <button
         type="button"

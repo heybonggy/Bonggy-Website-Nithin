@@ -100,17 +100,37 @@ export function PhoneChatHeader({
  * A scrolling transcript that fills from the top and brings each new
  * message into view, like a real chat.
  */
-export function PhoneTranscript({ children, deps, className }: { children: React.ReactNode; deps: unknown; className?: string }) {
+export function PhoneTranscript({
+  children,
+  deps,
+  follow = "bottom",
+  className,
+}: {
+  children: React.ReactNode;
+  deps: unknown;
+  /** "top": scroll each new message near the top (when only the top of the phone is on screen). */
+  follow?: "bottom" | "top";
+  className?: string;
+}) {
   const ref = React.useRef<HTMLDivElement>(null);
   const reduced = usePrefersReducedMotion();
   React.useLayoutEffect(() => {
     const el = ref.current;
     if (!el) return;
-    el.scrollTo({ top: el.scrollHeight, behavior: reduced ? "auto" : "smooth" });
-  }, [deps, reduced]);
+    if (follow === "bottom") {
+      el.scrollTo({ top: el.scrollHeight, behavior: reduced ? "auto" : "smooth" });
+      return;
+    }
+    const kids = [...el.children].filter((c) => !(c as HTMLElement).dataset.spacer);
+    const last = kids.at(-1);
+    if (!last) return;
+    const offset = last.getBoundingClientRect().top - el.getBoundingClientRect().top + el.scrollTop;
+    el.scrollTo({ top: Math.max(0, offset - 16), behavior: reduced ? "auto" : "smooth" });
+  }, [deps, reduced, follow]);
   return (
     <div ref={ref} className={cn("fade-t flex min-h-0 flex-1 flex-col gap-3 overflow-hidden px-3 pb-3 pt-4 text-[14px]", className)}>
       {children}
+      {follow === "top" ? <div aria-hidden data-spacer="1" className="h-[70%] shrink-0" /> : null}
     </div>
   );
 }

@@ -27,7 +27,7 @@ function Words({ text, offset = 0 }: { text: string; offset?: number }) {
 export function Hero() {
   const headWords = HEADLINE.split(" ").length;
   return (
-    <section id="top" className="px-4 pb-16 pt-24 sm:px-6 sm:pb-24 sm:pt-28">
+    <section id="top" className="px-4 pb-16 pt-20 sm:px-6 sm:pb-24 sm:pt-28">
       <div className="mx-auto flex w-full max-w-wide flex-col items-center text-center">
         <a
           href={CAL_LINK}
@@ -44,7 +44,7 @@ export function Hero() {
           <span className="sr-only"> (opens in a new tab)</span>
         </a>
 
-        <h1 className="mt-5 max-w-[20ch] text-balance text-display-lg text-foreground [perspective:1200px] sm:text-display-xl lg:max-w-none">
+        <h1 className="mt-4 max-w-[20ch] text-balance text-[2.125rem] font-medium leading-[1.08] tracking-[-0.02em] text-foreground [perspective:1200px] sm:mt-5 sm:text-display-xl lg:max-w-none">
           <Words text={HEADLINE} />
           {/* Two lines at lg: the muted clause starts its own line. */}
           <br aria-hidden className="hidden lg:block" />
@@ -54,7 +54,7 @@ export function Hero() {
         </h1>
 
         <p
-          className="mt-5 max-w-copy animate-rise-in text-body text-fg-2 sm:text-body-lg"
+          className="mt-4 max-w-copy animate-rise-in text-body text-fg-2 sm:mt-5 sm:text-body-lg"
           style={{ animationDelay: "500ms" }}
         >
           Bonggy is the agent workspace for sales, RevOps and marketing teams. Describe the work in a sentence; a bot
@@ -62,11 +62,11 @@ export function Hero() {
         </p>
 
         <div
-          className="mt-7 flex animate-rise-in flex-wrap items-center justify-center gap-3"
+          className="mt-6 flex animate-rise-in flex-nowrap items-center justify-center gap-2 sm:mt-7 sm:flex-wrap sm:gap-3"
           style={{ animationDelay: "650ms" }}
         >
-          <EarlyAccessCta size="lg" />
-          <CtaButton size="lg" variant="soft">
+          <EarlyAccessCta size="lg" className="max-sm:px-4 max-sm:text-ui" />
+          <CtaButton size="lg" variant="soft" className="max-sm:px-4 max-sm:text-ui">
             Book a 30-min call
           </CtaButton>
         </div>
@@ -74,7 +74,7 @@ export function Hero() {
             they're real and approved. */}
 
         <div
-          className="relative mt-10 w-full max-w-wide animate-rise-in text-left sm:mt-12"
+          className="relative mt-8 w-full max-w-wide animate-rise-in text-left sm:mt-12"
           style={{ animationDelay: "800ms", ["--rise-from" as string]: "-20px" }}
         >
           {/* Depth without hue: a faint hatched plate the window floats on. */}
