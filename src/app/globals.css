@@ -408,6 +408,12 @@
   mask-image: linear-gradient(to bottom, transparent, #000 36px, #000 calc(100% - 36px), transparent);
 }
 
+/* Chat transcripts grow from the bottom: fade only the top edge. */
+@utility fade-t {
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 36px);
+  mask-image: linear-gradient(to bottom, transparent, #000 36px);
+}
+
 /* Flow-card row sweep: a 12% ink wash that passes left to right. */
 @utility sweep {
   background-image: linear-gradient(90deg, transparent 0%, rgb(10 10 10 / 0.12) 45%, transparent 55%, transparent 100%);
