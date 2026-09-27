@@ -95,7 +95,7 @@ function NudgeStage() {
   const s = NUDGE_STATES[frame];
   return (
     <div ref={ref} className="flex h-full flex-col items-center justify-center gap-3 px-5 text-center">
-      <BotAvatar botId="deal-coach" size={40} state={s.status === "running" ? "working" : s.status === "needs-you" ? "needs-you" : "idle"} />
+      <BotAvatar botId="unstick" size={40} state={s.status === "running" ? "working" : s.status === "needs-you" ? "needs-you" : "idle"} />
       <StatusPill status={s.status} label={s.label} size="md" />
       <p key={s.line} className="animate-label-in text-ui-sm text-fg-2">
         {s.line}

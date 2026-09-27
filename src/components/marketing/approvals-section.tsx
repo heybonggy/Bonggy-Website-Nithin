@@ -59,7 +59,7 @@ const TIMELINE: Timeline<Partial<State>> = [
 ];
 
 const SUMMARY =
-  "Demo: the approvals inbox. Champion Tracker wants to send a note to Dana at Globex and needs your ok. Deal Coach wants to add 5 next-step tasks to your crm. Inbound Router briefed 4 reps in #inbound, done and internal only. Campaign Researcher's post to #q4-campaign is held for you. You open the note to Dana, read it, and approve it.";
+  "Demo: the approvals inbox. Boomerang wants to send a note to Dana at Globex and needs your ok. Unstick wants to add 5 next-step tasks to your crm. Relay briefed 4 reps in #inbound, done and internal only. Echo's post to #q4-campaign is held for you. You open the note to Dana, read it, and approve it.";
 
 /** #approvals: what waits for a person, and the lines Bonggy won't cross. */
 export function ApprovalsSection() {
@@ -81,7 +81,7 @@ export function ApprovalsSection() {
   const items = APPROVALS.map((a) => (a.id === "a1" && s.approval === "approved" ? { ...a, action: "sent a note to dana at globex", status: "done" as const, age: "now" } : a));
 
   return (
-    <Section id="approvals" card peek={<BotAvatar botId="champion-tracker" size={48} state="waiting" interactive />} aria-labelledby="approvals-title">
+    <Section id="approvals" card peek={<BotAvatar botId="boomerang" size={48} state="waiting" interactive />} aria-labelledby="approvals-title">
       <SectionHeader
         title={<span id="approvals-title">Bots draft. You decide.</span>}
         intro="Anything a customer would see waits for a person. Everything else can run on its own, if your team says so."

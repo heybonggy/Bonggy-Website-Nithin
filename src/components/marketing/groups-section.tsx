@@ -30,7 +30,7 @@ import { GroupAvatar } from "@/components/ui/mascot";
 import { Section, SectionHeader } from "./section";
 import { useLoopFocus } from "./loop-focus";
 
-const RESEARCH = "top pains from 24 calls: slow onboarding, manual quotes, no forecast view. sharing with deal coach. no copy drafted.";
+const RESEARCH = "top pains from 24 calls: slow onboarding, manual quotes, no forecast view. sharing with unstick. no copy drafted.";
 const COACH = "got it. i'll add the matching pain to each stuck deal's next-step note. nothing sent.";
 
 type State = {
@@ -52,13 +52,13 @@ const TIMELINE: Timeline<Partial<State>> = [
 ];
 
 const HANDOFFS = [
-  { from: "campaign-researcher", label: "sharing pains with Deal Coach…" },
-  { from: "deal-coach", label: "adding pains to 5 next steps…" },
-  { from: "inbound-router", label: "routing lead to Deal Coach…" },
+  { from: "echo", label: "sharing pains with Unstick…" },
+  { from: "unstick", label: "adding pains to 5 next steps…" },
+  { from: "relay", label: "routing lead to Unstick…" },
 ];
 
 const SUMMARY =
-  "Demo: a group called Marketing → Sales handoff with three bots: Campaign Researcher, Deal Coach and Inbound Router. Campaign Researcher posts the top pains from 24 calls (slow onboarding, manual quotes, no forecast view) and hands them to Deal Coach. Deal Coach adds the matching pain to each stuck deal's next-step note and sends nothing.";
+  "Demo: a group called Marketing → Sales handoff with three bots: Echo, Unstick and Relay. Echo posts the top pains from 24 calls (slow onboarding, manual quotes, no forecast view) and hands them to Unstick. Unstick adds the matching pain to each stuck deal's next-step note and sends nothing.";
 
 /** Pinned at the top of the group: what this group runs, and its last run. */
 function PinnedRun() {
@@ -77,10 +77,10 @@ function PinnedRun() {
 function Take({ s }: { s: State }) {
   return (
     <>
-      {s.research ? <BotBubble botId="campaign-researcher" name="campaign researcher" time="fri 15:58" text={RESEARCH} /> : null}
-      {s.system ? <SystemLine text="**Campaign Researcher** handed off to **Deal Coach**" /> : null}
-      {s.coach ? <BotBubble botId="deal-coach" name="deal coach" time="fri 16:01" text={COACH} /> : null}
-      {s.pending ? <PendingRow label="working" botId={s.research ? "deal-coach" : "campaign-researcher"} /> : null}
+      {s.research ? <BotBubble botId="echo" name="echo" time="fri 15:58" text={RESEARCH} /> : null}
+      {s.system ? <SystemLine text="**Echo** handed off to **Unstick**" /> : null}
+      {s.coach ? <BotBubble botId="unstick" name="unstick" time="fri 16:01" text={COACH} /> : null}
+      {s.pending ? <PendingRow label="working" botId={s.research ? "unstick" : "echo"} /> : null}
     </>
   );
 }
@@ -116,11 +116,11 @@ export function GroupsSection() {
         </span>
       </div>
       {members.map((m) =>
-        m.id === "inbound-router" ? (
+        m.id === "relay" ? (
           <div key={m.id} className="ml-2">
             <RunningBotRow bot={m} labels={["routing 2 leads…", "scoring a demo request…", "briefing #inbound…"]} />
           </div>
-        ) : m.id === "deal-coach" ? (
+        ) : m.id === "unstick" ? (
           <BotRow key={m.id} bot={m} status="needs-you" preview="5 tasks to add" className="ml-2" />
         ) : (
           <BotRow key={m.id} bot={m} className="ml-2" />

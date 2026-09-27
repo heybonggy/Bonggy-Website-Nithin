@@ -93,9 +93,9 @@ export default function ANoteFromUsPage() {
         <section className="space-y-5 text-body-lg text-fg-2">
           <p>So we built a workspace for it.</p>
           <p>
-            Teams build bots from a sentence: a Market Modeller that maps the
-            segments, an Account Researcher that digs into accounts and people,
-            a Brief Writer that turns it into something a rep can use. Each one
+            Teams build bots from a sentence: Sweet Spot, which maps the
+            segments; Dossier, which digs into accounts and people; and
+            Draftsmith, which turns it into something a rep can use. Each one
             runs a flow the team designs, and bots hand off work in groups.
           </p>
           <p>

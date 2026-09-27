@@ -33,9 +33,9 @@ A bot does one job for a team. You start from a preset ("Flows teams have built"
 
 | Team | Example bots |
 |---|---|
-| Sales | Account Researcher, Deal Coach, Brief Writer, Champion Tracker |
-| RevOps | Pipeline Watch, CRM Hygiene, Forecast Prep |
-| Marketing | Market Modeller, Campaign Researcher, Content Drafter, Inbound Router |
+| Sales | Dossier, Unstick, Draftsmith, Boomerang |
+| RevOps | Compass, Tidy, Delta |
+| Marketing | Sweet Spot, Echo, Quill, Relay |
 
 ### Flows
 

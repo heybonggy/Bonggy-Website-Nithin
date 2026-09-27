@@ -158,12 +158,12 @@ The Bonggy logo is the **planet mark** ([`ui/logo.tsx`](src/components/ui/logo.t
 ## 7.21 Bot looks and the customiser
 
 - **Look model** ([`ui/bot-look.tsx`](src/components/ui/bot-look.tsx)): `{ color, shape: pebble | round | squircle | capsule | blob, eyes: pill | dots | visor | round | arcs, accessory: none | antenna | headset | beanie | glasses }`, drawn as SVG in one viewBox. The eyes are the group the character engine animates (blink scales height, gaze translates); the accessory trails the body's rotation by about 60ms, so antennas wobble on hops. Accessories are hidden under 20px.
-- **Defaults** ([`data.ts`](src/components/product-mock/data.ts) `DEFAULT_LOOKS`): every bot is distinct (Champion Tracker coral pebble, Deal Coach graphite squircle with a visor, Pipeline Watch sky round with dots, Campaign Researcher violet blob with glasses, Inbound Router teal capsule with a headset…). The team is carried by the team tag, not the avatar.
+- **Defaults** ([`data.ts`](src/components/product-mock/data.ts) `DEFAULT_LOOKS`): every bot is distinct (Boomerang coral pebble, Unstick graphite squircle with a visor, Compass sky round with dots, Echo violet blob with glasses, Relay teal capsule with a headset…). The team is carried by the team tag, not the avatar.
 - **Store** ([`bot-looks.ts`](src/components/product-mock/bot-looks.ts)): `useBotLook(botId)` on `useSyncExternalStore`, saved in `localStorage["bonggy:bot-looks:v1"]` as partial looks over the defaults and validated on read. The server snapshot is the defaults, and an unsaved bot returns the same default object on the client, so hydration never re-renders. Tabs sync through `storage`. A change updates the bot everywhere at once.
-- **"Make it yours"** (`#make-it-yours`, after "A bot for every job", in the Product menu): pick a bot, then a colour (8 swatches in a radiogroup), shape, eyes and accessory (44px chips with a live mini preview). Arrow keys move and select; changes are announced politely ("Deal Coach is now sky"). Reset, and "saved on this device". A 160px live preview reacts (excited for 1.2s on each change; click for reactions), with a sidebar row and a bubble showing the accents.
-- **Naming moment.** When Champion Tracker names itself in the hero, it appears at 72px in the chat (waking, then excited), then a shared-layout move (`layoutId`) shrinks it into its sidebar row (desktop) or header (phone).
+- **"Make it yours"** (`#make-it-yours`, after "A bot for every job", in the Product menu): pick a bot, then a colour (8 swatches in a radiogroup), shape, eyes and accessory (44px chips with a live mini preview). Arrow keys move and select; changes are announced politely ("Unstick is now sky"). Reset, and "saved on this device". A 160px live preview reacts (excited for 1.2s on each change; click for reactions), with a sidebar row and a bubble showing the accents.
+- **Naming moment.** When Boomerang names itself in the hero, it appears at 72px in the chat (waking, then excited), then a shared-layout move (`layoutId`) shrinks it into its sidebar row (desktop) or header (phone).
 - **Bubble names** sit in a small chip in the bot's tint with its ink.
-- **Hero tie-in.** After the hero take ends, a line under the demo, "customise champion tracker →" (a real button outside the inert demo, in a reserved 44px slot), jumps to the customiser with that bot selected.
+- **Hero tie-in.** After the hero take ends, a line under the demo, "customise boomerang →" (a real button outside the inert demo, in a reserved 44px slot), jumps to the customiser with that bot selected.
 - **Performance.** NumberFlow mounts lazily (`LazyNumber`): plain numbers until a table scrolls in or a filter changes. Mounting it everywhere on load cost about 1.4s of style and layout on a throttled phone.
 
 ## 8. Motion
@@ -241,7 +241,7 @@ Everything lives in [`src/components/product-mock/`](src/components/product-mock
 
 | # | Anchor | Section |
 |---|---|---|
-| 1 | `#top` | Hero: a bot builds from your sentence (Champion Tracker) |
+| 1 | `#top` | Hero: a bot builds from your sentence (Boomerang) |
 | 2 | `#what-we-do` | One workspace. Three teams. (three team columns: the team's bots as compact rows with a live status that alternates between two real moments, staggered 300–700ms per row; one line on what the team gets; clicking a bot opens it in the customiser) |
 | 3 | `#flows` | Every bot runs a flow you design. |
 | 4 | `#agents` | A bot for every job (Flows teams have built) |
@@ -255,7 +255,7 @@ Everything lives in [`src/components/product-mock/`](src/components/product-mock
 | 11 | `#faq` | Questions, answered. |
 | 12 | | Give your first bot a purpose. |
 
-Team ownership in mocks: Account Researcher, Deal Coach, Brief Writer, Champion Tracker (sales); Pipeline Watch, CRM Hygiene, Forecast Prep (RevOps); Market Modeller, Campaign Researcher, Content Drafter, **Inbound Router (marketing)**.
+Team ownership in mocks: Dossier, Unstick, Draftsmith, Boomerang (sales); Compass, Tidy, Delta (RevOps); Sweet Spot, Echo, Quill, **Relay (marketing)**.
 
 ---
 

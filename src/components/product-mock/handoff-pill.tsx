@@ -11,7 +11,7 @@ export type HandoffMember = { id: string; team: Team };
 
 /**
  * A group's members as overlapped discs. The active member expands into a
- * pill that says what it's handing off, e.g. "sharing pains with Deal Coach…".
+ * pill that says what it's handing off, e.g. "sharing pains with Unstick…".
  */
 export function HandoffPill({
   members,

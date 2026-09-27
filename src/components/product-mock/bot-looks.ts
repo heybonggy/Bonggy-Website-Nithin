@@ -47,10 +47,39 @@ function validate(raw: unknown): Stored {
   return out;
 }
 
+/** Bots were renamed; looks saved under the old ids carry over. */
+const RENAMED: Record<string, string> = {
+  "champion-tracker": "boomerang",
+  "account-researcher": "dossier",
+  "deal-coach": "unstick",
+  "brief-writer": "draftsmith",
+  "pipeline-watch": "compass",
+  "crm-hygiene": "tidy",
+  "forecast-prep": "delta",
+  "market-modeller": "sweet-spot",
+  "campaign-researcher": "echo",
+  "content-drafter": "quill",
+  "inbound-router": "relay",
+};
+
+function migrate(raw: unknown): unknown {
+  if (!raw || typeof raw !== "object") return raw;
+  const out: Record<string, unknown> = {};
+  for (const [id, look] of Object.entries(raw as Record<string, unknown>)) {
+    const next = RENAMED[id] ?? id;
+    // A look saved under the new id wins over a migrated one.
+    if (!(next in out) || next === id) out[next] = look;
+  }
+  return out;
+}
+
 function read(): Stored {
   if (cache) return cache;
   try {
-    cache = validate(JSON.parse(localStorage.getItem(KEY) || "{}"));
+    const raw = JSON.parse(localStorage.getItem(KEY) || "{}");
+    cache = validate(migrate(raw));
+    // Persist the migrated keys once, so the old ids disappear.
+    if (JSON.stringify(raw) !== JSON.stringify(cache)) localStorage.setItem(KEY, JSON.stringify(cache));
   } catch {
     cache = {};
   }

@@ -5,9 +5,9 @@ import {
   AppWindow,
   CURSOR_HOP,
   CURSOR_IDLE,
-  DEAL_COACH_FLOW,
-  DEAL_COACH_RECEIPT,
-  DEAL_COACH_REMIX,
+  UNSTICK_FLOW,
+  UNSTICK_RECEIPT,
+  UNSTICK_REMIX,
   DemoFrame,
   FLOW_LIST,
   FlowCard,
@@ -57,12 +57,12 @@ const patch = (s: State, a: Partial<State>): State => ({ ...s, ...a });
 const TIMELINE: Timeline<Partial<State>> = [
   { action: { cursor: { target: "part-trigger", clicks: 0 } }, hold: CURSOR_HOP },
   { action: { cursor: { target: "part-trigger", clicks: 1 } }, hold: 200 },
-  { action: { edits: { trigger: DEAL_COACH_REMIX.trigger } }, hold: 2000 },
+  { action: { edits: { trigger: UNSTICK_REMIX.trigger } }, hold: 2000 },
   { action: { cursor: { target: "part-context", clicks: 1 } }, hold: CURSOR_HOP },
   { action: { cursor: { target: "part-context", clicks: 2 } }, hold: 200 },
   {
     action: {
-      edits: { trigger: DEAL_COACH_REMIX.trigger, context: DEAL_COACH_REMIX.context },
+      edits: { trigger: UNSTICK_REMIX.trigger, context: UNSTICK_REMIX.context },
       statusLabel: "fridays after forecast",
     },
     hold: 2200,
@@ -72,7 +72,7 @@ const TIMELINE: Timeline<Partial<State>> = [
 ];
 
 const SUMMARY =
-  "Demo: the Deal Coach flow, with six parts. Trigger: every Monday at 08:00. Context: open deals in the crm, calendar and call notes. Steps: read every open deal, flag deals with no next step or 14+ days quiet, suggest one next step per deal. Approval: you, before any crm change, with a hard limit: never email anyone. Output: this chat and a crm task per deal. Goal: q4 enterprise logos. You change the trigger to Fridays after forecast and narrow the context to enterprise deals. The run reads 18 open deals, finds 5 stuck, adds 5 next-step tasks, and sends nothing.";
+  "Demo: the Unstick flow, with six parts. Trigger: every Monday at 08:00. Context: open deals in the crm, calendar and call notes. Steps: read every open deal, flag deals with no next step or 14+ days quiet, suggest one next step per deal. Approval: you, before any crm change, with a hard limit: never email anyone. Output: this chat and a crm task per deal. Goal: q4 enterprise logos. You change the trigger to Fridays after forecast and narrow the context to enterprise deals. The run reads 18 open deals, finds 5 stuck, adds 5 next-step tasks, and sends nothing.";
 
 /** #flows: the six parts of a flow, remixed live. */
 export function FlowsSection() {
@@ -92,16 +92,16 @@ export function FlowsSection() {
   });
   const tick = useAmbientTick(frameRef, 1800);
   const s = player.state;
-  const bot = botById(DEAL_COACH_FLOW.botId);
+  const bot = botById(UNSTICK_FLOW.botId);
 
   const parts = {
-    ...DEAL_COACH_FLOW.parts,
+    ...UNSTICK_FLOW.parts,
     ...(s.edits.trigger ? { trigger: s.edits.trigger.to } : {}),
     ...(s.edits.context ? { context: s.edits.context.to } : {}),
   };
 
   return (
-    <Section id="flows" card peek={<BotAvatar botId="pipeline-watch" size={48} state="idle" interactive />} aria-labelledby="flows-title">
+    <Section id="flows" card peek={<BotAvatar botId="compass" size={48} state="idle" interactive />} aria-labelledby="flows-title">
       <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-end">
         <SectionHeader
           title={<span id="flows-title">Every bot runs a flow you design.</span>}
@@ -130,9 +130,9 @@ export function FlowsSection() {
                 <p className="px-2 pb-1 pt-2 text-caption font-medium text-fg-3">flows</p>
                 <FlowsList
                   flows={FLOW_LIST}
-                  selectedId={DEAL_COACH_FLOW.botId}
+                  selectedId={UNSTICK_FLOW.botId}
                   running={{
-                    botId: "inbound-router",
+                    botId: "relay",
                     line: <CyclingLabel labels={["routing 2 new leads…", "scoring against icp…", "briefing #inbound…"]} tick={tick} />,
                   }}
                 />
@@ -143,25 +143,25 @@ export function FlowsSection() {
               <FlowCard
                 bot={bot}
                 parts={parts}
-                limit={DEAL_COACH_FLOW.limit}
+                limit={UNSTICK_FLOW.limit}
                 status={s.status}
                 statusLabel={s.statusLabel}
                 state={s.card}
                 edits={s.edits}
                 avatarState={s.receipt ? "celebrate" : undefined}
-                lastRun={DEAL_COACH_FLOW.lastRun}
+                lastRun={UNSTICK_FLOW.lastRun}
               />
               <div className="flex flex-col gap-4">
                 <div>
                   <p className="mb-2 text-caption font-medium text-fg-3">run history</p>
-                  <RunHistory runs={DEAL_COACH_FLOW.runs.slice(1)} />
+                  <RunHistory runs={UNSTICK_FLOW.runs.slice(1)} />
                 </div>
                 {/* Always laid out so the page doesn't shift when it appears. */}
                 <div key={String(s.receipt)} className={s.receipt ? "animate-entry" : "invisible"}>
                   <RunReceipt
-                    title={DEAL_COACH_RECEIPT.title}
-                    items={DEAL_COACH_RECEIPT.items}
-                    footer={DEAL_COACH_RECEIPT.footer}
+                    title={UNSTICK_RECEIPT.title}
+                    items={UNSTICK_RECEIPT.items}
+                    footer={UNSTICK_RECEIPT.footer}
                   />
                 </div>
               </div>
@@ -191,7 +191,7 @@ export function FlowsSection() {
               <FlowCard
                 bot={bot}
                 parts={parts}
-                limit={DEAL_COACH_FLOW.limit}
+                limit={UNSTICK_FLOW.limit}
                 status={s.status}
                 statusLabel={s.statusLabel}
                 state={s.card}
@@ -199,7 +199,7 @@ export function FlowsSection() {
                 avatarState={s.receipt ? "celebrate" : undefined}
               />
               {s.receipt ? (
-                <RunReceipt title={DEAL_COACH_RECEIPT.title} items={DEAL_COACH_RECEIPT.items} footer={DEAL_COACH_RECEIPT.footer} />
+                <RunReceipt title={UNSTICK_RECEIPT.title} items={UNSTICK_RECEIPT.items} footer={UNSTICK_RECEIPT.footer} />
               ) : null}
             </PhoneTranscript>
             <PhoneComposer caret />

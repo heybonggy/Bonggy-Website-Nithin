@@ -8,7 +8,7 @@ import {
   BotBubble,
   BotRow,
   CHAMPION_NOTE,
-  CHAMPION_TRACKER,
+  BOOMERANG,
   CURSOR_HOP,
   CURSOR_IDLE,
   ChatComposer,
@@ -129,7 +129,7 @@ const TIMELINE: Timeline<Partial<State>> = [
 ];
 
 const SUMMARY =
-  "Demo: you type “when a lost deal's champion changes jobs, tell me and draft a note.” The bot names itself Champion Tracker and fills its flow: trigger, context, steps, approval (you, before any note is sent), output and goal (q4 new pipeline). Next morning it finds a champion who moved to a new company, drafts a note, and waits. You approve it. Its receipt: matched 1 champion, drafted 1 note, added 1 crm task; sent after your ok, nothing else sent.";
+  "Demo: you type “when a lost deal's champion changes jobs, tell me and draft a note.” The bot names itself Boomerang and fills its flow: trigger, context, steps, approval (you, before any note is sent), output and goal (q4 new pipeline). Next morning it finds a champion who moved to a new company, drafts a note, and waits. You approve it. Its receipt: matched 1 champion, drafted 1 note, added 1 crm task; sent after your ok, nothing else sent.";
 
 export function HeroDemo() {
   const frameRef = React.useRef<HTMLDivElement>(null);
@@ -190,20 +190,20 @@ export function HeroDemo() {
   const renderMessages = (where: "desk" | "phone") => (
     <>
               {s.user ? <UserBubble text={INSTRUCTION} /> : null}
-              {s.pending === "reply" ? <PendingRow label="thinking" botId="champion-tracker" /> : null}
-              {s.reply ? <BotBubble botId="champion-tracker" name="new bot" time="mon 16:40" text={REPLY} /> : null}
+              {s.pending === "reply" ? <PendingRow label="thinking" botId="boomerang" /> : null}
+              {s.reply ? <BotBubble botId="boomerang" name="new bot" time="mon 16:40" text={REPLY} /> : null}
               {s.hatch ? (
                 <div className="flex justify-center py-2">
                   <motion.span layoutId={`ct-${where}`} className="inline-flex" transition={SPRING.morph}>
-                    <BotAvatar botId="champion-tracker" size={72} state="excited" />
+                    <BotAvatar botId="boomerang" size={72} state="excited" />
                   </motion.span>
                 </div>
               ) : null}
-              {s.named ? <SystemLine text="named itself **champion tracker**" /> : null}
+              {s.named ? <SystemLine text="named itself **boomerang**" /> : null}
               {s.named ? (
-                <BotBubble botId="champion-tracker">
+                <BotBubble botId="boomerang">
                   <FlowCard
-                    bot={CHAMPION_TRACKER}
+                    bot={BOOMERANG}
                     parts={parts}
                     status={trackerStatus}
                     statusLabel={s.statusLabel}
@@ -214,9 +214,9 @@ export function HeroDemo() {
                 </BotBubble>
               ) : null}
               {s.tomorrow ? <SystemLine timestamp text="tomorrow 07:02" /> : null}
-              {s.pending === "found" ? <PendingRow label="checking the job-change feed" botId="champion-tracker" /> : null}
+              {s.pending === "found" ? <PendingRow label="checking the job-change feed" botId="boomerang" /> : null}
               {s.found ? (
-                <BotBubble botId="champion-tracker" name="champion tracker" time="tue 07:02" text={FOUND} state={s.receipt ? "happy" : "waiting"}>
+                <BotBubble botId="boomerang" name="boomerang" time="tue 07:02" text={FOUND} state={s.receipt ? "happy" : "waiting"}>
                   <ApprovalCard
                     strip={CHAMPION_NOTE.strip}
                     to={CHAMPION_NOTE.to}
@@ -228,7 +228,7 @@ export function HeroDemo() {
                 </BotBubble>
               ) : null}
               {s.receipt ? (
-                <BotBubble botId="champion-tracker" state="celebrate">
+                <BotBubble botId="boomerang" state="celebrate">
                   <RunReceipt
                     className="w-fit"
                     title="run receipt · tue 07:02"
@@ -249,21 +249,21 @@ export function HeroDemo() {
       {TEAM_LIST.map((t) => (
         <SidebarTeam key={t.id} team={t.id}>
           {t.id === "sales" && s.named && !s.hatch ? (
-            <div data-bot-row="champion-tracker">
+            <div data-bot-row="boomerang">
             <BotRow
-              bot={CHAMPION_TRACKER}
+              bot={BOOMERANG}
               avatarLayoutId="ct-desk"
               active
               fresh
               status={trackerStatus}
-              preview={s.found && !s.receipt ? "needs you: note to dana" : s.receipt ? "sent after your ok" : CHAMPION_TRACKER.preview}
+              preview={s.found && !s.receipt ? "needs you: note to dana" : s.receipt ? "sent after your ok" : BOOMERANG.preview}
             />
             </div>
           ) : null}
           {BOTS.filter((b) => b.team === t.id)
             .slice(0, t.id === "sales" && s.named ? 1 : 2)
             .map((b) =>
-              b.id === "pipeline-watch" ? (
+              b.id === "compass" ? (
                 <RunningBotRow key={b.id} bot={b} labels={AMBIENT.pipeline} />
               ) : (
                 <BotRow key={b.id} bot={b} />
@@ -285,7 +285,7 @@ export function HeroDemo() {
       onSkip={player.skip}
     >
       <div ref={windowRef} className="relative">
-        <AppWindow screen="bots" title={s.named ? "Champion Tracker" : "new bot"} sidebar={sidebar} className="lg:h-[560px]">
+        <AppWindow screen="bots" title={s.named ? "Boomerang" : "new bot"} sidebar={sidebar} className="lg:h-[560px]">
           <div ref={transcriptRef} className="fade-t flex min-h-0 flex-1 flex-col gap-4 overflow-hidden px-4 pb-2 pt-8 sm:px-6">
             <div className="mx-auto flex w-full max-w-[600px] flex-col gap-4">
               {renderMessages("desk")}
@@ -326,9 +326,9 @@ export function HeroDemo() {
       <div ref={phoneRef} className="relative">
         <PhoneFrame plate={false}>
           <PhoneChatHeader
-            botId={s.named && !s.hatch ? "champion-tracker" : undefined}
+            botId={s.named && !s.hatch ? "boomerang" : undefined}
             avatarLayoutId="ct-phone"
-            title={s.named ? "Champion Tracker" : "new bot"}
+            title={s.named ? "Boomerang" : "new bot"}
             subtitle={s.named ? undefined : "describe the work in a sentence"}
             status={s.named ? trackerStatus : undefined}
             statusLabel={s.statusLabel}
@@ -355,12 +355,12 @@ export function HeroDemo() {
           type="button"
           onClick={() => {
             document.getElementById("make-it-yours")?.scrollIntoView({ behavior: reduced ? "auto" : "smooth" });
-            window.dispatchEvent(new CustomEvent(CUSTOMISE_EVENT, { detail: "champion-tracker" }));
+            window.dispatchEvent(new CustomEvent(CUSTOMISE_EVENT, { detail: "boomerang" }));
           }}
           className="inline-flex min-h-11 animate-label-in items-center gap-1.5 rounded-full px-3 text-ui-sm font-medium text-fg-2 transition-colors hover:text-foreground"
         >
           <PaintBrush className="size-4" aria-hidden />
-          customise champion tracker
+          customise boomerang
           <ArrowRight className="size-3.5" aria-hidden />
         </button>
       ) : null}

@@ -113,7 +113,7 @@ export function BotBubble({
   );
 }
 
-/** Centred system line, e.g. "named itself **champion tracker**". */
+/** Centred system line, e.g. "named itself **boomerang**". */
 export function SystemLine({ text, timestamp = false, className }: { text: string; timestamp?: boolean; className?: string }) {
   return (
     <motion.p

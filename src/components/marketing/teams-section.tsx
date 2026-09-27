@@ -19,16 +19,16 @@ const TEAM_LINE = {
 
 /** Two real moments per bot; each row alternates between them while in view. */
 const MOMENTS: Record<string, [StatusKind, string][]> = {
-  "account-researcher": [["running", "reading northwind's last 3 calls…"], ["done", "brief ready · 1h ago"]],
-  "deal-coach": [["running", "reading 18 open deals…"], ["done", "5 stuck deals flagged · nothing sent"]],
-  "brief-writer": [["running", "drafting a follow-up…"], ["held", "1 draft held for you"]],
-  "pipeline-watch": [["running", "checking icp fit…"], ["done", "3 accounts off-icp · no records changed"]],
-  "crm-hygiene": [["running", "scanning 212 records…"], ["needs-you", "12 fixes to review"]],
-  "forecast-prep": [["scheduled", "thursdays 16:00"], ["running", "comparing this week to last…"]],
-  "market-modeller": [["running", "segmenting q3 wins…"], ["done", "mid-market is 40% of wins"]],
-  "campaign-researcher": [["running", "reading 24 call notes…"], ["held", "#q4-campaign post held for you"]],
-  "content-drafter": [["off", "paused by you"], ["scheduled", "next run fri 10:00"]],
-  "inbound-router": [["running", "scoring 2 demo requests…"], ["needs-you", "2 leads to route"]],
+  "dossier": [["running", "reading northwind's last 3 calls…"], ["done", "brief ready · 1h ago"]],
+  "unstick": [["running", "reading 18 open deals…"], ["done", "5 stuck deals flagged · nothing sent"]],
+  "draftsmith": [["running", "drafting a follow-up…"], ["held", "1 draft held for you"]],
+  "compass": [["running", "checking icp fit…"], ["done", "3 accounts off-icp · no records changed"]],
+  "tidy": [["running", "scanning 212 records…"], ["needs-you", "12 fixes to review"]],
+  "delta": [["scheduled", "thursdays 16:00"], ["running", "comparing this week to last…"]],
+  "sweet-spot": [["running", "segmenting q3 wins…"], ["done", "mid-market is 40% of wins"]],
+  "echo": [["running", "reading 24 call notes…"], ["held", "#q4-campaign post held for you"]],
+  "quill": [["off", "paused by you"], ["scheduled", "next run fri 10:00"]],
+  "relay": [["running", "scoring 2 demo requests…"], ["needs-you", "2 leads to route"]],
 };
 
 const PILL_LABEL: Partial<Record<StatusKind, string>> = { held: "held" };
