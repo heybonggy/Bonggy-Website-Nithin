@@ -7,10 +7,6 @@ type SectionProps = Omit<React.ComponentPropsWithoutRef<"section">, "title"> & {
   /** Wrap the content in a gray surface card (rounded-3xl). */
   card?: boolean;
   containerClassName?: string;
-  /** @deprecated eyebrows were removed with the Paper system; ignored. */
-  eyebrow?: string;
-  /** @deprecated ignored. */
-  tint?: boolean;
 };
 
 /** Page section: section rhythm, gutters and a centred container. */
@@ -20,12 +16,8 @@ export function Section({
   className,
   containerClassName,
   children,
-  eyebrow: _eyebrow,
-  tint: _tint,
   ...rest
 }: SectionProps) {
-  void _eyebrow;
-  void _tint;
   return (
     <section {...rest} className={cn("px-4 py-20 sm:px-6 sm:py-28", className)}>
       <div
