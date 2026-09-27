@@ -18,7 +18,7 @@ import { BotBubble } from "@/components/product-mock/chat";
 import { BotRow } from "@/components/product-mock/bot-row";
 import { PillTabs } from "@/components/product-mock/team-tabs";
 import { TeamTag } from "@/components/product-mock/tags";
-import { CUSTOMISABLE_BOTS, botById } from "@/components/product-mock/data";
+import { CUSTOMISABLE_BOTS, DEFAULT_LOOKS, botById } from "@/components/product-mock/data";
 import { resetBotLook, setBotLook, useBotLook } from "@/components/product-mock/bot-looks";
 import { Section, SectionHeader } from "./section";
 
@@ -95,7 +95,7 @@ export function MakeItYours() {
   React.useEffect(() => {
     const on = (e: Event) => {
       const id = (e as CustomEvent<string>).detail;
-      if (CUSTOMISABLE_BOTS.includes(id)) setBotId(id);
+      if (id in DEFAULT_LOOKS) setBotId(id);
     };
     window.addEventListener(CUSTOMISE_EVENT, on);
     return () => window.removeEventListener(CUSTOMISE_EVENT, on);
@@ -112,7 +112,9 @@ export function MakeItYours() {
     excitedTimer.current = setTimeout(() => setPreview("idle"), 1200);
   };
 
-  const tabs = CUSTOMISABLE_BOTS.map((id) => {
+  // Any bot can be customised; one opened from elsewhere joins the tabs.
+  const tabIds = CUSTOMISABLE_BOTS.includes(botId) ? CUSTOMISABLE_BOTS : [...CUSTOMISABLE_BOTS, botId];
+  const tabs = tabIds.map((id) => {
     const b = botById(id);
     return { id, label: b.name, team: b.team };
   });

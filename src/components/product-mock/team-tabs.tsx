@@ -77,12 +77,13 @@ export function PillTabs({
   );
 }
 
-/** Current colours of up to four tab bots (a fixed number of hook calls). */
+/** Current colours of up to six tab bots (a fixed number of hook calls). */
 function useTabColors(ids: string[]) {
   const a = useBotLook(ids[0]).color;
   const b = useBotLook(ids[1]).color;
   const c = useBotLook(ids[2]).color;
   const d = useBotLook(ids[3]).color;
   const e = useBotLook(ids[4]).color;
-  return [a, b, c, d, e];
+  const f = useBotLook(ids[5]).color;
+  return [a, b, c, d, e, f];
 }

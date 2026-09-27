@@ -240,7 +240,7 @@ Everything lives in [`src/components/product-mock/`](src/components/product-mock
 | # | Anchor | Section |
 |---|---|---|
 | 1 | `#top` | Hero: a bot builds from your sentence (Champion Tracker) |
-| 2 | `#what-we-do` | One workspace. Three teams. (three team columns: the team's bots as compact rows with a live status that alternates between two real moments, and one line on what the team gets; a bot's role shows as a hover tooltip) |
+| 2 | `#what-we-do` | One workspace. Three teams. (three team columns: the team's bots as compact rows with a live status that alternates between two real moments, staggered 300–700ms per row; one line on what the team gets; clicking a bot opens it in the customiser) |
 | 3 | `#flows` | Every bot runs a flow you design. |
 | 4 | `#agents` | A bot for every job (Flows teams have built) |
 | 4b | `#make-it-yours` | Make it yours. (the customiser, §7.21) |

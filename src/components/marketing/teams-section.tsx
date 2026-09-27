@@ -6,6 +6,7 @@ import { StatusPill } from "@/components/product-mock/status-pill";
 import { useAmbientTick } from "@/components/product-mock/ambient";
 import { BOTS, TEAM_LIST, type Bot, type StatusKind } from "@/components/product-mock/data";
 import { Section, SectionHeader } from "./section";
+import { CUSTOMISE_EVENT } from "./make-it-yours";
 
 const TEAM_NAME = { sales: "Sales", revops: "RevOps", marketing: "Marketing" } as const;
 
@@ -32,11 +33,32 @@ const MOMENTS: Record<string, [StatusKind, string][]> = {
 
 const PILL_LABEL: Partial<Record<StatusKind, string>> = { held: "held" };
 
-function TeamBotRow({ bot, tick, offset }: { bot: Bot; tick: number; offset: number }) {
+/** `value`, but only after `ms` (each row swaps on its own beat). */
+function useDelayed<T>(value: T, ms: number): T {
+  const [shown, setShown] = React.useState(value);
+  React.useEffect(() => {
+    const t = setTimeout(() => setShown(value), ms);
+    return () => clearTimeout(t);
+  }, [value, ms]);
+  return shown;
+}
+
+function TeamBotRow({ bot, tick, offset, delay }: { bot: Bot; tick: number; offset: number; delay: number }) {
   const moments = MOMENTS[bot.id] ?? [[bot.status, bot.preview]];
-  const [status, line] = moments[(tick + offset) % moments.length];
+  const shownTick = useDelayed(tick, tick === 0 ? 0 : delay);
+  const [status, line] = moments[(shownTick + offset) % moments.length];
+  const open = () => {
+    document.getElementById("make-it-yours")?.scrollIntoView({ behavior: "smooth" });
+    window.dispatchEvent(new CustomEvent(CUSTOMISE_EVENT, { detail: bot.id }));
+  };
   return (
-    <li className="flex items-center gap-3 rounded-2xl bg-surface-raised p-3 shadow-e1" title={`${bot.name} is a ${bot.role}`}>
+    <li className="rounded-2xl bg-surface-raised shadow-e1" title={`${bot.name} is a ${bot.role}`}>
+      <button
+        type="button"
+        onClick={open}
+        aria-label={`${bot.name}: customise its look`}
+        className="flex w-full items-center gap-3 rounded-2xl p-3 text-left transition-colors hover:bg-wash-hover"
+      >
       <BotAvatar botId={bot.id} size={36} state={status === "running" ? "working" : status === "needs-you" ? "waiting" : status === "off" ? "drowsy" : "idle"} />
       <span className="min-w-0 flex-1">
         <span className="block truncate text-ui font-medium text-foreground">{bot.name}</span>
@@ -45,6 +67,7 @@ function TeamBotRow({ bot, tick, offset }: { bot: Bot; tick: number; offset: num
           <span className="truncate text-ui-sm text-fg-2">{line}</span>
         </span>
       </span>
+      </button>
     </li>
   );
 }
@@ -62,7 +85,7 @@ function TeamColumn({ team }: { team: (typeof TEAM_LIST)[number]["id"] }) {
       <p className="text-ui text-fg-2">{TEAM_LINE[team]}</p>
       <ul className="flex flex-col gap-2">
         {bots.map((b, i) => (
-          <TeamBotRow key={b.id} bot={b} tick={tick} offset={i} />
+          <TeamBotRow key={b.id} bot={b} tick={tick} offset={i} delay={300 + Math.round((i * 400) / Math.max(1, bots.length - 1))} />
         ))}
       </ul>
     </div>
@@ -75,7 +98,7 @@ export function TeamsSection() {
     <Section id="what-we-do" aria-labelledby="teams-title">
       <SectionHeader
         title={<span id="teams-title">One workspace. Three teams.</span>}
-        intro="Sales, RevOps and marketing teams each build bots for their own work. Every bot is a modeller, a researcher or a value generator, and every one answers to a revenue goal."
+        intro="Sales, RevOps and marketing teams each build bots for their own work. Every bot answers to a revenue goal."
       />
       <div className="mt-10 grid gap-4 lg:grid-cols-3">
         {TEAM_LIST.map((t) => (
