@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og";
+import { LogoSvg } from "@/components/ui/logo";
 import { HOME_TITLE } from "@/lib/metadata";
 
 export const runtime = "edge";
@@ -24,11 +25,8 @@ export default async function OG() {
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-          <svg width="52" height="52" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-            <path d="M50 4 C85 4 96 15 96 50 C96 85 85 96 50 96 C15 96 4 85 4 50 C4 15 15 4 50 4 Z" fill="#0a0a0a" />
-            <rect x="31" y="37.5" width="38" height="13" rx="6.5" fill="#ffffff" />
-          </svg>
-          <span style={{ fontSize: "34px", fontWeight: 600, letterSpacing: "-0.03em" }}>bonggy</span>
+          <LogoSvg size={56} ink="#0a0a0a" page="#ffffff" />
+          <span style={{ fontSize: "34px", fontWeight: 500, letterSpacing: "-0.02em" }}>Bonggy</span>
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: "22px", maxWidth: "1020px" }}>

@@ -6,6 +6,7 @@ import {
   HOME_TITLE,
   SITE_DESCRIPTION,
   SITE_DESCRIPTION_SHORT,
+  LOGO_URL,
 } from "@/lib/metadata";
 import { THEME_INIT_SCRIPT } from "@/components/marketing/theme-script";
 
@@ -119,10 +120,12 @@ export default function RootLayout({
               url: SITE_URL,
               // No `offers` until pricing is public (it previously claimed a
               // free, in-stock product).
+              image: LOGO_URL,
               creator: {
                 "@type": "Organization",
                 name: "Bonggy",
                 url: SITE_URL,
+                logo: LOGO_URL,
               },
             }),
           }}

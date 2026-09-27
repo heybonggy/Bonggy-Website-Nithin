@@ -5,7 +5,7 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "motion/react";
 import { CaretDown, List, X } from "@phosphor-icons/react/dist/ssr";
 import { cn } from "@/lib/utils";
-import { Mascot, Wordmark } from "@/components/ui/mascot";
+import { Logo } from "@/components/ui/logo";
 import { CtaButton, CAL_LINK } from "./cta-button";
 import { EarlyAccessModal } from "./early-access-modal";
 import { SPRING } from "./_motion";
@@ -78,8 +78,7 @@ export function Navbar() {
         />
         <div className="mx-auto flex h-full w-full max-w-wide items-center justify-between gap-4 px-4 lg:px-6">
           <Link href="/" aria-label="Bonggy, home" className="flex min-h-11 items-center gap-2 rounded-full pr-2">
-            <Mascot className="size-5" />
-            <Wordmark />
+            <Logo />
           </Link>
 
           <nav aria-label="Primary" className="hidden items-center lg:flex">

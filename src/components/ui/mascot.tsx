@@ -8,7 +8,8 @@ import { BotFace, botColorVars, type BotLook } from "./bot-look";
 import { useBotLook } from "@/components/product-mock/bot-looks";
 
 /**
- * "Bong", the Bonggy bot face. First pass, pending design review (DESIGN.md §9).
+ * "Bong", the bot character (DESIGN.md §7). Not the logo: the brand mark is
+ * the planet (ui/logo.tsx). First pass, pending design review.
  * A rounded-square pebble in ink with one wide pill-shaped eye just above
  * centre. The same face appears on round team avatars (BotAvatar).
  */
@@ -139,14 +140,6 @@ export function Mascot({
   );
 }
 
-/** Wordmark: "bonggy", lowercase, Geist 600, tight tracking. */
-export function Wordmark({ className }: { className?: string }) {
-  return (
-    <span className={cn("font-sans text-[1.0625rem] font-semibold leading-none tracking-[-0.03em] text-foreground", className)}>
-      bonggy
-    </span>
-  );
-}
 
 /** Legacy face states map onto character states. */
 const TO_CHARACTER: Record<MascotState, CharacterState> = {

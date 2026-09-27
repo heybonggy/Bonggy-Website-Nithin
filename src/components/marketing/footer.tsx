@@ -1,6 +1,5 @@
 import Link from "next/link";
-import { Mascot, Wordmark } from "@/components/ui/mascot";
-import { FooterMark } from "./footer-mark";
+import { Logo } from "@/components/ui/logo";
 
 const COLUMNS: { heading: string; items: { label: string; href: string }[] }[] = [
   {
@@ -44,9 +43,8 @@ export function Footer() {
       <div className="mx-auto w-full max-w-wide">
         <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-[280px_repeat(4,minmax(0,1fr))]">
           <div className="col-span-2 md:col-span-1">
-            <Link href="/" aria-label="Bonggy, home" className="inline-flex min-h-11 items-center gap-2">
-              <Mascot className="size-5" />
-              <Wordmark />
+            <Link href="/" aria-label="Bonggy, home" className="inline-flex min-h-11 items-center">
+              <Logo />
             </Link>
             <p className="mt-4 text-ui font-medium text-foreground">Your process, not ours.</p>
             <p className="mt-1 max-w-xs text-ui text-fg-2">
@@ -78,7 +76,6 @@ export function Footer() {
           <span className="select-all">founders@bonggy.com</span>
         </div>
 
-        <FooterMark />
       </div>
     </footer>
   );

@@ -68,6 +68,6 @@ src/
 ├── components/
 │   ├── marketing/               # header, footer, homepage sections, sub-page shell
 │   ├── product-mock/            # drawn product UI + data.ts + demo/ (scripted player)
-│   └── ui/                      # mascot, typing dots, shadcn primitives
+│   └── ui/                      # logo (planet mark), bot characters, shadcn primitives
 └── lib/                         # metadata, early-access roles, sheets, utils (cn)
 ```

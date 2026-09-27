@@ -1,4 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <path d="M50 4 C85 4 96 15 96 50 C96 85 85 96 50 96 C15 96 4 85 4 50 C4 15 15 4 50 4 Z" fill="#0a0a0a"/>
-  <rect x="31" y="37.5" width="38" height="13" rx="6.5" fill="#ffffff"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><style>.if{fill:#0a0a0a}.is{stroke:#0a0a0a}.pf{fill:#ffffff}.ps{stroke:#ffffff}@media (prefers-color-scheme: dark){.if{fill:#edecec}.is{stroke:#edecec}.pf{fill:#1b1b1b}.ps{stroke:#1b1b1b}}</style><path class="is" d="M 220.7 90.5 A 100 32 -22 0 0 35.3 165.5" fill="none" stroke-width="12" stroke-linecap="round"/><circle class="if" cx="128" cy="128" r="75"/><ellipse class="pf" cx="106" cy="96" rx="22" ry="9" opacity="0.45" transform="rotate(-18 106 96)"/><path class="ps" d="M 220.7 90.5 A 100 32 -22 0 1 35.3 165.5" fill="none" stroke-width="22.8" stroke-linecap="round"/><path class="is" d="M 220.7 90.5 A 100 32 -22 0 1 35.3 165.5" fill="none" stroke-width="12" stroke-linecap="round"/></svg>

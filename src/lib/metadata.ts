@@ -3,6 +3,9 @@ import type { Metadata } from "next";
 export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL || "https://bonggy.com";
 
+/** The planet mark, monochrome (public/logo.svg). */
+export const LOGO_URL = `${SITE_URL}/logo.svg`;
+
 export const HOME_TITLE = "Bonggy: the agent workspace for sales, RevOps and marketing teams";
 
 /** Site-wide description (layout default, manifest, structured data). */

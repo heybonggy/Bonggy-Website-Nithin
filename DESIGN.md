@@ -138,15 +138,22 @@ Labels swap with a short slide (`label-in`). Bot avatars carry a 10px badge for 
 
 ---
 
-## 7. Mascot and brand
+## 7. Logo and mascot
 
-- **Bong** ([`ui/mascot.tsx`](src/components/ui/mascot.tsx)) is a rounded pebble with a single slot eye. States: idle, thinking, working, needs-you, done, off. It blinks only when `blinkKey` changes.
-- **First pass, pending design review.** The pebble, eye and states were drawn in code for this redesign and need a designer's review before launch. The previous planet logo is kept in git history only.
-- Bot avatars show each bot's own look (§7.21). `GroupAvatar` overlaps up to three bots by 24%. The brand mascot (nav, footer, favicon, OG) stays the ink pebble.
-- Wordmark: "bonggy", Geist semibold, −0.03em.
-- Favicon, apple icon and OG image use the black pebble on white.
+### 7.1 The logo: the planet mark
 
----
+The Bonggy logo is the **planet mark** ([`ui/logo.tsx`](src/components/ui/logo.tsx)), the original artwork: a sphere with a tilted ring. Paths and proportions are unchanged from the original.
+
+- **Monochrome, always.** Planet and ring in `currentColor` (ink #0a0a0a in light, #edecec in dark). The highlight is the page colour at 45%, and a thin page-coloured gap separates the front arc from the planet so the ring reads in one colour. No glow and no green: colour is reserved for bots.
+- **Lockup.** The mark plus the "Bonggy" wordmark in Geist 500 (−0.02em), 10px apart. The navbar mark is 24px, the footer the same.
+- **Clear space.** At least half the mark's width on every side; nothing inside the ring's bounding box.
+- **Icons.** The favicon (`app/icon.svg`) and apple icon use a heavier ring (12/256 instead of 4/256) so it survives at 16px. The favicon switches with `prefers-color-scheme` inside the SVG (ink on light tabs, #edecec on dark tabs). The apple icon is ink on white. Checked at 16, 32 and 180px.
+- **Where it appears.** Navbar, mobile menu, footer, favicon, apple icon, OG image, `public/logo.svg` (the JSON-LD `logo`), and the manifest icons.
+- Don't recolour it, add effects, or put Bong in its place.
+
+### 7.2 Bong, the bot character
+
+**Bong** ([`ui/mascot.tsx`](src/components/ui/mascot.tsx)) is a character, not the logo: the pebble with a pill eye that every bot's look is built from (§7.21), plus character moments (the hero's empty chat, the customiser, peeks). It never appears in the navbar, footer, icons or metadata. First pass, pending design review.
 
 ## 7.21 Bot looks and the customiser
 
@@ -220,7 +227,7 @@ Everything lives in [`src/components/product-mock/`](src/components/product-mock
 
 - **Buttons** ([`cta-button.tsx`](src/components/marketing/cta-button.tsx)): pills. `primary` (inverse), `soft` (surface-2), `outline`, `ghost`; sizes sm/md/lg. External links open in a new tab with an arrow and sr-only note. Default copy: "Book a 30-min call"; "Get early access" opens the modal.
 - **Header:** fixed 64px, blurs after 8px of scroll, Product menu (Bots, Flows, Approvals, Analytics), Teams, How it works, Pricing, FAQ; full-screen sheet below lg.
-- **Footer:** Bong and wordmark, "Your process, not ours.", four link columns, and a large outlined mascot.
+- **Footer:** the logo lockup, "Your process, not ours.", four link columns.
 - **FAQ:** base-ui accordion, hairline dividers, plus icon turns 45°. FAQPage JSON-LD is generated from the same array.
 - **Early-access modal:** role select, inline error with a Warning icon in `text-danger`.
 - **Sub-pages:** `<SubPageShell>` (kicker, two-tone H1, lede), `<SubPageSection>`, `<SubPageCta>`.
