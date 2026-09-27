@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, LayoutGroup, motion } from "motion/react";
 import {
   FileText,
   HandPalm,
@@ -16,7 +16,7 @@ import { BotAvatar } from "@/components/ui/mascot";
 import { botColorVars } from "@/components/ui/bot-look";
 import { useBotLook } from "./bot-looks";
 import type { CharacterState } from "@/components/ui/bot-character";
-import { DUR, EASE } from "@/components/marketing/_motion";
+import { DUR, EASE, SPRING } from "@/components/marketing/_motion";
 import { FLOW_PARTS, type Bot, type FlowPart, type StatusKind } from "./data";
 import { StatusPill } from "./status-pill";
 import { GoalTag, LimitChip, TeamTag } from "./tags";
@@ -148,12 +148,28 @@ export function FlowCard({
         <BotAvatar botId={bot.id} size={compact ? 24 : 28} state={avatarState ?? (state === "running" ? "working" : state === "needs-you" ? "waiting" : "idle")} />
         <span className="text-ui font-semibold text-foreground">{bot.name}</span>
         {!compact ? <TeamTag team={bot.team} /> : null}
-        <span className="ml-auto flex items-center gap-2">
-          <StatusPill status={status} label={statusLabel} />
-          {!compact && state !== "draft" ? (
-            <OnOffSwitch on={state !== "off"} onChange={onToggle} label={`${bot.name} flow`} />
-          ) : null}
-        </span>
+        {/* Pill and switch move as one layout group, so the pill's width
+            change never slides it over the switch label. */}
+        <LayoutGroup>
+          <motion.span layout transition={{ layout: SPRING.morph }} className="ml-auto flex shrink-0 items-center gap-3">
+            <StatusPill status={status} label={statusLabel} className="shrink-0" />
+            <AnimatePresence initial={false}>
+              {!compact && state !== "draft" ? (
+                <motion.span
+                  key="switch"
+                  layout
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ layout: SPRING.morph, opacity: { duration: 0.2 } }}
+                  className="shrink-0"
+                >
+                  <OnOffSwitch on={state !== "off"} onChange={onToggle} label={`${bot.name} flow`} />
+                </motion.span>
+              ) : null}
+            </AnimatePresence>
+          </motion.span>
+        </LayoutGroup>
       </div>
 
       <dl className={cn("flex flex-col", compact ? "mt-2" : "mt-4")}>
