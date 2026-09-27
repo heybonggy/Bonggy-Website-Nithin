@@ -2,81 +2,50 @@ import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/metadata";
 import { SubPageShell } from "@/components/marketing/sub-page-shell";
 import { CtaButton } from "@/components/marketing/cta-button";
-import { FaqList, type FaqItem } from "@/components/marketing/faq-list";
+import { FaqJsonLd, FaqList, type FaqItem } from "@/components/marketing/faq-list";
 import { HOME_FAQ } from "@/components/marketing/home-faq";
 
 export const metadata: Metadata = pageMetadata({
   path: "/faq",
   title: "FAQ",
   description:
-    "Common questions about Bonggy, the studio where GTM teams build their own sales agents: what agents do, how approval works, groups and shared memory, the tools it connects to, and pricing.",
+    "Common questions about Bonggy, the agent workspace for sales, RevOps and marketing teams: bots, flows, hard limits, approvals, groups, data handling and pricing.",
 });
 
-// The five homepage answers are reused word for word so the two stay
-// consistent.
-const [isAiSdr, sendsEmail, buildOwn, tools, pricing] = HOME_FAQ;
-
+// The ten homepage answers are reused word for word so the two stay
+// consistent, with the longer questions after them.
 const QUESTIONS: FaqItem[] = [
-  isAiSdr,
-  sendsEmail,
+  ...HOME_FAQ,
   {
-    q: "What does it actually do?",
-    a: "Your team builds agents that model your market, research your accounts and draft the work: briefs, account plans and messages. Every agent runs on one loop (track, align, nudge, report), so its work ties back to a revenue goal. Agents build shared memory from what they learn, and a person approves anything that goes out.",
-  },
-  buildOwn,
-  {
-    q: "What's a group?",
-    a: "A group, or pod, is a set of agents that work together toward the same revenue goal and share memory. For example, a Market Modeller, an Account Researcher and a Brief Writer working the same segment.",
+    q: "Can bots work together across teams?",
+    a: "Yes. Put bots from different teams in one group and they hand off work. Marketing's research on what customers say reaches the sales bots working those deals, without anyone copying it across.",
   },
   {
-    q: "What is shared memory?",
-    a: "Agents keep what they learn from conversations, call notes and deals: accounts, people, objections and wins. Every agent in the pod can use it, so the tenth brief is smarter than the first.",
+    q: "How does memory work?",
+    a: "Bots read your company context first, then the sources you connect, like CRM notes, call notes and docs. Every fact a bot uses links back to where it came from, so you can check it.",
   },
   {
-    q: "Is this a leaderboard or a surveillance tool?",
-    a: "No. We measure work against revenue, never reps against each other. No leaderboard, no scoreboard, no ranking. The same picture a manager sees, every rep sees too.",
+    q: "Is this a leaderboard?",
+    a: "No. Work is measured against revenue, never person against person. The picture a manager sees is the one every rep sees too.",
   },
   {
-    q: "How is this different from Apollo, Clay, or my CRM?",
-    a: "Those give you data, run sequences or store what already happened. Bonggy is where your team builds agents that do the thinking work on top: modelling the market, researching accounts and drafting the work, each tied to a revenue goal. Keep your tools; agents work alongside them.",
-  },
-  tools,
-  {
-    q: "Does it work for the whole GTM team, or just sales?",
-    a: "The whole motion. SDRs, AEs, account managers and CS: anyone whose work should roll up to revenue. Renewal and expansion agents count the same as new-logo ones.",
-  },
-  pricing,
-  {
-    q: "How do we start?",
-    a: "A 30-minute call. We map your market with you, sketch the first agents your team would build, and show how their work ties to your revenue goal. If it's not obviously useful in the first ten minutes, we'll tell you.",
+    q: "How is this different from general AI agent tools?",
+    a: "General agent tools make you bring the context, invent the process and remember the guardrails. Bonggy starts from your company context, runs each bot on a flow your team designs, and makes approval part of every flow.",
   },
 ];
 
 export default function FaqPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "FAQPage",
-            mainEntity: QUESTIONS.map((q) => ({
-              "@type": "Question",
-              name: q.q,
-              acceptedAnswer: { "@type": "Answer", text: q.a },
-            })),
-          }),
-        }}
-      />
+      <FaqJsonLd items={QUESTIONS} />
       <SubPageShell
         eyebrow="FAQ"
         title="The questions"
         titleAccent="every VP asks before booking."
-        lede="Straight answers on what Bonggy's agents do, what they don't, and how to get started. If your question isn't here, email founders@bonggy.com and we'll add it."
+        lede="Straight answers on what Bonggy's bots do, what they don't, and how to get started. If your question isn't here, email founders@bonggy.com and we'll add it."
         narrow
       >
-        <FaqList items={QUESTIONS} headingLevel="h2" />
+        <FaqList items={QUESTIONS} headingLevel={2} />
 
         <div className="mt-20 border-t border-border/60 pt-12">
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1.2fr_1fr] lg:gap-16">

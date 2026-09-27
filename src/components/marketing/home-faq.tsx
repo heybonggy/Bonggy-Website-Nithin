@@ -1,57 +1,74 @@
 import Link from "next/link";
 import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
 import { Section } from "./section";
-import { FaqList, type FaqItem } from "./faq-list";
+import { FaqJsonLd, FaqList, type FaqItem } from "./faq-list";
 
-// Keep these consistent with the matching answers on /faq.
+// Keep these consistent with /faq, which reuses them word for word.
 export const HOME_FAQ: FaqItem[] = [
   {
-    q: "Is this an AI SDR?",
-    a: "No. AI SDRs send more and mean less. Bonggy is a studio where your team builds agents that model your market, research your accounts and draft the work. Nothing is blasted out, and a person approves anything that goes out.",
+    q: "What is a bot?",
+    a: "A bot does one job for your team, like researching accounts before calls. You describe the job in a sentence and it runs as a flow.",
   },
   {
-    q: "Does it send emails?",
-    a: "Only after someone on your team approves them. Nothing goes out on its own. Approved drafts go out from the rep's connected account or get pushed to your own email or sequencer.",
+    q: "What's in a flow?",
+    a: "Six parts: trigger, context, steps, approval, output and goal. Every part stays editable.",
   },
   {
-    q: "Can I build my own bots?",
-    a: "Yes. Start from a template like Market Modeller, Account Researcher or Brief Writer, or open a new chat and describe the job in plain words. The agent confirms what it will do and which revenue goal it serves. Agents can also work together in groups.",
+    q: "What's a hard limit?",
+    a: "A rule in your own words, like \"never email anyone\". It becomes part of the flow, and the bot can't cross it.",
   },
   {
-    // TODO(integrations): confirm the supported tools before naming any.
+    q: "What can bots do without approval?",
+    a: "Only internal work (briefs in chat, Slack summaries, reports) and only if your team allows it. Anything customer-facing waits for a person.",
+  },
+  {
+    q: "Do marketing bots send campaigns?",
+    a: "No. They research and draft. Campaign sends stay in your own tools, after approval.",
+  },
+  {
+    // TODO(integrations): confirm the real list before naming any vendor.
     q: "Which tools does it connect to?",
-    a: "The tools your team already works in: CRM, email, calendar, Slack and call notes. Agents only use the permissions you connect.",
+    a: "The ones your team already uses: CRM, email, calendar, Slack and call notes. Bots only use the permissions you connect.",
+  },
+  {
+    // TODO(security): confirm with engineering before stating specifics
+    // (protocols, ciphers). Keep "not attained" until SOC 2 Type II is done.
+    q: "How is my data handled?",
+    a: "Bonggy is built for read-scoped permissions, encryption in transit and at rest, and no training on your data. SOC 2 Type II: on the path, not attained.",
+  },
+  {
+    q: "Who is it for?",
+    a: "Sales, RevOps and marketing teams. It usually starts with one team's flows and spreads as other teams build their own.",
   },
   {
     q: "How is it priced?",
-    a: "By active agents plus usage. We're setting plans with our early-access teams, so book a 30-minute call and we'll walk you through it.",
+    a: "Pricing is based on active bots plus usage. Flow runs count toward usage. We're setting plans with early-access teams, so there are no public numbers yet.",
+  },
+  {
+    q: "How do we start?",
+    a: "A 30-minute call. We'll map one flow with you on real work.",
   },
 ];
 
+/** #faq: ten short answers; the rest live on /faq. */
 export function HomeFaq() {
   return (
-    <Section id="faq" eyebrow="FAQ">
-      <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_1.5fr] lg:gap-16">
-        <div>
-          <h2 className="text-display text-balance text-[36px] font-normal leading-none tracking-tight sm:text-[44px] lg:text-[56px]">
-            Short answers.{" "}
-            <span className="text-muted-foreground/85">
-              The long ones are on the FAQ page.
-            </span>
+    <Section id="faq" aria-labelledby="faq-title">
+      <FaqJsonLd items={HOME_FAQ} />
+      <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] lg:gap-16">
+        <div className="lg:sticky lg:top-[calc(var(--header-h)+2rem)] lg:self-start">
+          <h2 id="faq-title" className="text-heading text-foreground sm:text-heading-lg">
+            Questions, answered.
           </h2>
           <Link
             href="/faq"
-            className="group mt-8 inline-flex items-center gap-2 rounded font-mono text-[11px] uppercase tracking-[0.16em] text-foreground underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+            className="mt-4 inline-flex min-h-11 items-center gap-1.5 text-ui font-medium text-foreground underline-offset-4 hover:underline"
           >
             See all questions
-            <ArrowRight
-              weight="bold"
-              className="size-3.5 transition-transform group-hover:translate-x-0.5"
-              aria-hidden
-            />
+            <ArrowRight className="size-4" aria-hidden />
           </Link>
         </div>
-        <FaqList items={HOME_FAQ} headingLevel="h3" />
+        <FaqList items={HOME_FAQ} headingLevel={3} />
       </div>
     </Section>
   );
