@@ -11,7 +11,6 @@ import { TrustSection } from "@/components/marketing/trust-section";
 import { PricingTeaser } from "@/components/marketing/pricing-teaser";
 import { HomeFaq } from "@/components/marketing/home-faq";
 import { CtaPanel } from "@/components/marketing/cta-panel";
-import { SectionRule } from "@/components/marketing/section";
 import { Footer } from "@/components/marketing/footer";
 
 export const metadata: Metadata = pageMetadata({
@@ -26,18 +25,12 @@ export default function Home() {
       <main className="flex flex-col">
         <Hero />
         <RolesStrip />
-        <SectionRule />
         <NewAgentSection />
-        <SectionRule />
         <AnalyticsSection />
-        <SectionRule />
         <ContextSection />
-        <SectionRule />
         <TheReframeFix />
         <TrustSection />
-        <SectionRule />
         <PricingTeaser />
-        <SectionRule />
         <HomeFaq />
         <CtaPanel />
       </main>

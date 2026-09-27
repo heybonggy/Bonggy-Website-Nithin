@@ -1,80 +1,85 @@
-"use client";
-
 import * as React from "react";
-import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 
-type SectionProps = React.ComponentPropsWithoutRef<"section"> & {
-  eyebrow?: string;
+type SectionProps = Omit<React.ComponentPropsWithoutRef<"section">, "title"> & {
+  /** Container width: text-led sections use content (64rem), grids use wide. */
+  width?: "content" | "wide";
+  /** Wrap the content in a gray surface card (rounded-3xl). */
+  card?: boolean;
   containerClassName?: string;
-  bleed?: boolean;
-  /** Faint translucent card wash for alternating section rhythm. The
-   *  dot-grid behind still reads through, so tinted bands sit a half-step
-   *  above the page surface rather than fully occluding it. */
+  /** @deprecated eyebrows were removed with the Paper system; ignored. */
+  eyebrow?: string;
+  /** @deprecated ignored. */
   tint?: boolean;
-  /** Soft light-pool at the section's top edge. Off by default — the static
-   *  version banded badly; depth is being reworked as a scroll-driven effect. */
-  glow?: boolean;
 };
 
+/** Page section: section rhythm, gutters and a centred container. */
 export function Section({
-  eyebrow,
-  containerClassName,
-  bleed,
-  tint,
-  glow = false,
+  width = "wide",
+  card = false,
   className,
+  containerClassName,
   children,
+  eyebrow: _eyebrow,
+  tint: _tint,
   ...rest
 }: SectionProps) {
+  void _eyebrow;
+  void _tint;
   return (
-    <section
-      {...rest}
-      className={cn(
-        "relative w-full py-20 sm:py-24 lg:py-28",
-        tint && "bg-card/30",
-        // content-visibility: auto skips paint/layout for the section when
-        // it's off-screen. contain-intrinsic-size tells the browser to
-        // reserve ~700px height for the unrendered section so the scrollbar
-        // stays stable. Huge win on long pages, especially under power-
-        // throttling on battery.
-        "[content-visibility:auto] [contain-intrinsic-size:auto_700px]",
-        className,
-      )}
-    >
-      {glow ? (
-        <div aria-hidden className="section-glow pointer-events-none absolute inset-x-0 top-0 z-0 h-[460px]" />
-      ) : null}
+    <section {...rest} className={cn("px-4 py-20 sm:px-6 sm:py-28", className)}>
       <div
         className={cn(
-          "relative z-10",
-          !bleed && "mx-auto w-full max-w-[1400px] px-6 lg:px-10",
+          "mx-auto w-full",
+          width === "content" ? "max-w-content" : "max-w-wide",
+          card && "rounded-3xl bg-surface p-6 sm:px-12 sm:py-10 lg:p-12",
           containerClassName,
         )}
       >
-        {eyebrow ? (
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="mb-10 sm:mb-12"
-          >
-            {/* Terminal section-header: signal tick + mono label + a dotted
-                rule running to the edge, echoing the hero's instrument feel. */}
-            <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-              <span className="h-3 w-[3px] shrink-0 bg-signal" />
-              <span className="shrink-0 whitespace-nowrap">{eyebrow}</span>
-              <span aria-hidden className="ascii-rule h-px flex-1" />
-            </div>
-          </motion.div>
-        ) : null}
         {children}
       </div>
     </section>
   );
 }
 
-export function SectionRule() {
-  return <div aria-hidden className="section-rule mx-auto max-w-[1400px]" />;
+/**
+ * Section heading: H2 with an optional muted second line and an intro.
+ * No eyebrows; `kicker` is a quiet sentence-case line when one is needed.
+ */
+export function SectionHeader({
+  title,
+  muted,
+  intro,
+  kicker,
+  align = "left",
+  className,
+}: {
+  title: React.ReactNode;
+  muted?: React.ReactNode;
+  intro?: React.ReactNode;
+  kicker?: string;
+  align?: "left" | "center";
+  className?: string;
+}) {
+  return (
+    <div
+      className={cn(
+        "flex flex-col gap-4",
+        align === "center" ? "mx-auto max-w-2xl items-center text-center" : "max-w-copy",
+        className,
+      )}
+    >
+      {kicker ? <p className="text-ui-sm font-medium text-fg-3">{kicker}</p> : null}
+      <h2 className="text-heading text-foreground sm:text-heading-lg">
+        {title}
+        {muted ? (
+          <>
+            {" "}
+            <span className="text-fg-3">{muted}</span>
+          </>
+        ) : null}
+      </h2>
+      {intro ? <p className="max-w-prose text-body text-fg-2 sm:text-body-lg">{intro}</p> : null}
+    </div>
+  );
 }

@@ -37,7 +37,7 @@ export function Hero() {
             </p>
             <div className="mt-7 flex flex-wrap items-center gap-3">
               <EarlyAccessCta size="lg" />
-              <CtaButton size="lg" variant="ghost" magnetic={false}>
+              <CtaButton size="lg" variant="soft">
                 Book a 30-min call
               </CtaButton>
             </div>

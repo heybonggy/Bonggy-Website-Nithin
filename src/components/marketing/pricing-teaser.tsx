@@ -34,7 +34,7 @@ export function PricingTeaser() {
           <div className="mt-8">
             <CtaButton
               size="lg"
-              variant="signal"
+              variant="primary"
               className="h-auto min-h-11 w-full whitespace-normal py-3 text-center sm:w-auto"
             >
               Talk to us about early access

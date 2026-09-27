@@ -5,10 +5,9 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { motion, type HTMLMotionProps } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
 
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 
 /**
  * BlogPostCard — adapted from the 21st.dev `card-18` recipe for the Bonggy
@@ -17,12 +16,12 @@ import { Button } from "@/components/ui/button";
  *   - default   compact card for grid use
  *   - featured  full-width hero card with image (left) + copy (right)
  *
- * Uses Bonggy tokens: text-display heading, font-mono eyebrow with
- * 0.22em tracking, signal-green accent chip, restrained -2px hover lift.
+ * Paper styling: surface card, sentence-case meta, grayscale media, and a
+ * tone change on hover (cards never lift).
  */
 
 const cardVariants = cva(
-  "group relative flex overflow-hidden rounded-2xl border border-border/60 bg-background/40 transition-all duration-300 hover:border-border hover:bg-background/70",
+  "group relative flex overflow-hidden rounded-3xl bg-surface transition-colors duration-[var(--dur-fast)] hover:bg-surface-2",
   {
     variants: {
       variant: {
@@ -74,8 +73,6 @@ const BlogPostCard = React.forwardRef<HTMLDivElement, BlogPostCardProps>(
       <motion.div
         ref={ref}
         className={cn(cardVariants({ variant, className }))}
-        whileHover={{ y: -2 }}
-        transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
         {...props}
       >
         <Link
@@ -94,13 +91,7 @@ const BlogPostCard = React.forwardRef<HTMLDivElement, BlogPostCardProps>(
                 alt={title}
                 fill
                 sizes="(min-width: 1024px) 60vw, (min-width: 768px) 50vw, 100vw"
-                className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-              />
-              {/* Tint so the image sits in the editorial palette rather than
-                  popping against the dark background. */}
-              <div
-                aria-hidden
-                className="absolute inset-0 bg-gradient-to-r from-background/10 via-transparent to-background/40 md:to-background/30"
+                className="object-cover grayscale"
               />
             </div>
           )}
@@ -112,35 +103,34 @@ const BlogPostCard = React.forwardRef<HTMLDivElement, BlogPostCardProps>(
             )}
           >
             <div>
-              <div className="mb-5 flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-                <span className="rounded-full bg-signal/10 px-2.5 py-1 text-signal">
+              <div className="mb-5 flex items-center gap-2 text-caption text-fg-3">
+                <span className="rounded-full bg-surface-2 px-2.5 py-1 font-medium text-foreground">
                   {tag}
                 </span>
-                {date && <span className="text-muted-foreground/90">{date}</span>}
+                {date && <span>{date}</span>}
               </div>
 
               <h2
                 className={cn(
-                  "text-display font-normal leading-tight tracking-tight text-foreground",
-                  isFeatured
-                    ? "text-[28px] sm:text-[36px] lg:text-[44px]"
-                    : "text-[24px] sm:text-[28px]",
+                  "text-foreground",
+                  isFeatured ? "text-heading sm:text-heading-lg" : "text-title",
                 )}
               >
                 {title}
               </h2>
 
-              <p className="mt-5 text-[15.5px] leading-relaxed text-muted-foreground">
+              <p className="mt-4 text-body text-fg-2">
                 {description}
               </p>
             </div>
 
             {isFeatured && (
               <div className="mt-8">
-                <Button size="lg" className="group/button relative z-20">
+                {/* The whole card is the link; this is its visible label. */}
+                <span className="inline-flex h-11 items-center gap-1.5 rounded-full bg-surface-inverse px-6 text-body font-medium text-fg-inverse">
                   {readMoreText}
-                  <ArrowRight className="ml-1.5 size-4 transition-transform duration-300 group-hover/button:translate-x-0.5" />
-                </Button>
+                  <ArrowRight className="size-4" aria-hidden />
+                </span>
               </div>
             )}
           </div>

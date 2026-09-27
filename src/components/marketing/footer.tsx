@@ -1,23 +1,16 @@
 import Link from "next/link";
-import { Mascot as BonggyMark } from "@/components/ui/mascot";
+import { Mascot, Wordmark } from "@/components/ui/mascot";
+import { FooterMark } from "./footer-mark";
 
-const FOOTER_LINKS: {
-  heading: string;
-  items: { label: string; href: string }[];
-}[] = [
+const COLUMNS: { heading: string; items: { label: string; href: string }[] }[] = [
   {
     heading: "Product",
     items: [
       { label: "What we do", href: "/#what-we-do" },
+      { label: "Flows", href: "/#flows" },
       { label: "How it works", href: "/#how-it-works" },
+      { label: "Pricing", href: "/#pricing" },
       { label: "FAQ", href: "/faq" },
-    ],
-  },
-  {
-    heading: "Resources",
-    items: [
-      { label: "All resources", href: "/resources" },
-      { label: "A note from us", href: "/resources/a-note-from-us" },
     ],
   },
   {
@@ -26,6 +19,13 @@ const FOOTER_LINKS: {
       { label: "About", href: "/about" },
       { label: "Contact", href: "/contact" },
       { label: "Careers", href: "/careers" },
+    ],
+  },
+  {
+    heading: "Resources",
+    items: [
+      { label: "All resources", href: "/resources" },
+      { label: "A note from us", href: "/resources/a-note-from-us" },
     ],
   },
   {
@@ -40,33 +40,29 @@ const FOOTER_LINKS: {
 
 export function Footer() {
   return (
-    <footer className="relative border-t border-border/60 pt-16 pb-20 sm:pb-12">
-      <div className="mx-auto w-full max-w-[1400px] px-6 lg:px-10">
-        <div className="grid grid-cols-2 gap-10 sm:grid-cols-5 lg:grid-cols-[1.4fr_repeat(4,minmax(0,1fr))]">
-          <div className="col-span-2 sm:col-span-5 lg:col-span-1">
-            <Link href="/" className="inline-flex items-center gap-2.5">
-              <BonggyMark className="size-7" />
-              <span className="font-mono text-[13px] font-medium uppercase tracking-[0.18em]">
-                Bonggy
-              </span>
+    <footer className="border-t border-border px-4 pb-16 pt-10 sm:px-6">
+      <div className="mx-auto w-full max-w-wide">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-[280px_repeat(4,minmax(0,1fr))]">
+          <div className="col-span-2 md:col-span-1">
+            <Link href="/" aria-label="Bonggy, home" className="inline-flex items-center gap-2">
+              <Mascot className="size-5" />
+              <Wordmark />
             </Link>
-            <p className="mt-4 max-w-xs text-[13.5px] leading-relaxed text-muted-foreground">
-              A studio for sales agents that do the work before the
-              conversation, with your team deciding what goes out.
+            <p className="mt-4 text-ui font-medium text-foreground">Your process, not ours.</p>
+            <p className="mt-1 max-w-xs text-ui text-fg-2">
+              The agent workspace for sales, RevOps and marketing teams.
             </p>
           </div>
 
-          {FOOTER_LINKS.map((col) => (
+          {COLUMNS.map((col) => (
             <div key={col.heading}>
-              <div className="font-mono text-[10px] font-medium uppercase tracking-[0.22em] text-muted-foreground/90">
-                {col.heading}
-              </div>
-              <ul className="mt-4 space-y-2.5">
+              <h2 className="text-ui-sm font-medium text-foreground">{col.heading}</h2>
+              <ul className="mt-3 grid gap-1">
                 {col.items.map((it) => (
                   <li key={it.label}>
                     <Link
                       href={it.href}
-                      className="text-[13.5px] text-muted-foreground transition-colors hover:text-foreground"
+                      className="inline-flex min-h-8 items-center text-ui text-fg-2 transition-colors hover:text-foreground"
                     >
                       {it.label}
                     </Link>
@@ -77,14 +73,12 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="mt-14 flex flex-col items-start justify-between gap-3 border-t border-border/60 pt-6 sm:flex-row sm:items-center">
-          <div className="font-mono text-[11px] text-muted-foreground">
-            © {new Date().getFullYear()} Bonggy. All rights reserved.
-          </div>
-          <div className="font-mono text-[11px] text-muted-foreground/90">
-            Built for the teams who own the number.
-          </div>
+        <div className="mt-12 flex flex-col gap-2 border-t border-border pt-6 text-caption text-fg-3 sm:flex-row sm:items-center sm:justify-between">
+          <span>© {new Date().getFullYear()} Bonggy. All rights reserved.</span>
+          <span className="select-all">founders@bonggy.com</span>
         </div>
+
+        <FooterMark />
       </div>
     </footer>
   );

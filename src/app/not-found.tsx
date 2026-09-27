@@ -16,7 +16,7 @@ export default function NotFound() {
       lede="The link may be old or mistyped. Everything Bonggy does starts from the homepage."
       narrow
     >
-      <CtaButton href="/" variant="signal">
+      <CtaButton href="/" size="lg">
         Back to home
       </CtaButton>
     </SubPageShell>

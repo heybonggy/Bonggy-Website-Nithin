@@ -43,11 +43,10 @@ export function CtaPanel() {
               build.
             </p>
             <div className="flex flex-wrap items-center gap-3">
-              <EarlyAccessCta size="lg" variant="inverse" />
+              <EarlyAccessCta size="lg" />
               <CtaButton
                 size="lg"
                 variant="ghost"
-                magnetic={false}
                 className="border-zinc-900/25 bg-transparent text-zinc-950 hover:border-zinc-900/40 hover:bg-zinc-900/[0.06]"
               >
                 Book a 30-min call

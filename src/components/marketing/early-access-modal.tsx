@@ -2,15 +2,12 @@
 
 import * as React from "react";
 import { motion, AnimatePresence } from "motion/react";
-import {
-  ArrowUpRight,
-  CircleNotch,
-  X as XIcon,
-} from "@phosphor-icons/react/dist/ssr";
+import { ArrowUpRight, CaretDown, Check, Warning, X as XIcon } from "@phosphor-icons/react/dist/ssr";
 import { cn } from "@/lib/utils";
+import { EARLY_ACCESS_ROLES } from "@/lib/early-access";
+import { TypingDots } from "@/components/ui/typing-dots";
 import { SPRING } from "./_motion";
-
-export const CAL_LINK = "https://cal.com/bonggy/30min?overlayCalendar=true";
+import { CAL_LINK } from "./cta-button";
 
 type Props = {
   trigger?: React.ReactElement;
@@ -19,17 +16,10 @@ type Props = {
   onOpenChange?: (open: boolean) => void;
 };
 
-const ROLES = [
-  "VP Sales / Head of Sales",
-  "Founder",
-  "Sales Manager",
-  "RevOps",
-  "SDR / AE",
-  "Other",
-];
+const ROLES = EARLY_ACCESS_ROLES;
 
 /**
- * Custom modal , NOT using @base-ui/react Dialog. That implementation was
+ * Custom modal, not @base-ui/react Dialog. That implementation was
  * misclassifying clicks on form inputs as "outside the popup" on mobile and
  * closing the dialog. This version controls open state explicitly: only
  * closes via the X button, Escape, or backdrop click (never on inputs).
@@ -67,9 +57,7 @@ export function EarlyAccessModal({
     }
   }
 
-  // Lock scroll while open + close on Escape.
-  // Mobile (<768px): the .bonggy-scroll-shell is the scroll container, freeze
-  // its overflow. Desktop (>=768px): document scrolls natively, freeze body.
+  // Lock page scroll while open; Escape closes.
   React.useEffect(() => {
     if (!open) return;
     const target = document.body;
@@ -144,14 +132,14 @@ export function EarlyAccessModal({
             transition={{ duration: 0.18 }}
             className="fixed inset-0 z-[100] flex items-center justify-center p-4"
           >
-            {/* Backdrop , closes on click */}
+            {/* Backdrop: closes on click */}
             <div
-              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+              className="absolute inset-0 bg-overlay"
               onClick={() => setOpen(false)}
               aria-hidden
             />
 
-            {/* Panel , stops propagation so internal clicks NEVER hit backdrop */}
+            {/* Panel: stops propagation so internal clicks never hit the backdrop */}
             <motion.div
               role="dialog"
               aria-modal="true"
@@ -159,37 +147,36 @@ export function EarlyAccessModal({
               initial={{ y: 12, scale: 0.96 }}
               animate={{ y: 0, scale: 1 }}
               exit={{ y: 8, scale: 0.97 }}
-              transition={SPRING.gentle}
+              transition={SPRING.layout}
               onClick={(e) => e.stopPropagation()}
               onMouseDown={(e) => e.stopPropagation()}
               onPointerDown={(e) => e.stopPropagation()}
               onTouchStart={(e) => e.stopPropagation()}
-              className="relative z-10 w-full max-w-md overflow-hidden rounded-xl border border-border/80 bg-card shadow-[0_30px_80px_-20px_oklch(0_0_0_/_70%)]"
+              className="relative z-10 w-full max-w-md overflow-hidden rounded-3xl bg-surface-raised shadow-e4"
             >
               {/* Close button */}
               <button
                 type="button"
                 onClick={() => setOpen(false)}
                 aria-label="Close"
-                className="absolute right-3 top-3 z-10 flex size-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-foreground/[0.05] hover:text-foreground"
+                className="absolute right-3 top-3 z-10 flex size-11 items-center justify-center rounded-full text-fg-2 transition-colors hover:bg-wash-hover hover:text-foreground"
               >
-                <XIcon weight="bold" className="size-4" />
+                <XIcon className="size-5" aria-hidden />
               </button>
 
-              <div className="flex flex-col gap-5 p-7">
+              <div className="flex flex-col gap-5 p-7 sm:p-8">
                 <div className="flex flex-col gap-2">
                   <h2
                     id="ea-title"
-                    className="text-balance text-[22px] font-medium leading-tight tracking-tight text-foreground"
+                    className="pr-10 text-title text-foreground"
                   >
-                    Early access: build your team&apos;s first agents.
+                    Get early access
                   </h2>
-                  <p className="text-[13.5px] leading-relaxed text-muted-foreground">
-                    Bonggy is a studio where GTM teams build agents that model
-                    the market, research accounts and draft the work, with a
-                    person approving anything that goes out. We&apos;re rolling
-                    out in waves, not to gatekeep, but because we&apos;d rather
-                    set up ten teams properly than a hundred poorly.
+                  <p className="text-ui text-fg-2">
+                    Bonggy is the agent workspace for sales, RevOps and
+                    marketing teams. Describe the work in a sentence, and a bot
+                    turns it into a flow you approve. We&apos;re onboarding in
+                    small waves so every team gets set up properly.
                   </p>
                 </div>
 
@@ -197,31 +184,28 @@ export function EarlyAccessModal({
                   <motion.div
                     initial={{ y: 8, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
-                    transition={SPRING.gentle}
-                    className="flex flex-col gap-3 rounded-lg border border-signal/30 bg-signal/[0.05] p-4"
+                    transition={SPRING.layout}
+                    className="flex flex-col gap-3 rounded-xl bg-surface p-4"
                   >
-                    <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-signal">
+                    <div className="flex items-center gap-2 text-ui font-medium text-foreground">
+                      <span className="flex size-5 items-center justify-center rounded-full bg-surface-inverse text-fg-inverse">
+                        <Check weight="bold" className="size-3" aria-hidden />
+                      </span>
                       You&apos;re on the list
                     </div>
-                    <p className="text-[13.5px] leading-relaxed text-foreground/90">
-                      We onboard in small waves. We&apos;ll email you when the
-                      next cohort opens to book a 30-minute session where we
-                      set up your first agents on your market and your
-                      revenue goal.
+                    <p className="text-ui text-fg-2">
+                      We&apos;ll email you when the next wave opens, to book a
+                      30-minute session where we map your first flow on real
+                      work.
                     </p>
                     <a
                       href={CAL_LINK}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group/cta relative mt-1 inline-flex h-10 items-center justify-center gap-2 rounded-md bg-zinc-950 px-4 font-mono text-[10.5px] font-medium uppercase tracking-[0.2em] text-signal transition-all duration-200 active:translate-y-[1px]"
-                      style={{
-                        boxShadow:
-                          "0 0 0 1px oklch(0.78 0.13 152 / 35%), 0 0 18px -2px oklch(0.78 0.13 152 / 28%)",
-                      }}
+                      className="mt-1 inline-flex h-11 items-center justify-center gap-1.5 rounded-full bg-surface-2 px-5 text-ui font-medium text-foreground transition-colors hover:bg-surface-3 active:scale-[.98]"
                     >
-                      <span className="size-1 rounded-full bg-signal" />
                       Skip the wait, book a call
-                      <ArrowUpRight weight="bold" className="size-3.5" />
+                      <ArrowUpRight className="size-4" aria-hidden />
                     </a>
                   </motion.div>
                 ) : (
@@ -266,39 +250,23 @@ export function EarlyAccessModal({
                       placeholder="Team size (optional)"
                       autoComplete="off"
                     />
-                      <button
-                        type="submit"
-                        disabled={submitting}
-                        className={cn(
-                          "group/cta relative mt-1 inline-flex h-11 w-full items-center justify-center gap-2 overflow-hidden rounded-md bg-zinc-950 px-5 font-mono text-[11.5px] font-medium uppercase tracking-[0.2em] text-signal transition-all duration-200 active:translate-y-[1px] disabled:opacity-60",
-                        )}
-                        style={{
-                          boxShadow:
-                            "0 0 0 1px color-mix(in oklab, var(--signal) 40%, transparent), inset 0 1px 0 oklch(1 0 0 / 5%), 0 0 22px -4px color-mix(in oklab, var(--signal) 32%, transparent)",
-                        }}
-                      >
-                        {submitting ? (
-                          <>
-                            <CircleNotch
-                              weight="bold"
-                              className="size-4 animate-spin"
-                            />
-                            <span>Sending…</span>
-                          </>
-                        ) : (
-                          <>
-                            <span className="size-1 rounded-full bg-signal" />
-                            <span>Request early access</span>
-                            <ArrowUpRight
-                              weight="bold"
-                              className="size-3.5 transition-transform duration-200 group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-0.5"
-                            />
-                          </>
-                        )}
-                      </button>
+                    <button
+                      type="submit"
+                      disabled={submitting}
+                      className="mt-1 inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-surface-inverse px-6 text-body font-medium text-fg-inverse transition-colors hover:bg-surface-inverse/88 active:scale-[.98] disabled:opacity-60"
+                    >
+                      {submitting ? (
+                        <>
+                          <span>Sending</span>
+                          <TypingDots label="Sending" />
+                        </>
+                      ) : (
+                        "Request early access"
+                      )}
+                    </button>
 
-                    <p className="text-center font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground/90">
-                      No card required · 30-min call · We respond within 48h
+                    <p className="text-center text-caption text-fg-3">
+                      No card required · 30-min call · We reply within 48 hours
                     </p>
                   </form>
                 )}
@@ -329,7 +297,7 @@ function FormField({ label, className, ...rest }: FieldProps) {
         {...rest}
         id={id}
         className={cn(
-          "h-11 w-full rounded-md border border-border/80 bg-background/60 px-3.5 text-[14px] text-foreground placeholder:text-muted-foreground/90 outline-none transition-colors focus:border-signal/60 focus:ring-2 focus:ring-signal/20",
+          "h-11 w-full rounded-md border border-input bg-background px-3.5 text-ui text-foreground placeholder:text-fg-3 outline-none transition-colors focus:border-border-strong focus-visible:outline-2 focus-visible:outline-ring",
           className,
         )}
       />
@@ -389,40 +357,26 @@ function RoleSelect({
         aria-labelledby={`${labelId} ${valueId}`}
         aria-describedby={error ? errorId : undefined}
         className={cn(
-          "flex h-11 w-full items-center justify-between rounded-md border bg-background/60 px-3.5 text-left text-[14px] outline-none transition-colors",
-          error
-            ? "border-destructive/70 ring-2 ring-destructive/20"
-            : "border-border/80 hover:border-border focus:border-signal/60 focus:ring-2 focus:ring-signal/20",
-          open && !error && "border-signal/60 ring-2 ring-signal/20",
+          "flex h-11 w-full items-center justify-between rounded-md border bg-background px-3.5 text-left text-ui transition-colors",
+          error ? "border-danger" : "border-input hover:border-border-strong",
+          open && !error && "border-border-strong",
         )}
       >
         <span
           id={valueId}
-          className={value ? "text-foreground" : "text-muted-foreground/90"}
+          className={value ? "text-foreground" : "text-fg-3"}
         >
           {value || "Your role"}
         </span>
-        <svg
-          width="12"
-          height="12"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          className={cn(
-            "size-3 text-muted-foreground transition-transform",
-            open && "rotate-180",
-          )}
-        >
-          <path d="m6 9 6 6 6-6" />
-        </svg>
+        <CaretDown className={cn("size-4 text-fg-3 transition-transform", open && "rotate-180")} aria-hidden />
       </button>
       {error ? (
         <p
           id={errorId}
           role="alert"
-          className="mt-1.5 text-[12.5px] text-destructive"
+          className="mt-1.5 flex items-center gap-1.5 text-caption text-danger"
         >
+          <Warning className="size-3.5" aria-hidden />
           Pick your role.
         </p>
       ) : null}
@@ -436,7 +390,7 @@ function RoleSelect({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -4, scale: 0.98 }}
             transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
-            className="absolute left-0 right-0 top-full z-50 mt-1.5 overflow-hidden rounded-md border border-border/80 bg-card p-1 shadow-[0_18px_40px_-12px_oklch(0_0_0_/_60%),inset_0_1px_0_oklch(1_0_0_/_6%)]"
+            className="absolute left-0 right-0 top-full z-50 mt-1.5 max-h-64 overflow-y-auto rounded-lg bg-surface-raised p-1 shadow-e2"
           >
             {ROLES.map((r) => {
               const active = r === value;
@@ -451,26 +405,12 @@ function RoleSelect({
                       setOpen(false);
                     }}
                     className={cn(
-                      "flex w-full items-center justify-between rounded-sm px-3 py-2 text-left text-[13.5px] transition-colors",
-                      active
-                        ? "bg-signal/10 text-signal"
-                        : "text-foreground/90 hover:bg-foreground/[0.05] hover:text-foreground",
+                      "flex min-h-10 w-full items-center justify-between rounded-md px-3 text-left text-ui transition-colors",
+                      active ? "bg-wash-selected font-medium text-foreground" : "text-foreground hover:bg-wash-hover",
                     )}
                   >
                     <span>{r}</span>
-                    {active && (
-                      <svg
-                        width="12"
-                        height="12"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2.5"
-                        className="size-3"
-                      >
-                        <path d="M5 13l4 4L19 7" />
-                      </svg>
-                    )}
+                    {active && <Check className="size-4" aria-hidden />}
                   </button>
                 </li>
               );

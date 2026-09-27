@@ -2,290 +2,149 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import {
-  useScroll,
-  useMotionValueEvent,
-  motion,
-  AnimatePresence,
-} from "motion/react";
-import { CaretDown } from "@phosphor-icons/react/dist/ssr";
+import { AnimatePresence, motion } from "motion/react";
+import { CaretDown, List, X } from "@phosphor-icons/react/dist/ssr";
 import { cn } from "@/lib/utils";
-import { Mascot as BonggyMark } from "@/components/ui/mascot";
+import { Mascot, Wordmark } from "@/components/ui/mascot";
 import { CtaButton, CAL_LINK } from "./cta-button";
 import { EarlyAccessModal } from "./early-access-modal";
+import { SPRING } from "./_motion";
 
-/* ─────────────────────────── Config ───────────────────────────
-   Edit nav items here. `anchor` links smooth-scroll on the home page;
-   `route` links navigate. Dropdowns hold a label + items array.        */
+type NavLink = { label: string; href: string };
 
-type DropdownItem = {
-  label: string;
-  href: string;
-  /** Mono uppercase category chip shown on the card (e.g. "Essay"). */
-  tag?: string;
-  /** Small accent badge, e.g. "New". */
-  badge?: string;
-  /** One-line description under the title. */
-  desc?: string;
-};
-
-type NavItem =
-  | { type: "anchor"; label: string; id: string }
-  | { type: "route"; label: string; href: string }
-  | {
-      type: "dropdown";
-      label: string;
-      /** "cards" = factory-style rich card menu; "list" = simple list. */
-      variant?: "list" | "cards";
-      viewAllHref?: string;
-      items: DropdownItem[];
-    };
-
-const NAV_ITEMS: NavItem[] = [
-  // "Product" targets the roles strip, which keeps the #what-we-do id the
-  // footer links to.
-  { type: "anchor", label: "Product", id: "what-we-do" },
-  { type: "anchor", label: "How it works", id: "how-it-works" },
-  { type: "anchor", label: "Pricing", id: "pricing" },
-  { type: "anchor", label: "FAQ", id: "faq" },
-  {
-    type: "dropdown",
-    label: "Resources",
-    variant: "list",
-    items: [
-      { label: "All resources", href: "/resources" },
-      { label: "A note from us", href: "/resources/a-note-from-us" },
-    ],
-  },
+const PRODUCT: NavLink[] = [
+  { label: "Bots", href: "/#top" },
+  { label: "Flows", href: "/#flows" },
+  { label: "Approvals", href: "/#approvals" },
+  { label: "Analytics", href: "/#analytics" },
 ];
 
-const FOCUS_RING =
-  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal focus-visible:ring-offset-2 focus-visible:ring-offset-background";
+const LINKS: NavLink[] = [
+  { label: "Teams", href: "/#what-we-do" },
+  { label: "How it works", href: "/#how-it-works" },
+  { label: "Pricing", href: "/#pricing" },
+  { label: "FAQ", href: "/#faq" },
+];
 
-const HEADER_OFFSET = 76; // px, so smooth-scrolled sections clear the fixed bar
-
-/* ───────────────────────── animated wordmark ───────────────────── */
-
-const LOGO_LETTERS = ["B", "o", "n", "g", "g", "y"];
-
-/** Logo with the original hover personality: the planet mark tilts and the
- *  wordmark letters re-stagger in on every hover. */
-function LogoLink() {
-  const [hovered, setHovered] = React.useState(false);
-  const [hoverKey, setHoverKey] = React.useState(0);
-
-  return (
-    <Link
-      href="/"
-      aria-label="Bonggy, home"
-      onMouseEnter={() => {
-        setHovered(true);
-        setHoverKey((k) => k + 1);
-      }}
-      onMouseLeave={() => setHovered(false)}
-      className={cn(
-        "group/logo flex items-center gap-2.5 rounded-md py-1 pr-1",
-        FOCUS_RING,
-      )}
-    >
-      <BonggyMark className="size-6 transition-transform duration-500 ease-out group-hover/logo:rotate-[10deg]" />
-      <span
-        key={hoverKey}
-        aria-label="Bonggy"
-        className="flex font-mono text-[14px] font-medium uppercase tracking-[0.2em] text-foreground"
-      >
-        {LOGO_LETTERS.map((char, i) => (
-          <motion.span
-            key={i}
-            initial={hovered ? { opacity: 0.15, y: 2 } : false}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.45, delay: i * 0.07, ease: [0.22, 1, 0.36, 1] }}
-            className="inline-block"
-          >
-            {char}
-          </motion.span>
-        ))}
-      </span>
-    </Link>
-  );
-}
-
-/* ─────────────────────── scroll-shell helpers ─────────────────── */
-
-// Kept outside the component: the React Compiler lint rejects mutating a
-// hook-returned ref's element inline.
-function setOverflow(el: HTMLElement, value: string) {
-  el.style.overflow = value;
-}
-
-function smoothScrollToId(
-  id: string,
-  shell: React.RefObject<HTMLElement | null> | null,
-) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  if (shell?.current) {
-    const top =
-      el.getBoundingClientRect().top -
-      shell.current.getBoundingClientRect().top +
-      shell.current.scrollTop -
-      HEADER_OFFSET;
-    shell.current.scrollTo({ top, behavior: "smooth" });
-  } else {
-    const top = el.getBoundingClientRect().top + window.scrollY - HEADER_OFFSET;
-    window.scrollTo({ top, behavior: "smooth" });
-  }
-  history.replaceState(null, "", `#${id}`);
-}
-
-/* ───────────────────────────── Navbar ─────────────────────────── */
+const LINK_CLASS =
+  "inline-flex h-9 items-center gap-1 rounded-full px-3 text-ui-sm font-medium text-fg-2 transition-colors duration-[var(--dur-instant)] hover:bg-wash-hover hover:text-foreground";
 
 export function Navbar() {
-  const pathname = usePathname();
-  // The page scrolls natively (no inner scroll container).
-  const shellRef = null as React.RefObject<HTMLElement | null> | null;
-  const { scrollY } = useScroll(
-    shellRef ? { container: shellRef as React.RefObject<HTMLElement> } : undefined,
-  );
   const [scrolled, setScrolled] = React.useState(false);
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [menuOpen, setMenuOpen] = React.useState(false);
   const [eaOpen, setEaOpen] = React.useState(false);
 
-  useMotionValueEvent(scrollY, "change", (latest) => {
-    setScrolled(latest > 24);
-  });
-
-  // Lock the scroll-shell while the mobile menu is open (this site scrolls an
-  // inner container, not the body).
   React.useEffect(() => {
-    const shell = shellRef?.current;
-    if (!shell) return;
-    if (mobileOpen) setOverflow(shell, "hidden");
-    else if (!eaOpen) setOverflow(shell, "");
-    return () => setOverflow(shell, "");
-  }, [mobileOpen, eaOpen, shellRef]);
-
-  const openEarlyAccess = React.useCallback(() => {
-    setMobileOpen(false);
-    requestAnimationFrame(() => setEaOpen(true));
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const handleAnchor = React.useCallback(
-    (id: string) => (e: React.MouseEvent) => {
-      if (pathname === "/") {
-        e.preventDefault();
-        smoothScrollToId(id, shellRef);
-      }
-      // off the home page → let the <Link href="/#id"> navigate normally
-    },
-    [pathname, shellRef],
-  );
+  // Lock page scroll while the mobile sheet is open; Escape closes it.
+  React.useEffect(() => {
+    if (!menuOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setMenuOpen(false);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [menuOpen]);
+
+  const openEarlyAccess = React.useCallback(() => {
+    setMenuOpen(false);
+    requestAnimationFrame(() => setEaOpen(true));
+  }, []);
 
   return (
     <>
       <header
         className={cn(
-          "fixed inset-x-0 top-0 z-50 transition-[background-color,backdrop-filter,border-color,box-shadow] duration-200",
-          scrolled || mobileOpen
-            ? "border-b border-border/60 bg-background/75 backdrop-blur-md"
-            : "border-b border-transparent bg-transparent",
+          "fixed inset-x-0 top-0 z-50 h-16 transition-[background-color,backdrop-filter] duration-[var(--dur-quick)]",
+          scrolled || menuOpen ? "bg-background/85 backdrop-blur-[12px]" : "bg-transparent",
         )}
       >
-        <div className="relative mx-auto flex h-15 w-full max-w-[1400px] items-center justify-between px-6 lg:px-10">
-          {/* LEFT: wordmark */}
-          <LogoLink />
+        <div
+          aria-hidden
+          className={cn(
+            "absolute inset-x-0 bottom-0 h-px bg-border transition-opacity duration-[var(--dur-quick)]",
+            scrolled && !menuOpen ? "opacity-100" : "opacity-0",
+          )}
+        />
+        <div className="mx-auto flex h-full w-full max-w-wide items-center justify-between gap-4 px-4 lg:px-6">
+          <Link href="/" aria-label="Bonggy, home" className="flex items-center gap-2 rounded-full py-1 pr-2">
+            <Mascot className="size-5" />
+            <Wordmark />
+          </Link>
 
-          {/* RIGHT: nav links + early access (desktop) / hamburger (mobile) */}
-          <div className="flex items-center gap-2 lg:gap-4">
-            <nav
-              className="hidden items-center gap-0.5 lg:flex"
-              aria-label="Primary"
-            >
-              {NAV_ITEMS.map((item) =>
-                item.type === "dropdown" ? (
-                  <NavDropdown
-                    key={item.label}
-                    label={item.label}
-                    items={item.items}
-                    variant={item.variant}
-                    viewAllHref={item.viewAllHref}
-                  />
-                ) : item.type === "anchor" ? (
-                  <Link
-                    key={item.label}
-                    href={`/#${item.id}`}
-                    onClick={handleAnchor(item.id)}
-                    className={cn(
-                      "rounded-md px-3 py-2 font-mono text-[11.5px] uppercase tracking-[0.1em] text-muted-foreground transition-colors duration-150 hover:text-foreground",
-                      FOCUS_RING,
-                    )}
-                  >
-                    {item.label}
-                  </Link>
-                ) : (
-                  <Link
-                    key={item.label}
-                    href={item.href}
-                    className={cn(
-                      "rounded-md px-3 py-2 font-mono text-[11.5px] uppercase tracking-[0.1em] text-muted-foreground transition-colors duration-150 hover:text-foreground",
-                      FOCUS_RING,
-                    )}
-                  >
-                    {item.label}
-                  </Link>
-                ),
-              )}
-            </nav>
+          <nav aria-label="Primary" className="hidden items-center lg:flex">
+            <ProductMenu />
+            {LINKS.map((l) => (
+              <Link key={l.href} href={l.href} className={LINK_CLASS}>
+                {l.label}
+              </Link>
+            ))}
+          </nav>
 
-            <a
-              href={CAL_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={cn(
-                "hidden h-8 items-center whitespace-nowrap rounded-md border border-border/70 px-3.5 font-mono text-[10.5px] uppercase tracking-[0.1em] text-foreground transition-colors duration-150 hover:bg-card/60 xl:inline-flex",
-                FOCUS_RING,
-              )}
-            >
-              Book a 30-min call
-            </a>
-
-            <div className="hidden lg:block">
-              <CtaButton size="sm" asButton onClick={openEarlyAccess}>
+          <div className="flex items-center gap-2">
+            <div className="hidden items-center gap-2 lg:flex">
+              <CtaButton href={CAL_LINK} variant="soft" size="sm">
+                Book a call
+              </CtaButton>
+              <CtaButton asButton size="sm" onClick={openEarlyAccess}>
                 Get early access
               </CtaButton>
             </div>
-
             <button
               type="button"
-              aria-label={mobileOpen ? "Close menu" : "Open menu"}
-              aria-expanded={mobileOpen}
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={menuOpen}
               aria-controls="mobile-menu"
-              onClick={() => setMobileOpen((v) => !v)}
-              className={cn(
-                "flex size-9 items-center justify-center rounded-md border border-border/60 bg-card/40 text-foreground lg:hidden",
-                FOCUS_RING,
-              )}
+              onClick={() => setMenuOpen((v) => !v)}
+              className="flex size-11 items-center justify-center rounded-full bg-surface-2 text-foreground transition-colors hover:bg-surface-3 lg:hidden"
             >
-              <Hamburger open={mobileOpen} />
+              {menuOpen ? <X className="size-5" aria-hidden /> : <List className="size-5" aria-hidden />}
             </button>
           </div>
         </div>
       </header>
 
       <AnimatePresence>
-        {mobileOpen && (
-          <MobileMenu
-            onClose={() => setMobileOpen(false)}
-            onOpenEarlyAccess={openEarlyAccess}
-            onAnchor={(id) => {
-              setMobileOpen(false);
-              // wait for the panel to start closing, then scroll
-              setTimeout(() => smoothScrollToId(id, shellRef), 80);
-            }}
-            isHome={pathname === "/"}
-          />
-        )}
+        {menuOpen ? (
+          <motion.div
+            id="mobile-menu"
+            key="sheet"
+            initial={{ y: "-100%" }}
+            animate={{ y: 0 }}
+            exit={{ y: "-100%" }}
+            transition={SPRING.layout}
+            className="fixed inset-x-0 top-0 z-40 flex h-[100svh] flex-col bg-background px-4 pb-8 pt-20 lg:hidden"
+          >
+            <nav aria-label="Mobile" className="flex flex-col">
+              {[...PRODUCT, ...LINKS].map((l) => (
+                <Link
+                  key={l.href}
+                  href={l.href}
+                  onClick={() => setMenuOpen(false)}
+                  className="flex min-h-12 items-center border-b border-border text-title text-foreground"
+                >
+                  {l.label}
+                </Link>
+              ))}
+            </nav>
+            <div className="mt-auto grid gap-3">
+              <CtaButton asButton size="lg" onClick={openEarlyAccess} className="w-full">
+                Get early access
+              </CtaButton>
+              <CtaButton href={CAL_LINK} variant="soft" size="lg" className="w-full">
+                Book a 30-min call
+              </CtaButton>
+            </div>
+          </motion.div>
+        ) : null}
       </AnimatePresence>
 
       <EarlyAccessModal open={eaOpen} onOpenChange={setEaOpen} />
@@ -293,387 +152,63 @@ export function Navbar() {
   );
 }
 
-/* ─────────────────────────── NavDropdown ─────────────────────────
-   Opens on hover AND click. Full keyboard support + ARIA menu semantics.   */
-
-function NavDropdown({
-  label,
-  items,
-  variant = "list",
-  viewAllHref,
-}: {
-  label: string;
-  items: DropdownItem[];
-  variant?: "list" | "cards";
-  viewAllHref?: string;
-}) {
+/** "Product" disclosure: anchors to the product sections on the homepage. */
+function ProductMenu() {
   const [open, setOpen] = React.useState(false);
-  const wrapRef = React.useRef<HTMLDivElement>(null);
-  const triggerRef = React.useRef<HTMLButtonElement>(null);
-  const itemRefs = React.useRef<(HTMLAnchorElement | null)[]>([]);
-  const closeTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
-  const menuId = React.useId();
+  const ref = React.useRef<HTMLDivElement>(null);
+  const id = React.useId();
 
-  const clearClose = () => {
-    if (closeTimer.current) {
-      clearTimeout(closeTimer.current);
-      closeTimer.current = null;
-    }
-  };
-
-  const openMenu = (focusFirst = false) => {
-    clearClose();
-    setOpen(true);
-    if (focusFirst) {
-      requestAnimationFrame(() => itemRefs.current[0]?.focus());
-    }
-  };
-
-  const closeMenu = (returnFocus = false) => {
-    setOpen(false);
-    if (returnFocus) triggerRef.current?.focus();
-  };
-
-  // Hover intent: small delay on leave so moving cursor into the panel
-  // doesn't snap it shut.
-  const onLeave = () => {
-    clearClose();
-    closeTimer.current = setTimeout(() => setOpen(false), 120);
-  };
-
-  // Click-outside + Escape (global, only while open)
   React.useEffect(() => {
     if (!open) return;
-    const onDoc = (e: MouseEvent) => {
-      if (wrapRef.current && !wrapRef.current.contains(e.target as Node)) {
-        setOpen(false);
-      }
+    const onDown = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
     };
-    document.addEventListener("mousedown", onDoc);
-    return () => document.removeEventListener("mousedown", onDoc);
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    document.addEventListener("mousedown", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDown);
+      document.removeEventListener("keydown", onKey);
+    };
   }, [open]);
 
-  const onTriggerKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "ArrowDown" || e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      openMenu(true);
-    } else if (e.key === "Escape") {
-      closeMenu();
-    }
-  };
-
-  const onItemKeyDown = (i: number) => (e: React.KeyboardEvent) => {
-    if (e.key === "ArrowDown") {
-      e.preventDefault();
-      itemRefs.current[(i + 1) % items.length]?.focus();
-    } else if (e.key === "ArrowUp") {
-      e.preventDefault();
-      itemRefs.current[(i - 1 + items.length) % items.length]?.focus();
-    } else if (e.key === "Home") {
-      e.preventDefault();
-      itemRefs.current[0]?.focus();
-    } else if (e.key === "End") {
-      e.preventDefault();
-      itemRefs.current[items.length - 1]?.focus();
-    } else if (e.key === "Escape") {
-      e.preventDefault();
-      closeMenu(true);
-    } else if (e.key === "Tab") {
-      setOpen(false); // let focus leave naturally
-    }
-  };
-
   return (
-    <div
-      ref={wrapRef}
-      className="relative"
-      onMouseEnter={() => openMenu(false)}
-      onMouseLeave={onLeave}
-    >
+    <div ref={ref} className="relative" onMouseLeave={() => setOpen(false)}>
       <button
-        ref={triggerRef}
         type="button"
-        aria-haspopup="menu"
         aria-expanded={open}
-        aria-controls={menuId}
-        onClick={() => (open ? closeMenu() : openMenu(false))}
-        onKeyDown={onTriggerKeyDown}
-        className={cn(
-          "inline-flex items-center gap-1 rounded-md px-3 py-2 font-mono text-[11.5px] uppercase tracking-[0.1em] transition-colors duration-150",
-          open ? "text-foreground" : "text-muted-foreground hover:text-foreground",
-          FOCUS_RING,
-        )}
+        aria-controls={id}
+        onClick={() => setOpen((v) => !v)}
+        onMouseEnter={() => setOpen(true)}
+        className={cn(LINK_CLASS, open && "text-foreground")}
       >
-        {label}
-        <CaretDown
-          weight="bold"
-          className={cn(
-            "size-2.5 opacity-55 transition-transform duration-200",
-            open && "rotate-180",
-          )}
-        />
+        Product
+        <CaretDown className={cn("size-3.5 transition-transform", open && "rotate-180")} aria-hidden />
       </button>
-
       <AnimatePresence>
-        {open &&
-          (variant === "cards" ? (
-            <motion.div
-              id={menuId}
-              role="menu"
-              aria-label={label}
-              initial={{ opacity: 0, y: -6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.16, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute right-0 top-full mt-3 w-[min(600px,calc(100vw-2.5rem))] rounded-[14px] border border-border/70 bg-popover/95 p-3 shadow-[0_24px_60px_-16px_rgba(0,0,0,0.65)] backdrop-blur-xl"
-            >
-              {/* Header row — label + view-all, like factory's NEWS menu */}
-              <div className="mb-2.5 flex items-center justify-between px-2 pt-1">
-                <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/90">
-                  {label}
-                </span>
-                {viewAllHref ? (
-                  <Link
-                    href={viewAllHref}
-                    onClick={() => setOpen(false)}
-                    className={cn(
-                      "inline-flex items-center gap-1 rounded font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:text-foreground",
-                      FOCUS_RING,
-                    )}
-                  >
-                    View all <span aria-hidden>↗</span>
-                  </Link>
-                ) : null}
-              </div>
-
-              <div className="grid grid-cols-2 gap-2">
-                {items.map((it, i) => (
-                  <Link
-                    key={it.href}
-                    href={it.href}
-                    ref={(node) => {
-                      itemRefs.current[i] = node;
-                    }}
-                    role="menuitem"
-                    tabIndex={-1}
-                    onClick={() => setOpen(false)}
-                    onKeyDown={onItemKeyDown(i)}
-                    className={cn(
-                      "group/card flex flex-col rounded-[10px] border border-border/60 bg-card/30 p-4 transition-colors hover:border-signal/40 hover:bg-card/70",
-                      FOCUS_RING,
-                    )}
-                  >
-                    <div className="mb-3 flex items-center gap-1.5">
-                      {it.tag ? (
-                        <span className="rounded-[3px] bg-signal/15 px-1.5 py-0.5 font-mono text-[9px] font-medium uppercase tracking-[0.12em] text-signal">
-                          {it.tag}
-                        </span>
-                      ) : null}
-                      {it.badge ? (
-                        <span className="rounded-[3px] border border-border/70 px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-[0.12em] text-muted-foreground">
-                          {it.badge}
-                        </span>
-                      ) : null}
-                    </div>
-                    <span className="text-[14px] font-medium tracking-tight text-foreground">
-                      {it.label}
-                    </span>
-                    {it.desc ? (
-                      <span className="mt-1.5 font-mono text-[11px] leading-relaxed text-muted-foreground">
-                        {it.desc}
-                      </span>
-                    ) : null}
-                    <span className="mt-3 inline-flex items-center gap-1 font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground transition-colors group-hover/card:text-signal">
-                      Read <span aria-hidden>→</span>
-                    </span>
-                  </Link>
-                ))}
-              </div>
-            </motion.div>
-          ) : (
-            <motion.div
-              id={menuId}
-              role="menu"
-              aria-label={label}
-              initial={{ opacity: 0, y: -6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute right-0 top-full mt-2 min-w-[200px] rounded-[10px] border border-border/70 bg-popover/90 p-1.5 shadow-[0_16px_40px_-12px_rgba(0,0,0,0.5)] backdrop-blur-md"
-            >
-              {items.map((it, i) => (
+        {open ? (
+          <motion.ul
+            id={id}
+            initial={{ opacity: 0, y: 4 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 4 }}
+            transition={{ duration: 0.15 }}
+            className="absolute left-0 top-full z-10 mt-1 grid min-w-44 gap-0.5 rounded-lg bg-surface-raised p-1.5 shadow-e2"
+          >
+            {PRODUCT.map((l) => (
+              <li key={l.href}>
                 <Link
-                  key={it.href}
-                  href={it.href}
-                  ref={(node) => {
-                    itemRefs.current[i] = node;
-                  }}
-                  role="menuitem"
-                  tabIndex={-1}
+                  href={l.href}
                   onClick={() => setOpen(false)}
-                  onKeyDown={onItemKeyDown(i)}
-                  className={cn(
-                    "block rounded-md px-3 py-2 font-mono text-[11px] uppercase tracking-[0.08em] text-muted-foreground transition-colors hover:bg-accent hover:text-foreground",
-                    FOCUS_RING,
-                  )}
+                  className="flex h-9 items-center rounded-md px-3 text-ui-sm font-medium text-foreground hover:bg-wash-hover"
                 >
-                  {it.label}
+                  {l.label}
                 </Link>
-              ))}
-            </motion.div>
-          ))}
+              </li>
+            ))}
+          </motion.ul>
+        ) : null}
       </AnimatePresence>
     </div>
-  );
-}
-
-/* ─────────────────────────── Hamburger ─────────────────────────── */
-
-function Hamburger({ open }: { open: boolean }) {
-  const t = { type: "spring" as const, stiffness: 380, damping: 28 };
-  return (
-    <svg viewBox="0 0 24 24" className="size-5" aria-hidden>
-      <motion.line
-        x1="3" x2="21" y1="8" y2="8"
-        stroke="currentColor" strokeWidth="1.7" strokeLinecap="round"
-        initial={false}
-        animate={open ? { rotate: 45, translateY: 4 } : { rotate: 0, translateY: 0 }}
-        style={{ transformOrigin: "12px 8px" }}
-        transition={t}
-      />
-      <motion.line
-        x1="3" x2="21" y1="16" y2="16"
-        stroke="currentColor" strokeWidth="1.7" strokeLinecap="round"
-        initial={false}
-        animate={open ? { rotate: -45, translateY: -4 } : { rotate: 0, translateY: 0 }}
-        style={{ transformOrigin: "12px 16px" }}
-        transition={t}
-      />
-    </svg>
-  );
-}
-
-/* ─────────────────────────── MobileMenu ───────────────────────────
-   Slide-in panel from the right. Closes on link tap, Escape, backdrop tap.  */
-
-function MobileMenu({
-  onClose,
-  onOpenEarlyAccess,
-  onAnchor,
-  isHome,
-}: {
-  onClose: () => void;
-  onOpenEarlyAccess: () => void;
-  onAnchor: (id: string) => void;
-  isHome: boolean;
-}) {
-  const panelRef = React.useRef<HTMLDivElement>(null);
-
-  // Escape closes; focus moves into the panel on open.
-  React.useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-    document.addEventListener("keydown", onKey);
-    requestAnimationFrame(() => panelRef.current?.focus());
-    return () => document.removeEventListener("keydown", onKey);
-  }, [onClose]);
-
-  // Flatten the nav config into a single vertical list.
-  const flat: { label: string; href: string; id?: string; section?: boolean }[] = [];
-  for (const item of NAV_ITEMS) {
-    if (item.type === "anchor") flat.push({ label: item.label, href: `/#${item.id}`, id: item.id });
-    else if (item.type === "route") flat.push({ label: item.label, href: item.href });
-    else item.items.forEach((s) => flat.push({ label: s.label, href: s.href }));
-  }
-
-  return (
-    <motion.div
-      id="mobile-menu"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.18 }}
-      className="fixed inset-0 z-40 lg:hidden"
-    >
-      {/* Backdrop */}
-      <button
-        type="button"
-        aria-label="Close menu"
-        onClick={onClose}
-        className="absolute inset-0 bg-background/85 backdrop-blur-md"
-      />
-
-      {/* Right slide-in panel */}
-      <motion.div
-        ref={panelRef}
-        tabIndex={-1}
-        initial={{ x: "100%" }}
-        animate={{ x: 0 }}
-        exit={{ x: "100%" }}
-        transition={{ type: "spring", stiffness: 320, damping: 34 }}
-        className="absolute inset-y-0 right-0 flex w-[86%] max-w-[360px] flex-col border-l border-border/60 bg-background/95 px-6 pt-24 pb-8 outline-none backdrop-blur-xl"
-      >
-        <nav className="flex flex-col" aria-label="Mobile">
-          {flat.map((l, i) =>
-            l.id && isHome ? (
-              <button
-                key={l.label}
-                type="button"
-                onClick={() => onAnchor(l.id!)}
-                className={cn(
-                  "flex items-center justify-between border-b border-border/50 px-1 py-4 text-left text-[17px] text-foreground transition-colors hover:text-signal",
-                  FOCUS_RING,
-                )}
-              >
-                <span>{l.label}</span>
-                <span className="font-mono text-[10px] tabular-nums text-muted-foreground/90">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-              </button>
-            ) : (
-              <Link
-                key={l.label}
-                href={l.href}
-                onClick={onClose}
-                className={cn(
-                  "flex items-center justify-between border-b border-border/50 px-1 py-4 text-[17px] text-foreground transition-colors hover:text-signal",
-                  FOCUS_RING,
-                )}
-              >
-                <span>{l.label}</span>
-                <span className="font-mono text-[10px] tabular-nums text-muted-foreground/90">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-              </Link>
-            ),
-          )}
-        </nav>
-
-        {/* Pinned CTAs */}
-        <div className="mt-auto flex flex-col gap-3 pt-8">
-          <CtaButton
-            size="lg"
-            magnetic={false}
-            asButton
-            onClick={onOpenEarlyAccess}
-            className="w-full"
-          >
-            Get early access
-          </CtaButton>
-          <a
-            href={CAL_LINK}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={cn(
-              "flex h-11 items-center justify-center rounded-md border border-border/70 font-mono text-[12px] uppercase tracking-[0.18em] text-foreground transition-colors hover:bg-card/60",
-              FOCUS_RING,
-            )}
-          >
-            Book a 30-min call
-          </a>
-        </div>
-      </motion.div>
-    </motion.div>
   );
 }

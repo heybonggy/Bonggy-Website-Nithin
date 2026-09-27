@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { appendToSheet } from "@/lib/sheets";
+import { isEarlyAccessRole } from "@/lib/early-access";
 
 export const runtime = "nodejs";
 
@@ -23,7 +24,7 @@ export async function POST(req: Request) {
   const company = (payload.company || "").trim();
   const role = (payload.role || "").trim();
 
-  if (!email || !company || !role) {
+  if (!email || !company || !role || !isEarlyAccessRole(role)) {
     return NextResponse.json(
       { ok: false, error: "missing_required_field" },
       { status: 400 },
