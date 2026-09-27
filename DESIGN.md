@@ -93,7 +93,7 @@ Geist Sans for everything; Geist Mono only for inline `code` in bot messages. Lo
 | `text-ui` / `text-ui-sm` | 14 / 13 | Controls, table cells, mock text |
 | `text-caption` / `text-micro` | 12 / 11 | Meta lines, pills |
 
-- **Two-tone headings.** Headline in `text-foreground`, second clause in `text-fg-3` (e.g. "Pay for the bots you run. *Plus what they use.*").
+- **Two-tone headings** (headline in `text-foreground`, second clause in `text-fg-3`) only in the hero, flows and pricing. Every other H2 is single-tone. No 01/02/03 numbering.
 - **Kickers** are quiet sentence-case lines (`text-ui-sm font-medium text-fg-3`), not uppercase mono.
 - `tabular` utility for numbers that change.
 - Inside JSX *string attributes* write `'` directly; `&apos;` only works in JSX text.
@@ -232,9 +232,10 @@ Everything lives in [`src/components/product-mock/`](src/components/product-mock
 | # | Anchor | Section |
 |---|---|---|
 | 1 | `#top` | Hero: a bot builds from your sentence (Champion Tracker) |
-| 2 | `#what-we-do` | One workspace. Three teams. |
+| 2 | `#what-we-do` | One workspace. Three teams. (three team columns: the team's bots as compact rows with a live status that alternates between two real moments, and one line on what the team gets; a bot's role shows as a hover tooltip) |
 | 3 | `#flows` | Every bot runs a flow you design. |
 | 4 | `#agents` | A bot for every job (Flows teams have built) |
+| 4b | `#make-it-yours` | Make it yours. (the customiser, §7.21) |
 | 5 | `#groups` | Bots hand off work. |
 | 6 | `#approvals` | Bots draft. You decide. (plus the four bright lines) |
 | 7 | `#analytics` | See what every bot did, and why. |
