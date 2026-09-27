@@ -46,7 +46,7 @@ export function SubPageShell({
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={SPRING}
+                transition={SPRING.gentle}
                 className="mb-8 flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground"
               >
                 <span className="h-3 w-[3px] shrink-0 bg-signal" />
@@ -57,7 +57,7 @@ export function SubPageShell({
               <motion.h1
                 initial={{ y: 14 }}
                 animate={{ y: 0 }}
-                transition={{ ...SPRING, delay: 0.05 }}
+                transition={{ ...SPRING.gentle, delay: 0.05 }}
                 className="text-display max-w-[20ch] text-balance text-[40px] font-normal leading-none tracking-tight sm:text-[56px] lg:text-[72px]"
               >
                 {title}{" "}
@@ -72,7 +72,7 @@ export function SubPageShell({
                 <motion.p
                   initial={{ y: 12 }}
                   animate={{ y: 0 }}
-                  transition={{ ...SPRING, delay: 0.12 }}
+                  transition={{ ...SPRING.gentle, delay: 0.12 }}
                   className="mt-8 max-w-[62ch] text-[17px] leading-relaxed text-muted-foreground"
                 >
                   {lede}

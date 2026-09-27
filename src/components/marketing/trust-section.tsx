@@ -14,7 +14,7 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import { cn } from "@/lib/utils";
 import { Section } from "./section";
-import { SPRING_BOUNCE, usePrefersReducedMotion } from "./_motion";
+import { SPRING, usePrefersReducedMotion } from "./_motion";
 
 const POINTS = [
   {
@@ -149,7 +149,7 @@ function ApprovalQueue() {
                     key={s}
                     initial={reduce ? false : { scale: 0.85, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
-                    transition={SPRING_BOUNCE}
+                    transition={SPRING.morph}
                     className={cn(
                       "shrink-0 rounded-[3px] px-1.5 py-0.5 font-mono text-[9.5px] uppercase tracking-[0.12em]",
                       s === "pending" && "border border-border/80 text-foreground",

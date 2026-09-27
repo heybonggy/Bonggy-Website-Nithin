@@ -7,7 +7,6 @@ import {
   CircleNotch,
   X as XIcon,
 } from "@phosphor-icons/react/dist/ssr";
-import { Magnetic } from "./magnetic";
 import { cn } from "@/lib/utils";
 import { SPRING } from "./_motion";
 
@@ -73,10 +72,7 @@ export function EarlyAccessModal({
   // its overflow. Desktop (>=768px): document scrolls natively, freeze body.
   React.useEffect(() => {
     if (!open) return;
-    const isShell = window.matchMedia("(max-width: 767px)").matches;
-    const target = isShell
-      ? document.querySelector<HTMLElement>(".bonggy-scroll-shell")
-      : document.body;
+    const target = document.body;
     const prevOverflow = target?.style.overflow ?? "";
     if (target) target.style.overflow = "hidden";
 
@@ -163,7 +159,7 @@ export function EarlyAccessModal({
               initial={{ y: 12, scale: 0.96 }}
               animate={{ y: 0, scale: 1 }}
               exit={{ y: 8, scale: 0.97 }}
-              transition={SPRING}
+              transition={SPRING.gentle}
               onClick={(e) => e.stopPropagation()}
               onMouseDown={(e) => e.stopPropagation()}
               onPointerDown={(e) => e.stopPropagation()}
@@ -201,7 +197,7 @@ export function EarlyAccessModal({
                   <motion.div
                     initial={{ y: 8, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
-                    transition={SPRING}
+                    transition={SPRING.gentle}
                     className="flex flex-col gap-3 rounded-lg border border-signal/30 bg-signal/[0.05] p-4"
                   >
                     <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-signal">
@@ -270,8 +266,6 @@ export function EarlyAccessModal({
                       placeholder="Team size (optional)"
                       autoComplete="off"
                     />
-
-                    <Magnetic pull={0.25} range={120}>
                       <button
                         type="submit"
                         disabled={submitting}
@@ -302,7 +296,6 @@ export function EarlyAccessModal({
                           </>
                         )}
                       </button>
-                    </Magnetic>
 
                     <p className="text-center font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground/90">
                       No card required · 30-min call · We respond within 48h

@@ -3,7 +3,6 @@
 import * as React from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { ArrowUpRight, CircleNotch } from "@phosphor-icons/react/dist/ssr";
-import { Magnetic } from "./magnetic";
 import { cn } from "@/lib/utils";
 import { SPRING } from "./_motion";
 
@@ -89,7 +88,7 @@ export function CareersForm() {
           <motion.div
             initial={{ y: 8, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={SPRING}
+            transition={SPRING.gentle}
             className="rounded-lg border border-signal/30 bg-signal/[0.05] p-5"
           >
             <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-signal">
@@ -157,8 +156,6 @@ export function CareersForm() {
               required
               rows={4}
             />
-
-            <Magnetic pull={0.25} range={120}>
               <button
                 type="submit"
                 disabled={submitting}
@@ -186,7 +183,6 @@ export function CareersForm() {
                   </>
                 )}
               </button>
-            </Magnetic>
 
             <p className="mt-1 text-center font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground/90">
               48-hour response · We read every one

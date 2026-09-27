@@ -14,7 +14,6 @@ import { cn } from "@/lib/utils";
 import { BonggyMark } from "./bonggy-mark";
 import { CtaButton, CAL_LINK } from "./cta-button";
 import { EarlyAccessModal } from "./early-access-modal";
-import { useScrollShell } from "./scroll-shell";
 
 /* ─────────────────────────── Config ───────────────────────────
    Edit nav items here. `anchor` links smooth-scroll on the home page;
@@ -144,7 +143,8 @@ function smoothScrollToId(
 
 export function Navbar() {
   const pathname = usePathname();
-  const shellRef = useScrollShell();
+  // The page scrolls natively (no inner scroll container).
+  const shellRef = null as React.RefObject<HTMLElement | null> | null;
   const { scrollY } = useScroll(
     shellRef ? { container: shellRef as React.RefObject<HTMLElement> } : undefined,
   );

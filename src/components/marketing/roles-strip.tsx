@@ -53,7 +53,7 @@ export function RolesStrip() {
             initial={{ y: 16 }}
             whileInView={{ y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
-            transition={{ ...SPRING, delay: i * 0.08 }}
+            transition={{ ...SPRING.gentle, delay: i * 0.08 }}
             className="terminal-corners relative flex flex-col rounded-lg border border-border/80 bg-card/60 p-6 lg:p-7"
           >
             <h3 className="text-[20px] font-normal tracking-tight text-foreground">{role.title}</h3>

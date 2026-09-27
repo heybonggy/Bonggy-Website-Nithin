@@ -51,7 +51,7 @@ export function TheReframeFix() {
  initial={{ opacity: 0, y: 18 }}
  whileInView={{ opacity: 1, y: 0 }}
  viewport={{ once: true, amount: 0.15 }}
- transition={SPRING}
+ transition={SPRING.gentle}
  className="text-display text-balance text-[36px] font-normal leading-none tracking-tight sm:text-[44px] lg:text-[56px]"
  >
  Every bot runs on one loop.{" "}
@@ -64,7 +64,7 @@ export function TheReframeFix() {
  initial={{ y: 12 }}
  whileInView={{ y: 0 }}
  viewport={{ once: true, amount: 0.15 }}
- transition={{ ...SPRING, delay: 0.05 }}
+ transition={{ ...SPRING.gentle, delay: 0.05 }}
  className="max-w-[58ch] text-[16px] leading-relaxed text-muted-foreground lg:pt-2"
  >
  It&apos;s how every agent&apos;s work ties back to a revenue goal,
@@ -80,7 +80,7 @@ export function TheReframeFix() {
  initial={{ y: 16 }}
  whileInView={{ y: 0 }}
  viewport={{ once: true, amount: 0.15 }}
- transition={{ ...SPRING, delay: i * 0.05 }}
+ transition={{ ...SPRING.gentle, delay: i * 0.05 }}
  className="terminal-corners relative flex flex-col gap-4 bg-background/60 p-6 lg:p-7"
  >
  <div className="flex items-center justify-between">
@@ -111,7 +111,7 @@ export function TheReframeFix() {
  initial={{ y: 12 }}
  whileInView={{ y: 0 }}
  viewport={{ once: true, amount: 0.15 }}
- transition={SPRING}
+ transition={SPRING.gentle}
  className="mt-14 max-w-3xl text-pretty text-[20px] font-medium leading-snug tracking-tight"
  >
  Alignment, not volume.{" "}

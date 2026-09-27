@@ -2,506 +2,425 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
+/* =============================================================================
+   Bonggy design system: "Paper" (light-first, strictly grayscale).
+   Every colour has zero chroma except --danger, which is reserved for errors
+   and destructive confirmation only (DESIGN.md §2.4). shadcn token names are
+   kept so src/components/ui/* keep working.
+   ========================================================================== */
+
 @custom-variant dark (&:is(.dark *));
 
+/* 1. Raw palette (use semantic tokens in components, not these) */
+:root {
+  --gray-0: #ffffff;
+  --gray-25: #fafafa;
+  --gray-50: #f5f5f5;
+  --gray-100: #efefef;
+  --gray-150: #e8e8e8;
+  --gray-200: #e0e0e0;
+  --gray-300: #c7c7c7;
+  --gray-400: #a3a3a3;
+  --gray-500: #8f8f8f;
+  --gray-600: #6b6b6b;
+  --gray-700: #525252;
+  --gray-800: #2e2e2e;
+  --gray-850: #1f1f1f;
+  --gray-900: #171717;
+  --gray-950: #0a0a0a;
+  --gray-1000: #000000;
+}
+
+/* 2. Semantic tokens: light (default) */
+:root {
+  color-scheme: light;
+
+  /* surfaces */
+  --background: var(--gray-0);
+  --surface: var(--gray-50);
+  --surface-2: var(--gray-100);
+  --surface-3: var(--gray-150);
+  --surface-raised: var(--gray-0);
+  --surface-inverse: var(--gray-950);
+  --overlay: rgb(0 0 0 / 0.38);
+
+  /* text */
+  --foreground: var(--gray-950);
+  --foreground-2: var(--gray-700); /* 7.8:1 */
+  --foreground-3: var(--gray-600); /* 5.3:1 on white, 4.9:1 on surface */
+  --foreground-disabled: var(--gray-400); /* placeholders only */
+  --foreground-inverse: var(--gray-0);
+
+  /* lines */
+  --border: rgb(10 10 10 / 0.09);
+  --border-strong: rgb(10 10 10 / 0.16);
+  --border-inverse: rgb(255 255 255 / 0.16);
+  --input: rgb(10 10 10 / 0.12);
+  --ring: rgb(10 10 10 / 0.35);
+
+  /* interaction washes */
+  --wash-hover: rgb(10 10 10 / 0.04);
+  --wash-active: rgb(10 10 10 / 0.07);
+  --wash-selected: rgb(10 10 10 / 0.055);
+
+  /* chat */
+  --bubble-user: var(--gray-950);
+  --bubble-user-ink: var(--gray-0);
+  --bubble-bot: rgb(10 10 10 / 0.04);
+  --bubble-bot-ink: var(--gray-950);
+
+  /* status (hue-free, DESIGN.md §6.3) */
+  --status-ink: var(--gray-950);
+  --status-muted: var(--gray-600);
+  --status-track: var(--gray-200);
+  --hatch: repeating-linear-gradient(135deg, rgb(10 10 10 / 0.18) 0 1px, transparent 1px 5px);
+
+  /* the one functional accent: errors + destructive confirmation only */
+  --danger: #b42318; /* 6.6:1 on white */
+  --danger-wash: rgb(180 35 24 / 0.08);
+
+  /* shadcn compatibility */
+  --card: var(--surface);
+  --card-foreground: var(--foreground);
+  --popover: var(--surface-raised);
+  --popover-foreground: var(--foreground);
+  --primary: var(--gray-950);
+  --primary-foreground: var(--gray-0);
+  --secondary: var(--surface-2);
+  --secondary-foreground: var(--foreground);
+  --muted: var(--surface);
+  --muted-foreground: var(--foreground-2);
+  --accent: var(--surface-2);
+  --accent-foreground: var(--foreground);
+  --destructive: var(--danger);
+  --chart-1: var(--gray-950);
+  --chart-2: var(--gray-700);
+  --chart-3: var(--gray-500);
+  --chart-4: var(--gray-300);
+  --chart-5: var(--gray-150);
+  --sidebar: var(--gray-25);
+  --sidebar-foreground: var(--foreground);
+  --sidebar-primary: var(--gray-950);
+  --sidebar-primary-foreground: var(--gray-0);
+  --sidebar-accent: var(--wash-selected);
+  --sidebar-accent-foreground: var(--foreground);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--ring);
+
+  /* layout */
+  --header-h: 4rem;
+  --site-frame-inset: 20px;
+  --radius: 0.75rem;
+}
+
+@media (max-width: 640px) {
+  :root { --site-frame-inset: 8px; }
+}
+
+/* 3. Semantic tokens: dark (optional; opt in with <html class="dark">) */
+.dark {
+  color-scheme: dark;
+  --background: var(--gray-950);
+  --surface: var(--gray-900);
+  --surface-2: var(--gray-850);
+  --surface-3: var(--gray-800);
+  --surface-raised: #1b1b1b;
+  --surface-inverse: #ededed;
+  --overlay: rgb(0 0 0 / 0.6);
+
+  --foreground: #ededed;
+  --foreground-2: var(--gray-400);
+  --foreground-3: var(--gray-500);
+  --foreground-disabled: var(--gray-700);
+  --foreground-inverse: var(--gray-950);
+
+  --border: rgb(255 255 255 / 0.1);
+  --border-strong: rgb(255 255 255 / 0.18);
+  --border-inverse: rgb(10 10 10 / 0.16);
+  --input: rgb(255 255 255 / 0.14);
+  --ring: rgb(255 255 255 / 0.4);
+
+  --wash-hover: rgb(255 255 255 / 0.05);
+  --wash-active: rgb(255 255 255 / 0.09);
+  --wash-selected: rgb(255 255 255 / 0.07);
+
+  --bubble-user: #ededed;
+  --bubble-user-ink: var(--gray-950);
+  --bubble-bot: rgb(255 255 255 / 0.06);
+  --bubble-bot-ink: #ededed;
+
+  --status-ink: #ededed;
+  --status-muted: var(--gray-500);
+  --status-track: var(--gray-800);
+  --hatch: repeating-linear-gradient(135deg, rgb(255 255 255 / 0.22) 0 1px, transparent 1px 5px);
+
+  --danger: #f97066;
+  --danger-wash: rgb(249 112 102 / 0.12);
+
+  --card: var(--surface);
+  --popover: var(--surface-raised);
+  --primary: #ededed;
+  --primary-foreground: var(--gray-950);
+  --secondary: var(--surface-2);
+  --muted: var(--surface);
+  --accent: var(--surface-2);
+  --chart-1: #ededed;
+  --chart-2: var(--gray-400);
+  --chart-3: var(--gray-600);
+  --chart-4: var(--gray-800);
+  --chart-5: var(--gray-850);
+  --sidebar: #111111;
+}
+
+/* 4. Tailwind v4 theme mapping */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-geist-sans);
-
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
-
-  --color-ring: var(--ring);
-  --color-input: var(--input);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-inverse: var(--surface-inverse);
+  --color-overlay: var(--overlay);
+  --color-fg-2: var(--foreground-2);
+  --color-fg-3: var(--foreground-3);
+  --color-fg-disabled: var(--foreground-disabled);
+  --color-fg-inverse: var(--foreground-inverse);
   --color-border: var(--border);
-  --color-destructive: var(--destructive);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-accent: var(--accent);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-muted: var(--muted);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-secondary: var(--secondary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-primary: var(--primary);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
-  --color-card-foreground: var(--card-foreground);
+  --color-border-strong: var(--border-strong);
+  --color-border-inverse: var(--border-inverse);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-wash-hover: var(--wash-hover);
+  --color-wash-active: var(--wash-active);
+  --color-wash-selected: var(--wash-selected);
+  --color-bubble-user: var(--bubble-user);
+  --color-bubble-user-ink: var(--bubble-user-ink);
+  --color-bubble-bot: var(--bubble-bot);
+  --color-bubble-bot-ink: var(--bubble-bot-ink);
+  --color-status-ink: var(--status-ink);
+  --color-status-muted: var(--status-muted);
+  --color-status-track: var(--status-track);
+  --color-danger: var(--danger);
+  --color-danger-wash: var(--danger-wash);
+
   --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
 
-  --color-signal: var(--signal);
-  --color-signal-foreground: var(--signal-foreground);
-  --color-signal-muted: var(--signal-muted);
-  --color-line: var(--line);
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
-  --radius-bento: 1.75rem;
-}
+  --text-display-2xl: 4rem;
+  --text-display-2xl--line-height: 1.04;
+  --text-display-2xl--letter-spacing: -0.025em;
+  --text-display-2xl--font-weight: 500;
+  --text-display-xl: 3.25rem;
+  --text-display-xl--line-height: 1.05;
+  --text-display-xl--letter-spacing: -0.022em;
+  --text-display-xl--font-weight: 500;
+  --text-display-lg: 2.5rem;
+  --text-display-lg--line-height: 1.08;
+  --text-display-lg--letter-spacing: -0.02em;
+  --text-display-lg--font-weight: 500;
+  --text-heading-lg: 2.25rem;
+  --text-heading-lg--line-height: 1.12;
+  --text-heading-lg--letter-spacing: -0.018em;
+  --text-heading-lg--font-weight: 500;
+  --text-heading: 1.875rem;
+  --text-heading--line-height: 1.2;
+  --text-heading--letter-spacing: -0.015em;
+  --text-heading--font-weight: 500;
+  --text-title: 1.25rem;
+  --text-title--line-height: 1.4;
+  --text-title--letter-spacing: -0.01em;
+  --text-title--font-weight: 500;
+  --text-body-lg: 1.125rem;
+  --text-body-lg--line-height: 1.625;
+  --text-body-lg--letter-spacing: -0.005em;
+  --text-body: 1rem;
+  --text-body--line-height: 1.625;
+  --text-body--letter-spacing: -0.003em;
+  --text-ui: 0.875rem;
+  --text-ui--line-height: 1.25rem;
+  --text-ui--letter-spacing: -0.01em;
+  --text-ui-sm: 0.8125rem;
+  --text-ui-sm--line-height: 1.125rem;
+  --text-ui-sm--letter-spacing: -0.005em;
+  --text-caption: 0.75rem;
+  --text-caption--line-height: 1rem;
+  --text-micro: 0.6875rem;
+  --text-micro--line-height: 0.875rem;
+  --text-micro--letter-spacing: 0.005em;
 
-/* ----------------------------------------------------------------------------
-   THEME TOKENS
-   :root      → light (default styles if .dark is absent)
-   .dark      → dark (added to <html> by the inline pre-paint script)
-   Decorative tokens (--grid-line, --mesh-*, --wordmark-stroke, etc.) swap
-   per theme so utility classes adapt without per-component conditionals.
-   ----------------------------------------------------------------------------*/
+  --radius-2xs: 2px;
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 20px;
+  --radius-3xl: 24px;
+  --radius-4xl: 32px;
 
-:root {
-  /* Surface — soft off-white, never pure white (anti-blinding) */
-  --background: oklch(0.985 0.003 280);
-  --foreground: oklch(0.2 0.006 280);
+  --shadow-hairline: 0 0 0 1px var(--border);
+  --shadow-e1: 0 1px 2px rgb(0 0 0 / 0.06);
+  --shadow-e2: 0 1px 2px rgb(0 0 0 / 0.06), 0 14px 36px -10px rgb(0 0 0 / 0.22);
+  --shadow-e3: 0 0 0 0.5px rgb(0 0 0 / 0.05), 0 14px 40px rgb(0 0 0 / 0.14);
+  --shadow-e4: 0 20px 52px -16px rgb(0 0 0 / 0.32);
+  --shadow-window: 0 0 0 1px var(--border), 0 2px 4px -2px rgb(0 0 0 / 0.1), 0 24px 60px -24px rgb(0 0 0 / 0.22), 0 48px 100px -40px rgb(0 0 0 / 0.18);
+  --shadow-knob: 0 1px 2px rgb(0 0 0 / 0.28);
 
-  --card: oklch(0.975 0.003 280);
-  --card-foreground: oklch(0.2 0.006 280);
-  --popover: oklch(0.985 0.003 280);
-  --popover-foreground: oklch(0.2 0.006 280);
+  --container-prose: 36rem;
+  --container-copy: 42rem;
+  --container-window: 49rem;
+  --container-content: 64rem;
+  --container-wide: 80rem;
 
-  /* Primary = near-black ink for CTAs in light mode */
-  --primary: oklch(0.2 0.006 280);
-  --primary-foreground: oklch(0.985 0 0);
+  --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-pop: cubic-bezier(0.2, 0.9, 0.3, 1.15);
+  --ease-settle: cubic-bezier(0.2, 0.8, 0.3, 1);
+  --ease-cursor: cubic-bezier(0.3, 0.1, 0.25, 1);
+  --ease-snap: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 0.6, 1);
 
-  --secondary: oklch(0.94 0.003 280);
-  --secondary-foreground: oklch(0.2 0.006 280);
-  --muted: oklch(0.95 0.003 280);
-  --muted-foreground: oklch(0.46 0.008 280);
-  --accent: oklch(0.93 0.003 280);
-  --accent-foreground: oklch(0.2 0.006 280);
-  --destructive: oklch(0.58 0.22 27);
+  --animate-typing-dot: typing-dot 1.3s ease-in-out infinite;
+  --animate-entry: entry-in 280ms var(--ease-pop) both;
+  --animate-entry-fresh: entry-in 420ms var(--ease-pop) both;
+  --animate-label-in: label-in 350ms var(--ease-settle) both;
+  --animate-check-in: check-in 280ms var(--ease-out-expo) both;
+  --animate-row-in: row-in 450ms var(--ease-out-expo) both;
+  --animate-spin-slow: spin 2.4s linear infinite;
+  --animate-mount-fade: mount-fade 1s var(--ease-out-expo) both;
+  --animate-live-ring: live-ring 1.8s var(--ease-out-expo) infinite;
+  --animate-fill-sweep: fill-sweep 900ms var(--ease-out-expo) both;
+  --animate-caret: caret 1s steps(1) infinite;
 
-  --border: oklch(0 0 0 / 9%);
-  --input: oklch(0 0 0 / 13%);
-  --ring: oklch(0.2 0.006 280 / 50%);
-
-  /* Signal — darker, more saturated mint so it sits on white legibly */
-  --signal: oklch(0.5 0.17 152);
-  --signal-foreground: oklch(0.985 0 0);
-  --signal-muted: oklch(0.5 0.17 152 / 12%);
-  --line: oklch(0 0 0 / 10%);
-
-  /* Decorative — light variants */
-  --grid-line: oklch(0 0 0 / 6%);
-  --grid-line-fine: oklch(0 0 0 / 4%);
-  --grain-opacity: 0.18;
-  --grain-blend: multiply;
-  --mesh-1: oklch(0.5 0.17 152 / 6%);
-  --mesh-2: oklch(0.5 0.17 152 / 5%);
-  --mesh-3: oklch(0.5 0.17 152 / 5%);
-  --wordmark-stroke: oklch(0 0 0 / 5%);
-  --wordmark-fill: oklch(0 0 0 / 4.5%);
-  --inset-highlight: oklch(0 0 0 / 5%);
-  /* Trimmed blur radii: large blur-radius shadows are expensive to paint
-     every frame during scroll. Reduced ~50% while keeping depth perception. */
-  --shadow-diffuse-1: 0 18px 40px -20px oklch(0 0 0 / 0.18);
-  --shadow-diffuse-2: 0 6px 16px -10px oklch(0 0 0 / 0.10);
-  --shadow-pill-floating: 0 1px 0 oklch(0 0 0 / 5%), 0 10px 24px -14px oklch(0 0 0 / 0.18);
-  --shadow-pill-grounded: 0 6px 18px -10px oklch(0 0 0 / 0.10);
-  --shadow-card-lift: 0 6px 18px -8px oklch(0 0 0 / 0.12);
-  --shadow-button-base: 0 4px 12px -6px oklch(0 0 0 / 0.18);
-
-  --chart-1: oklch(0.5 0.17 152);
-  --chart-2: oklch(0.55 0.1 200);
-  --chart-3: oklch(0.6 0.16 30);
-  --chart-4: oklch(0.55 0 0);
-  --chart-5: oklch(0.4 0 0);
-
-  --radius: 0.5rem;
-
-  --sidebar: oklch(0.97 0.003 280);
-  --sidebar-foreground: oklch(0.2 0.006 280);
-  --sidebar-primary: oklch(0.5 0.17 152);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.93 0.003 280);
-  --sidebar-accent-foreground: oklch(0.2 0.006 280);
-  --sidebar-border: oklch(0 0 0 / 9%);
-  --sidebar-ring: oklch(0.5 0.17 152 / 50%);
-
-  color-scheme: light;
-}
-
-.dark {
-  /* Off-black with subtle cool tint (Zinc-950 equiv) , per anti-pure-black rule */
-  --background: oklch(0.085 0.005 280);
-  --foreground: oklch(0.98 0 0);
-
-  --card: oklch(0.115 0.004 280);
-  --card-foreground: oklch(0.98 0 0);
-  --popover: oklch(0.115 0.004 280);
-  --popover-foreground: oklch(0.98 0 0);
-
-  --primary: oklch(0.97 0 0);
-  --primary-foreground: oklch(0.1 0.003 280);
-
-  --secondary: oklch(0.16 0.003 280);
-  --secondary-foreground: oklch(0.98 0 0);
-  --muted: oklch(0.14 0.003 280);
-  --muted-foreground: oklch(0.62 0.005 280);
-  --accent: oklch(0.18 0.003 280);
-  --accent-foreground: oklch(0.98 0 0);
-  --destructive: oklch(0.65 0.21 27);
-
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 14%);
-  --ring: oklch(0.97 0 0 / 50%);
-
-  --signal: oklch(0.78 0.13 152);
-  --signal-foreground: oklch(0.12 0.04 152);
-  --signal-muted: oklch(0.78 0.13 152 / 14%);
-  --line: oklch(1 0 0 / 10%);
-
-  /* Decorative — dark variants */
-  --grid-line: oklch(1 0 0 / 5.5%);
-  --grid-line-fine: oklch(1 0 0 / 3%);
-  --grain-opacity: 0.35;
-  --grain-blend: overlay;
-  --mesh-1: oklch(0.78 0.13 152 / 7%);
-  --mesh-2: oklch(0.78 0.13 152 / 5%);
-  --mesh-3: oklch(0.78 0.13 152 / 6%);
-  --wordmark-stroke: oklch(1 0 0 / 7%);
-  --wordmark-fill: oklch(1 0 0 / 7%);
-  --inset-highlight: oklch(1 0 0 / 6%);
-  /* Dark-mode trimmed too. Heavier shadows than light but still ~50%
-     smaller blur-radius than before. */
-  --shadow-diffuse-1: 0 18px 44px -22px oklch(0 0 0 / 0.7);
-  --shadow-diffuse-2: 0 6px 16px -10px oklch(0 0 0 / 0.4);
-  --shadow-pill-floating: 0 1px 0 oklch(0 0 0 / 30%), 0 12px 32px -16px oklch(0 0 0 / 70%);
-  --shadow-pill-grounded: 0 6px 18px -10px oklch(0 0 0 / 50%);
-  --shadow-card-lift: 0 6px 18px -8px oklch(0 0 0 / 50%);
-  --shadow-button-base: 0 4px 12px -6px oklch(0 0 0 / 60%);
-
-  --sidebar: oklch(0.1 0.003 280);
-  --sidebar-foreground: oklch(0.98 0 0);
-  --sidebar-primary: oklch(0.78 0.13 152);
-  --sidebar-primary-foreground: oklch(0.12 0.04 152);
-  --sidebar-accent: oklch(0.16 0.003 280);
-  --sidebar-accent-foreground: oklch(0.98 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.78 0.13 152 / 50%);
-
-  color-scheme: dark;
-}
-
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
+  @keyframes typing-dot {
+    0%, 55%, 100% { opacity: 0.25; }
+    25% { opacity: 0.7; }
   }
-  /* Mobile (<768px): ScrollShell pattern. html/body are locked at viewport
-     size and the .bonggy-scroll-shell child is what actually scrolls. This
-     fixes the URL-bar transition jerk at the page bottom on phones. */
+  @keyframes entry-in {
+    from { opacity: 0; transform: translateY(8px) scale(0.97); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  @keyframes label-in {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes check-in {
+    from { opacity: 0; transform: scale(0.4); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  @keyframes row-in {
+    from { opacity: 0; transform: translateX(-10px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes mount-fade {
+    from { opacity: 0; }
+  }
+  @keyframes live-ring {
+    0% { transform: scale(1); opacity: 0.45; }
+    100% { transform: scale(2.4); opacity: 0; }
+  }
+  @keyframes fill-sweep {
+    from { background-position: 100% 0; }
+    to { background-position: 0 0; }
+  }
+  @keyframes caret {
+    0%, 50% { opacity: 1; }
+    50.01%, 100% { opacity: 0; }
+  }
+}
+
+/* 5. Motion tokens as plain vars (CSS transitions + inline styles) */
+:root {
+  --dur-instant: 120ms;
+  --dur-fast: 140ms;
+  --dur-quick: 200ms;
+  --dur-base: 280ms;
+  --dur-moderate: 420ms;
+  --dur-slow: 650ms;
+  --dur-slower: 1000ms;
+}
+
+/* 6. Base */
+@layer base {
+  * { @apply border-border outline-ring/50; }
   html {
-    @apply font-sans;
-    font-feature-settings: "ss01", "cv11", "calt";
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "calt";
     -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    height: 100%;
-    overflow: hidden;
-    overscroll-behavior: none;
+    text-rendering: optimizeLegibility;
   }
   body {
     @apply bg-background text-foreground;
-    text-rendering: optimizeLegibility;
-    height: 100%;
-    overflow: hidden;
-    overscroll-behavior: none;
-    position: relative;
+    overscroll-behavior-y: none;
   }
-  .bonggy-scroll-shell {
-    position: absolute;
-    inset: 0;
-    overflow-x: clip;
-    overflow-y: auto;
-    overscroll-behavior: none;
-    overflow-anchor: none;
-    -webkit-overflow-scrolling: touch;
-    /* Continuous instrument-panel dot-grid behind every transparent section,
-       echoing the hero ASCII field so the whole page reads as one surface. */
-    background-image: radial-gradient(
-      circle at 1px 1px,
-      var(--grid-line) 1px,
-      transparent 0
-    );
-    background-size: 30px 30px;
-  }
-
-
-  /* Desktop (>=768px): revert to native document scroll. Custom scroll
-     containers cost FPS on desktop because the browser can't use the same
-     compositor optimizations it applies to document scroll. URL-bar jerk
-     isn't a desktop problem anyway. */
-  @media (min-width: 768px) {
-    html, body {
-      height: auto;
-      overflow: visible;
-      overflow-x: clip;
-    }
-    .bonggy-scroll-shell {
-      position: static;
-      inset: auto;
-      overflow: visible;
-      -webkit-overflow-scrolling: auto;
-    }
-  }
-  /* Mesh gradient — single radial instead of 3 for a much cheaper paint
-     per frame. Fixed pseudo-layer (not background-attachment:fixed which
-     jumps on iOS Safari). */
-  body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    pointer-events: none;
-    background-image:
-      radial-gradient(ellipse 100% 70% at 50% -5%, var(--mesh-1), transparent 65%);
-  }
-  ::selection {
-    background: color-mix(in oklab, var(--signal) 28%, transparent);
-    color: var(--foreground);
-  }
-  h1, h2, h3, h4 {
-    letter-spacing: -0.03em;
-  }
+  h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; }
+  p { text-wrap: pretty; }
+  ::selection { background: var(--surface-inverse); color: var(--foreground-inverse); }
+  [id] { scroll-margin-top: calc(var(--header-h) + 1rem); }
+  :focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
 }
 
-@layer utilities {
-  .text-balance { text-wrap: balance; }
-  .text-pretty { text-wrap: pretty; }
+/* 7. Utilities */
+@utility hairline { box-shadow: inset 0 0 0 1px var(--border); }
+@utility hairline-strong { box-shadow: inset 0 0 0 1px var(--border-strong); }
+@utility hatch { background-image: var(--hatch); }
+@utility tabular { font-variant-numeric: tabular-nums; }
+@utility fade-y {
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 36px, #000 calc(100% - 36px), transparent);
+  mask-image: linear-gradient(to bottom, transparent, #000 36px, #000 calc(100% - 36px), transparent);
+}
 
-  /* Display type , controlled, not screaming. Hierarchy via weight + color, not just size */
-  .text-display {
-    font-feature-settings: "ss01", "cv11", "calt", "ss02";
-    letter-spacing: -0.035em;
-    line-height: 0.98;
-  }
+/* Flow-card row sweep: a 12% ink wash that passes left to right. */
+@utility sweep {
+  background-image: linear-gradient(90deg, transparent 0%, rgb(10 10 10 / 0.12) 45%, transparent 55%, transparent 100%);
+  background-size: 250% 100%;
+  background-repeat: no-repeat;
+}
 
-  /* Headline metallic gradient — foreground → faded foreground.
-     Adapts: white→muted in dark, near-black→gray in light. */
-  .text-display-gradient {
-    background-image: linear-gradient(
-      180deg,
-      var(--foreground) 0%,
-      var(--foreground) 50%,
-      color-mix(in oklab, var(--foreground) 82%, transparent) 100%
-    );
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
-  }
+/* Offscreen demos pause their CSS animations. */
+[data-demo-offscreen] *, [data-demo-offscreen]::before, [data-demo-offscreen]::after {
+  animation-play-state: paused !important;
+}
 
-  /* Bento radii */
-  .rounded-bento { border-radius: 1.75rem; }
-  .rounded-bento-sm { border-radius: 1.25rem; }
-
-  /* Grids — line color per theme via --grid-line */
-  .bg-grid {
-    background-image:
-      linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
-      linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
-    background-size: 48px 48px;
+/* 8. Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
   }
-  .bg-grid-fine {
-    background-image:
-      linear-gradient(to right, var(--grid-line-fine) 1px, transparent 1px),
-      linear-gradient(to bottom, var(--grid-line-fine) 1px, transparent 1px);
-    background-size: 24px 24px;
-  }
-  .bg-grid-mask {
-    mask-image: radial-gradient(ellipse 70% 55% at 50% 40%, black 30%, transparent 80%);
-    -webkit-mask-image: radial-gradient(ellipse 70% 55% at 50% 40%, black 30%, transparent 80%);
-  }
-
-  /* Grain , decorative fixed-layer texture. Hidden below 768px because
-     painting a full-viewport SVG overlay on every scroll frame is the
-     biggest decorative cost on phones, and the texture is barely
-     perceivable at mobile pixel density anyway. */
-  .grain-layer {
-    display: none;
-  }
-  @media (min-width: 768px) {
-    .grain-layer {
-      display: block;
-      position: fixed;
-      inset: 0;
-      z-index: 50;
-      pointer-events: none;
-      background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.12 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/></svg>");
-      background-size: 240px 240px;
-      opacity: 0.06;
-    }
-    .dark .grain-layer { opacity: 0.09; }
-  }
-
-  /* Diffusion shadow — strength swaps via tokens so light mode gets subtle, not heavy */
-  .shadow-diffusion {
-    box-shadow:
-      0 1px 0 var(--inset-highlight) inset,
-      var(--shadow-diffuse-1),
-      var(--shadow-diffuse-2);
-  }
-  .shadow-diffusion-sm {
-    box-shadow:
-      0 1px 0 var(--inset-highlight) inset,
-      0 14px 40px -18px oklch(0 0 0 / 0.18);
-  }
-  .dark .shadow-diffusion-sm {
-    box-shadow:
-      0 1px 0 var(--inset-highlight) inset,
-      0 14px 40px -18px oklch(0 0 0 / 0.5);
-  }
-
-  /* Signal accent glow — uses --signal so the hue adapts to theme too */
-  .glow-signal {
-    background: radial-gradient(ellipse at center, color-mix(in oklab, var(--signal) 18%, transparent) 0%, transparent 60%);
-  }
-  .glow-signal-strong {
-    background: radial-gradient(ellipse at center, color-mix(in oklab, var(--signal) 28%, transparent) 0%, transparent 60%);
-  }
-
-  .section-rule {
-    height: 1px;
-    background-image: repeating-linear-gradient(
-      to right,
-      var(--border) 0 5px,
-      transparent 5px 11px
-    );
-    -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
-    mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
-  }
-
-  /* Dotted ASCII hairline used in terminal section-headers + card chrome. */
-  .ascii-rule {
-    background-image: repeating-linear-gradient(
-      to right,
-      var(--border) 0 3px,
-      transparent 3px 8px
-    );
-  }
-
-  /* Soft light-pool at a section's top edge — lifts each band out of flat
-     black into a shade transition (factory.ai depth). Fades to transparent
-     so the body black + dot-grid still read below it. */
-  .section-glow {
-    background: radial-gradient(
-      ellipse 58% 100% at 50% 0%,
-      oklch(0.2 0.006 280 / 0.5),
-      oklch(0.13 0.005 280 / 0.22) 42%,
-      transparent 72%
-    );
-  }
-
-  /* Light-pool behind a focal element (a chart / mockup / globe), the way
-     factory.ai pools light behind every product surface. */
-  .surface-glow {
-    background: radial-gradient(
-      ellipse 70% 70% at 50% 45%,
-      oklch(0.22 0.01 200 / 0.28),
-      transparent 70%
-    );
-  }
-
-  /* Technical corner ticks on two opposing corners — a quiet "scanning
-     frame" that reads as instrument chrome without adding heavy borders. */
-  .terminal-corners::before,
-  .terminal-corners::after {
-    content: "";
-    position: absolute;
-    width: 8px;
-    height: 8px;
-    pointer-events: none;
-    z-index: 1;
-    border-color: var(--signal);
-    opacity: 0.45;
-  }
-  .terminal-corners::before {
-    top: 9px;
-    left: 9px;
-    border-top: 1px solid;
-    border-left: 1px solid;
-  }
-  .terminal-corners::after {
-    bottom: 9px;
-    right: 9px;
-    border-bottom: 1px solid;
-    border-right: 1px solid;
-  }
-
-  @keyframes scan {
-    0%   { transform: translateY(-100%); opacity: 0; }
-    10%  { opacity: 1; }
-    90%  { opacity: 1; }
-    100% { transform: translateY(2400%); opacity: 0; }
-  }
-  .scanline { animation: scan 6s ease-in-out infinite; }
-
-  @keyframes pulse-signal {
-    0%, 100% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--signal) 60%, transparent); }
-    50%      { box-shadow: 0 0 0 6px color-mix(in oklab, var(--signal) 0%, transparent); }
-  }
-  .pulse-signal { animation: pulse-signal 3.4s ease-out infinite; }
-
-  /* Product mock: soft ring around Approve (used with a finite count). */
-  @keyframes approve-pulse {
-    0%   { opacity: 0.9; transform: scale(1); }
-    100% { opacity: 0;   transform: scale(1.35, 1.6); }
-  }
-
-  /* Film grain for the light closing-CTA panel (dark specks, multiplied). */
-  .cta-grain {
-    background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='cg'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.55 0'/></filter><rect width='100%25' height='100%25' filter='url(%23cg)'/></svg>");
-    background-size: 200px 200px;
-  }
-
-  @keyframes marquee {
-    from { transform: translateX(0); }
-    to   { transform: translateX(-50%); }
-  }
-  .marquee { animation: marquee 42s linear infinite; }
-
-  /* Signal-feed rows (how-it-works) — CSS marquee over a tripled track so
-     the loop is seamless at -33.333%. Runs on the compositor thread, and
-     auto-pauses when the parent Section is skipped by content-visibility. */
-
-  @keyframes shimmer {
-    0%   { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
-  }
-  .shimmer-bar {
-    position: relative;
-    overflow: hidden;
-  }
-  .shimmer-bar::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    transform: translateX(-100%);
-    background: linear-gradient(90deg, transparent, var(--inset-highlight), transparent);
-    animation: shimmer 3.4s linear infinite;
-  }
-
-  @keyframes float-up {
-    0%, 100% { transform: translateY(0); }
-    50%      { transform: translateY(-4px); }
-  }
-  .float-perpetual { animation: float-up 5.6s ease-in-out infinite; }
-
-
+  /* static typing dots: stepped opacity so "working" still reads */
+  .typing-dots > :nth-child(1) { opacity: 0.25; }
+  .typing-dots > :nth-child(2) { opacity: 0.45; }
+  .typing-dots > :nth-child(3) { opacity: 0.7; }
 }

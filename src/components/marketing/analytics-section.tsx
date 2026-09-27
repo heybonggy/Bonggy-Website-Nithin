@@ -12,7 +12,6 @@ import {
   MEMORY,
 } from "@/components/product-mock";
 import { Section } from "./section";
-import { useScrollShell } from "./scroll-shell";
 import { usePrefersReducedMotion } from "./_motion";
 
 /** Scroll progress through the section at which the memory list is full. */
@@ -22,11 +21,9 @@ const STEP = 0.07;
 export function AnalyticsSection() {
   const reduce = usePrefersReducedMotion();
   const ref = React.useRef<HTMLDivElement>(null);
-  const shell = useScrollShell();
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
-    ...(shell ? { container: shell as React.RefObject<HTMLElement> } : {}),
   });
 
   // Complete at rest (and for reduced motion); scrolling through the section

@@ -1,7 +1,57 @@
 "use client";
 
 import * as React from "react";
-import type { Variants, Transition } from "motion/react";
+
+/* Motion tokens (DESIGN.md §6). Durations are in seconds for Motion; the
+   same values exist as CSS vars (--dur-*) in globals.css. */
+
+export const DUR = {
+  instant: 0.12,
+  fast: 0.14,
+  quick: 0.2,
+  base: 0.28,
+  moderate: 0.42,
+  slow: 0.65,
+  slower: 1,
+  title: 1.1,
+} as const;
+
+export const EASE = {
+  outExpo: [0.22, 1, 0.36, 1],
+  standard: [0.4, 0, 0.2, 1],
+  pop: [0.2, 0.9, 0.3, 1.15],
+  settle: [0.2, 0.8, 0.3, 1],
+  cursor: [0.3, 0.1, 0.25, 1],
+  snap: [0.16, 1, 0.3, 1],
+  exit: [0.4, 0, 0.6, 1],
+} as const;
+
+export const SPRING = {
+  switch: { type: "spring", stiffness: 520, damping: 34 },
+  morph: { type: "spring", stiffness: 340, damping: 32, mass: 0.9 },
+  layout: { type: "spring", stiffness: 380, damping: 36 },
+  gentle: { type: "spring", stiffness: 120, damping: 20, mass: 0.9 },
+} as const;
+
+export const entry = {
+  initial: { opacity: 0, y: 8, scale: 0.97 },
+  animate: { opacity: 1, y: 0, scale: 1 },
+  transition: { duration: DUR.base, ease: EASE.pop },
+};
+
+export const wordReveal = (i: number, base = 0.1) => ({
+  initial: { opacity: 0, rotateX: -40, y: "45%" },
+  animate: { opacity: 1, rotateX: 0, y: 0 },
+  transition: { duration: DUR.slow, ease: EASE.outExpo, delay: base + 0.055 * i },
+});
+
+export const blurIn = (delay: number) => ({
+  initial: { opacity: 0, filter: "blur(12px)", y: -10 },
+  animate: { opacity: 1, filter: "blur(0px)", y: 0 },
+  transition: { duration: DUR.slower, ease: EASE.outExpo, delay },
+});
+
+export const inViewOnce = { once: true, amount: 0.35 } as const;
 
 const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
 
@@ -24,65 +74,3 @@ export function usePrefersReducedMotion(): boolean {
     () => false,
   );
 }
-
-/**
- * Per taste-skill: spring physics with stiffness 100, damping 20 for premium weight.
- * NEVER linear easings on interactive elements.
- */
-export const SPRING: Transition = {
-  type: "spring",
-  stiffness: 100,
-  damping: 20,
-  mass: 0.8,
-};
-
-export const SPRING_FAST: Transition = {
-  type: "spring",
-  stiffness: 280,
-  damping: 24,
-  mass: 0.6,
-};
-
-export const SPRING_BOUNCE: Transition = {
-  type: "spring",
-  stiffness: 220,
-  damping: 14,
-  mass: 0.7,
-};
-
-export const EASE_OUT: Transition["ease"] = [0.22, 1, 0.36, 1];
-
-/**
- * CRITICAL: Motion variants must NEVER hide content with opacity 0.
- * Content visible without JS / before hydration / when Playwright captures.
- * Animations animate transform ONLY. Opacity stays 1.
- */
-export const fadeUp: Variants = {
-  hidden: { y: 16 },
-  visible: (i: number = 0) => ({
-    y: 0,
-    transition: { ...SPRING, delay: i * 0.06 },
-  }),
-};
-
-export const slideUp: Variants = {
-  hidden: { y: 24 },
-  visible: (i: number = 0) => ({
-    y: 0,
-    transition: { ...SPRING, delay: i * 0.07 },
-  }),
-};
-
-export const stagger: Variants = {
-  hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.07, delayChildren: 0.04 },
-  },
-};
-
-/** Viewport intent , trigger early so reveals start before user notices. */
-export const inViewOnce = {
-  once: true as const,
-  amount: 0 as const,
-  margin: "0px 0px -8% 0px",
-};

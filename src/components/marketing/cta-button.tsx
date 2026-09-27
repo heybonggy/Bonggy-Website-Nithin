@@ -4,7 +4,6 @@ import * as React from "react";
 import Link from "next/link";
 import { ArrowUpRight } from "@phosphor-icons/react/dist/ssr/ArrowUpRight";
 import { cn } from "@/lib/utils";
-import { Magnetic } from "./magnetic";
 
 export type CtaButtonProps = {
   href?: string;
@@ -110,5 +109,5 @@ export function CtaButton({
   );
 
   if (!magnetic || size === "sm") return element;
-  return <Magnetic className="inline-block">{element}</Magnetic>;
+  return element;
 }
