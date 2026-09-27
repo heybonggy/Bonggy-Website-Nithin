@@ -4,6 +4,8 @@ import * as React from "react";
 import { usePrefersReducedMotion } from "@/components/marketing/_motion";
 import type { Timeline } from "./types";
 
+const THRESHOLDS = Array.from({ length: 41 }, (_, i) => i / 40);
+
 type Options<S, A> = {
   timeline: Timeline<A>;
   reducer: (state: S, action: A) => S;
@@ -12,6 +14,10 @@ type Options<S, A> = {
   ref: React.RefObject<HTMLElement | null>;
   /** Share of the element in view before the demo starts (once). */
   startAt?: number;
+  /** Start once this many pixels of the element are visible instead (hero). */
+  startWhenVisiblePx?: number;
+  /** Never start earlier than this many ms after mount (e.g. after an intro). */
+  notBeforeMs?: number;
   /** Delay after first reaching `startAt`, in ms. */
   startDelay?: number;
   /** Extra gate, e.g. loop focus for looping sections. Defaults to true. */
@@ -43,6 +49,8 @@ export function useDemoPlayer<S, A>({
   initial,
   ref,
   startAt = 0.35,
+  startWhenVisiblePx,
+  notBeforeMs = 0,
   startDelay = 1000,
   focused = true,
   loopAfter,
@@ -63,26 +71,33 @@ export function useDemoPlayer<S, A>({
     [timeline, reducer, initial, effectiveIndex],
   );
 
-  // Visibility of the element: start once past `startAt`, pause when out.
+  // Visibility of the element: start once past `startAt` (or past
+  // `startWhenVisiblePx`), pause when out.
   React.useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    const mountedAt = performance.now();
     let timer: ReturnType<typeof setTimeout> | undefined;
     const io = new IntersectionObserver(
       ([entry]) => {
         setInView(entry.isIntersecting);
-        if (entry.intersectionRatio >= startAt && !timer) {
-          timer = setTimeout(() => setStarted(true), startDelay);
+        const ready =
+          startWhenVisiblePx !== undefined
+            ? entry.intersectionRect.height >= Math.min(startWhenVisiblePx, entry.boundingClientRect.height)
+            : entry.intersectionRatio >= startAt;
+        if (ready && !timer) {
+          const wait = Math.max(startDelay, notBeforeMs - (performance.now() - mountedAt));
+          timer = setTimeout(() => setStarted(true), wait);
         }
       },
-      { threshold: [0, startAt, 1] },
+      { threshold: THRESHOLDS },
     );
     io.observe(el);
     return () => {
       io.disconnect();
       if (timer) clearTimeout(timer);
     };
-  }, [ref, startAt, startDelay]);
+  }, [ref, startAt, startWhenVisiblePx, notBeforeMs, startDelay]);
 
   React.useEffect(() => {
     const onVis = () => setVisible(document.visibilityState === "visible");

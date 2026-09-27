@@ -33,7 +33,9 @@ import {
   type StatusKind,
   type Timeline,
 } from "@/components/product-mock";
+import { motion } from "motion/react";
 import { Mascot } from "@/components/ui/mascot";
+import { SPRING, usePrefersReducedMotion } from "./_motion";
 
 /** Fired by "Start from a sentence" elsewhere on the page to replay the hero. */
 export const REPLAY_HERO_EVENT = "bonggy:replay-hero";
@@ -85,22 +87,28 @@ const INITIAL: State = {
 
 const patch = (s: State, a: Partial<State>): State => ({ ...s, ...a });
 
+/** The hero take is short (≤ 16s): bots think a little faster here. */
+const HERO_PACE = 0.7;
+
+/** Intro reveal (words, sub, CTAs, window) ends around 1.5s. */
+const INTRO_MS = 1500;
+
 const TIMELINE: Timeline<Partial<State>> = [
   ...composeSteps<Partial<State>>(INSTRUCTION, (composer) => ({ composer })),
   { action: { cursor: { target: "send", clicks: 0 } }, hold: CURSOR_HOP },
   { action: { cursor: { target: "send", clicks: 1 } }, hold: 160 },
-  { action: { composer: "", user: true, cursor: CURSOR_IDLE }, hold: 350 },
-  { action: { pending: "reply" }, hold: pendingDuration(REPLY) },
+  { action: { composer: "", user: true, cursor: CURSOR_IDLE }, hold: 300 },
+  { action: { pending: "reply" }, hold: pendingDuration(REPLY, HERO_PACE) },
   { action: { pending: "none", reply: true }, hold: readDuration(REPLY) },
-  { action: { named: true }, hold: 900 },
-  ...FLOW_PARTS.map((_, i) => ({ action: { parts: FLOW_PARTS.slice(0, i + 1) }, hold: 650 })),
-  { action: { status: "scheduled" as const, statusLabel: "daily 07:00" }, hold: 1300 },
-  { action: { tomorrow: true, status: "running" as const, statusLabel: "running" }, hold: 700 },
-  { action: { pending: "found" }, hold: pendingDuration(FOUND) },
-  { action: { pending: "none", found: true, status: "needs-you" as const, statusLabel: undefined }, hold: readDuration(FOUND) + 800 },
+  { action: { named: true }, hold: 600 },
+  ...FLOW_PARTS.map((_, i) => ({ action: { parts: FLOW_PARTS.slice(0, i + 1) }, hold: 420 })),
+  { action: { status: "scheduled" as const, statusLabel: "daily 07:00" }, hold: 900 },
+  { action: { tomorrow: true, status: "running" as const, statusLabel: "running" }, hold: 500 },
+  { action: { pending: "found" }, hold: pendingDuration(FOUND, HERO_PACE) },
+  { action: { pending: "none", found: true, status: "needs-you" as const, statusLabel: undefined }, hold: readDuration(FOUND) + 300 },
   { action: { cursor: { target: "approve", clicks: 0 } }, hold: CURSOR_HOP },
   { action: { cursor: { target: "approve", clicks: 1 }, approval: "sending" }, hold: SENDING_MS },
-  { action: { approval: "approved", cursor: CURSOR_IDLE }, hold: 450 },
+  { action: { approval: "approved", cursor: CURSOR_IDLE }, hold: 350 },
   { action: { receipt: true, status: "done" as const, statusLabel: "ran 07:02" }, hold: 0 },
 ];
 
@@ -115,11 +123,28 @@ export function HeroDemo() {
     reducer: patch,
     initial: INITIAL,
     ref: frameRef,
-    startAt: 0.35,
-    startDelay: 1000,
+    // Start without scrolling: 600ms after the intro, once 160px of the
+    // window is on screen.
+    startWhenVisiblePx: 160,
+    notBeforeMs: INTRO_MS + 600,
+    startDelay: 600,
   });
   const s = player.state;
   const { replay } = player;
+  const reduced = usePrefersReducedMotion();
+
+  // The transcript fills from the top and, once it overflows, scrolls the
+  // newest message up near the top of the pane. On a laptop only the top of
+  // the window is above the fold, so that's where the new message must be.
+  const transcriptRef = React.useRef<HTMLDivElement>(null);
+  React.useLayoutEffect(() => {
+    const el = transcriptRef.current;
+    const last = el?.firstElementChild?.lastElementChild;
+    if (!el || !last) return;
+    const offset = last.getBoundingClientRect().top - el.getBoundingClientRect().top + el.scrollTop;
+    const top = Math.max(0, Math.min(el.scrollHeight - el.clientHeight, offset - 64));
+    el.scrollTo({ top, behavior: reduced || !player.playing ? "auto" : "smooth" });
+  }, [s, reduced, player.playing]);
 
   React.useEffect(() => {
     const onReplay = () => replay();
@@ -163,15 +188,9 @@ export function HeroDemo() {
       onSkip={player.skip}
     >
       <div ref={windowRef} className="relative">
-        <AppWindow screen="bots" title={s.named ? "Champion Tracker" : "new bot"} sidebar={sidebar}>
-          <div className="fade-t flex min-h-0 flex-1 flex-col justify-end gap-4 overflow-hidden px-4 pb-2 pt-8 sm:px-6">
+        <AppWindow screen="bots" title={s.named ? "Champion Tracker" : "new bot"} sidebar={sidebar} className="lg:h-[560px]">
+          <div ref={transcriptRef} className="fade-t flex min-h-0 flex-1 flex-col gap-4 overflow-hidden px-4 pb-2 pt-8 sm:px-6">
             <div className="mx-auto flex w-full max-w-[600px] flex-col gap-4">
-              {!s.user ? (
-                <div className="flex flex-col items-center gap-3 pb-6 text-center">
-                  <Mascot state="idle" className="size-12" />
-                  <p className="max-w-[28ch] text-ui-sm text-fg-3">describe the work in a sentence. i&apos;ll turn it into a flow.</p>
-                </div>
-              ) : null}
               {s.user ? <UserBubble text={INSTRUCTION} /> : null}
               {s.pending === "reply" ? <PendingRow label="thinking" /> : null}
               {s.reply ? <BotBubble team="sales" text={REPLY} /> : null}
@@ -217,10 +236,27 @@ export function HeroDemo() {
                 </BotBubble>
               ) : null}
             </div>
+            {/* Room below the newest message so it can scroll up into view. */}
+            <div aria-hidden className="h-[260px] shrink-0" />
           </div>
-          <div className="mx-auto w-full max-w-[640px] px-3 pb-3 sm:px-5 sm:pb-4">
-            <ChatComposer value={s.composer} caret={!s.user} />
-          </div>
+
+          {/* Before sending, the composer floats in the window's top third so
+              the typing is above the fold; on send it docks to the bottom. */}
+          {!s.user ? (
+            <div className="absolute inset-x-0 top-[12%] flex flex-col items-center gap-3 px-3 text-center sm:px-5">
+              <Mascot state="idle" className="size-12" />
+              <p className="max-w-[28ch] text-ui-sm text-fg-3">describe the work in a sentence. i&apos;ll turn it into a flow.</p>
+              <motion.div layoutId="hero-composer" transition={SPRING.layout} className="mt-2 w-full max-w-[640px] text-left">
+                <ChatComposer value={s.composer} caret />
+              </motion.div>
+            </div>
+          ) : (
+            <div className="mx-auto w-full max-w-[640px] px-3 pb-3 sm:px-5 sm:pb-4">
+              <motion.div layoutId="hero-composer" transition={SPRING.layout}>
+                <ChatComposer value={s.composer} />
+              </motion.div>
+            </div>
+          )}
         </AppWindow>
         <ScriptedCursor containerRef={windowRef} cursor={s.cursor} />
       </div>

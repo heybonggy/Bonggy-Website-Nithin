@@ -11,11 +11,12 @@ export type Timeline<A> = DemoStep<A>[];
 const words = (text: string) => text.trim().split(/\s+/).filter(Boolean).length;
 const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
 
-/** How long a bot "thinks" before a reply of this length. */
-export const pendingDuration = (reply: string) => Math.min(1900 + 22 * words(reply), 3000);
+/** How long a bot "thinks" before a reply of this length. `pace` < 1 for short takes (the hero). */
+export const pendingDuration = (reply: string, pace = 1) =>
+  Math.round(Math.min(1900 + 22 * words(reply), 3000) * pace);
 
 /** Time to read a message before the script moves on. */
-export const readDuration = (text: string) => clamp(600 + 45 * words(text), 900, 2400);
+export const readDuration = (text: string) => clamp(420 + 32 * words(text), 700, 1700);
 
 /** Cursor travel time for a distance in px, plus the 80ms press. */
 export const cursorDuration = (distance: number) => clamp(1.05 * distance, 320, 850) + 80;
