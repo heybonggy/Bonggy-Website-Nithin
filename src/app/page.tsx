@@ -7,9 +7,9 @@ import { TeamsSection } from "@/components/marketing/teams-section";
 import { FlowsSection } from "@/components/marketing/flows-section";
 import { BotJobsSection } from "@/components/marketing/bot-jobs-section";
 import { GroupsSection } from "@/components/marketing/groups-section";
+import { ApprovalsSection } from "@/components/marketing/approvals-section";
 import { AnalyticsSection } from "@/components/marketing/analytics-section";
 import { ContextSection } from "@/components/marketing/context-section";
-import { TrustSection } from "@/components/marketing/trust-section";
 import { PricingTeaser } from "@/components/marketing/pricing-teaser";
 import { HomeFaq } from "@/components/marketing/home-faq";
 import { CtaPanel } from "@/components/marketing/cta-panel";
@@ -30,10 +30,10 @@ export default function Home() {
         <FlowsSection />
         <BotJobsSection />
         <GroupsSection />
+        <ApprovalsSection />
         <AnalyticsSection />
         <ContextSection />
         <TheReframeFix />
-        <TrustSection />
         <PricingTeaser />
         <HomeFaq />
         <CtaPanel />

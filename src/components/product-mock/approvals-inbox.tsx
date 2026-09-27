@@ -3,10 +3,14 @@ import { BotAvatar } from "@/components/ui/mascot";
 import { botById, type Approval } from "./data";
 import { StatusPill } from "./status-pill";
 
-const DONE_NOTE: Partial<Record<Approval["status"], string>> = {
-  done: "(done · internal only)",
-  held: "(held for you)",
-};
+const note = (a: Approval) =>
+  a.status === "done"
+    ? a.kind === "internal"
+      ? "(done · internal only)"
+      : "(sent after your ok)"
+    : a.status === "held"
+      ? "(held for you)"
+      : null;
 
 /** The approvals list: what's waiting, what ran on its own, what's held. */
 export function ApprovalsInbox({
@@ -37,7 +41,7 @@ export function ApprovalsInbox({
               <span className="block text-ui-sm">
                 <span className="font-medium text-foreground">{bot.name}</span>{" "}
                 <span className="text-fg-2">{a.action}</span>
-                {DONE_NOTE[a.status] ? <span className="text-fg-3"> {DONE_NOTE[a.status]}</span> : null}
+                {note(a) ? <span className="text-fg-3"> {note(a)}</span> : null}
               </span>
               <span className="mt-0.5 block truncate text-caption text-fg-3">
                 {bot.team} · {a.goal} · {a.age}
