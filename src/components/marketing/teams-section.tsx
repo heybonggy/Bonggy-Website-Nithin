@@ -56,12 +56,14 @@ function TeamBotRow({ bot, tick, offset, delay }: { bot: Bot; tick: number; offs
       <button
         type="button"
         onClick={open}
-        aria-label={`${bot.name}: customise its look`}
         className="flex w-full items-center gap-3 rounded-2xl p-3 text-left transition-colors hover:bg-wash-hover"
       >
       <BotAvatar botId={bot.id} size={36} state={status === "running" ? "working" : status === "needs-you" ? "waiting" : status === "off" ? "drowsy" : "idle"} />
       <span className="min-w-0 flex-1">
-        <span className="block truncate text-ui font-medium text-foreground">{bot.name}</span>
+        <span className="block truncate text-ui font-medium text-foreground">
+          {bot.name}
+          <span className="sr-only">, customise its look</span>
+        </span>
         <span key={line} className="mt-1 flex animate-label-in items-center gap-2">
           <StatusPill status={status} label={PILL_LABEL[status]} />
           <span className="truncate text-ui-sm text-fg-2">{line}</span>
