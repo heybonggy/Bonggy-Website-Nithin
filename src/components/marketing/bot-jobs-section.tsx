@@ -231,7 +231,7 @@ export function BotJobsSection() {
       label: "Your bot",
       team: "sales" as const,
       special: true,
-      ariaLabel: "Build your own bot",
+      ariaLabel: "Your bot: build your own bot",
       onAttention: () => {
         if (!reduced) setBurst((n) => n + 1);
       },
