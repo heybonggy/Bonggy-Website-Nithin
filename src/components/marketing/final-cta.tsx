@@ -1,7 +1,7 @@
 import { CtaComposer } from "./cta-composer";
 import { CtaButton } from "./cta-button";
 
-/** Closing call to action, with a read-only composer waiting for a sentence. */
+/** Closing call to action: the booking button, and a composer that books with your sentence. */
 export function FinalCta() {
   return (
     <section aria-labelledby="final-cta-title" className="px-4 py-20 sm:px-6 sm:py-28">

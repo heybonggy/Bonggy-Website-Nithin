@@ -369,6 +369,7 @@
   --animate-word-in: word-in 650ms var(--ease-out-expo) both;
   --animate-rise-in: rise-in 700ms var(--ease-out-expo) both;
   --animate-bar-draw: bar-draw 450ms var(--ease-out-expo) both;
+  --animate-shake: shake 360ms var(--ease-standard) both;
 
   @keyframes typing-dot {
     0%, 55%, 100% { opacity: 0.25; }
@@ -407,6 +408,10 @@
   }
   @keyframes rise-in {
     from { opacity: 0; transform: translateY(var(--rise-from, 10px)); }
+  }
+  @keyframes shake {
+    20%, 60% { transform: translateX(-5px); }
+    40%, 80% { transform: translateX(5px); }
   }
   @keyframes bar-draw {
     from { transform: scaleY(0); }

@@ -196,7 +196,7 @@ Rules:
 
 - `useEntrance(ref, amount)` returns `static` (server render, reduced motion, or already on screen at mount), `armed` (hydrated and still off screen) or `go` (scrolled into view). Pre-animation states (zeros, hidden rows) only apply while `armed`, so crawlers and no-JS readers always get the real content.
 - Analytics: every number rolls from 0 with NumberFlow when the table is 35% in view, and again on each filter change. Run bars grow scaleX 0→1 (700ms outExpo, 60ms stagger). Filtered rows animate with layout + `SPRING.layout`.
-- Pricing checks and labels enter 90ms apart. Context rows enter with `row-in`, and override bars draw top to bottom (`bar-draw`, 450ms). The final CTA composer types its line once. The footer mascot blinks once in view.
+- Pricing checks and labels enter 90ms apart. Context rows enter with `row-in`, and override bars draw top to bottom (`bar-draw`, 450ms). The final CTA composer is a real input (see §10). The footer mascot blinks once in view.
 - **Scroll reveal.** Mocks and cards (never headings) carry `.reveal`: `translateY(24px) scale(.985)` → none on a `view()` timeline (entry 0% to cover 30%). It's transform only, never hidden, lives inside `@supports (animation-timeline: view())`, and is off under reduced motion.
 
 ### Scripted demos
@@ -231,6 +231,7 @@ Everything lives in [`src/components/product-mock/`](src/components/product-mock
 - **Buttons** ([`cta-button.tsx`](src/components/marketing/cta-button.tsx)): pills. `primary` (inverse), `soft` (surface-2), `outline`, `ghost`; sizes sm/md/lg. External links open in a new tab with an arrow and sr-only note. Default copy: "Book a strategy call" (navbar: "Strategy call"). Every call CTA points at the one `CAL_LINK`. Each block has one primary CTA: navbar pill; hero button plus a quiet "see how it works ↓" link; pricing; the final CTA with its composer.
 - **Header:** fixed 64px, blurs after 8px of scroll, Product menu (Bots, Flows, Approvals, Analytics), Teams, How it works, Pricing, FAQ; full-screen sheet below lg.
 - **Footer:** the logo lockup, "Your process, not ours.", four link columns.
+- **Final CTA composer** ([`cta-composer.tsx`](src/components/marketing/cta-composer.tsx)): a labelled textarea ("What should your first bot do?"), 16px text, `enterkeyhint="send"`, 280 characters max. Enter submits and Shift+Enter adds a newline; an empty submit shakes with a hint. On submit it opens `CAL_LINK` in a new tab with `notes=` prefilled (cal.com's "Additional notes", verified), keeps the text in sessionStorage, and calls `trackEvent("cta_purpose_submit")` (a no-op in `lib/track.ts`). A typewriter shows the placeholder until the field is focused or has text, and never types over the user. Reduced motion shows the placeholder only.
 - **FAQ:** base-ui accordion, hairline dividers, plus icon turns 45°. FAQPage JSON-LD is generated from the same array.
 - **Sub-pages:** `<SubPageShell>` (kicker, two-tone H1, lede), `<SubPageSection>`, `<SubPageCta>`.
 
