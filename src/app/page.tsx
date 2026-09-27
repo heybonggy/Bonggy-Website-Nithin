@@ -3,7 +3,7 @@ import { pageMetadata, SITE_DESCRIPTION } from "@/lib/metadata";
 import { Navbar } from "@/components/marketing/navbar";
 import { Hero } from "@/components/marketing/hero";
 import { TheReframeFix } from "@/components/marketing/the-reframe-fix";
-import { RolesStrip } from "@/components/marketing/roles-strip";
+import { TeamsSection } from "@/components/marketing/teams-section";
 import { NewAgentSection } from "@/components/marketing/new-agent-section";
 import { AnalyticsSection } from "@/components/marketing/analytics-section";
 import { ContextSection } from "@/components/marketing/context-section";
@@ -24,7 +24,7 @@ export default function Home() {
       <Navbar />
       <main className="flex flex-col">
         <Hero />
-        <RolesStrip />
+        <TeamsSection />
         <NewAgentSection />
         <AnalyticsSection />
         <ContextSection />
