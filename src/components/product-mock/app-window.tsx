@@ -47,7 +47,7 @@ export function AppWindow({
           ))}
         </span>
         <span className="truncate text-ui-sm font-medium text-foreground">{title ?? SCREENS.find((s) => s.id === screen)?.label}</span>
-        <span className="ml-auto flex rounded-full bg-surface-2 p-0.5">
+        <span className="ml-auto hidden rounded-full bg-surface-2 p-0.5 @min-[420px]:flex">
           {SCREENS.map((s) => {
             const Icon = s.icon;
             const active = s.id === screen;

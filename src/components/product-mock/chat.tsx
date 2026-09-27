@@ -72,7 +72,7 @@ export function BotBubble({
   return (
     <motion.div {...bubbleIn} className={cn("flex items-start gap-2", className)}>
       <BotAvatar team={team} size={24} className="mt-0.5" />
-      <div className="flex min-w-0 max-w-[86%] flex-col gap-2">
+      <div className={cn("flex min-w-0 max-w-[86%] flex-col gap-2", children && "flex-1")}>
         {text ? (
           <p className="w-fit rounded-xl bg-bubble-bot px-3 py-2.5 text-ui text-bubble-bot-ink">
             <RichText text={text} />

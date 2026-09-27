@@ -320,6 +320,8 @@
   --animate-live-ring: live-ring 1.8s var(--ease-out-expo) infinite;
   --animate-fill-sweep: fill-sweep 900ms var(--ease-out-expo) both;
   --animate-caret: caret 1s steps(1) infinite;
+  --animate-word-in: word-in 650ms var(--ease-out-expo) both;
+  --animate-rise-in: rise-in 700ms var(--ease-out-expo) both;
 
   @keyframes typing-dot {
     0%, 55%, 100% { opacity: 0.25; }
@@ -351,6 +353,13 @@
   @keyframes fill-sweep {
     from { background-position: 100% 0; }
     to { background-position: 0 0; }
+  }
+  /* Hero reveal runs in CSS so it paints before hydration (LCP). */
+  @keyframes word-in {
+    from { opacity: 0; transform: translateY(45%) rotateX(-40deg); }
+  }
+  @keyframes rise-in {
+    from { opacity: 0; transform: translateY(var(--rise-from, 10px)); }
   }
   @keyframes caret {
     0%, 50% { opacity: 1; }
@@ -416,6 +425,7 @@
   *, *::before, *::after {
     animation-duration: 1ms !important;
     animation-iteration-count: 1 !important;
+    animation-delay: 0s !important;
     transition-duration: 1ms !important;
     scroll-behavior: auto !important;
   }

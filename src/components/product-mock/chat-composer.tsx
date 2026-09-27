@@ -28,7 +28,7 @@ export function ChatComposer({
       <span className="inline-flex size-7 shrink-0 items-center justify-center rounded-full text-fg-3">
         <Plus className="size-4" aria-hidden />
       </span>
-      <p className="min-h-7 flex-1 py-1 text-[14px] leading-5">
+      <p className={cn("min-h-7 min-w-0 flex-1 py-1 text-[14px] leading-5", !value && "truncate")}>
         {value ? <span className="text-foreground">{value}</span> : <span className="text-fg-3">{placeholder}</span>}
         {caret || value ? (
           <span aria-hidden className="ml-px inline-block h-4 w-px translate-y-[3px] animate-caret bg-foreground" />
