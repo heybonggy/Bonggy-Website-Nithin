@@ -148,7 +148,7 @@ The Bonggy logo is the **planet mark** ([`ui/logo.tsx`](src/components/ui/logo.t
 - **Lockup.** The mark plus the "Bonggy" wordmark in Geist 500 (−0.02em), 10px apart. The navbar mark is 24px, the footer the same.
 - **Clear space.** At least half the mark's width on every side; nothing inside the ring's bounding box.
 - **Icons.** The favicon (`app/icon.svg`) and apple icon use a heavier ring (12/256 instead of 4/256) so it survives at 16px. The favicon switches with `prefers-color-scheme` inside the SVG (ink on light tabs, #edecec on dark tabs). The apple icon is ink on white. Checked at 16, 32 and 180px.
-- **Where it appears.** Navbar, mobile menu, footer, favicon, apple icon, OG image, `public/logo.svg` (the JSON-LD `logo`), and the manifest icons.
+- **Where it appears.** Navbar, mobile menu, footer, favicon (`app/favicon.ico` at 16/32/48 plus `app/icon.svg`), apple icon, manifest PNGs (`public/icons/` 192, 512 and a maskable 512 with safe padding), OG image and `public/logo.svg` (the JSON-LD `logo`). All from the same geometry; regenerate them together if the mark changes.
 - Don't recolour it, add effects, or put Bong in its place.
 
 ### 7.2 Bong, the bot character
