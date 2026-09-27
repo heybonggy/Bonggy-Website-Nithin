@@ -525,6 +525,11 @@
     transition-duration: 1ms !important;
     scroll-behavior: auto !important;
   }
+  /* Accordion panels use a height transition only; Base UI warns if an
+     animation duration is set on them too. */
+  [data-slot="accordion-content"] {
+    animation-duration: 0s !important;
+  }
   /* static typing dots: stepped opacity so "working" still reads */
   .typing-dots > :nth-child(1) { opacity: 0.25; }
   .typing-dots > :nth-child(2) { opacity: 0.45; }
