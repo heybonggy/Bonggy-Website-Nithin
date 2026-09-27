@@ -42,7 +42,7 @@ import { motion } from "motion/react";
 import { Mascot } from "@/components/ui/mascot";
 import { SPRING, usePrefersReducedMotion } from "./_motion";
 import { CUSTOMISE_EVENT } from "./make-it-yours";
-import { PaintBrush } from "@phosphor-icons/react/dist/ssr";
+import { ArrowRight, PaintBrush } from "@phosphor-icons/react/dist/ssr";
 
 /** Sidebar rows that keep working while the window is on screen. */
 const AMBIENT = {
@@ -159,25 +159,9 @@ export function HeroDemo() {
   // newest message up near the top of the pane. On a laptop only the top of
   // the window is above the fold, so that's where the new message must be.
   const outerRef = React.useRef<HTMLDivElement>(null);
-  // After the take ends, a real "customise" button sits over the Champion
-  // Tracker row (outside the inert demo, so it's focusable).
-  const [chip, setChip] = React.useState<{ top: number; left: number } | null>(null);
+  // After the take ends, a real "customise" link appears under the demo
+  // (outside the inert frame, so it's focusable).
   const takeDone = s.receipt;
-  React.useLayoutEffect(() => {
-    if (!takeDone) return;
-    const place = () => {
-      const outer = outerRef.current;
-      const row = outer?.querySelector<HTMLElement>('[data-bot-row="champion-tracker"]');
-      if (!outer || !row) return setChip(null);
-      const r = row.getBoundingClientRect();
-      const o = outer.getBoundingClientRect();
-      if (!r.width) return setChip(null); // sidebar hidden on narrow windows
-      setChip({ top: r.top - o.top + (r.height - 28) / 2, left: r.right - o.left - 96 });
-    };
-    place();
-    window.addEventListener("resize", place);
-    return () => window.removeEventListener("resize", place);
-  }, [takeDone]);
 
   const transcriptRef = React.useRef<HTMLDivElement>(null);
   React.useLayoutEffect(() => {
@@ -352,20 +336,22 @@ export function HeroDemo() {
       </div>
     </DemoFrame>
     </div>
-    {takeDone && chip ? (
-      <button
-        type="button"
-        onClick={() => {
-          document.getElementById("make-it-yours")?.scrollIntoView({ behavior: reduced ? "auto" : "smooth" });
-          window.dispatchEvent(new CustomEvent(CUSTOMISE_EVENT, { detail: "champion-tracker" }));
-        }}
-        className="absolute z-20 inline-flex h-7 animate-label-in items-center gap-1 rounded-full bg-surface-inverse px-2.5 text-caption font-medium text-fg-inverse shadow-e2 after:absolute after:-inset-2 after:content-[''] focus-visible:outline-2"
-        style={{ top: chip.top, left: chip.left }}
-      >
-        <PaintBrush className="size-3.5" aria-hidden />
-        customise
-      </button>
-    ) : null}
+    <div className="mt-4 flex h-11 items-center justify-center">
+      {takeDone ? (
+        <button
+          type="button"
+          onClick={() => {
+            document.getElementById("make-it-yours")?.scrollIntoView({ behavior: reduced ? "auto" : "smooth" });
+            window.dispatchEvent(new CustomEvent(CUSTOMISE_EVENT, { detail: "champion-tracker" }));
+          }}
+          className="inline-flex min-h-11 animate-label-in items-center gap-1.5 rounded-full px-3 text-ui-sm font-medium text-fg-2 transition-colors hover:text-foreground"
+        >
+          <PaintBrush className="size-4" aria-hidden />
+          customise champion tracker
+          <ArrowRight className="size-3.5" aria-hidden />
+        </button>
+      ) : null}
+    </div>
     </div>
   );
 }
