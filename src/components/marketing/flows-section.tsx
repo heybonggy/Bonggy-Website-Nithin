@@ -25,6 +25,10 @@ import {
   type FlowPart,
   type StatusKind,
   type Timeline,
+  PhoneFrame,
+  PhoneChatHeader,
+  PhoneTranscript,
+  PhoneComposer,
 } from "@/components/product-mock";
 import { Section, SectionHeader } from "./section";
 import { useLoopFocus } from "./loop-focus";
@@ -72,6 +76,7 @@ const SUMMARY =
 /** #flows: the six parts of a flow, remixed live. */
 export function FlowsSection() {
   const frameRef = React.useRef<HTMLDivElement>(null);
+  const phoneRef = React.useRef<HTMLDivElement>(null);
   const windowRef = React.useRef<HTMLDivElement>(null);
   const focused = useLoopFocus(frameRef);
   const player = useDemoPlayer({
@@ -106,9 +111,9 @@ export function FlowsSection() {
         </p>
       </div>
 
+      <div ref={frameRef} className="reveal mt-10">
       <DemoFrame
-        ref={frameRef}
-        className="reveal mt-10"
+        className="hidden sm:block"
         summary={SUMMARY}
         playing={player.playing}
         offscreen={player.offscreen}
@@ -164,6 +169,44 @@ export function FlowsSection() {
           <ScriptedCursor containerRef={windowRef} cursor={s.cursor} />
         </div>
       </DemoFrame>
+      {/* Below 640px: the same demo as a phone screen. */}
+      <DemoFrame
+        className="sm:hidden"
+        summary={SUMMARY}
+        playing={player.playing}
+        offscreen={player.offscreen}
+        onSkip={player.skip}
+      >
+        <div ref={phoneRef} className="relative">
+          <PhoneFrame plate={false}>
+            <PhoneChatHeader
+              botId={bot.id}
+              title={bot.name}
+              status={s.status}
+              statusLabel={s.statusLabel}
+              character={s.receipt ? "celebrate" : s.card === "running" ? "working" : "idle"}
+            />
+            <PhoneTranscript deps={s} className="gap-4">
+              <FlowCard
+                bot={bot}
+                parts={parts}
+                limit={DEAL_COACH_FLOW.limit}
+                status={s.status}
+                statusLabel={s.statusLabel}
+                state={s.card}
+                edits={s.edits}
+                avatarState={s.receipt ? "celebrate" : undefined}
+              />
+              {s.receipt ? (
+                <RunReceipt title={DEAL_COACH_RECEIPT.title} items={DEAL_COACH_RECEIPT.items} footer={DEAL_COACH_RECEIPT.footer} />
+              ) : null}
+            </PhoneTranscript>
+            <PhoneComposer caret />
+          </PhoneFrame>
+          <ScriptedCursor containerRef={phoneRef} cursor={s.cursor} variant="touch" />
+        </div>
+      </DemoFrame>
+      </div>
     </Section>
   );
 }

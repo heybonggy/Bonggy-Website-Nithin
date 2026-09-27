@@ -15,9 +15,12 @@ export const CURSOR_IDLE: CursorState = { target: null, clicks: 0 };
 export function ScriptedCursor({
   containerRef,
   cursor,
+  variant = "pointer",
 }: {
   containerRef: React.RefObject<HTMLElement | null>;
   cursor: CursorState;
+  /** "touch": a soft thumb circle instead of an arrow (phones). */
+  variant?: "pointer" | "touch";
 }) {
   const [pos, setPos] = React.useState<{ x: number; y: number } | null>(null);
   const prev = React.useRef<{ x: number; y: number } | null>(null);
@@ -63,12 +66,18 @@ export function ScriptedCursor({
               />
             ) : null}
           </AnimatePresence>
-          <svg width="18" height="20" viewBox="0 0 18 20" className="relative drop-shadow-sm">
+{variant === "touch" ? (
+            <span className="absolute -left-[18px] -top-[18px] block size-9 rounded-full bg-foreground/15 ring-1 ring-foreground/20 backdrop-blur-[1px]" />
+          ) : (
+            <>
+                    <svg width="18" height="20" viewBox="0 0 18 20" className="relative drop-shadow-sm">
             <path d="M1 1 L1 16 L5.5 12 L8.5 19 L11 18 L8 11 L14 11 Z" fill="var(--foreground)" stroke="var(--background)" strokeWidth="1.25" strokeLinejoin="round" />
           </svg>
           <span className="absolute left-4 top-4 rounded-full bg-surface-inverse px-1.5 py-0.5 text-micro font-medium text-fg-inverse">
             you
           </span>
+            </>
+          )}
         </motion.div>
       ) : null}
     </AnimatePresence>

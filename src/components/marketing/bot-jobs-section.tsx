@@ -6,11 +6,13 @@ import {
   BotBubble,
   CURSOR_HOP,
   CURSOR_IDLE,
-  ChatComposer,
   DemoFrame,
   LimitChip,
   PendingRow,
   PhoneFrame,
+  PhoneChatHeader,
+  PhoneTranscript,
+  PhoneComposer,
   PillTabs,
   ScriptedCursor,
   SystemLine,
@@ -26,11 +28,11 @@ import {
   type TeamTake,
   type Timeline,
 } from "@/components/product-mock";
-import { BotAvatar } from "@/components/ui/mascot";
 import { cn } from "@/lib/utils";
 import { Section, SectionHeader } from "./section";
 import { useLoopFocus } from "./loop-focus";
-import { usePrefersReducedMotion } from "./_motion";
+import { EASE, usePrefersReducedMotion } from "./_motion";
+import { AnimatePresence, motion } from "motion/react";
 import { REPLAY_HERO_EVENT } from "./hero-demo";
 import { CtaButton } from "./cta-button";
 
@@ -89,12 +91,13 @@ function TakeBubbles({ take, s, history = false }: { take: TeamTake; s: State; h
     <>
       {s.sent ? <UserBubble text={take.instruction} limit={take.limit} /> : null}
       {s.saved ? <SystemLine text={`flow saved · **${take.flowSaved}**`} /> : null}
+      {s.report ? <SystemLine timestamp text="mon 08:00" /> : null}
       {s.report ? (
-        <BotBubble botId={take.botId} text={take.report.toLowerCase()}>
+        <BotBubble botId={take.botId} name={botById(take.botId).name.toLowerCase()} time="08:00" text={take.report.toLowerCase()}>
           <span
             data-cursor-target={history ? undefined : "human"}
             className={cn(
-              "inline-flex h-7 w-fit items-center gap-1 rounded-full px-3 text-caption font-medium",
+              "inline-flex h-8 w-fit items-center gap-1 rounded-full px-3.5 text-ui-sm font-medium",
               s.acted ? "bg-surface-2 text-foreground" : "bg-surface-inverse text-fg-inverse",
             )}
           >
@@ -103,7 +106,7 @@ function TakeBubbles({ take, s, history = false }: { take: TeamTake; s: State; h
           </span>
         </BotBubble>
       ) : null}
-      {s.confirmed ? <BotBubble botId={take.botId} text={take.confirmation} /> : null}
+      {s.confirmed ? <BotBubble botId={take.botId} name={botById(take.botId).name.toLowerCase()} time="08:01" text={take.confirmation} state="celebrate" /> : null}
       {s.pending ? <PendingRow label="working" botId={take.botId} /> : null}
     </>
   );
@@ -126,6 +129,12 @@ function TakeDemo({ take, onDone }: { take: TeamTake; onDone: () => void }) {
   });
   const s = player.state;
   const bot = botById(take.botId);
+  // The bot reacts when its tab takes over.
+  const [arrived, setArrived] = React.useState(false);
+  React.useEffect(() => {
+    const t = setTimeout(() => setArrived(true), 1200);
+    return () => clearTimeout(t);
+  }, []);
 
   const { done, playing } = player;
   const wasPlaying = React.useRef(false);
@@ -147,26 +156,31 @@ function TakeDemo({ take, onDone }: { take: TeamTake; onDone: () => void }) {
     >
       <div ref={phoneRef} className="relative">
         <PhoneFrame>
-          <div className="flex items-center gap-2 border-b border-border px-4 pb-3 pt-10">
-            <BotAvatar botId={bot.id} size={28} state={s.confirmed ? "celebrate" : s.pending ? "thinking" : s.report && !s.acted ? "waiting" : s.saved && !s.report ? "excited" : "idle"} />
-            <span className="min-w-0">
-              <span className="block truncate text-ui-sm font-semibold text-foreground">{bot.name}</span>
-              <span className="block text-caption text-fg-3">{bot.team}</span>
-            </span>
-          </div>
-          <div className="fade-t flex min-h-0 flex-1 flex-col justify-end gap-3 overflow-hidden px-3 pb-2 pt-6">
+          <PhoneChatHeader
+            botId={bot.id}
+            title={bot.name}
+            status={s.confirmed ? "done" : s.pending ? "running" : s.report && !s.acted ? "needs-you" : s.saved ? "scheduled" : undefined}
+            statusLabel={s.saved && !s.report && !s.pending ? take.flowSaved.split(" · ")[0] : undefined}
+            subtitle={bot.team}
+            character={
+              !arrived ? "excited" : s.confirmed ? "celebrate" : s.pending ? "thinking" : s.report && !s.acted ? "waiting" : s.saved && !s.report ? "excited" : "idle"
+            }
+          />
+          <PhoneTranscript deps={s}>
             {player.phase === "live" ? (
               <TakeHistory label="this week">
                 <TakeBubbles take={take} s={player.end} history />
               </TakeHistory>
             ) : null}
             <TakeBubbles take={take} s={s} />
-          </div>
-          <div className="px-2.5 pb-3">
-            <ChatComposer value={player.phase === "poster" ? "" : s.composer} caret={!s.sent || player.phase === "poster"} className="shadow-e1" />
-          </div>
+          </PhoneTranscript>
+          <PhoneComposer
+            value={player.phase === "poster" ? "" : s.composer}
+            caret={!s.sent || player.phase === "poster"}
+            keyboard={player.phase !== "poster" && !!s.composer && !s.sent}
+          />
         </PhoneFrame>
-        <ScriptedCursor containerRef={phoneRef} cursor={s.cursor} />
+        <ScriptedCursor containerRef={phoneRef} cursor={s.cursor} variant="touch" />
       </div>
     </DemoFrame>
   );
@@ -251,7 +265,19 @@ export function BotJobsSection() {
           </div>
         </div>
 
-        <TakeDemo key={take.botId} take={take} onDone={advance} />
+        <div className="relative min-w-0">
+          <AnimatePresence mode="popLayout" initial={false}>
+            <motion.div
+              key={take.botId}
+              initial={reduced ? { opacity: 0 } : { opacity: 0, x: 40 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={reduced ? { opacity: 0 } : { opacity: 0, x: -40 }}
+              transition={{ duration: 0.35, ease: EASE.outExpo }}
+            >
+              <TakeDemo take={take} onDone={advance} />
+            </motion.div>
+          </AnimatePresence>
+        </div>
       </div>
     </Section>
   );

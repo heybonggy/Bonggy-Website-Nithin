@@ -18,6 +18,9 @@ import {
   type ApprovalState,
   type CursorState,
   type Timeline,
+  PhoneFrame,
+  PhoneChatHeader,
+  PhoneTranscript,
 } from "@/components/product-mock";
 import { Section, SectionHeader } from "./section";
 import { useLoopFocus } from "./loop-focus";
@@ -60,6 +63,7 @@ const SUMMARY =
 /** #approvals: what waits for a person, and the lines Bonggy won't cross. */
 export function ApprovalsSection() {
   const frameRef = React.useRef<HTMLDivElement>(null);
+  const phoneRef = React.useRef<HTMLDivElement>(null);
   const windowRef = React.useRef<HTMLDivElement>(null);
   const focused = useLoopFocus(frameRef);
   const player = useDemoPlayer({
@@ -82,9 +86,9 @@ export function ApprovalsSection() {
         intro="Anything a customer would see waits for a person. Everything else can run on its own, if your team says so."
       />
 
+      <div ref={frameRef} className="reveal mt-10">
       <DemoFrame
-        ref={frameRef}
-        className="reveal mt-10"
+        className="hidden sm:block"
         summary={SUMMARY}
         playing={player.playing}
         offscreen={player.offscreen}
@@ -113,6 +117,33 @@ export function ApprovalsSection() {
           <ScriptedCursor containerRef={windowRef} cursor={s.cursor} />
         </div>
       </DemoFrame>
+      {/* Below 640px: the same demo as a phone screen. */}
+      <DemoFrame
+        className="sm:hidden"
+        summary={SUMMARY}
+        playing={player.playing}
+        offscreen={player.offscreen}
+        onSkip={player.skip}
+      >
+        <div ref={phoneRef} className="relative">
+          <PhoneFrame plate={false}>
+            <PhoneChatHeader title="Approvals" subtitle={`${items.filter((a) => a.status === "needs-you").length} need you`} />
+            <PhoneTranscript deps={s.approval} className="gap-3 px-2">
+              <ApprovalsInbox items={items.slice(0, 2)} selectedId="a1" />
+              <ApprovalCard
+                strip={CHAMPION_NOTE.strip}
+                to={CHAMPION_NOTE.to}
+                subject={CHAMPION_NOTE.subject}
+                body={CHAMPION_NOTE.body}
+                goal={CHAMPION_NOTE.goal}
+                state={s.approval}
+              />
+            </PhoneTranscript>
+          </PhoneFrame>
+          <ScriptedCursor containerRef={phoneRef} cursor={s.cursor} variant="touch" />
+        </div>
+      </DemoFrame>
+      </div>
 
       <ul className="mt-14 grid gap-x-10 gap-y-8 sm:grid-cols-2">
         {BRIGHT_LINES.map((l) => (

@@ -20,6 +20,10 @@ import {
   readDuration,
   useDemoPlayer,
   type Timeline,
+  PhoneFrame,
+  PhoneChatHeader,
+  PhoneTranscript,
+  PhoneComposer,
 } from "@/components/product-mock";
 import { PushPin } from "@phosphor-icons/react/dist/ssr";
 import { GroupAvatar } from "@/components/ui/mascot";
@@ -131,9 +135,9 @@ export function GroupsSection() {
         title={<span id="groups-title">Bots hand off work.</span>}
         intro="Put bots from different teams in one group. Marketing's research reaches sales without anyone copying it across."
       />
+      <div ref={frameRef} className="reveal mt-10">
       <DemoFrame
-        ref={frameRef}
-        className="reveal mt-10"
+        className="hidden sm:block"
         summary={SUMMARY}
         playing={player.playing}
         offscreen={player.offscreen}
@@ -165,6 +169,36 @@ export function GroupsSection() {
           </div>
         </AppWindow>
       </DemoFrame>
+      {/* Below 640px: the same demo as a phone screen. */}
+      <DemoFrame
+        className="sm:hidden"
+        summary={SUMMARY}
+        playing={player.playing}
+        offscreen={player.offscreen}
+        onSkip={player.skip}
+      >
+        <div className="relative">
+          <PhoneFrame plate={false}>
+            <PhoneChatHeader title={HANDOFF_GROUP.name} subtitle="3 bots · marketing and sales" />
+            <div className="flex shrink-0 justify-center border-b-[0.5px] border-border py-2">
+              <HandoffPill members={members.map((m) => ({ id: m.id, team: m.team }))} activeId={handoff.from} label={handoff.label} />
+            </div>
+            <div className="shrink-0 px-3 pt-3">
+              <PinnedRun />
+            </div>
+            <PhoneTranscript deps={s}>
+              {player.phase === "live" ? (
+                <TakeHistory label="today">
+                  <Take s={player.end} />
+                </TakeHistory>
+              ) : null}
+              <Take s={s} />
+            </PhoneTranscript>
+            <PhoneComposer caret />
+          </PhoneFrame>
+        </div>
+      </DemoFrame>
+      </div>
     </Section>
   );
 }

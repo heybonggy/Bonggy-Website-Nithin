@@ -86,15 +86,3 @@ function useTabColors(ids: string[]) {
   const e = useBotLook(ids[4]).color;
   return [a, b, c, d, e];
 }
-
-/** A phone: 10px ink bezel, 320×620, for single-chat demos. */
-export function PhoneFrame({ children, className }: { children: React.ReactNode; className?: string }) {
-  return (
-    <div className={cn("mx-auto w-full max-w-[320px] rounded-4xl bg-surface-inverse p-2.5 shadow-window", className)}>
-      <div className="relative flex h-[620px] max-h-[80svh] flex-col overflow-hidden rounded-[22px] bg-surface-raised">
-        <span aria-hidden className="absolute left-1/2 top-2 z-10 h-5 w-20 -translate-x-1/2 rounded-full bg-surface-inverse" />
-        {children}
-      </div>
-    </div>
-  );
-}
