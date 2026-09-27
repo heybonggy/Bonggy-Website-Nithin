@@ -1,12 +1,11 @@
 import { LockSimple, Prohibit, Target } from "@phosphor-icons/react/dist/ssr";
 import { cn } from "@/lib/utils";
-import { BotAvatar, type Team } from "@/components/ui/mascot";
+import type { Team } from "@/components/ui/mascot";
 
-/** Team tag: pattern avatar + team name. */
+/** Team tag: the team a bot belongs to (bots carry colour; teams don't). */
 export function TeamTag({ team, className }: { team: Team; className?: string }) {
   return (
-    <span className={cn("inline-flex h-5 shrink-0 items-center gap-1 rounded-full bg-background pl-0.5 pr-2 text-caption text-fg-2 hairline", className)}>
-      <BotAvatar team={team} size={16} />
+    <span className={cn("inline-flex h-5 shrink-0 items-center rounded-full bg-background px-2 text-caption text-fg-2 hairline", className)}>
       {team}
     </span>
   );

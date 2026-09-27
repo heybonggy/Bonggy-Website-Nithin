@@ -7,6 +7,7 @@ import { TeamsSection } from "@/components/marketing/teams-section";
 import { FlowsSection } from "@/components/marketing/flows-section";
 import { BotJobsSection } from "@/components/marketing/bot-jobs-section";
 import { GroupsSection } from "@/components/marketing/groups-section";
+import { MakeItYours } from "@/components/marketing/make-it-yours";
 import { ApprovalsSection } from "@/components/marketing/approvals-section";
 import { AnalyticsSection } from "@/components/marketing/analytics-section";
 import { ContextSection } from "@/components/marketing/context-section";
@@ -29,6 +30,7 @@ export default function Home() {
         <TeamsSection />
         <FlowsSection />
         <BotJobsSection />
+        <MakeItYours />
         <GroupsSection />
         <ApprovalsSection />
         <AnalyticsSection />

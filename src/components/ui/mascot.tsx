@@ -4,6 +4,8 @@ import * as React from "react";
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 import { BotCharacter, type CharacterState } from "./bot-character";
+import { BotFace, botColorVars, type BotLook } from "./bot-look";
+import { useBotLook } from "@/components/product-mock/bot-looks";
 
 /**
  * "Bong", the Bonggy bot face. First pass, pending design review (DESIGN.md §9).
@@ -157,55 +159,41 @@ const TO_CHARACTER: Record<MascotState, CharacterState> = {
 };
 
 /**
- * A bot avatar: a round disc with the Bong face, alive through the
- * character engine (idle bob, blinks, reactions to its state). The team is
- * encoded by pattern: sales = solid ink, revops = white with an ink ring,
- * marketing = light gray with a diagonal hatch.
+ * A bot avatar: the bot's own look (colour, shape, eyes, accessory; see
+ * bot-look.tsx), alive through the character engine. Pass `botId` so the
+ * bot looks the same everywhere and follows the customiser; `look`
+ * overrides it (previews). Without either, the default graphite pebble.
  */
 export function BotAvatar({
-  team,
+  botId,
+  look: lookOverride,
   size = 32,
   state = "idle",
-  seed,
   interactive = false,
   className,
 }: {
-  team: Team;
+  botId?: string;
+  look?: BotLook;
+  /** @deprecated teams no longer change the avatar; kept for call sites in transition. */
+  team?: Team;
   size?: number;
   state?: MascotState | CharacterState;
-  /** Stable per-bot seed for its motion (defaults to a per-instance id). */
-  seed?: string;
   interactive?: boolean;
   className?: string;
 }) {
   const id = React.useId();
-  const ink = team === "sales" ? "var(--foreground-inverse)" : "var(--foreground)";
+  const stored = useBotLook(botId);
+  const look = lookOverride ?? stored;
   const cs: CharacterState = state in TO_CHARACTER ? TO_CHARACTER[state as MascotState] : (state as CharacterState);
   return (
     <BotCharacter
       state={cs}
       size={size}
-      seed={seed ?? `${team}:${id}`}
+      seed={botId ?? id}
       interactive={interactive}
       className={className}
-      render={(eye) => (
-        <span
-          className={cn(
-            "relative inline-flex size-full items-center justify-center overflow-hidden rounded-full",
-            team === "sales" && "bg-surface-inverse",
-            team === "revops" && "bg-background shadow-[inset_0_0_0_1.5px_var(--foreground)]",
-            team === "marketing" && "hatch bg-status-track",
-          )}
-        >
-          <svg viewBox="0 0 100 100" className="size-full overflow-visible">
-            {eye === "happy" ? (
-              <path className="bot-eye" d="M33 45 L45 56 L67 34" fill="none" stroke={ink} strokeWidth={7} strokeLinecap="round" strokeLinejoin="round" />
-            ) : (
-              <rect className="bot-eye" x={31} y={37.5} width={38} height={13} rx={6.5} fill={ink} />
-            )}
-          </svg>
-        </span>
-      )}
+      style={botColorVars(look.color)}
+      render={(eye) => <BotFace look={look} happy={eye === "happy"} size={size} />}
     />
   );
 }
@@ -223,14 +211,14 @@ export function HumanAvatar({ initials, size = 32, className }: { initials: stri
   );
 }
 
-/** 2–3 overlapped bot discs for a group (24% overlap, 2px separator ring). */
-export function GroupAvatar({ teams, size = 32 }: { teams: Team[]; size?: number }) {
+/** 2–3 overlapped bots for a group (24% overlap, 2px separator ring). */
+export function GroupAvatar({ botIds, size = 32 }: { botIds: string[]; size?: number }) {
   const overlap = size * 0.24;
   return (
     <span aria-hidden className="inline-flex items-center">
-      {teams.slice(0, 3).map((t, i) => (
-        <span key={i} className="rounded-full ring-2 ring-background" style={{ marginLeft: i === 0 ? 0 : -overlap }}>
-          <BotAvatar team={t} size={size} />
+      {botIds.slice(0, 3).map((b, i) => (
+        <span key={b} className="rounded-full bg-background ring-2 ring-background" style={{ marginLeft: i === 0 ? 0 : -overlap }}>
+          <BotAvatar botId={b} size={size} />
         </span>
       ))}
     </span>

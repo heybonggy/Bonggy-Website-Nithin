@@ -5,6 +5,8 @@ import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 import { BotAvatar, type Team } from "@/components/ui/mascot";
 import type { CharacterState } from "@/components/ui/bot-character";
+import { botColorVars } from "@/components/ui/bot-look";
+import { useBotLook } from "./bot-looks";
 import { TypingDots } from "@/components/ui/typing-dots";
 import { DUR, EASE } from "@/components/marketing/_motion";
 import { LimitChip } from "./tags";
@@ -58,17 +60,29 @@ export function UserBubble({ text, limit, className }: { text: string; limit?: s
   );
 }
 
+/** The bot's name over its bubble, in its own ink colour. */
+function BubbleName({ botId, name }: { botId?: string; name: string }) {
+  const look = useBotLook(botId);
+  return (
+    <span className="font-medium text-[var(--bot-ink)]" style={botColorVars(look.color)}>
+      {name}
+    </span>
+  );
+}
+
 /** A bot's reply, lowercase and terse. `children` renders cards under the text. */
 export function BotBubble({
-  team,
   text,
+  botId,
   name,
   time,
   state,
   children,
   className,
 }: {
-  team: Team;
+  /** @deprecated kept for call sites; the bot's look comes from botId. */
+  team?: Team;
+  botId?: string;
   /** The avatar's character state (reacts to the demo). */
   state?: CharacterState;
   text?: string;
@@ -80,11 +94,11 @@ export function BotBubble({
 }) {
   return (
     <motion.div {...bubbleIn} className={cn("flex items-start gap-2", className)}>
-      <BotAvatar team={team} size={24} state={state} className="mt-0.5" />
+      <BotAvatar botId={botId} size={24} state={state} className="mt-0.5" />
       <div className={cn("flex min-w-0 max-w-[86%] flex-col gap-2", children && "flex-1")}>
         {name || time ? (
           <p className="-mb-1 flex items-baseline gap-2 text-ui-sm">
-            {name ? <span className="font-medium text-foreground">{name}</span> : null}
+            {name ? <BubbleName botId={botId} name={name} /> : null}
             {time ? <span className="text-caption text-fg-3">{time}</span> : null}
           </p>
         ) : null}
@@ -120,16 +134,18 @@ export function SystemLine({ text, timestamp = false, className }: { text: strin
 /** A bot working: the mascot, typing dots and a short label. */
 export function PendingRow({
   label = "thinking",
-  team = "sales",
+  botId,
   className,
 }: {
   label?: string;
+  botId?: string;
+  /** @deprecated */
   team?: Team;
   className?: string;
 }) {
   return (
     <motion.div {...bubbleIn} className={cn("flex items-center gap-2 text-ui-sm text-fg-3", className)}>
-      <BotAvatar team={team} size={40} state="thinking" />
+      <BotAvatar botId={botId} size={40} state="thinking" />
       <TypingDots label={label} />
       <span>{label}</span>
     </motion.div>

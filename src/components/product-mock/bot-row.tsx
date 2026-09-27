@@ -1,8 +1,18 @@
+"use client";
+
 import type * as React from "react";
 import { cn } from "@/lib/utils";
 import { BotAvatar } from "@/components/ui/mascot";
+import { botColorVars } from "@/components/ui/bot-look";
+import { useBotLook } from "./bot-looks";
 import type { Bot, StatusKind } from "./data";
 import { StatusDot, StatusPill } from "./status-pill";
+
+/** The selected row's 2px left bar, in the bot's colour. */
+function ActiveBar({ botId }: { botId: string }) {
+  const look = useBotLook(botId);
+  return <span aria-hidden className="absolute inset-y-2 left-0 w-0.5 rounded-full bg-[var(--bot-disc)]" style={botColorVars(look.color)} />;
+}
 
 /** One bot in the sidebar list: avatar with status badge, name, time, preview. */
 export function BotRow({
@@ -29,13 +39,15 @@ export function BotRow({
     <div
       className={cn(
         "@container flex items-center gap-2 rounded-md p-2 transition-colors duration-[var(--dur-fast)]",
+        "relative",
         active ? "bg-wash-selected" : "hover:bg-wash-hover",
         fresh && "animate-row-in",
         className,
       )}
     >
+      {active ? <ActiveBar botId={bot.id} /> : null}
       <span className="relative shrink-0">
-        <BotAvatar team={bot.team} size={32} seed={bot.id} state={s === "running" ? "working" : s === "needs-you" ? "waiting" : s === "done" ? "happy" : s === "off" ? "drowsy" : "idle"} />
+        <BotAvatar botId={bot.id} size={32} state={s === "running" ? "working" : s === "needs-you" ? "waiting" : s === "done" ? "happy" : s === "off" ? "drowsy" : "idle"} />
         {badge ? (
           <span
             className={cn(

@@ -26,7 +26,7 @@ import {
   type TeamTake,
   type Timeline,
 } from "@/components/product-mock";
-import { BotAvatar, type Team } from "@/components/ui/mascot";
+import { BotAvatar } from "@/components/ui/mascot";
 import { cn } from "@/lib/utils";
 import { Section, SectionHeader } from "./section";
 import { useLoopFocus } from "./loop-focus";
@@ -84,13 +84,13 @@ function summaryFor(take: TeamTake) {
 
 /** One take's bubbles. `history` drops the cursor target so the scripted
     cursor only ever clicks the live take. */
-function TakeBubbles({ take, s, team, history = false }: { take: TeamTake; s: State; team: Team; history?: boolean }) {
+function TakeBubbles({ take, s, history = false }: { take: TeamTake; s: State; history?: boolean }) {
   return (
     <>
       {s.sent ? <UserBubble text={take.instruction} limit={take.limit} /> : null}
       {s.saved ? <SystemLine text={`flow saved · **${take.flowSaved}**`} /> : null}
       {s.report ? (
-        <BotBubble team={team} text={take.report.toLowerCase()}>
+        <BotBubble botId={take.botId} text={take.report.toLowerCase()}>
           <span
             data-cursor-target={history ? undefined : "human"}
             className={cn(
@@ -103,8 +103,8 @@ function TakeBubbles({ take, s, team, history = false }: { take: TeamTake; s: St
           </span>
         </BotBubble>
       ) : null}
-      {s.confirmed ? <BotBubble team={team} text={take.confirmation} /> : null}
-      {s.pending ? <PendingRow label="working" team={team} /> : null}
+      {s.confirmed ? <BotBubble botId={take.botId} text={take.confirmation} /> : null}
+      {s.pending ? <PendingRow label="working" botId={take.botId} /> : null}
     </>
   );
 }
@@ -148,7 +148,7 @@ function TakeDemo({ take, onDone }: { take: TeamTake; onDone: () => void }) {
       <div ref={phoneRef} className="relative">
         <PhoneFrame>
           <div className="flex items-center gap-2 border-b border-border px-4 pb-3 pt-10">
-            <BotAvatar team={bot.team} size={28} seed={bot.id} state={s.confirmed ? "celebrate" : s.pending ? "thinking" : s.report && !s.acted ? "waiting" : s.saved && !s.report ? "excited" : "idle"} />
+            <BotAvatar botId={bot.id} size={28} state={s.confirmed ? "celebrate" : s.pending ? "thinking" : s.report && !s.acted ? "waiting" : s.saved && !s.report ? "excited" : "idle"} />
             <span className="min-w-0">
               <span className="block truncate text-ui-sm font-semibold text-foreground">{bot.name}</span>
               <span className="block text-caption text-fg-3">{bot.team}</span>
@@ -157,10 +157,10 @@ function TakeDemo({ take, onDone }: { take: TeamTake; onDone: () => void }) {
           <div className="fade-t flex min-h-0 flex-1 flex-col justify-end gap-3 overflow-hidden px-3 pb-2 pt-6">
             {player.phase === "live" ? (
               <TakeHistory label="this week">
-                <TakeBubbles take={take} s={player.end} team={bot.team} history />
+                <TakeBubbles take={take} s={player.end} history />
               </TakeHistory>
             ) : null}
-            <TakeBubbles take={take} s={s} team={bot.team} />
+            <TakeBubbles take={take} s={s} />
           </div>
           <div className="px-2.5 pb-3">
             <ChatComposer value={player.phase === "poster" ? "" : s.composer} caret={!s.sent || player.phase === "poster"} className="shadow-e1" />

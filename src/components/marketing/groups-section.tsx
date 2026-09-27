@@ -22,7 +22,7 @@ import {
   type Timeline,
 } from "@/components/product-mock";
 import { PushPin } from "@phosphor-icons/react/dist/ssr";
-import { GroupAvatar, type Team } from "@/components/ui/mascot";
+import { GroupAvatar } from "@/components/ui/mascot";
 import { Section, SectionHeader } from "./section";
 import { useLoopFocus } from "./loop-focus";
 
@@ -70,13 +70,13 @@ function PinnedRun() {
   );
 }
 
-function Take({ s, researcherTeam }: { s: State; researcherTeam: Team }) {
+function Take({ s }: { s: State }) {
   return (
     <>
-      {s.research ? <BotBubble team={researcherTeam} name="campaign researcher" time="fri 15:58" text={RESEARCH} /> : null}
+      {s.research ? <BotBubble botId="campaign-researcher" name="campaign researcher" time="fri 15:58" text={RESEARCH} /> : null}
       {s.system ? <SystemLine text="**Campaign Researcher** handed off to **Deal Coach**" /> : null}
-      {s.coach ? <BotBubble team="sales" name="deal coach" time="fri 16:01" text={COACH} /> : null}
-      {s.pending ? <PendingRow label="working" team={s.research ? "sales" : researcherTeam} /> : null}
+      {s.coach ? <BotBubble botId="deal-coach" name="deal coach" time="fri 16:01" text={COACH} /> : null}
+      {s.pending ? <PendingRow label="working" botId={s.research ? "deal-coach" : "campaign-researcher"} /> : null}
     </>
   );
 }
@@ -101,12 +101,11 @@ export function GroupsSection() {
   const handoff = HANDOFFS[tick % HANDOFFS.length];
   const s = player.state;
   const members = HANDOFF_GROUP.members.map(botById);
-  const researcher = botById("campaign-researcher");
 
   const sidebar = (
     <SidebarTeam team="marketing">
       <div className="flex items-center gap-2 rounded-md bg-wash-selected p-2">
-        <GroupAvatar teams={members.map((m) => m.team)} size={24} />
+        <GroupAvatar botIds={members.map((m) => m.id)} size={24} />
         <span className="min-w-0">
           <span className="block truncate text-ui-sm font-medium text-foreground">{HANDOFF_GROUP.name}</span>
           <span className="block truncate text-caption text-fg-3">{members.length} bots · 2 teams</span>
@@ -158,10 +157,10 @@ export function GroupsSection() {
             <div className="mx-auto flex w-full max-w-[600px] flex-col gap-4">
               {player.phase === "live" ? (
                 <TakeHistory label="today">
-                  <Take s={player.end} researcherTeam={researcher.team} />
+                  <Take s={player.end} />
                 </TakeHistory>
               ) : null}
-              <Take s={s} researcherTeam={researcher.team} />
+              <Take s={s} />
             </div>
           </div>
         </AppWindow>

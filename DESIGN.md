@@ -8,8 +8,8 @@ Tokens live in [`src/app/globals.css`](src/app/globals.css) (Tailwind v4, CSS-fi
 
 ## 1. Principles
 
-- **Black, white and gray.** The page is paper and ink. Hierarchy comes from weight, gray level, surface and spacing, never from colour.
-- **One functional accent.** `--danger` (#b42318) is the only hue, and only for errors and destructive confirmation. No brand colour, no status colours, no gradients with hue.
+- **Ink on paper; colour only on bots.** The page chrome (nav, buttons, section cards, headings, body, status pills, charts, the theme toggle) is black, white and gray. Hierarchy comes from weight, gray level, surface and spacing. **Bots may have colour**: their avatars and a few accents of their own (§2.4). The grey page makes the coloured bots stand out.
+- **One functional accent.** `--danger` is reserved for errors and destructive confirmation. No bot colour ever means "error", and status is never told by colour.
 - **Light and graphite dark.** Light is the default when the system has no preference; visitors can switch to a grey (graphite, not black) dark mode. See §2.1.
 - **The product is the illustration.** Sections show the product (bots, flows, approvals) in drawn mocks. No stock art, no abstract 3D, no vendor logos.
 - **Calm motion.** Motion explains a change of state. It never loops for decoration, and it respects reduced motion.
@@ -17,7 +17,7 @@ Tokens live in [`src/app/globals.css`](src/app/globals.css) (Tailwind v4, CSS-fi
 
 ### Hue check
 
-Before merging, grep `src/` for hue: `signal`, `emerald`, `green`, `teal`, `#10b981`, and `oklch(` with non-zero chroma. The only allowed hit is `--danger` (and its wash).
+Before merging, check for hue outside the `--bot-*` palette tokens and `--danger`: grep `src/` for `signal`, `emerald`, `green`, `#10b981`, raw hex with chroma and `oklch(` with non-zero chroma. Bot colour may only be reached through `--bot-*` variables (via `botColorVars`).
 
 ---
 
@@ -48,6 +48,23 @@ Use the Tailwind classes, never raw hex.
 `--surface-sunken` (`bg-surface-sunken`, #fafafa light) is for mock sidebars and code. `--hatch-faint` is a 4% hatch for backdrops.
 
 shadcn names (`card`, `muted`, `primary`, …) are mapped onto these for compatibility. Prefer the Paper names in new code.
+
+### 2.4 Bot palette
+
+Eight curated colours, as tokens in `:root` (dark overrides ink, tint and ring). **disc** is the avatar fill in both themes; **ink** is text or icons in that colour; **tint** is a pill or bubble background. Faces are drawn in #141414, except on graphite (#ffffff). Every ink is at least 4.7:1 on its own tint and on the page, in both themes. Discs under 3:1 against the page get a 1px ring (amber, lime, teal and sky on white; graphite on graphite dark).
+
+| name | disc | light ink / tint | dark ink / tint |
+|---|---|---|---|
+| graphite (default) | #2b2b2b | #2b2b2b / #e1e1e1 | #e6e6e4 / #2a2a2a |
+| coral | #f2644a | #b93a22 / #fde9e6 | #ff9a85 / #422823 |
+| amber | #f0a524 | #8f5a00 / #fdf2e0 | #f7c261 / #41341d |
+| lime | #7cc639 | #3f7a12 / #edf7e3 | #a6dd72 / #2c3a20 |
+| teal | #1fb5a6 | #0b7166 / #e0f5f3 | #5fd6c9 / #1c3734 |
+| sky | #3b9eff | #1464c0 / #e4f1ff | #86c1ff / #213344 |
+| violet | #8b6cf6 | #5b3fd1 / #efeafe | #b3a0ff / #2f2a42 |
+| pink | #ef5da8 | #b52a73 / #fde8f3 | #f79acb / #412734 |
+
+**Where bot colour may appear:** the avatar; the active tab pill (tint, ink text, ink ring at 28%); the selected sidebar row's 2px left bar; a 2px top stripe on that bot's flow card; the bot's name over its own bubble; its handoff pill (tint); its celebrate sparks. User bubbles, status pills, approval strips and receipts stay grayscale.
 
 ### 2.1 Dark mode (graphite)
 
@@ -125,11 +142,20 @@ Labels swap with a short slide (`label-in`). Bot avatars carry a 10px badge for 
 
 - **Bong** ([`ui/mascot.tsx`](src/components/ui/mascot.tsx)) is a rounded pebble with a single slot eye. States: idle, thinking, working, needs-you, done, off. It blinks only when `blinkKey` changes.
 - **First pass, pending design review.** The pebble, eye and states were drawn in code for this redesign and need a designer's review before launch. The previous planet logo is kept in git history only.
-- Team avatars are round discs: **sales** black with a white eye, **RevOps** white with an ink ring, **marketing** hatched gray. `GroupAvatar` overlaps them by 24%.
+- Bot avatars show each bot's own look (§7.21). `GroupAvatar` overlaps up to three bots by 24%. The brand mascot (nav, footer, favicon, OG) stays the ink pebble.
 - Wordmark: "bonggy", Geist semibold, −0.03em.
 - Favicon, apple icon and OG image use the black pebble on white.
 
 ---
+
+## 7.21 Bot looks and the customiser
+
+- **Look model** ([`ui/bot-look.tsx`](src/components/ui/bot-look.tsx)): `{ color, shape: pebble | round | squircle | capsule | blob, eyes: pill | dots | visor | round | arcs, accessory: none | antenna | headset | beanie | glasses }`, drawn as SVG in one viewBox. The eyes are the group the character engine animates (blink scales height, gaze translates); the accessory trails the body's rotation by about 60ms, so antennas wobble on hops. Accessories are hidden under 20px.
+- **Defaults** ([`data.ts`](src/components/product-mock/data.ts) `DEFAULT_LOOKS`): every bot is distinct (Champion Tracker coral pebble, Deal Coach graphite squircle with a visor, Pipeline Watch sky round with dots, Campaign Researcher violet blob with glasses, Inbound Router teal capsule with a headset…). The team is carried by the team tag, not the avatar.
+- **Store** ([`bot-looks.ts`](src/components/product-mock/bot-looks.ts)): `useBotLook(botId)` on `useSyncExternalStore`, saved in `localStorage["bonggy:bot-looks:v1"]` as partial looks over the defaults and validated on read. The server snapshot is the defaults, and an unsaved bot returns the same default object on the client, so hydration never re-renders. Tabs sync through `storage`. A change updates the bot everywhere at once.
+- **"Make it yours"** (`#make-it-yours`, after "A bot for every job", in the Product menu): pick a bot, then a colour (8 swatches in a radiogroup), shape, eyes and accessory (44px chips with a live mini preview). Arrow keys move and select; changes are announced politely ("Deal Coach is now sky"). Reset, and "saved on this device". A 160px live preview reacts (excited for 1.2s on each change; click for reactions), with a sidebar row and a bubble showing the accents.
+- **Hero tie-in.** After the hero take ends, a real "customise" button (outside the inert demo, focusable) sits over the Champion Tracker row and jumps to the customiser with that bot selected.
+- **Performance.** NumberFlow mounts lazily (`LazyNumber`): plain numbers until a table scrolls in or a filter changes. Mounting it everywhere on load cost about 1.4s of style and layout on a throttled phone.
 
 ## 8. Motion
 

@@ -4,6 +4,8 @@ import { AnimatePresence, motion } from "motion/react";
 import { cn } from "@/lib/utils";
 import { BotAvatar, type Team } from "@/components/ui/mascot";
 import { SPRING } from "@/components/marketing/_motion";
+import { botColorVars } from "@/components/ui/bot-look";
+import { useBotLook } from "./bot-looks";
 
 export type HandoffMember = { id: string; team: Team };
 
@@ -22,6 +24,8 @@ export function HandoffPill({
   label?: string;
   className?: string;
 }) {
+  // A group shows up to three members (fixed hook calls).
+  const colors = [useBotLook(members[0]?.id).color, useBotLook(members[1]?.id).color, useBotLook(members[2]?.id).color];
   return (
     <div className={cn("flex items-center", className)}>
       {members.map((m, i) => {
@@ -31,9 +35,10 @@ export function HandoffPill({
             key={m.id}
             layout
             transition={SPRING.morph}
+            style={active ? botColorVars(colors[i]) : undefined}
             className={cn(
               "relative inline-flex h-8 items-center rounded-full ring-2 ring-background",
-              active ? "z-10 bg-surface-inverse pr-3 text-fg-inverse" : "bg-background",
+              active ? "z-10 bg-[var(--bot-tint)] pr-3 text-[var(--bot-ink)]" : "bg-background",
               i > 0 && "-ml-2",
             )}
           >
@@ -42,7 +47,7 @@ export function HandoffPill({
               transition={{ duration: 0.4 }}
               className="inline-flex p-0.5"
             >
-              <BotAvatar team={m.team} size={28} />
+              <BotAvatar botId={m.id} size={28} />
             </motion.span>
             <AnimatePresence mode="popLayout">
               {active ? (

@@ -5,6 +5,7 @@
 import type { Team } from "@/components/ui/mascot";
 
 export type { Team };
+import type { BotLook } from "@/components/ui/bot-look";
 export type Role = "modeller" | "researcher" | "value generator";
 export type StatusKind = "off" | "scheduled" | "running" | "needs-you" | "done" | "held" | "failed";
 export type FlowPart = "trigger" | "context" | "steps" | "approval" | "output" | "goal";
@@ -272,3 +273,23 @@ export const TEAM_TAKES: TeamTake[] = [
     description: ["Inbound Router.", "Scores demo requests and briefs reps. Never replies to a lead."],
   },
 ];
+
+/* ---------------------------------- looks --------------------------------- */
+
+/** Each bot's default look: distinct, used everywhere the bot appears. */
+export const DEFAULT_LOOKS: Record<string, BotLook> = {
+  "champion-tracker": { color: "coral", shape: "pebble", eyes: "pill", accessory: "none" },
+  "deal-coach": { color: "graphite", shape: "squircle", eyes: "visor", accessory: "none" },
+  "pipeline-watch": { color: "sky", shape: "round", eyes: "dots", accessory: "none" },
+  "campaign-researcher": { color: "violet", shape: "blob", eyes: "pill", accessory: "glasses" },
+  "inbound-router": { color: "teal", shape: "capsule", eyes: "dots", accessory: "headset" },
+  "account-researcher": { color: "amber", shape: "round", eyes: "round", accessory: "antenna" },
+  "brief-writer": { color: "pink", shape: "pebble", eyes: "arcs", accessory: "none" },
+  "crm-hygiene": { color: "lime", shape: "squircle", eyes: "pill", accessory: "beanie" },
+  "forecast-prep": { color: "amber", shape: "capsule", eyes: "visor", accessory: "none" },
+  "market-modeller": { color: "lime", shape: "blob", eyes: "visor", accessory: "antenna" },
+  "content-drafter": { color: "pink", shape: "capsule", eyes: "arcs", accessory: "beanie" },
+};
+
+/** The bots the customiser offers. */
+export const CUSTOMISABLE_BOTS = ["champion-tracker", "deal-coach", "pipeline-watch", "campaign-researcher", "inbound-router"];

@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import NumberFlow from "@number-flow/react";
+import { LazyNumber } from "@/components/ui/lazy-number";
 import { AnimatePresence, motion } from "motion/react";
 import { EASE, SPRING, useEntrance } from "@/components/marketing/_motion";
 import { cn } from "@/lib/utils";
@@ -24,7 +24,17 @@ export function AnalyticsView({ rows = ANALYTICS_ROWS, className }: { rows?: Ana
   // roll up when the table is 35% in view. The server render keeps the
   // real values, so crawlers and no-JS readers never see zeros.
   const entrance = useEntrance(tableRef, 0.35);
-  const zero = entrance === "armed";
+  // NumberFlow mounts on scroll-in (showing 0 for one frame so it rolls up)
+  // or on the first filter change; before that the numbers are plain text.
+  const [rolled, setRolled] = React.useState(false);
+  const [touched, setTouched] = React.useState(false);
+  React.useEffect(() => {
+    if (entrance !== "go") return;
+    const id = requestAnimationFrame(() => setRolled(true));
+    return () => cancelAnimationFrame(id);
+  }, [entrance]);
+  const live = entrance === "go" || touched;
+  const zero = entrance === "armed" || (entrance === "go" && !rolled);
   const n = (v: number) => (zero ? 0 : v);
   const withBots = rows.map((r) => ({ ...r, bot: botById(r.botId) }));
   const count = (f: Filter) => (f === "all" ? withBots.length : withBots.filter((r) => r.bot.team === f).length);
@@ -47,7 +57,10 @@ export function AnalyticsView({ rows = ANALYTICS_ROWS, className }: { rows?: Ana
                 key={f}
                 type="button"
                 aria-pressed={active}
-                onClick={() => setFilter(f)}
+                onClick={() => {
+                  setTouched(true);
+                  setFilter(f);
+                }}
                 className={cn(
                   "relative inline-flex h-8 items-center gap-1.5 rounded-full px-3 text-ui-sm font-medium transition-colors duration-[var(--dur-quick)]",
                   "after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-['']",
@@ -92,7 +105,7 @@ export function AnalyticsView({ rows = ANALYTICS_ROWS, className }: { rows?: Ana
                 >
                   <th scope="row" className="py-3 pr-2 font-normal">
                     <span className="flex items-center gap-2">
-                      <BotAvatar team={r.bot.team} size={24} />
+                      <BotAvatar botId={r.botId} size={24} />
                       <span className="min-w-0">
                         <span className="block truncate font-medium text-foreground">{r.bot.name}</span>
                         <span className="block truncate text-caption text-fg-3 lg:hidden">{r.goal}</span>
@@ -110,13 +123,13 @@ export function AnalyticsView({ rows = ANALYTICS_ROWS, className }: { rows?: Ana
                   </th>
                   <td className="hidden py-3 text-fg-2 md:table-cell">{r.bot.team}</td>
                   <td className="tabular py-3 text-right text-foreground">
-                    <NumberFlow value={n(r.runs)} />
+                    <LazyNumber live={live} value={n(r.runs)} />
                   </td>
                   <td className="tabular py-3 text-right text-foreground">
-                    <NumberFlow value={n(r.approved)} />
+                    <LazyNumber live={live} value={n(r.approved)} />
                   </td>
                   <td className="tabular py-3 text-right text-foreground">
-                    <NumberFlow value={n(r.hours)} format={{ maximumFractionDigits: 1 }} />
+                    <LazyNumber live={live} value={n(r.hours)} format={{ maximumFractionDigits: 1 }} />
                   </td>
                   <td className="hidden py-3 pl-6 lg:table-cell">
                     <GoalTag goal={r.goal} />
@@ -130,13 +143,13 @@ export function AnalyticsView({ rows = ANALYTICS_ROWS, className }: { rows?: Ana
                 <th scope="row" className="py-3 font-medium">Total</th>
                 <td className="hidden md:table-cell" />
                 <td className="tabular py-3 text-right font-medium">
-                  <NumberFlow value={n(total.runs)} />
+                  <LazyNumber live={live} value={n(total.runs)} />
                 </td>
                 <td className="tabular py-3 text-right font-medium">
-                  <NumberFlow value={n(total.approved)} />
+                  <LazyNumber live={live} value={n(total.approved)} />
                 </td>
                 <td className="tabular py-3 text-right font-medium">
-                  <NumberFlow value={n(total.hours)} format={{ maximumFractionDigits: 1 }} />
+                  <LazyNumber live={live} value={n(total.hours)} format={{ maximumFractionDigits: 1 }} />
                 </td>
                 <td className="hidden lg:table-cell" />
               </tr>

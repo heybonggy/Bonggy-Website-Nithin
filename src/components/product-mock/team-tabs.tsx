@@ -3,7 +3,10 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import { BotAvatar, type Team } from "@/components/ui/mascot";
+import { botColorVars } from "@/components/ui/bot-look";
+import { useBotLook } from "./bot-looks";
 
+/** `id` is the bot id; the active pill takes that bot's colour. */
 export type PillTab = { id: string; label: string; team: Team };
 
 /**
@@ -26,6 +29,7 @@ export function PillTabs({
   className?: string;
 }) {
   const refs = React.useRef<(HTMLButtonElement | null)[]>([]);
+  const colors = useTabColors(tabs.map((t) => t.id));
   const onKeyDown = (e: React.KeyboardEvent, i: number) => {
     let next = -1;
     if (e.key === "ArrowRight") next = (i + 1) % tabs.length;
@@ -55,19 +59,32 @@ export function PillTabs({
             tabIndex={active ? 0 : -1}
             onClick={() => onChange(t.id)}
             onKeyDown={(e) => onKeyDown(e, i)}
+            style={active ? botColorVars(colors[i]) : undefined}
             className={cn(
               "relative inline-flex h-8 items-center gap-1.5 rounded-full pl-[5px] pr-3 text-ui-sm font-medium transition-colors duration-[var(--dur-quick)]",
               "after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-['']",
-              active ? "bg-surface-inverse text-fg-inverse" : "bg-surface-2 text-foreground hover:bg-surface-3",
+              active
+                ? "bg-[var(--bot-tint)] text-[var(--bot-ink)] shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--bot-ink)_28%,transparent)]"
+                : "bg-surface-2 text-foreground hover:bg-surface-3",
             )}
           >
-            <BotAvatar team={t.team} size={22} />
+            <BotAvatar botId={t.id} size={22} />
             {t.label}
           </button>
         );
       })}
     </div>
   );
+}
+
+/** Current colours of up to four tab bots (a fixed number of hook calls). */
+function useTabColors(ids: string[]) {
+  const a = useBotLook(ids[0]).color;
+  const b = useBotLook(ids[1]).color;
+  const c = useBotLook(ids[2]).color;
+  const d = useBotLook(ids[3]).color;
+  const e = useBotLook(ids[4]).color;
+  return [a, b, c, d, e];
 }
 
 /** A phone: 10px ink bezel, 320×620, for single-chat demos. */

@@ -32,7 +32,7 @@ export function FlowsList({
               f.botId === selectedId ? "bg-wash-selected" : "hover:bg-wash-hover",
             )}
           >
-            <BotAvatar team={bot.team} size={28} state={running?.botId === f.botId ? "working" : "idle"} />
+            <BotAvatar botId={f.botId} size={28} state={running?.botId === f.botId ? "working" : "idle"} />
             <span className="min-w-0 flex-1">
               <span className="block truncate text-ui-sm font-medium text-foreground">{bot.name}</span>
               <span className="block truncate text-ui-sm text-fg-3">

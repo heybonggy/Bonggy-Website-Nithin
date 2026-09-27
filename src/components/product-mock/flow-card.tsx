@@ -13,6 +13,8 @@ import {
 import type { Icon as PhosphorIcon } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 import { BotAvatar } from "@/components/ui/mascot";
+import { botColorVars } from "@/components/ui/bot-look";
+import { useBotLook } from "./bot-looks";
 import type { CharacterState } from "@/components/ui/bot-character";
 import { DUR, EASE } from "@/components/marketing/_motion";
 import { FLOW_PARTS, type Bot, type FlowPart, type StatusKind } from "./data";
@@ -28,6 +30,11 @@ const PART_META: Record<FlowPart, { label: string; icon: PhosphorIcon }> = {
   output: { label: "Output", icon: FileText },
   goal: { label: "Goal", icon: Target },
 };
+
+function FlowStripe({ botId }: { botId: string }) {
+  const look = useBotLook(botId);
+  return <span aria-hidden className="absolute inset-x-0 top-0 h-0.5 bg-[var(--bot-disc)]" style={botColorVars(look.color)} />;
+}
 
 export type FlowCardState = "draft" | "on" | "off" | "running" | "needs-you" | "failed";
 
@@ -101,7 +108,7 @@ export function FlowCard({
 }: {
   /** Override the avatar's character state (e.g. "excited" while filling). */
   avatarState?: CharacterState;
-  bot: Pick<Bot, "name" | "team">;
+  bot: Pick<Bot, "id" | "name" | "team">;
   /** Filled parts. Missing parts render empty. */
   parts: Partial<Record<FlowPart, string | string[]>>;
   limit?: { part: FlowPart; text: string };
@@ -130,13 +137,15 @@ export function FlowCard({
         className,
       )}
     >
+      {/* The bot's colour: a 2px stripe along the top. */}
+      <FlowStripe botId={bot.id} />
       {state === "running" ? (
         <span aria-hidden className="absolute inset-x-0 top-0 h-0.5 overflow-hidden">
           <span className="block h-full w-full animate-fill-sweep sweep [animation-iteration-count:infinite]" />
         </span>
       ) : null}
       <div className="flex flex-wrap items-center gap-2">
-        <BotAvatar team={bot.team} size={compact ? 24 : 28} state={avatarState ?? (state === "running" ? "working" : state === "needs-you" ? "waiting" : "idle")} />
+        <BotAvatar botId={bot.id} size={compact ? 24 : 28} state={avatarState ?? (state === "running" ? "working" : state === "needs-you" ? "waiting" : "idle")} />
         <span className="text-ui font-semibold text-foreground">{bot.name}</span>
         {!compact ? <TeamTag team={bot.team} /> : null}
         <span className="ml-auto flex items-center gap-2">

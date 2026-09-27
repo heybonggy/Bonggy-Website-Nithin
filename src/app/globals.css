@@ -110,6 +110,16 @@
   --sidebar-border: var(--border);
   --sidebar-ring: var(--ring);
 
+  /* Bot palette (DESIGN.md §2.4). The only hue besides --danger, and only on bots. */
+  --bot-graphite-disc: #2b2b2b; --bot-graphite-ink: #2b2b2b; --bot-graphite-tint: #e1e1e1; --bot-graphite-face: #ffffff; --bot-graphite-ring: transparent;
+  --bot-coral-disc: #f2644a; --bot-coral-ink: #b93a22; --bot-coral-tint: #fde9e6; --bot-coral-face: #141414; --bot-coral-ring: transparent;
+  --bot-amber-disc: #f0a524; --bot-amber-ink: #8f5a00; --bot-amber-tint: #fdf2e0; --bot-amber-face: #141414; --bot-amber-ring: rgb(10 10 10 / 0.12);
+  --bot-lime-disc: #7cc639; --bot-lime-ink: #3f7a12; --bot-lime-tint: #edf7e3; --bot-lime-face: #141414; --bot-lime-ring: rgb(10 10 10 / 0.12);
+  --bot-teal-disc: #1fb5a6; --bot-teal-ink: #0b7166; --bot-teal-tint: #e0f5f3; --bot-teal-face: #141414; --bot-teal-ring: rgb(10 10 10 / 0.12);
+  --bot-sky-disc: #3b9eff; --bot-sky-ink: #1464c0; --bot-sky-tint: #e4f1ff; --bot-sky-face: #141414; --bot-sky-ring: rgb(10 10 10 / 0.12);
+  --bot-violet-disc: #8b6cf6; --bot-violet-ink: #5b3fd1; --bot-violet-tint: #efeafe; --bot-violet-face: #141414; --bot-violet-ring: transparent;
+  --bot-pink-disc: #ef5da8; --bot-pink-ink: #b52a73; --bot-pink-tint: #fde8f3; --bot-pink-face: #141414; --bot-pink-ring: transparent;
+
   /* layout */
   --header-h: 4rem;
   --site-frame-inset: 20px;
@@ -186,6 +196,16 @@
   --sidebar-accent-foreground: var(--foreground);
   --sidebar-border: var(--border);
   --sidebar-ring: var(--ring);
+
+  /* Bot palette, dark: same discs, lighter inks, deep tints. */
+  --bot-graphite-ink: #e6e6e4; --bot-graphite-tint: #2a2a2a; --bot-graphite-ring: rgb(255 255 255 / 0.18);
+  --bot-coral-ink: #ff9a85; --bot-coral-tint: #422823; --bot-coral-ring: transparent;
+  --bot-amber-ink: #f7c261; --bot-amber-tint: #41341d; --bot-amber-ring: transparent;
+  --bot-lime-ink: #a6dd72; --bot-lime-tint: #2c3a20; --bot-lime-ring: transparent;
+  --bot-teal-ink: #5fd6c9; --bot-teal-tint: #1c3734; --bot-teal-ring: transparent;
+  --bot-sky-ink: #86c1ff; --bot-sky-tint: #213344; --bot-sky-ring: transparent;
+  --bot-violet-ink: #b3a0ff; --bot-violet-tint: #2f2a42; --bot-violet-ring: transparent;
+  --bot-pink-ink: #f79acb; --bot-pink-tint: #412734; --bot-pink-ring: transparent;
 }
 
 /* One frame without transitions while the theme flips (theme.ts). */
@@ -462,6 +482,11 @@
   transform-box: fill-box;
   transform-origin: center;
   transform: translate(var(--gaze-x, 0px), var(--gaze-y, 0px)) scale(var(--eye-s, 1), calc(var(--eye-s, 1) * var(--eye-open, 1)));
+}
+.bot-acc {
+  transform-box: view-box;
+  transform-origin: 50% 60%;
+  transform: rotate(var(--acc-rot, 0deg));
 }
 .bot-spark {
   transform: translate(-50%, -50%) rotate(var(--a)) translateY(0) scale(1);

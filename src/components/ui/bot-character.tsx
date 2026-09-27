@@ -297,6 +297,9 @@ function write(c: Char) {
   st.setProperty("--eye-s", k.eyeS.x.toFixed(3));
   st.setProperty("--gaze-x", `${k.gx.x.toFixed(2)}px`);
   st.setProperty("--gaze-y", `${k.gy.x.toFixed(2)}px`);
+  // Accessories trail the body a little (≈60ms), so antennas wobble on hops.
+  const lag = Math.max(-15, Math.min(15, -(k.rot.v + k.spin.v * 360) * 0.06));
+  st.setProperty("--acc-rot", `${lag.toFixed(2)}deg`);
   // (px inside the SVG are viewBox units.)
 }
 
@@ -388,8 +391,10 @@ export function BotCharacter({
   seed,
   interactive = false,
   className,
+  style,
   render,
 }: {
+  style?: React.CSSProperties;
   state: CharacterState;
   size: number;
   seed: string;
@@ -532,7 +537,7 @@ export function BotCharacter({
         : { "aria-hidden": true })}
       ref={ref as React.Ref<HTMLButtonElement & HTMLSpanElement>}
       className={cn("bot-character relative inline-flex shrink-0", interactive && "cursor-pointer rounded-full", className)}
-      style={{ width: size, height: size, ...staticVars }}
+      style={{ width: size, height: size, ...style, ...staticVars }}
     >
       <span
         key={reduced ? state : undefined}

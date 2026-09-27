@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import NumberFlow from "@number-flow/react";
+import { LazyNumber } from "@/components/ui/lazy-number";
 import { Check, Target } from "@phosphor-icons/react/dist/ssr";
 import { cn } from "@/lib/utils";
 import { BotAvatar } from "@/components/ui/mascot";
@@ -18,7 +18,7 @@ import { usePrefersReducedMotion } from "./_motion";
 function useStage(ref: React.RefObject<Element | null>, count: number, stepMs: number) {
   const reduced = usePrefersReducedMotion();
   const tick = useAmbientTick(ref, stepMs, 600);
-  return reduced ? count - 1 : tick % count;
+  return { frame: reduced ? count - 1 : tick % count, started: tick > 0 };
 }
 
 const TRACK_LINES = [
@@ -29,7 +29,7 @@ const TRACK_LINES = [
 
 function TrackStage() {
   const ref = React.useRef<HTMLDivElement>(null);
-  const frame = useStage(ref, TRACK_LINES.length + 2, 900);
+  const { frame } = useStage(ref, TRACK_LINES.length + 2, 900);
   return (
     <div ref={ref} className="flex h-full flex-col justify-center gap-2 px-5">
       {TRACK_LINES.map((l, i) => {
@@ -58,7 +58,7 @@ const ALIGN_ACTIONS = ["brief for northwind", "next step on 5 deals", "note to d
 
 function AlignStage() {
   const ref = React.useRef<HTMLDivElement>(null);
-  const frame = useStage(ref, ALIGN_ACTIONS.length + 1, 1100);
+  const { frame } = useStage(ref, ALIGN_ACTIONS.length + 1, 1100);
   return (
     <div ref={ref} className="flex h-full flex-col justify-center gap-2 px-5">
       {ALIGN_ACTIONS.map((a, i) => {
@@ -91,11 +91,11 @@ const NUDGE_STATES: { status: StatusKind; label?: string; line: string }[] = [
 
 function NudgeStage() {
   const ref = React.useRef<HTMLDivElement>(null);
-  const frame = useStage(ref, NUDGE_STATES.length, 1400);
+  const { frame } = useStage(ref, NUDGE_STATES.length, 1400);
   const s = NUDGE_STATES[frame];
   return (
     <div ref={ref} className="flex h-full flex-col items-center justify-center gap-3 px-5 text-center">
-      <BotAvatar team="sales" size={40} state={s.status === "running" ? "working" : s.status === "needs-you" ? "needs-you" : "idle"} />
+      <BotAvatar botId="deal-coach" size={40} state={s.status === "running" ? "working" : s.status === "needs-you" ? "needs-you" : "idle"} />
       <StatusPill status={s.status} label={s.label} size="md" />
       <p key={s.line} className="animate-label-in text-ui-sm text-fg-2">
         {s.line}
@@ -112,7 +112,7 @@ const REPORT_ROWS = [
 
 function ReportStage() {
   const ref = React.useRef<HTMLDivElement>(null);
-  const frame = useStage(ref, 2, 2200);
+  const { frame, started } = useStage(ref, 2, 2200);
   return (
     <div ref={ref} className="flex h-full flex-col justify-center gap-3 px-5">
       {REPORT_ROWS.map((r) => {
@@ -127,7 +127,7 @@ function ReportStage() {
               />
             </span>
             <span className="tabular text-right text-foreground">
-              <NumberFlow value={v} suffix="%" />
+              <LazyNumber live={started} value={v} suffix="%" />
             </span>
           </div>
         );

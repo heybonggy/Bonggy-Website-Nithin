@@ -18,6 +18,7 @@ const PRODUCT: NavLink[] = [
   { label: "Flows", href: "/#flows" },
   { label: "Approvals", href: "/#approvals" },
   { label: "Analytics", href: "/#analytics" },
+  { label: "Make it yours", href: "/#make-it-yours" },
 ];
 
 const LINKS: NavLink[] = [

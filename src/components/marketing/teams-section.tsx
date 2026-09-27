@@ -18,7 +18,7 @@ export function TeamsSection() {
           return (
             <div key={t.id} className="grid gap-4 py-6 lg:grid-cols-[180px_1fr] lg:gap-8 lg:py-8">
               <h3 className="flex items-center gap-2.5 self-start text-title text-foreground">
-                <BotAvatar team={t.id} size={28} />
+                <BotAvatar botId={bots[0]?.id} size={28} />
                 {TEAM_NAME[t.id]}
               </h3>
               <ul className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
