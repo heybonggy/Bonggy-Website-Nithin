@@ -12,7 +12,7 @@ import { AnalyticsSection } from "@/components/marketing/analytics-section";
 import { ContextSection } from "@/components/marketing/context-section";
 import { PricingTeaser } from "@/components/marketing/pricing-teaser";
 import { HomeFaq } from "@/components/marketing/home-faq";
-import { CtaPanel } from "@/components/marketing/cta-panel";
+import { FinalCta } from "@/components/marketing/final-cta";
 import { Footer } from "@/components/marketing/footer";
 
 export const metadata: Metadata = pageMetadata({
@@ -36,7 +36,7 @@ export default function Home() {
         <HowItWorks />
         <PricingTeaser />
         <HomeFaq />
-        <CtaPanel />
+        <FinalCta />
       </main>
       <Footer />
     </>

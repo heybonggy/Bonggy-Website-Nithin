@@ -1,0 +1,28 @@
+import { ChatComposer } from "@/components/product-mock/chat-composer";
+import { CtaButton } from "./cta-button";
+import { EarlyAccessCta } from "./early-access-cta";
+
+/** Closing call to action, with a read-only composer waiting for a sentence. */
+export function FinalCta() {
+  return (
+    <section aria-labelledby="final-cta-title" className="px-4 py-20 sm:px-6 sm:py-28">
+      <div className="mx-auto flex w-full max-w-wide flex-col items-center rounded-3xl bg-surface px-6 py-16 text-center sm:px-12 sm:py-24">
+        <h2 id="final-cta-title" className="max-w-[16ch] text-balance text-display-lg text-foreground">
+          Give your first bot a purpose.
+        </h2>
+        <p className="mt-5 max-w-copy text-body text-fg-2 sm:text-body-lg">
+          Start from a preset, or from a sentence. Either way, the flow is yours.
+        </p>
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+          <EarlyAccessCta size="lg" />
+          <CtaButton size="lg" variant="soft">
+            Book a 30-min call
+          </CtaButton>
+        </div>
+        <div aria-hidden className="mt-12 w-full max-w-[520px] text-left">
+          <ChatComposer caret />
+        </div>
+      </div>
+    </section>
+  );
+}
