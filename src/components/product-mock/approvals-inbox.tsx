@@ -43,7 +43,7 @@ export function ApprovalsInbox({
                 <span className="text-fg-2">{a.action}</span>
                 {note(a) ? <span className="text-fg-3"> {note(a)}</span> : null}
               </span>
-              <span className="mt-0.5 block truncate text-caption text-fg-3">
+              <span className="mt-0.5 block truncate text-ui-sm text-fg-3">
                 {bot.team} · {a.goal} · {a.age}
               </span>
             </span>

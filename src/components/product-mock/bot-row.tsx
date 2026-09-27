@@ -56,7 +56,7 @@ export function BotRow({
             <span className="hidden shrink-0 text-caption text-fg-3 @min-[160px]:inline">{time ?? bot.time}</span>
           )}
         </span>
-        <span className={cn("block truncate text-caption", s === "needs-you" ? "font-medium text-foreground" : "text-fg-3")}>
+        <span className={cn("block truncate text-ui-sm", s === "needs-you" ? "font-medium text-foreground" : "text-fg-3")}>
           {preview ?? bot.preview}
         </span>
       </span>

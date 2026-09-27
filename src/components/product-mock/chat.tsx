@@ -61,11 +61,16 @@ export function UserBubble({ text, limit, className }: { text: string; limit?: s
 export function BotBubble({
   team,
   text,
+  name,
+  time,
   children,
   className,
 }: {
   team: Team;
   text?: string;
+  /** Optional header: the bot's name and a timestamp. */
+  name?: string;
+  time?: string;
   children?: React.ReactNode;
   className?: string;
 }) {
@@ -73,6 +78,12 @@ export function BotBubble({
     <motion.div {...bubbleIn} className={cn("flex items-start gap-2", className)}>
       <BotAvatar team={team} size={24} className="mt-0.5" />
       <div className={cn("flex min-w-0 max-w-[86%] flex-col gap-2", children && "flex-1")}>
+        {name || time ? (
+          <p className="-mb-1 flex items-baseline gap-2 text-ui-sm">
+            {name ? <span className="font-medium text-foreground">{name}</span> : null}
+            {time ? <span className="text-caption text-fg-3">{time}</span> : null}
+          </p>
+        ) : null}
         {text ? (
           <p className="w-fit rounded-xl bg-bubble-bot px-3 py-2.5 text-ui text-bubble-bot-ink">
             <RichText text={text} />
@@ -92,7 +103,7 @@ export function SystemLine({ text, timestamp = false, className }: { text: strin
       animate={{ opacity: 1 }}
       transition={{ duration: DUR.base }}
       className={cn(
-        "text-center text-caption text-fg-3",
+        "text-center text-ui-sm text-fg-3",
         timestamp && "flex items-center gap-3 before:h-px before:flex-1 before:bg-border after:h-px after:flex-1 after:bg-border",
         className,
       )}

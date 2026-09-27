@@ -76,7 +76,7 @@ export function ApprovalsSection() {
   const items = APPROVALS.map((a) => (a.id === "a1" && s.approval === "approved" ? { ...a, action: "sent a note to dana at globex", status: "done" as const, age: "now" } : a));
 
   return (
-    <Section id="approvals" aria-labelledby="approvals-title">
+    <Section id="approvals" card aria-labelledby="approvals-title">
       <SectionHeader
         title={<span id="approvals-title">Bots draft. You decide.</span>}
         intro="Anything a customer would see waits for a person. Everything else can run on its own, if your team says so."
@@ -84,7 +84,7 @@ export function ApprovalsSection() {
 
       <DemoFrame
         ref={frameRef}
-        className="reveal mt-12"
+        className="reveal mt-10"
         summary={SUMMARY}
         playing={player.playing}
         offscreen={player.offscreen}

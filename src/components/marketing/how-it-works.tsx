@@ -1,53 +1,170 @@
-import { ChartBar, Compass, Eye, Target } from "@phosphor-icons/react/dist/ssr";
-import { Section, SectionHeader } from "./section";
+"use client";
 
-const STEPS = [
-  { Icon: Eye, title: "Track", body: "Bots read activity across the tools you connect." },
-  { Icon: Target, title: "Align", body: "Every action maps to a revenue goal." },
-  { Icon: Compass, title: "Nudge", body: "Drift gets flagged with a next move, and a person decides." },
-  { Icon: ChartBar, title: "Report", body: "One picture from rep to CRO, with no leaderboards." },
+import * as React from "react";
+import NumberFlow from "@number-flow/react";
+import { Check, Target } from "@phosphor-icons/react/dist/ssr";
+import { cn } from "@/lib/utils";
+import { BotAvatar } from "@/components/ui/mascot";
+import { StatusPill } from "@/components/product-mock/status-pill";
+import { useAmbientTick } from "@/components/product-mock/ambient";
+import type { StatusKind } from "@/components/product-mock/data";
+import { Section, SectionHeader } from "./section";
+import { usePrefersReducedMotion } from "./_motion";
+
+/**
+ * A stage's frame index: steps through `count` frames every `stepMs` while
+ * on screen, then loops. Reduced motion shows the last (complete) frame.
+ */
+function useStage(ref: React.RefObject<Element | null>, count: number, stepMs: number) {
+  const reduced = usePrefersReducedMotion();
+  const tick = useAmbientTick(ref, stepMs, 600);
+  return reduced ? count - 1 : tick % count;
+}
+
+const TRACK_LINES = [
+  { src: "crm", text: "18 open deals read" },
+  { src: "call notes", text: "24 calls read" },
+  { src: "calendar", text: "9 meetings this week" },
 ];
 
-/** #how-it-works: the Track → Align → Nudge → Report loop every flow runs on. */
+function TrackStage() {
+  const ref = React.useRef<HTMLDivElement>(null);
+  const frame = useStage(ref, TRACK_LINES.length + 2, 900);
+  return (
+    <div ref={ref} className="flex h-full flex-col justify-center gap-2 px-5">
+      {TRACK_LINES.map((l, i) => {
+        const on = frame > i;
+        return (
+          <div
+            key={l.src}
+            className={cn(
+              "flex items-center gap-2.5 rounded-lg bg-surface-raised px-3 py-2 text-ui-sm shadow-e1 transition-opacity duration-300",
+              on ? "opacity-100" : "opacity-35",
+            )}
+          >
+            <span className={cn("inline-flex size-4 items-center justify-center rounded-full", on ? "bg-surface-inverse text-fg-inverse" : "hairline-strong")}>
+              {on ? <Check weight="bold" className="size-2.5 animate-check-in" aria-hidden /> : null}
+            </span>
+            <span className="text-fg-3">{l.src}</span>
+            <span className="text-foreground">{l.text}</span>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+const ALIGN_ACTIONS = ["brief for northwind", "next step on 5 deals", "note to dana at globex"];
+
+function AlignStage() {
+  const ref = React.useRef<HTMLDivElement>(null);
+  const frame = useStage(ref, ALIGN_ACTIONS.length + 1, 1100);
+  return (
+    <div ref={ref} className="flex h-full flex-col justify-center gap-2 px-5">
+      {ALIGN_ACTIONS.map((a, i) => {
+        const mapped = frame > i;
+        return (
+          <div key={a} className="flex items-center justify-between gap-3 rounded-lg bg-surface-raised px-3 py-2 text-ui-sm shadow-e1">
+            <span className="truncate text-foreground">{a}</span>
+            <span
+              className={cn(
+                "inline-flex h-5 shrink-0 items-center gap-1 rounded-full px-2 text-caption transition-colors duration-300",
+                mapped ? "bg-surface-inverse text-fg-inverse" : "bg-surface-2 text-fg-3",
+              )}
+            >
+              <Target className="size-3" aria-hidden />
+              {mapped ? (i === 2 ? "q4 new pipeline" : "q4 enterprise logos") : "no goal yet"}
+            </span>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+const NUDGE_STATES: { status: StatusKind; label?: string; line: string }[] = [
+  { status: "off", label: "quiet 14 days", line: "acme renewal · no next step" },
+  { status: "running", label: "checking", line: "reading the last 3 calls…" },
+  { status: "needs-you", line: "suggest: book a pricing review" },
+  { status: "done", label: "you booked it", line: "next step set · nothing sent" },
+];
+
+function NudgeStage() {
+  const ref = React.useRef<HTMLDivElement>(null);
+  const frame = useStage(ref, NUDGE_STATES.length, 1400);
+  const s = NUDGE_STATES[frame];
+  return (
+    <div ref={ref} className="flex h-full flex-col items-center justify-center gap-3 px-5 text-center">
+      <BotAvatar team="sales" size={40} state={s.status === "running" ? "working" : s.status === "needs-you" ? "needs-you" : "idle"} />
+      <StatusPill status={s.status} label={s.label} size="md" />
+      <p key={s.line} className="animate-label-in text-ui-sm text-fg-2">
+        {s.line}
+      </p>
+    </div>
+  );
+}
+
+const REPORT_ROWS = [
+  { who: "rep", value: 72 },
+  { who: "manager", value: 64 },
+  { who: "cro", value: 88 },
+];
+
+function ReportStage() {
+  const ref = React.useRef<HTMLDivElement>(null);
+  const frame = useStage(ref, 2, 2200);
+  return (
+    <div ref={ref} className="flex h-full flex-col justify-center gap-3 px-5">
+      {REPORT_ROWS.map((r) => {
+        const v = frame === 0 ? Math.round(r.value * 0.7) : r.value;
+        return (
+          <div key={r.who} className="grid grid-cols-[72px_1fr_44px] items-center gap-3 text-ui-sm">
+            <span className="text-fg-3">{r.who}</span>
+            <span className="h-1.5 overflow-hidden rounded-full bg-status-track">
+              <span
+                className="block h-full origin-left rounded-full bg-status-ink transition-transform duration-700 ease-out-expo"
+                style={{ transform: `scaleX(${v / 100})` }}
+              />
+            </span>
+            <span className="tabular text-right text-foreground">
+              <NumberFlow value={v} suffix="%" />
+            </span>
+          </div>
+        );
+      })}
+      <p className="text-caption text-fg-3">work on goal, by level · demo data</p>
+    </div>
+  );
+}
+
+const CARDS = [
+  { title: "Track", lead: "Bots read activity", rest: " across the tools you connect.", Stage: TrackStage },
+  { title: "Align", lead: "Every action", rest: " maps to a revenue goal.", Stage: AlignStage },
+  { title: "Nudge", lead: "Drift gets flagged with a next move,", rest: " and a person decides.", Stage: NudgeStage },
+  { title: "Report", lead: "One picture from rep to CRO,", rest: " with no leaderboards.", Stage: ReportStage },
+];
+
+/** #how-it-works: the loop every flow runs on, as four live cards. */
 export function HowItWorks() {
   return (
     <Section id="how-it-works" aria-labelledby="how-title">
       <SectionHeader title={<span id="how-title">Every flow runs on one loop.</span>} />
-      <div className="relative mt-12">
-        <ol className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          {STEPS.map(({ Icon, title, body }, i) => (
-            <li key={title} className="reveal relative flex flex-col gap-6 rounded-2xl bg-surface p-5 sm:p-6">
-              <span className="flex items-center justify-between">
-                <span className="inline-flex size-9 items-center justify-center rounded-full bg-background text-foreground hairline">
-                  <Icon className="size-4.5" aria-hidden />
-                </span>
-                <span className="tabular text-caption text-fg-3">{String(i + 1).padStart(2, "0")}</span>
-              </span>
-              <span>
-                <h3 className="text-title font-medium text-foreground">{title}</h3>
-                <p className="mt-1.5 text-ui text-fg-2">{body}</p>
-              </span>
-            </li>
-          ))}
-        </ol>
-        {/* The loop: Report feeds back into Track. */}
-        <svg
-          aria-hidden
-          viewBox="0 0 1000 60"
-          preserveAspectRatio="none"
-          className="mt-2 hidden h-12 w-full text-fg-3 lg:block"
-          fill="none"
-        >
-          <path
-            d="M875 4 V30 Q875 52 853 52 H147 Q125 52 125 30 V12"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeDasharray="4 5"
-            vectorEffect="non-scaling-stroke"
-          />
-          <path d="M119 16 L125 6 L131 16" stroke="currentColor" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
-        </svg>
-      </div>
+      <ul className="mt-10 grid gap-4 md:grid-cols-2">
+        {CARDS.map(({ title, lead, rest, Stage }) => (
+          <li key={title} className="reveal flex flex-col overflow-hidden rounded-3xl bg-surface">
+            <div aria-hidden className="h-[230px] border-b border-border bg-surface-sunken">
+              <Stage />
+            </div>
+            <div className="p-6">
+              <h3 className="text-title font-medium text-foreground">{title}</h3>
+              <p className="mt-1.5 text-body text-foreground">
+                {lead}
+                <span className="text-fg-3">{rest}</span>
+              </p>
+            </div>
+          </li>
+        ))}
+      </ul>
     </Section>
   );
 }

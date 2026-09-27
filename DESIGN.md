@@ -68,7 +68,8 @@ Geist Sans for everything; Geist Mono only for inline `code` in bot messages. Lo
 | `text-display-2xl` | 64 / 1.04, 500 | Hero H1 (lg) |
 | `text-display-xl` | 52 / 1.05 | Hero H1 (sm), sub-page H1 (sm+) |
 | `text-display-lg` | 40 / 1.08 | Hero H1 (mobile), sub-page H1, final CTA |
-| `text-heading-lg` | 36 / 1.12 | Section H2 (sm+) |
+| `text-heading-xl` | 44 / 1.1 | Section H2 (lg) |
+| `text-heading-lg` | 36 / 1.12 | Section H2 (sm) |
 | `text-heading` | 30 / 1.2 | Section H2 (mobile), sub-page H2 |
 | `text-title` | 20 / 1.4 | Card titles, team names |
 | `text-body-lg` / `text-body` | 18 / 16, 1.625 | Intros, body |
@@ -85,7 +86,7 @@ Geist Sans for everything; Geist Mono only for inline `code` in bot messages. Lo
 ## 4. Layout
 
 - Containers: `max-w-prose` (36rem), `max-w-copy` (42rem), `max-w-window` (49rem), `max-w-content` (64rem), `max-w-wide` (80rem).
-- Section rhythm: `<Section>` gives `px-4 py-20 sm:px-6 sm:py-28` and a centred container (`width="wide"` default, or `"content"`). `card` wraps content in `rounded-3xl bg-surface`.
+- Section rhythm: `<Section>` gives `px-4 py-20 sm:px-6 sm:py-24` and a centred container (`width="wide"` default, or `"content"`). `card` wraps content in `rounded-3xl bg-surface p-6 sm:p-10`, with the mock raised on it. Flows, groups, approvals, analytics and pricing sit in cards; teams, context and FAQ stay on the white page, so the rhythm alternates. Heading to mock: 40px.
 - `<SectionHeader title muted intro kicker align>` for every section heading.
 - Anchors get `scroll-margin-top` from `[id]` in globals, so the fixed 64px header never covers them.
 - Mobile first. Everything must work at 375px with a 16px gutter, no horizontal scroll, and tap targets of at least 44px (small pills extend their hit area with an `after:` inset).
@@ -97,6 +98,7 @@ Geist Sans for everything; Geist Mono only for inline `code` in bot messages. Lo
 - Radii: `2xs` 2, `xs` 4, `sm` 6, `md` 10, `lg` 12, `xl` 16, `2xl` 20, `3xl` 24, `4xl` 32. Buttons and pills are `rounded-full`. Section cards and the app window are `rounded-3xl`; flow cards `rounded-2xl`; bubbles and result cards `rounded-xl`; rows `rounded-md`.
 - Shadows: `shadow-e1` (resting card), `e2` (floating composer, tables), `e3` (menus), `e4` (modal), `shadow-window` (app window, phone), `shadow-knob` (switch).
 - `hairline` / `hairline-strong` draw a 1px inset ring instead of a border.
+- `hatch-faint` (4% ink, 5% white in dark) is the only page texture: the plate behind the hero window, masked to fade out at the bottom.
 - `fade-y` masks both edges of a scroller; `fade-t` masks only the top (chat transcripts that grow from the bottom).
 
 ---
@@ -197,7 +199,7 @@ Everything lives in [`src/components/product-mock/`](src/components/product-mock
 | 6 | `#approvals` | Bots draft. You decide. (plus the four bright lines) |
 | 7 | `#analytics` | See what every bot did, and why. |
 | 8 | `#context` | Your context, read first. |
-| 9 | `#how-it-works` | Every flow runs on one loop. |
+| 9 | `#how-it-works` | Every flow runs on one loop. (2×2 feature cards, each with a 230px live stage: sources checking in, actions mapping to goals, a status cycling off → running → needs you → done, bars per level) |
 | 10 | `#pricing` | Pay for the bots you run. |
 | 11 | `#faq` | Questions, answered. |
 | 12 | | Give your first bot a purpose. |

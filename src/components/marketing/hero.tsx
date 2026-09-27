@@ -74,10 +74,21 @@ export function Hero() {
             they're real and approved. */}
 
         <div
-          className="mt-10 w-full max-w-wide animate-rise-in text-left sm:mt-12"
+          className="relative mt-10 w-full max-w-wide animate-rise-in text-left sm:mt-12"
           style={{ animationDelay: "800ms", ["--rise-from" as string]: "-20px" }}
         >
-          <HeroDemo />
+          {/* Depth without hue: a faint hatched plate the window floats on. */}
+          <div
+            aria-hidden
+            className="hatch-faint absolute -inset-x-2 -top-4 bottom-[-48px] rounded-[32px] bg-surface sm:-inset-x-6 sm:-top-6"
+            style={{
+              maskImage: "linear-gradient(#000 55%, transparent)",
+              WebkitMaskImage: "linear-gradient(#000 55%, transparent)",
+            }}
+          />
+          <div className="relative">
+            <HeroDemo />
+          </div>
         </div>
       </div>
     </section>

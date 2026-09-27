@@ -19,12 +19,12 @@ export function Section({
   ...rest
 }: SectionProps) {
   return (
-    <section {...rest} className={cn("px-4 py-20 sm:px-6 sm:py-28", className)}>
+    <section {...rest} className={cn("px-4 py-20 sm:px-6 sm:py-24", className)}>
       <div
         className={cn(
           "mx-auto w-full",
           width === "content" ? "max-w-content" : "max-w-wide",
-          card && "rounded-3xl bg-surface p-6 sm:px-12 sm:py-10 lg:p-12",
+          card && "rounded-3xl bg-surface p-6 sm:p-10",
           containerClassName,
         )}
       >
@@ -62,7 +62,7 @@ export function SectionHeader({
       )}
     >
       {kicker ? <p className="text-ui-sm font-medium text-fg-3">{kicker}</p> : null}
-      <h2 className="text-heading text-foreground sm:text-heading-lg">
+      <h2 className="text-heading text-foreground sm:text-heading-lg lg:text-heading-xl">
         {title}
         {muted ? (
           <>

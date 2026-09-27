@@ -203,7 +203,7 @@ export function HeroDemo() {
             <div className="mx-auto flex w-full max-w-[600px] flex-col gap-4">
               {s.user ? <UserBubble text={INSTRUCTION} /> : null}
               {s.pending === "reply" ? <PendingRow label="thinking" /> : null}
-              {s.reply ? <BotBubble team="sales" text={REPLY} /> : null}
+              {s.reply ? <BotBubble team="sales" name="new bot" time="mon 16:40" text={REPLY} /> : null}
               {s.named ? <SystemLine text="named itself **champion tracker**" /> : null}
               {s.named ? (
                 <BotBubble team="sales">
@@ -220,7 +220,7 @@ export function HeroDemo() {
               {s.tomorrow ? <SystemLine timestamp text="tomorrow 07:02" /> : null}
               {s.pending === "found" ? <PendingRow label="checking the job-change feed" /> : null}
               {s.found ? (
-                <BotBubble team="sales" text={FOUND}>
+                <BotBubble team="sales" name="champion tracker" time="tue 07:02" text={FOUND}>
                   <ApprovalCard
                     strip={CHAMPION_NOTE.strip}
                     to={CHAMPION_NOTE.to}

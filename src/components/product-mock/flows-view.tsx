@@ -35,7 +35,7 @@ export function FlowsList({
             <BotAvatar team={bot.team} size={28} state={running?.botId === f.botId ? "working" : "idle"} />
             <span className="min-w-0 flex-1">
               <span className="block truncate text-ui-sm font-medium text-foreground">{bot.name}</span>
-              <span className="block truncate text-caption text-fg-3">
+              <span className="block truncate text-ui-sm text-fg-3">
                 {running?.botId === f.botId ? running.line : `${f.schedule} · last ${f.lastRun}`}
               </span>
             </span>
@@ -52,7 +52,7 @@ export function RunHistory({ runs, className }: { runs: Run[]; className?: strin
   return (
     <ul className={cn("flex flex-col gap-1.5", className)}>
       {runs.map((r) => (
-        <li key={r.id} className="flex items-center gap-2 text-caption">
+        <li key={r.id} className="flex items-center gap-2 text-ui-sm">
           <span className="w-24 shrink-0 text-fg-3 tabular">{r.when}</span>
           <StatusPill status={r.status} />
           <span className="truncate text-fg-2">{r.label}</span>

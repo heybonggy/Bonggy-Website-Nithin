@@ -95,7 +95,7 @@ export function FlowsSection() {
   };
 
   return (
-    <Section id="flows" aria-labelledby="flows-title">
+    <Section id="flows" card aria-labelledby="flows-title">
       <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-end">
         <SectionHeader
           title={<span id="flows-title">Every bot runs a flow you design.</span>}
@@ -108,7 +108,7 @@ export function FlowsSection() {
 
       <DemoFrame
         ref={frameRef}
-        className="reveal mt-12"
+        className="reveal mt-10"
         summary={SUMMARY}
         playing={player.playing}
         offscreen={player.offscreen}

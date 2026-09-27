@@ -70,7 +70,7 @@ export function AppWindow({
         {sidebar ? (
           <aside className="hidden w-[264px] shrink-0 flex-col border-r-[0.5px] border-border-strong bg-sidebar @min-[640px]:flex">
             <div className="p-3">
-              <span className="flex h-8 items-center gap-2 rounded-md bg-surface-2 px-2.5 text-caption text-fg-3">
+              <span className="flex h-8 items-center gap-2 rounded-md bg-surface-2 px-2.5 text-ui-sm text-fg-3">
                 <MagnifyingGlass className="size-3.5" aria-hidden />
                 search bots
               </span>
