@@ -97,7 +97,7 @@ export function BotBubble({
       <BotAvatar botId={botId} size={24} state={state} className="mt-0.5" />
       <div className={cn("flex min-w-0 max-w-[86%] flex-col gap-2", children && "flex-1")}>
         {name || time ? (
-          <p className="-mb-1 flex items-baseline gap-2 text-ui-sm">
+          <p data-bubble-head className="-mb-1 flex items-baseline gap-2 text-ui-sm">
             {name ? <BubbleName botId={botId} name={name} /> : null}
             {time ? <span className="text-caption text-fg-3">{time}</span> : null}
           </p>

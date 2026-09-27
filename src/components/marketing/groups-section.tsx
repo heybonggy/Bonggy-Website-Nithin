@@ -63,13 +63,19 @@ const SUMMARY =
 /** Pinned at the top of the group: what this group runs, and its last run. */
 function PinnedRun() {
   return (
-    <div className="flex items-center gap-3 rounded-xl bg-surface-raised px-3 py-2.5 text-ui-sm shadow-e1 hairline">
-      <PushPin weight="fill" className="size-4 shrink-0 text-fg-3" aria-hidden />
-      <span className="min-w-0 flex-1 truncate">
-        <span className="font-medium text-foreground">weekly handoff</span>
-        <span className="text-fg-3"> · fridays 16:00 · call pains → deal next steps</span>
-      </span>
-      <StatusPill status="done" label="last run · 3 pains handed off" className="hidden sm:inline-flex" />
+    <div className="relative z-10">
+      <div className="flex gap-3 rounded-xl bg-surface-raised px-3 py-2.5 text-ui-sm shadow-e1 hairline">
+        <PushPin weight="fill" className="mt-0.5 size-4 shrink-0 text-fg-3" aria-hidden />
+        <span className="flex min-w-0 flex-1 flex-col gap-1.5">
+          <span>
+            <span className="font-medium text-foreground">weekly handoff</span>
+            <span className="text-fg-3"> · fridays 16:00 · call pains → deal next steps</span>
+          </span>
+          <StatusPill status="done" label="last run · 3 pains handed off" className="self-start" />
+        </span>
+      </div>
+      {/* Messages scroll up under the pinned card through a soft 16px fade. */}
+      <span aria-hidden className="pointer-events-none absolute inset-x-0 top-full h-4 bg-gradient-to-b from-surface-raised to-transparent" />
     </div>
   );
 }

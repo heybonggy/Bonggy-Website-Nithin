@@ -501,6 +501,16 @@
   to { transform: translate(-50%, -50%) rotate(var(--a)) translateY(calc(var(--d, 1) * -30px)) scale(0.4); opacity: 0; }
 }
 
+/* Chat history above a live take: dims to 65% over 300ms, except the bot
+   name chips in bubble headers, which keep full contrast (TakeHistory). */
+.take-history :is(p, span.rounded-full, .bot-character, .rounded-xl):not([data-bubble-head]):not([data-bubble-head] *) {
+  opacity: 0.65;
+  animation: history-dim 300ms var(--ease-exit) both;
+}
+@keyframes history-dim {
+  from { opacity: 1; }
+}
+
 /* Scroll reveal for mocks and cards (not headings): transform only, never
    hidden, and only where scroll-driven animations exist. No JS. */
 @keyframes reveal-up {

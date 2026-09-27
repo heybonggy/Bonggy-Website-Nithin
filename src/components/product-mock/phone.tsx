@@ -119,24 +119,46 @@ export function PhoneTranscript({
   className?: string;
 }) {
   const ref = React.useRef<HTMLDivElement>(null);
+  const innerRef = React.useRef<HTMLDivElement>(null);
   const reduced = usePrefersReducedMotion();
-  React.useLayoutEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    if (follow === "bottom") {
-      el.scrollTo({ top: el.scrollHeight, behavior: reduced ? "auto" : "smooth" });
-      return;
-    }
-    const kids = [...el.children].filter((c) => !(c as HTMLElement).dataset.spacer);
-    const last = kids.at(-1);
-    if (!last) return;
-    const offset = last.getBoundingClientRect().top - el.getBoundingClientRect().top + el.scrollTop;
-    el.scrollTo({ top: Math.max(0, offset - 16), behavior: reduced ? "auto" : "smooth" });
-  }, [deps, reduced, follow]);
+
+  const scroll = React.useCallback(
+    (smooth: boolean) => {
+      const el = ref.current;
+      const inner = innerRef.current;
+      if (!el || !inner) return;
+      const behavior: ScrollBehavior = smooth && !reduced ? "smooth" : "auto";
+      if (follow === "bottom") {
+        el.scrollTo({ top: el.scrollHeight, behavior });
+        return;
+      }
+      const last = inner.lastElementChild;
+      if (!last) return;
+      const offset = last.getBoundingClientRect().top - el.getBoundingClientRect().top + el.scrollTop;
+      el.scrollTo({ top: Math.max(0, offset - 16), behavior });
+    },
+    [follow, reduced],
+  );
+
+  // New message: follow it.
+  React.useLayoutEffect(() => scroll(true), [deps, scroll]);
+
+  // Content that grows after mount (avatars, fonts, entrances) keeps the
+  // newest message in view too, so nothing ends up below the fold.
+  React.useEffect(() => {
+    const inner = innerRef.current;
+    if (!inner) return;
+    const ro = new ResizeObserver(() => scroll(false));
+    ro.observe(inner);
+    return () => ro.disconnect();
+  }, [scroll]);
+
   return (
     <div ref={ref} className={cn("fade-t flex min-h-0 flex-1 flex-col gap-3 overflow-hidden px-3 pb-3 pt-4 text-[14px]", className)}>
-      {children}
-      {follow === "top" ? <div aria-hidden data-spacer="1" className="h-[70%] shrink-0" /> : null}
+      <div ref={innerRef} className="flex shrink-0 flex-col gap-[inherit]">
+        {children}
+      </div>
+      {follow === "top" ? <div aria-hidden className="h-[70%] shrink-0" /> : null}
     </div>
   );
 }

@@ -129,7 +129,7 @@ export function ApprovalsSection() {
         <div ref={phoneRef} className="relative">
           <PhoneFrame plate={false}>
             <PhoneChatHeader title="Approvals" subtitle={`${items.filter((a) => a.status === "needs-you").length} need you`} />
-            <PhoneTranscript deps={s.approval} className="gap-3 px-2">
+            <PhoneTranscript deps={s.approval} className="gap-3 px-2 pb-9">
               <ApprovalsInbox items={items.slice(0, 2)} selectedId="a1" />
               <ApprovalCard
                 strip={CHAMPION_NOTE.strip}
