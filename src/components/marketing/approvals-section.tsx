@@ -84,7 +84,7 @@ export function ApprovalsSection() {
 
       <DemoFrame
         ref={frameRef}
-        className="mt-12"
+        className="reveal mt-12"
         summary={SUMMARY}
         playing={player.playing}
         offscreen={player.offscreen}

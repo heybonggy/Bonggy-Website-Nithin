@@ -139,6 +139,7 @@ function TakeDemo({ take, onDone }: { take: TeamTake; onDone: () => void }) {
   return (
     <DemoFrame
       ref={frameRef}
+      className="reveal"
       summary={summaryFor(take)}
       playing={player.playing}
       offscreen={player.offscreen}

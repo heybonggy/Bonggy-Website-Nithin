@@ -74,3 +74,35 @@ export function usePrefersReducedMotion(): boolean {
     () => false,
   );
 }
+
+/**
+ * Entrance state for content that animates in when scrolled into view,
+ * without ever hiding it from the server render, crawlers or no-JS:
+ * - "static": server render, reduced motion, or already on screen at mount.
+ * - "armed": hydrated and still off screen, so its pre-animation state
+ *   (zeros, hidden rows) can't be seen.
+ * - "go": scrolled into view; play the entrance.
+ */
+export function useEntrance(ref: React.RefObject<Element | null>, amount = 0.35): "static" | "armed" | "go" {
+  const reduced = usePrefersReducedMotion();
+  const [phase, setPhase] = React.useState<"static" | "armed" | "go">("static");
+  React.useEffect(() => {
+    const el = ref.current;
+    if (!el || reduced) return;
+    const r = el.getBoundingClientRect();
+    if (r.top < window.innerHeight && r.bottom > 0) return; // on screen at mount: leave static
+    setPhase("armed");
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.intersectionRatio >= amount) {
+          setPhase("go");
+          io.disconnect();
+        }
+      },
+      { threshold: [0, amount] },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [ref, amount, reduced]);
+  return reduced ? "static" : phase;
+}

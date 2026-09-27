@@ -2,6 +2,8 @@
 
 import * as React from "react";
 import NumberFlow from "@number-flow/react";
+import { AnimatePresence, motion } from "motion/react";
+import { EASE, SPRING, useEntrance } from "@/components/marketing/_motion";
 import { cn } from "@/lib/utils";
 import { BotAvatar, type Team } from "@/components/ui/mascot";
 import { ANALYTICS_ROWS, MEMORY_SOURCES, TEAM_LIST, botById, type AnalyticsRow } from "./data";
@@ -17,6 +19,13 @@ const FILTER_LABEL: Record<Filter, string> = { all: "All", sales: "Sales", revop
  */
 export function AnalyticsView({ rows = ANALYTICS_ROWS, className }: { rows?: AnalyticsRow[]; className?: string }) {
   const [filter, setFilter] = React.useState<Filter>("all");
+  const tableRef = React.useRef<HTMLDivElement>(null);
+  // Numbers start at 0 and bars at nothing while armed (off screen), then
+  // roll up when the table is 35% in view. The server render keeps the
+  // real values, so crawlers and no-JS readers never see zeros.
+  const entrance = useEntrance(tableRef, 0.35);
+  const zero = entrance === "armed";
+  const n = (v: number) => (zero ? 0 : v);
   const withBots = rows.map((r) => ({ ...r, bot: botById(r.botId) }));
   const count = (f: Filter) => (f === "all" ? withBots.length : withBots.filter((r) => r.bot.team === f).length);
   const shown = filter === "all" ? withBots : withBots.filter((r) => r.bot.team === filter);
@@ -29,7 +38,7 @@ export function AnalyticsView({ rows = ANALYTICS_ROWS, className }: { rows?: Ana
 
   return (
     <div className={cn("grid gap-6 lg:grid-cols-[minmax(0,1fr)_260px]", className)}>
-      <div className="min-w-0 rounded-3xl bg-surface-raised p-4 shadow-e2 hairline sm:p-6">
+      <div ref={tableRef} className="reveal min-w-0 rounded-3xl bg-surface-raised p-4 shadow-e2 hairline sm:p-6">
         <div role="group" aria-label="Filter by team" className="flex flex-wrap gap-2">
           {filters.map((f) => {
             const active = f === filter;
@@ -70,8 +79,17 @@ export function AnalyticsView({ rows = ANALYTICS_ROWS, className }: { rows?: Ana
               </tr>
             </thead>
             <tbody>
-              {shown.map((r) => (
-                <tr key={r.botId} className="animate-row-in border-b border-border align-top">
+              <AnimatePresence initial={false} mode="popLayout">
+              {shown.map((r, i) => (
+                <motion.tr
+                  key={r.botId}
+                  layout
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ layout: SPRING.layout, opacity: { duration: 0.2 } }}
+                  className="border-b border-border align-top"
+                >
                   <th scope="row" className="py-3 pr-2 font-normal">
                     <span className="flex items-center gap-2">
                       <BotAvatar team={r.bot.team} size={24} />
@@ -81,31 +99,44 @@ export function AnalyticsView({ rows = ANALYTICS_ROWS, className }: { rows?: Ana
                       </span>
                     </span>
                     <span aria-hidden className="mt-2 block h-1 overflow-hidden rounded-full bg-status-track">
-                      <span className="block h-full rounded-full bg-status-ink" style={{ width: `${(r.runs / maxRuns) * 100}%` }} />
+                      <motion.span
+                        className="block h-full origin-left rounded-full bg-status-ink"
+                        style={{ width: `${(r.runs / maxRuns) * 100}%` }}
+                        initial={false}
+                        animate={{ scaleX: zero ? 0 : 1 }}
+                        transition={{ duration: 0.7, ease: EASE.outExpo, delay: entrance === "go" ? i * 0.06 : 0 }}
+                      />
                     </span>
                   </th>
                   <td className="hidden py-3 text-fg-2 md:table-cell">{r.bot.team}</td>
-                  <td className="tabular py-3 text-right text-foreground">{r.runs}</td>
-                  <td className="tabular py-3 text-right text-foreground">{r.approved}</td>
-                  <td className="tabular py-3 text-right text-foreground">{r.hours}</td>
+                  <td className="tabular py-3 text-right text-foreground">
+                    <NumberFlow value={n(r.runs)} />
+                  </td>
+                  <td className="tabular py-3 text-right text-foreground">
+                    <NumberFlow value={n(r.approved)} />
+                  </td>
+                  <td className="tabular py-3 text-right text-foreground">
+                    <NumberFlow value={n(r.hours)} format={{ maximumFractionDigits: 1 }} />
+                  </td>
                   <td className="hidden py-3 pl-6 lg:table-cell">
                     <GoalTag goal={r.goal} />
                   </td>
-                </tr>
+                </motion.tr>
               ))}
+              </AnimatePresence>
             </tbody>
             <tfoot>
               <tr className="text-foreground">
                 <th scope="row" className="py-3 font-medium">Total</th>
                 <td className="hidden md:table-cell" />
                 <td className="tabular py-3 text-right font-medium">
-                  <NumberFlow value={total.runs} />
+                  <NumberFlow value={n(total.runs)} />
                 </td>
                 <td className="tabular py-3 text-right font-medium">
-                  <NumberFlow value={total.approved} />
+                  <NumberFlow value={n(total.approved)} />
                 </td>
                 <td className="tabular py-3 text-right font-medium">
-                  <NumberFlow value={total.hours} format={{ maximumFractionDigits: 1 }} />
+                  <NumberFlow value={n(total.hours)} format={{ maximumFractionDigits: 1 }} />
                 </td>
                 <td className="hidden lg:table-cell" />
               </tr>
@@ -115,7 +146,7 @@ export function AnalyticsView({ rows = ANALYTICS_ROWS, className }: { rows?: Ana
         <p className="mt-3 text-caption text-fg-3">demo data</p>
       </div>
 
-      <div className="self-start rounded-3xl bg-surface p-5 sm:p-6">
+      <div className="reveal self-start rounded-3xl bg-surface p-5 sm:p-6">
         <h3 className="text-ui font-semibold text-foreground">What bots read</h3>
         <p className="mt-1 text-ui-sm text-fg-2">Every fact a bot uses links back to its source.</p>
         <ul className="mt-4 flex flex-col divide-y divide-border">

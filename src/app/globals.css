@@ -345,6 +345,7 @@
   --animate-word-in: word-in 650ms var(--ease-out-expo) both;
   --animate-rise-in: rise-in 700ms var(--ease-out-expo) both;
   --animate-blink: blink 5.2s var(--ease-standard) infinite;
+  --animate-bar-draw: bar-draw 450ms var(--ease-out-expo) both;
 
   @keyframes typing-dot {
     0%, 55%, 100% { opacity: 0.25; }
@@ -388,6 +389,9 @@
   @keyframes blink {
     0%, 93%, 100% { transform: scaleY(1); }
     95.5% { transform: scaleY(0.1); }
+  }
+  @keyframes bar-draw {
+    from { transform: scaleY(0); }
   }
   @keyframes caret {
     0%, 50% { opacity: 1; }
@@ -447,6 +451,21 @@
   background-image: linear-gradient(90deg, transparent 0%, var(--sweep-ink) 45%, transparent 55%, transparent 100%);
   background-size: 250% 100%;
   background-repeat: no-repeat;
+}
+
+/* Scroll reveal for mocks and cards (not headings): transform only, never
+   hidden, and only where scroll-driven animations exist. No JS. */
+@keyframes reveal-up {
+  from { transform: translateY(24px) scale(0.985); }
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      animation: reveal-up linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 30%;
+    }
+  }
 }
 
 /* Offscreen demos pause their CSS animations. */

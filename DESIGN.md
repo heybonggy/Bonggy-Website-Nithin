@@ -141,6 +141,13 @@ Rules:
 - Only one scripted take runs at a time: `useLoopFocus` gives focus to the looping section covering most of the viewport (at least 12%). Sections start at 25% in view after 400ms.
 - **Ambient motion** runs whenever a window is on screen, independent of takes and loop focus ([`ambient.tsx`](src/components/product-mock/ambient.tsx)): one sidebar row always running (live dot, a preview that cycles every 1.8s with typing dots), one row with a "needs you" pill, and the group handoff pill cycling every 2.3s. It pauses off screen and on hidden tabs, and is static under reduced motion. Off-screen demos get `data-demo-offscreen`, which pauses CSS animations.
 
+### Entrances
+
+- `useEntrance(ref, amount)` returns `static` (server render, reduced motion, or already on screen at mount), `armed` (hydrated and still off screen) or `go` (scrolled into view). Pre-animation states (zeros, hidden rows) only apply while `armed`, so crawlers and no-JS readers always get the real content.
+- Analytics: every number rolls from 0 with NumberFlow when the table is 35% in view, and again on each filter change. Run bars grow scaleX 0→1 (700ms outExpo, 60ms stagger). Filtered rows animate with layout + `SPRING.layout`.
+- Pricing checks and labels enter 90ms apart. Context rows enter with `row-in`, and override bars draw top to bottom (`bar-draw`, 450ms). The final CTA composer types its line once. The footer mascot blinks once in view.
+- **Scroll reveal.** Mocks and cards (never headings) carry `.reveal`: `translateY(24px) scale(.985)` → none on a `view()` timeline (entry 0% to cover 30%). It's transform only, never hidden, lives inside `@supports (animation-timeline: view())`, and is off under reduced motion.
+
 ### Scripted demos
 
 [`demo/player.ts`](src/components/product-mock/demo/player.ts) plays a timeline of `{ action, hold }` steps. State is the reduction of every applied action, so the end state (shown to reduced motion, on skip, and as the fallback) is always complete.

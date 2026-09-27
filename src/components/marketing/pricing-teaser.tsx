@@ -1,7 +1,7 @@
-import { Check } from "@phosphor-icons/react/dist/ssr";
 import { Section, SectionHeader } from "./section";
 import { CtaButton } from "./cta-button";
 import { EarlyAccessCta } from "./early-access-cta";
+import { IncludedList } from "./included-list";
 
 // TODO(pricing): no plans or numbers yet. Replace with real tiers once set
 // with early-access teams. Keep JSON-LD free of offers/prices until then.
@@ -31,16 +31,9 @@ export function PricingTeaser() {
             <EarlyAccessCta size="lg" variant="soft" />
           </div>
         </div>
-        <div className="self-center rounded-2xl bg-background p-5 sm:p-6">
+        <div className="reveal self-center rounded-2xl bg-background p-5 sm:p-6">
           <h3 className="text-ui font-semibold text-foreground">Included</h3>
-          <ul className="mt-4 flex flex-col gap-3">
-            {INCLUDED.map((item) => (
-              <li key={item} className="flex items-start gap-3 text-ui text-fg-2">
-                <Check weight="bold" className="mt-0.5 size-4 shrink-0 text-foreground" aria-hidden />
-                {item}
-              </li>
-            ))}
-          </ul>
+          <IncludedList items={INCLUDED} />
         </div>
       </div>
     </Section>

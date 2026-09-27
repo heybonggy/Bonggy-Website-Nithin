@@ -23,7 +23,7 @@ export function TeamsSection() {
               </h3>
               <ul className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
                 {bots.map((b) => (
-                  <li key={b.id} className="flex flex-col gap-2 rounded-2xl bg-surface p-4">
+                  <li key={b.id} className="reveal flex flex-col gap-2 rounded-2xl bg-surface p-4">
                     <span className="flex items-center justify-between gap-2">
                       <span className="text-ui font-semibold text-foreground">{b.name}</span>
                       <span className="shrink-0 text-caption text-fg-3">{b.role}</span>

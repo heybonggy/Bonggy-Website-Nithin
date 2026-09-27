@@ -1,4 +1,4 @@
-import { ChatComposer } from "@/components/product-mock/chat-composer";
+import { CtaComposer } from "./cta-composer";
 import { CtaButton } from "./cta-button";
 import { EarlyAccessCta } from "./early-access-cta";
 
@@ -6,7 +6,7 @@ import { EarlyAccessCta } from "./early-access-cta";
 export function FinalCta() {
   return (
     <section aria-labelledby="final-cta-title" className="px-4 py-20 sm:px-6 sm:py-28">
-      <div className="mx-auto flex w-full max-w-wide flex-col items-center rounded-3xl bg-surface px-6 py-16 text-center sm:px-12 sm:py-24">
+      <div className="reveal mx-auto flex w-full max-w-wide flex-col items-center rounded-3xl bg-surface px-6 py-16 text-center sm:px-12 sm:py-24">
         <h2 id="final-cta-title" className="max-w-[16ch] text-balance text-display-lg text-foreground">
           Give your first bot a purpose.
         </h2>
@@ -19,9 +19,7 @@ export function FinalCta() {
             Book a 30-min call
           </CtaButton>
         </div>
-        <div aria-hidden className="mt-12 w-full max-w-[520px] text-left">
-          <ChatComposer caret />
-        </div>
+        <CtaComposer />
       </div>
     </section>
   );

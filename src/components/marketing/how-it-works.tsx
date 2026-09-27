@@ -16,7 +16,7 @@ export function HowItWorks() {
       <div className="relative mt-12">
         <ol className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {STEPS.map(({ Icon, title, body }, i) => (
-            <li key={title} className="relative flex flex-col gap-6 rounded-2xl bg-surface p-5 sm:p-6">
+            <li key={title} className="reveal relative flex flex-col gap-6 rounded-2xl bg-surface p-5 sm:p-6">
               <span className="flex items-center justify-between">
                 <span className="inline-flex size-9 items-center justify-center rounded-full bg-background text-foreground hairline">
                   <Icon className="size-4.5" aria-hidden />
