@@ -69,7 +69,7 @@ function AlignStage() {
             <span
               className={cn(
                 "inline-flex h-5 shrink-0 items-center gap-1 rounded-full px-2 text-caption transition-colors duration-300",
-                mapped ? "bg-surface-inverse text-fg-inverse" : "bg-surface-2 text-fg-3",
+                mapped ? "bg-surface-inverse text-fg-inverse" : "border border-dashed border-border-strong bg-surface-2 text-fg-3",
               )}
             >
               <Target className="size-3" aria-hidden />
@@ -105,9 +105,9 @@ function NudgeStage() {
 }
 
 const REPORT_ROWS = [
-  { who: "rep", value: 72 },
-  { who: "manager", value: 64 },
-  { who: "cro", value: 88 },
+  { who: "q4 new pipeline", value: 72 },
+  { who: "q4 enterprise logos", value: 64 },
+  { who: "pipeline from inbound", value: 88 },
 ];
 
 function ReportStage() {
@@ -118,8 +118,11 @@ function ReportStage() {
       {REPORT_ROWS.map((r) => {
         const v = frame === 0 ? Math.round(r.value * 0.7) : r.value;
         return (
-          <div key={r.who} className="grid grid-cols-[72px_1fr_44px] items-center gap-3 text-ui-sm">
-            <span className="text-fg-3">{r.who}</span>
+          <div key={r.who} className="grid grid-cols-[minmax(0,150px)_1fr_44px] items-center gap-3 text-ui-sm">
+            <span className="flex min-w-0 items-center gap-1.5 text-foreground">
+              <Target className="size-3.5 shrink-0 text-fg-3" aria-hidden />
+              <span className="truncate">{r.who}</span>
+            </span>
             <span className="h-1.5 overflow-hidden rounded-full bg-status-track">
               <span
                 className="block h-full origin-left rounded-full bg-status-ink transition-transform duration-700 ease-out-expo"
@@ -132,7 +135,7 @@ function ReportStage() {
           </div>
         );
       })}
-      <p className="text-caption text-fg-3">work on goal, by level · demo data</p>
+      <p className="text-caption text-fg-3">progress on each goal · demo data</p>
     </div>
   );
 }
@@ -140,8 +143,8 @@ function ReportStage() {
 const CARDS = [
   { title: "Track", lead: "Bots read activity", rest: " across the tools you connect.", Stage: TrackStage },
   { title: "Align", lead: "Every action", rest: " maps to a revenue goal.", Stage: AlignStage },
-  { title: "Nudge", lead: "Drift gets flagged with a next move,", rest: " and a person decides.", Stage: NudgeStage },
-  { title: "Report", lead: "One picture from rep to CRO,", rest: " with no leaderboards.", Stage: ReportStage },
+  { title: "Nudge", lead: "Drift gets flagged with a suggested next step.", rest: " A person decides.", Stage: NudgeStage },
+  { title: "Report", lead: "One view of work against goals, from rep to CRO.", rest: " No leaderboards.", Stage: ReportStage },
 ];
 
 /** #how-it-works: the loop every flow runs on, as four live cards. */
