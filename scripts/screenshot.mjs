@@ -20,7 +20,7 @@ const browser = await chromium.launch(
 
 const WIDTHS = [375, 768, 1280, 1440];
 const SECTIONS = [
-  "top", "what-we-do", "flows", "agents", "make-it-yours", "groups", "approvals",
+  "top", "teams", "flows", "agents", "make-it-yours", "groups", "approvals",
   "analytics", "context", "how-it-works", "pricing", "faq",
 ];
 const PAGES = [

@@ -94,10 +94,12 @@ function TeamColumn({ team }: { team: (typeof TEAM_LIST)[number]["id"] }) {
   );
 }
 
-/** #what-we-do: three teams, the bots each one runs, and what they're doing. */
+/** #teams (formerly #what-we-do): three teams, the bots each one runs, and what they're doing. */
 export function TeamsSection() {
   return (
-    <Section id="what-we-do" aria-labelledby="teams-title">
+    <Section id="teams" aria-labelledby="teams-title">
+      {/* Old links to #what-we-do still land here. */}
+      <span id="what-we-do" aria-hidden className="block" />
       <SectionHeader
         title={<span id="teams-title">One workspace. Three teams.</span>}
         intro="Sales, RevOps and marketing teams each build bots for their own work. Every bot answers to a revenue goal."

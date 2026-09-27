@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { Logo } from "@/components/ui/logo";
 import { CtaButton, CAL_LINK } from "./cta-button";
 import { SPRING } from "./_motion";
+import { hashOf, useScrollSpy } from "./scroll-spy";
 import { ThemeSegmented, ThemeToggle } from "./theme-toggle";
 
 type NavLink = { label: string; href: string };
@@ -21,16 +22,21 @@ const PRODUCT: NavLink[] = [
 ];
 
 const LINKS: NavLink[] = [
-  { label: "Teams", href: "/#what-we-do" },
+  { label: "Teams", href: "/#teams" },
   { label: "How it works", href: "/#how-it-works" },
   { label: "Pricing", href: "/#pricing" },
   { label: "FAQ", href: "/#faq" },
 ];
 
+// Links go from fg-2 to full ink on hover / focus-visible (150ms) with the
+// surface-2 pill; the section in view (scrollspy) gets the same treatment.
 const LINK_CLASS =
-  "inline-flex h-9 items-center gap-1 rounded-full px-3 text-ui-sm font-medium text-fg-2 transition-colors duration-[var(--dur-instant)] hover:bg-wash-hover hover:text-foreground";
+  "inline-flex h-9 items-center gap-1 rounded-full px-3 text-ui-sm font-medium text-fg-2 transition-colors duration-150 hover:bg-surface-2 hover:text-foreground focus-visible:bg-surface-2 focus-visible:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring aria-[current=true]:bg-surface-2 aria-[current=true]:text-foreground";
+
+const SPY_IDS = [...PRODUCT, ...LINKS].map((l) => hashOf(l.href)).filter((x): x is string => !!x);
 
 export function Navbar() {
+  const active = useScrollSpy(SPY_IDS);
   const [scrolled, setScrolled] = React.useState(false);
   const [menuOpen, setMenuOpen] = React.useState(false);
 
@@ -76,9 +82,9 @@ export function Navbar() {
           </Link>
 
           <nav aria-label="Primary" className="hidden items-center lg:flex">
-            <ProductMenu />
+            <ProductMenu active={active} />
             {LINKS.map((l) => (
-              <Link key={l.href} href={l.href} className={LINK_CLASS}>
+              <Link key={l.href} href={l.href} className={LINK_CLASS} aria-current={active === hashOf(l.href) ? "true" : undefined}>
                 {l.label}
               </Link>
             ))}
@@ -143,7 +149,7 @@ export function Navbar() {
 }
 
 /** "Product" disclosure: anchors to the product sections on the homepage. */
-function ProductMenu() {
+function ProductMenu({ active }: { active: string | null }) {
   const [open, setOpen] = React.useState(false);
   const ref = React.useRef<HTMLDivElement>(null);
   const id = React.useId();
@@ -170,6 +176,7 @@ function ProductMenu() {
         aria-controls={id}
         onClick={() => setOpen((v) => !v)}
         onMouseEnter={() => setOpen(true)}
+        aria-current={PRODUCT.some((l) => hashOf(l.href) === active) ? "true" : undefined}
         className={cn(LINK_CLASS, open && "text-foreground")}
       >
         Product
@@ -190,7 +197,8 @@ function ProductMenu() {
                 <Link
                   href={l.href}
                   onClick={() => setOpen(false)}
-                  className="flex h-9 items-center rounded-md px-3 text-ui-sm font-medium text-foreground hover:bg-wash-hover"
+                  aria-current={active === hashOf(l.href) ? "true" : undefined}
+                  className="flex h-9 items-center rounded-md px-3 text-ui-sm font-medium text-fg-2 transition-colors duration-150 hover:bg-surface-2 hover:text-foreground focus-visible:bg-surface-2 focus-visible:text-foreground focus-visible:outline-2 focus-visible:outline-ring aria-[current=true]:bg-surface-2 aria-[current=true]:text-foreground"
                 >
                   {l.label}
                 </Link>

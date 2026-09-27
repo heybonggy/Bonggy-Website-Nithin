@@ -37,7 +37,7 @@ URL=http://localhost:3000 node scripts/screenshot.mjs
 
 | Route | What's there |
 |---|---|
-| `/` | Hero (a bot builds from your sentence, `#top`) → Teams (`#what-we-do`) → Flows (`#flows`) → A bot for every job (`#agents`) → Groups (`#groups`) → Approvals and bright lines (`#approvals`) → Analytics (`#analytics`) → Company context (`#context`) → How it works (`#how-it-works`) → Pricing (`#pricing`) → FAQ (`#faq`) → Final CTA |
+| `/` | Hero (a bot builds from your sentence, `#top`) → Teams (`#teams`) → Flows (`#flows`) → A bot for every job (`#agents`) → Groups (`#groups`) → Approvals and bright lines (`#approvals`) → Analytics (`#analytics`) → Company context (`#context`) → How it works (`#how-it-works`) → Pricing (`#pricing`) → FAQ (`#faq`) → Final CTA |
 | `/about` | Mission and principles |
 | `/contact` | Strategy call link + email |
 | `/careers` | Pitch form (writes to Sheets) |

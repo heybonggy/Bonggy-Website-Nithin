@@ -230,6 +230,7 @@ Everything lives in [`src/components/product-mock/`](src/components/product-mock
 
 - **Buttons** ([`cta-button.tsx`](src/components/marketing/cta-button.tsx)): pills. `primary` (inverse), `soft` (surface-2), `outline`, `ghost`; sizes sm/md/lg. External links open in a new tab with an arrow and sr-only note. Default copy: "Book a strategy call" (navbar: "Strategy call"). Every call CTA points at the one `CAL_LINK`. Each block has one primary CTA: navbar pill; hero button plus a quiet "see how it works ↓" link; pricing; the final CTA with its composer.
 - **Header:** fixed 64px, blurs after 8px of scroll, Product menu (Bots, Flows, Approvals, Analytics), Teams, How it works, Pricing, FAQ; full-screen sheet below lg.
+- **Link states.** Navbar and footer links go from fg-2 to full ink on hover and focus-visible (150ms), with the surface-2 pill in the navbar and a 1px underline (2px offset) in the footer, plus a visible focus ring. **Scrollspy** ([`scroll-spy.ts`](src/components/marketing/scroll-spy.ts)): the homepage section in the middle band of the viewport (rootMargin `-45% 0px -50% 0px`) gets `aria-current="true"` and the pill, including the Product menu items.
 - **Footer:** the logo lockup, "Your process, not ours.", four link columns.
 - **Final CTA composer** ([`cta-composer.tsx`](src/components/marketing/cta-composer.tsx)): a labelled textarea ("What should your first bot do?"), 16px text, `enterkeyhint="send"`, 280 characters max. Enter submits and Shift+Enter adds a newline; an empty submit shakes with a hint. On submit it opens `CAL_LINK` in a new tab with `notes=` prefilled (cal.com's "Additional notes", verified), keeps the text in sessionStorage, and calls `trackEvent("cta_purpose_submit")` (a no-op in `lib/track.ts`). A typewriter shows the placeholder until the field is focused or has text, and never types over the user. Reduced motion shows the placeholder only.
 - **FAQ:** base-ui accordion, hairline dividers, plus icon turns 45°. FAQPage JSON-LD is generated from the same array.
@@ -242,7 +243,7 @@ Everything lives in [`src/components/product-mock/`](src/components/product-mock
 | # | Anchor | Section |
 |---|---|---|
 | 1 | `#top` | Hero: a bot builds from your sentence (Boomerang) |
-| 2 | `#what-we-do` | One workspace. Three teams. (three team columns: the team's bots as compact rows with a live status that alternates between two real moments, staggered 300–700ms per row; one line on what the team gets; clicking a bot opens it in the customiser) |
+| 2 | `#teams` (old `#what-we-do` still lands here) | One workspace. Three teams. (three team columns: the team's bots as compact rows with a live status that alternates between two real moments, staggered 300–700ms per row; one line on what the team gets; clicking a bot opens it in the customiser) |
 | 3 | `#flows` | Every bot runs a flow you design. |
 | 4 | `#agents` | A bot for every job (Flows teams have built) |
 | 4b | `#make-it-yours` | Make it yours. (the customiser, §7.21) |

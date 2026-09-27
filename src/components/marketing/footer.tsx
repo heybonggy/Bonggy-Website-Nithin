@@ -5,7 +5,7 @@ const COLUMNS: { heading: string; items: { label: string; href: string }[] }[] =
   {
     heading: "Product",
     items: [
-      { label: "What we do", href: "/#what-we-do" },
+      { label: "Teams", href: "/#teams" },
       { label: "Flows", href: "/#flows" },
       { label: "How it works", href: "/#how-it-works" },
       { label: "Pricing", href: "/#pricing" },
@@ -60,7 +60,7 @@ export function Footer() {
                   <li key={it.label}>
                     <Link
                       href={it.href}
-                      className="inline-flex min-h-11 items-center text-ui text-fg-2 transition-colors hover:text-foreground pointer-fine:min-h-8"
+                      className="inline-flex min-h-11 items-center rounded-xs text-ui text-fg-2 underline-offset-2 transition-colors duration-150 hover:text-foreground hover:underline focus-visible:text-foreground focus-visible:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring pointer-fine:min-h-8"
                     >
                       {it.label}
                     </Link>
