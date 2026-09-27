@@ -64,7 +64,7 @@ export function ScriptedCursor({
             ) : null}
           </AnimatePresence>
           <svg width="18" height="20" viewBox="0 0 18 20" className="relative drop-shadow-sm">
-            <path d="M1 1 L1 16 L5.5 12 L8.5 19 L11 18 L8 11 L14 11 Z" fill="var(--gray-950)" stroke="white" strokeWidth="1.25" strokeLinejoin="round" />
+            <path d="M1 1 L1 16 L5.5 12 L8.5 19 L11 18 L8 11 L14 11 Z" fill="var(--foreground)" stroke="var(--background)" strokeWidth="1.25" strokeLinejoin="round" />
           </svg>
           <span className="absolute left-4 top-4 rounded-full bg-surface-inverse px-1.5 py-0.5 text-micro font-medium text-fg-inverse">
             you

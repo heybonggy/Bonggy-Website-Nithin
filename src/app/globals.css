@@ -42,6 +42,7 @@
   --surface-3: var(--gray-150);
   --surface-raised: var(--gray-0);
   --surface-inverse: var(--gray-950);
+  --surface-sunken: var(--gray-25); /* mock sidebars, code */
   --overlay: rgb(0 0 0 / 0.38);
 
   /* text */
@@ -74,6 +75,8 @@
   --status-muted: var(--gray-600);
   --status-track: var(--gray-200);
   --hatch: repeating-linear-gradient(135deg, rgb(10 10 10 / 0.18) 0 1px, transparent 1px 5px);
+  --hatch-faint: repeating-linear-gradient(135deg, rgb(10 10 10 / 0.04) 0 1px, transparent 1px 6px);
+  --sweep-ink: rgb(10 10 10 / 0.12);
 
   /* the one functional accent: errors + destructive confirmation only */
   --danger: #b42318; /* 6.6:1 on white */
@@ -98,7 +101,7 @@
   --chart-3: var(--gray-500);
   --chart-4: var(--gray-300);
   --chart-5: var(--gray-150);
-  --sidebar: var(--gray-25);
+  --sidebar: var(--surface-sunken);
   --sidebar-foreground: var(--foreground);
   --sidebar-primary: var(--gray-950);
   --sidebar-primary-foreground: var(--gray-0);
@@ -117,59 +120,77 @@
   :root { --site-frame-inset: 8px; }
 }
 
-/* 3. Semantic tokens: dark (optional; opt in with <html class="dark">) */
+/* 3. Semantic tokens: graphite dark (html.dark). Grey, not black. */
 .dark {
   color-scheme: dark;
-  --background: var(--gray-950);
-  --surface: var(--gray-900);
-  --surface-2: var(--gray-850);
-  --surface-3: var(--gray-800);
-  --surface-raised: #1b1b1b;
-  --surface-inverse: #ededed;
-  --overlay: rgb(0 0 0 / 0.6);
-
-  --foreground: #ededed;
-  --foreground-2: var(--gray-400);
-  --foreground-3: var(--gray-500);
-  --foreground-disabled: var(--gray-700);
-  --foreground-inverse: var(--gray-950);
-
-  --border: rgb(255 255 255 / 0.1);
+  --background: #1b1b1b;          /* page */
+  --surface: #202020;             /* section cards */
+  --surface-2: #262626;           /* soft buttons, pills, inputs */
+  --surface-3: #2e2e2e;           /* hover on soft */
+  --surface-raised: #242424;      /* app window, popovers, cards on surface */
+  --surface-sunken: #161616;      /* mock sidebars, code */
+  --surface-inverse: #edecec;     /* primary button, "needs you" pill */
+  --overlay: rgb(0 0 0 / 0.55);
+  --foreground: #edecec;          /* 14.6:1 on bg, 11.5:1 on surface-3 */
+  --foreground-2: #a8a8a6;        /* 7.2:1 on bg, 5.7:1 on surface-3 */
+  --foreground-3: #9a9a98;        /* 6.1:1 on bg, 4.8:1 on surface-3 */
+  --foreground-disabled: #6e6e6c; /* decorative only */
+  --foreground-inverse: #141414;
+  --border: rgb(255 255 255 / 0.10);
   --border-strong: rgb(255 255 255 / 0.18);
-  --border-inverse: rgb(10 10 10 / 0.16);
+  --border-inverse: rgb(20 20 20 / 0.16);
   --input: rgb(255 255 255 / 0.14);
-  --ring: rgb(255 255 255 / 0.4);
-
+  --ring: rgb(255 255 255 / 0.45);
   --wash-hover: rgb(255 255 255 / 0.05);
   --wash-active: rgb(255 255 255 / 0.09);
-  --wash-selected: rgb(255 255 255 / 0.07);
-
-  --bubble-user: #ededed;
-  --bubble-user-ink: var(--gray-950);
+  --wash-selected: rgb(255 255 255 / 0.075);
+  --bubble-user: #ecece8;
+  --bubble-user-ink: #141414;
   --bubble-bot: rgb(255 255 255 / 0.06);
-  --bubble-bot-ink: #ededed;
-
-  --status-ink: #ededed;
-  --status-muted: var(--gray-500);
-  --status-track: var(--gray-800);
-  --hatch: repeating-linear-gradient(135deg, rgb(255 255 255 / 0.22) 0 1px, transparent 1px 5px);
-
-  --danger: #f97066;
+  --bubble-bot-ink: #edecec;
+  --status-ink: #edecec;
+  --status-muted: #9a9a98;
+  --status-track: #333333;
+  --hatch: repeating-linear-gradient(135deg, rgb(255 255 255 / 0.20) 0 1px, transparent 1px 5px);
+  --hatch-faint: repeating-linear-gradient(135deg, rgb(255 255 255 / 0.05) 0 1px, transparent 1px 6px);
+  --sweep-ink: rgb(255 255 255 / 0.12);
+  --danger: #f97066;              /* 6.2:1 on bg, 5.4:1 on surface-2 */
   --danger-wash: rgb(249 112 102 / 0.12);
-
+  /* elevation: darker drops plus a 1px top highlight so raised things read on grey */
+  --shadow-e1: 0 1px 2px rgb(0 0 0 / 0.4);
+  --shadow-e2: inset 0 1px 0 rgb(255 255 255 / 0.05), 0 1px 2px rgb(0 0 0 / 0.4), 0 14px 36px -10px rgb(0 0 0 / 0.6);
+  --shadow-e3: 0 0 0 0.5px rgb(255 255 255 / 0.08), 0 14px 40px rgb(0 0 0 / 0.5);
+  --shadow-e4: 0 0 0 0.5px rgb(255 255 255 / 0.08), 0 20px 52px -16px rgb(0 0 0 / 0.7);
+  --shadow-window: 0 0 0 1px rgb(255 255 255 / 0.08), inset 0 1px 0 rgb(255 255 255 / 0.06), 0 24px 60px -12px rgb(0 0 0 / 0.65), 0 8px 20px -8px rgb(0 0 0 / 0.5);
+  --shadow-knob: 0 1px 2px rgb(0 0 0 / 0.5);
+  /* shadcn compatibility */
   --card: var(--surface);
+  --card-foreground: var(--foreground);
   --popover: var(--surface-raised);
-  --primary: #ededed;
-  --primary-foreground: var(--gray-950);
+  --popover-foreground: var(--foreground);
+  --primary: #edecec;
+  --primary-foreground: #141414;
   --secondary: var(--surface-2);
+  --secondary-foreground: var(--foreground);
   --muted: var(--surface);
+  --muted-foreground: var(--foreground-2);
   --accent: var(--surface-2);
-  --chart-1: #ededed;
-  --chart-2: var(--gray-400);
-  --chart-3: var(--gray-600);
-  --chart-4: var(--gray-800);
-  --chart-5: var(--gray-850);
-  --sidebar: #111111;
+  --accent-foreground: var(--foreground);
+  --destructive: var(--danger);
+  --chart-1: #edecec; --chart-2: #a8a8a6; --chart-3: #7a7a78; --chart-4: #4a4a4a; --chart-5: #333333;
+  --sidebar: var(--surface-sunken);
+  --sidebar-foreground: rgb(255 255 255 / 0.90);
+  --sidebar-primary: #edecec;
+  --sidebar-primary-foreground: #141414;
+  --sidebar-accent: var(--wash-selected);
+  --sidebar-accent-foreground: var(--foreground);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--ring);
+}
+
+/* One frame without transitions while the theme flips (theme.ts). */
+.theme-switching, .theme-switching *, .theme-switching *::before, .theme-switching *::after {
+  transition: none !important;
 }
 
 /* 4. Tailwind v4 theme mapping */
@@ -181,6 +202,7 @@
   --color-surface-3: var(--surface-3);
   --color-surface-raised: var(--surface-raised);
   --color-surface-inverse: var(--surface-inverse);
+  --color-surface-sunken: var(--surface-sunken);
   --color-overlay: var(--overlay);
   --color-fg-2: var(--foreground-2);
   --color-fg-3: var(--foreground-3);
@@ -416,7 +438,7 @@
 
 /* Flow-card row sweep: a 12% ink wash that passes left to right. */
 @utility sweep {
-  background-image: linear-gradient(90deg, transparent 0%, rgb(10 10 10 / 0.12) 45%, transparent 55%, transparent 100%);
+  background-image: linear-gradient(90deg, transparent 0%, var(--sweep-ink) 45%, transparent 55%, transparent 100%);
   background-size: 250% 100%;
   background-repeat: no-repeat;
 }

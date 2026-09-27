@@ -29,7 +29,7 @@ export function StatusDot({ status, className }: { status: StatusKind; className
       <span
         className={cn(
           "relative inline-flex size-2 items-center justify-center rounded-full",
-          status === "off" && "shadow-[inset_0_0_0_1.5px_var(--gray-400)]",
+          status === "off" && "shadow-[inset_0_0_0_1.5px_var(--foreground-disabled)]",
           status === "scheduled" && "shadow-[inset_0_0_0_1.5px_var(--status-ink)]",
           (status === "running" || status === "done") && "bg-status-ink",
           status === "needs-you" && "bg-fg-inverse",

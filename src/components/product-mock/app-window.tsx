@@ -43,7 +43,7 @@ export function AppWindow({
       <div className="flex h-11 shrink-0 items-center gap-3 border-b-[0.5px] border-border-strong px-4">
         <span aria-hidden className="flex gap-1.5">
           {[0, 1, 2].map((i) => (
-            <span key={i} className="size-3 rounded-full bg-[var(--gray-300)]" />
+            <span key={i} className="size-3 rounded-full bg-fg-disabled" />
           ))}
         </span>
         <span className="truncate text-ui-sm font-medium text-foreground">{title ?? SCREENS.find((s) => s.id === screen)?.label}</span>

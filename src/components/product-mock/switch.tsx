@@ -27,7 +27,7 @@ export function OnOffSwitch({
       )}
     >
       <motion.span
-        className="absolute top-0.5 size-3.5 rounded-full bg-white shadow-knob"
+        className={cn("absolute top-0.5 size-3.5 rounded-full shadow-knob", on ? "bg-fg-inverse" : "bg-[#ffffff] dark:bg-fg-2")}
         initial={false}
         animate={{ x: on ? 14 : 2 }}
         transition={SPRING.switch}

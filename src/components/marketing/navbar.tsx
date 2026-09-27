@@ -9,6 +9,7 @@ import { Mascot, Wordmark } from "@/components/ui/mascot";
 import { CtaButton, CAL_LINK } from "./cta-button";
 import { EarlyAccessModal } from "./early-access-modal";
 import { SPRING } from "./_motion";
+import { ThemeSegmented, ThemeToggle } from "./theme-toggle";
 
 type NavLink = { label: string; href: string };
 
@@ -91,6 +92,7 @@ export function Navbar() {
 
           <div className="flex items-center gap-2">
             <div className="hidden items-center gap-2 lg:flex">
+              <ThemeToggle />
               <CtaButton href={CAL_LINK} variant="soft" size="sm">
                 Book a call
               </CtaButton>
@@ -136,6 +138,7 @@ export function Navbar() {
               ))}
             </nav>
             <div className="mt-auto grid gap-3">
+              <ThemeSegmented className="mb-2" />
               <CtaButton asButton size="lg" onClick={openEarlyAccess} className="w-full">
                 Get early access
               </CtaButton>

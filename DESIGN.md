@@ -10,7 +10,7 @@ Tokens live in [`src/app/globals.css`](src/app/globals.css) (Tailwind v4, CSS-fi
 
 - **Black, white and gray.** The page is paper and ink. Hierarchy comes from weight, gray level, surface and spacing, never from colour.
 - **One functional accent.** `--danger` (#b42318) is the only hue, and only for errors and destructive confirmation. No brand colour, no status colours, no gradients with hue.
-- **Light first.** Light is the default theme. Dark tokens exist for the product mocks and future use.
+- **Light and graphite dark.** Light is the default when the system has no preference; visitors can switch to a grey (graphite, not black) dark mode. See §2.1.
 - **The product is the illustration.** Sections show the product (bots, flows, approvals) in drawn mocks. No stock art, no abstract 3D, no vendor logos.
 - **Calm motion.** Motion explains a change of state. It never loops for decoration, and it respects reduced motion.
 - **Plain words.** Sentence case everywhere. No uppercase mono eyebrows.
@@ -45,7 +45,17 @@ Use the Tailwind classes, never raw hex.
 | `--hatch` | `hatch` utility | 135° 1px lines | Failed states, the marketing avatar |
 | `--danger` / `--danger-wash` | `text-danger`, `bg-danger-wash` | #b42318 | Errors only |
 
+`--surface-sunken` (`bg-surface-sunken`, #fafafa light) is for mock sidebars and code. `--hatch-faint` is a 4% hatch for backdrops.
+
 shadcn names (`card`, `muted`, `primary`, …) are mapped onto these for compatibility. Prefer the Paper names in new code.
+
+### 2.1 Dark mode (graphite)
+
+- **Tokens.** `.dark` on `<html>` swaps every semantic token to grey values: page #1b1b1b, surface #202020, surface-2 #262626, surface-3 #2e2e2e, raised #242424, sunken #161616, text #edecec / #a8a8a6 / #9a9a98, white hairlines at 10% and 18%, and `--danger` #f97066. Shadows switch too (darker drops plus a 1px top highlight). All text pairs meet WCAG AA.
+- **Choosing.** The first visit follows `prefers-color-scheme`. The header toggle (a 36px Sun/Moon button; a Light · Dark control in the mobile sheet) stores `localStorage["bonggy-theme"]`, and from then on the stored choice wins. With nothing stored, live system changes are followed. Tabs stay in sync through the `storage` event. Logic: [`theme.ts`](src/components/marketing/theme.ts).
+- **No flash.** [`theme-script.ts`](src/components/marketing/theme-script.ts) is inlined in `<head>`. Next places its own meta, preloads and stylesheet first, but ours is the only synchronous script, and it runs before `<body>` parses, so the first paint is already themed.
+- **Switching** adds `.theme-switching` for one frame so colours don't transition unevenly.
+- **Rules.** No raw `#fff`, `#000`, `bg-white` or gray-scale literals in components; use tokens so both themes work. The OG image, favicon and manifest stay light.
 
 ---
 

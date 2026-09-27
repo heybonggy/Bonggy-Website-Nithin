@@ -128,8 +128,8 @@ export function Mascot({
         </>
       ) : (
         <>
-          <path d={PEBBLE} fill="var(--gray-1000)" />
-          <Eye state={state} ink="#ffffff" blink={blinking} />
+          <path d={PEBBLE} fill="var(--foreground)" />
+          <Eye state={state} ink="var(--background)" blink={blinking} />
         </>
       )}
     </svg>
@@ -161,15 +161,15 @@ export function BotAvatar({
   state?: MascotState;
   className?: string;
 }) {
-  const ink = team === "sales" ? "#ffffff" : "var(--gray-950)";
+  const ink = team === "sales" ? "var(--foreground-inverse)" : "var(--foreground)";
   return (
     <span
       aria-hidden
       className={cn(
         "relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full",
         team === "sales" && "bg-surface-inverse",
-        team === "revops" && "bg-background shadow-[inset_0_0_0_1.5px_var(--gray-950)]",
-        team === "marketing" && "hatch bg-[var(--gray-200)]",
+        team === "revops" && "bg-background shadow-[inset_0_0_0_1.5px_var(--foreground)]",
+        team === "marketing" && "hatch bg-status-track",
         className,
       )}
       style={{ width: size, height: size }}

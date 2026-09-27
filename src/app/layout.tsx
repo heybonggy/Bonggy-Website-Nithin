@@ -7,6 +7,7 @@ import {
   SITE_DESCRIPTION,
   SITE_DESCRIPTION_SHORT,
 } from "@/lib/metadata";
+import { THEME_INIT_SCRIPT } from "@/components/marketing/theme-script";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -78,7 +79,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
+    { media: "(prefers-color-scheme: dark)", color: "#1b1b1b" },
   ],
   width: "device-width",
   initialScale: 1,
@@ -102,6 +103,8 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
+        {/* Theme first, before any stylesheet, so there's no flash. */}
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
         {/* Organization structured data , readable for AI agents + search */}
         <script
           type="application/ld+json"
