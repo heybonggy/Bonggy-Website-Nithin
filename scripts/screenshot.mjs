@@ -1,76 +1,62 @@
-import { chromium, devices } from "playwright";
+// Screenshots of the homepage (full page and each section) and every
+// sub-page at 375, 768, 1280 and 1440px, plus a reduced-motion pass that
+// shows each demo's end state.
+//
+//   URL=http://localhost:3000 node scripts/screenshot.mjs
+//   CHROME_PATH="/path/to/chrome" node scripts/screenshot.mjs   # optional
+//
+// Output: screenshots/<width>/<name>.png. Logs horizontal overflow per page.
+import { chromium } from "playwright";
 import { mkdir } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const outDir = resolve(__dirname, "..", "screenshots");
-await mkdir(outDir, { recursive: true });
+const outRoot = resolve(__dirname, "..", "screenshots");
+const base = (process.env.URL || "http://localhost:3000").replace(/\/$/, "");
+const browser = await chromium.launch(
+  process.env.CHROME_PATH ? { executablePath: process.env.CHROME_PATH } : {},
+);
 
-const url = process.env.URL || "http://localhost:3000/";
-const browser = await chromium.launch();
+const WIDTHS = [375, 768, 1280, 1440];
+const SECTIONS = [
+  "top", "what-we-do", "flows", "agents", "groups", "approvals",
+  "analytics", "context", "how-it-works", "pricing", "faq",
+];
+const PAGES = [
+  "about", "contact", "careers", "security", "faq", "resources",
+  "resources/a-note-from-us", "privacy", "terms",
+];
 
-async function captureSection(page, name, viewport, sectionId) {
-  await page.setViewportSize(viewport);
-  if (sectionId) {
-    await page.locator(sectionId).scrollIntoViewIfNeeded({ timeout: 5000 }).catch(() => {});
-  } else {
-    await page.evaluate(() => window.scrollTo(0, 0));
+async function shoot(width, reduce) {
+  const dir = resolve(outRoot, reduce ? `${width}-reduced` : String(width));
+  await mkdir(dir, { recursive: true });
+  const page = await browser.newPage({
+    viewport: { width, height: width < 600 ? 812 : 900 },
+    reducedMotion: reduce ? "reduce" : "no-preference",
+  });
+  await page.goto(`${base}/`, { waitUntil: "networkidle" });
+  await page.waitForTimeout(1200);
+  await page.screenshot({ path: resolve(dir, "home-full.png"), fullPage: true });
+  for (const id of SECTIONS) {
+    const el = page.locator(`#${id}`).first();
+    await el.evaluate((n) => n.scrollIntoView({ block: "start", behavior: "instant" }));
+    await page.waitForTimeout(reduce ? 300 : 900);
+    await el.screenshot({ path: resolve(dir, `home-${id}.png`) });
   }
-  // Longer wait for canvas-based components (cobe globe needs time to draw frames)
-  const wait = name.includes("coverage") ? 2400 : 900;
-  await page.waitForTimeout(wait);
-  await page.screenshot({
-    path: resolve(outDir, `${name}.png`),
-    fullPage: false,
-  });
+  const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+  console.log(`${width}${reduce ? " reduced" : ""} /: overflow ${overflow}px`);
+  if (!reduce) {
+    for (const p of PAGES) {
+      await page.goto(`${base}/${p}`, { waitUntil: "networkidle" });
+      await page.screenshot({ path: resolve(dir, `${p.replace(/\//g, "-")}.png`), fullPage: true });
+      const o = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+      console.log(`${width} /${p}: overflow ${o}px`);
+    }
+  }
+  await page.close();
 }
 
-// Desktop 1440 — section by section
-{
-  const ctx = await browser.newContext({
-    viewport: { width: 1440, height: 900 },
-    deviceScaleFactor: 1,
-  });
-  const page = await ctx.newPage();
-  await page.goto(url, { waitUntil: "networkidle", timeout: 30000 });
-  await page.waitForTimeout(800);
-
-  await captureSection(page, "desktop-hero", { width: 1440, height: 900 }, null);
-  await captureSection(page, "desktop-logos", { width: 1440, height: 600 }, "#logo-cloud");
-  await captureSection(page, "desktop-how", { width: 1440, height: 900 }, "#how-it-works");
-  await captureSection(page, "desktop-coverage", { width: 1440, height: 900 }, "#coverage");
-  await captureSection(page, "desktop-problem", { width: 1440, height: 900 }, "#problem");
-  await captureSection(page, "desktop-reframe", { width: 1440, height: 900 }, "#reframe");
-  await captureSection(page, "desktop-fix", { width: 1440, height: 900 }, "#fix");
-  await captureSection(page, "desktop-proof", { width: 1440, height: 900 }, "#proof");
-  await captureSection(page, "desktop-objection", { width: 1440, height: 900 }, "#vs-ai-sdr");
-  await captureSection(page, "desktop-close", { width: 1440, height: 900 }, "#strategy-session");
-
-  await ctx.close();
-}
-
-// Mobile
-{
-  const ctx = await browser.newContext({ ...devices["iPhone 14 Pro"] });
-  const page = await ctx.newPage();
-  await page.goto(url, { waitUntil: "networkidle", timeout: 30000 });
-  await page.waitForTimeout(800);
-
-  await page.screenshot({
-    path: resolve(outDir, "mobile-hero.png"),
-    fullPage: false,
-  });
-
-  await page.locator("#how-it-works").scrollIntoViewIfNeeded().catch(() => {});
-  await page.waitForTimeout(500);
-  await page.screenshot({
-    path: resolve(outDir, "mobile-how.png"),
-    fullPage: false,
-  });
-
-  await ctx.close();
-}
-
+for (const w of WIDTHS) await shoot(w, false);
+for (const w of WIDTHS) await shoot(w, true);
 await browser.close();
-console.log("✓ Screenshots written to", outDir);

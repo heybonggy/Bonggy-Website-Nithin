@@ -1,549 +1,200 @@
-# Bonggy — Design Language
+# Bonggy: design system ("Paper")
 
-End-to-end reference for what the Bonggy website should look and feel like. Read this before adding a new section, component, or page so the work doesn't drift.
+The reference for how bonggy.com looks, moves and reads. Read it before adding a section, component or page. If you change something foundational (a token, a radius, a motion rule), update this file in the same commit.
 
-This is a living document. If you change something foundational (a token, a default radius, a motion config), update this file in the same commit.
-
----
-
-## 1. Voice & register
-
-Bonggy reads "controlled, not screaming."
-
-- Backgrounds are **anti-blinding** — never pure white (`#fff`), never pure black (`#000`). Off-white in light, near-Zinc-950 in dark, both with a tiny cool tint.
-- Text hierarchy is built from **weight + color**, not size alone. We pull readers in with quietness, not bigness.
-- Display type is **tightened** (`letter-spacing: -0.035em`, `line-height: 0.98`) — copy feels mechanical and intentional, not airy marketing.
-- Mono labels at `0.18em–0.22em` letter-spacing carry the "instrument panel" feel. Used wherever a label sits next to a piece of data (eyebrows, status chips, ticker copy, HUD corners).
-- Accent color is **signal-green** (`--signal`) and used sparingly — for active state, status dots, italicized accent words in headlines, and one-pixel rules. Never as a body color, never as a button fill outside specific CTAs.
-- Motion is spring-based and small. Translates are typically **±10–24px**. Avoid scaling content > 1.03×. Never linear easings on interactive elements.
+Tokens live in [`src/app/globals.css`](src/app/globals.css) (Tailwind v4, CSS-first, no config file). Motion constants live in [`src/components/marketing/_motion.ts`](src/components/marketing/_motion.ts).
 
 ---
 
-## 2. Color tokens
+## 1. Principles
 
-All colors are declared as `oklch(...)` in [`src/app/globals.css`](src/app/globals.css). Reference them through Tailwind utility classes (`bg-background`, `text-muted-foreground`, etc.) — never hardcode hex.
+- **Black, white and gray.** The page is paper and ink. Hierarchy comes from weight, gray level, surface and spacing, never from colour.
+- **One functional accent.** `--danger` (#b42318) is the only hue, and only for errors and destructive confirmation. No brand colour, no status colours, no gradients with hue.
+- **Light first.** Light is the default theme. Dark tokens exist for the product mocks and future use.
+- **The product is the illustration.** Sections show the product (bots, flows, approvals) in drawn mocks. No stock art, no abstract 3D, no vendor logos.
+- **Calm motion.** Motion explains a change of state. It never loops for decoration, and it respects reduced motion.
+- **Plain words.** Sentence case everywhere. No uppercase mono eyebrows.
 
-### Semantic tokens (work in both themes)
+### Hue check
 
-| Token | Tailwind class | Role |
-|---|---|---|
-| `--background` | `bg-background` / `text-background` | Page surface |
-| `--foreground` | `bg-foreground` / `text-foreground` | Primary text + ink |
-| `--card` | `bg-card`, `text-card-foreground` | Raised surface (sections, cards) |
-| `--popover` | `bg-popover` | Dropdowns, command palette |
-| `--primary` | `bg-primary`, `text-primary-foreground` | Default button fill (near-black ink in light, near-white in dark) |
-| `--secondary` | `bg-secondary` | Quiet fill (chips, badges) |
-| `--muted` | `bg-muted`, `text-muted-foreground` | Subtle surface + body-grade copy |
-| `--accent` | `bg-accent`, `text-accent-foreground` | Hover wash for ghost controls |
-| `--destructive` | `text-destructive`, `bg-destructive/10` | Errors, deletes, warning flags |
-| `--border` | `border-border` | Hairline divider (`oklch(0 0 0 / 9%)` light, `oklch(1 0 0 / 10%)` dark) |
-| `--input` | `bg-input` | Form field stroke |
-| `--ring` | `ring-ring` | Focus ring color |
-| `--signal` | `bg-signal`, `text-signal` | **Accent.** Status dots, italicized accent words, active-state outlines |
-| `--signal-foreground` | `text-signal-foreground` | Ink on a filled signal surface |
-| `--signal-muted` | `bg-signal-muted` | 12–14% signal wash (chips, "live" panels) |
-| `--line` | `border-line` | Diagram strokes, mock connectors |
+Before merging, grep `src/` for hue: `signal`, `emerald`, `green`, `teal`, `#10b981`, and `oklch(` with non-zero chroma. The only allowed hit is `--danger` (and its wash).
 
-### Specific values
+---
 
-**Light theme (`:root`):**
+## 2. Colour tokens
 
-| Token | Value | What it is |
-|---|---|---|
-| `--background` | `oklch(0.985 0.003 280)` | Off-white with cool tint |
-| `--foreground` | `oklch(0.2 0.006 280)` | Near-black ink |
-| `--card` | `oklch(0.975 0.003 280)` | One step beneath bg |
-| `--muted-foreground` | `oklch(0.46 0.008 280)` | Body copy |
-| `--signal` | `oklch(0.5 0.17 152)` | Darker mint so it sits on white legibly |
-| `--border` | `oklch(0 0 0 / 9%)` | 9% black |
+Use the Tailwind classes, never raw hex.
 
-**Dark theme (`.dark`):**
+| Token | Class | Light value | Role |
+|---|---|---|---|
+| `--background` | `bg-background` | white | Page |
+| `--surface` | `bg-surface` | gray-50 | Section cards, quiet panels |
+| `--surface-2` | `bg-surface-2` | gray-100 | Chips, soft buttons, tags |
+| `--surface-3` | `bg-surface-3` | gray-150 | Hover on surface-2 |
+| `--surface-raised` | `bg-surface-raised` | white | Windows, cards on a surface |
+| `--surface-inverse` | `bg-surface-inverse` | gray-950 | Primary buttons, "needs you", user bubbles |
+| `--foreground` | `text-foreground` | gray-950 | Headings, body emphasis |
+| `--foreground-2` | `text-fg-2` | gray-700 (7.8:1) | Body copy |
+| `--foreground-3` | `text-fg-3` | gray-600 (5.3:1) | Muted lines, captions, the grey half of two-tone headings |
+| `--foreground-disabled` | `text-fg-disabled` | gray-400 | Placeholders only |
+| `--foreground-inverse` | `text-fg-inverse` | white | Ink on inverse surfaces |
+| `--border` / `--border-strong` | `border-border`, `border-border-strong` | 9% / 16% ink | Hairlines |
+| `--wash-hover/active/selected` | `bg-wash-*` | 4% / 7% / 5.5% ink | Interaction states on rows |
+| `--bubble-user` / `--bubble-bot` | `bg-bubble-user`, `bg-bubble-bot` | ink / 4% ink | Chat |
+| `--status-ink/muted/track` | `bg-status-*` | ink / gray-600 / gray-200 | Status dots, bars, empty tracks |
+| `--hatch` | `hatch` utility | 135° 1px lines | Failed states, the marketing avatar |
+| `--danger` / `--danger-wash` | `text-danger`, `bg-danger-wash` | #b42318 | Errors only |
 
-| Token | Value | What it is |
-|---|---|---|
-| `--background` | `oklch(0.085 0.005 280)` | Zinc-950 equivalent with cool tint |
-| `--foreground` | `oklch(0.98 0 0)` | Near-white |
-| `--card` | `oklch(0.115 0.004 280)` | One step above bg |
-| `--muted-foreground` | `oklch(0.62 0.005 280)` | Body copy |
-| `--signal` | `oklch(0.78 0.13 152)` | Brighter mint for dark surfaces |
-| `--border` | `oklch(1 0 0 / 10%)` | 10% white |
-
-### Decorative tokens (theme-aware)
-
-These swap automatically per theme — never hardcode their values in components.
-
-| Token | Use |
-|---|---|
-| `--grid-line` / `--grid-line-fine` | Dot grids, subtle backgrounds |
-| `--grain-opacity`, `--grain-blend` | Film grain overlay (`overlay` in dark, `multiply` in light) |
-| `--mesh-1/2/3` | Background mesh gradients tinted signal-green |
-| `--wordmark-stroke`, `--wordmark-fill` | Outline + fill for the big "BONGGY" wordmark watermark |
-| `--inset-highlight` | Inner highlight on bevelled surfaces |
-| `--shadow-diffuse-1/2` | Section shadows (~50% smaller blur than typical to keep scroll cheap) |
-| `--shadow-pill-floating`, `--shadow-pill-grounded` | Nav pill states |
-| `--shadow-card-lift`, `--shadow-button-base` | Card hover, button base |
-
-### Forbidden colors
-
-- Pure white (`#fff`, `oklch(1 0 0)`) anywhere on the page surface — only acceptable in single-pixel highlights inside SVG icons
-- Pure black (`#000`) — use `--foreground` in light, `--background` or `oklch(0.085 ...)` in dark
-- Any neon green not derived from `--signal`
-- Any blue/orange/magenta system color — Bonggy is monochrome + signal-green. Destructive red is the only other allowed hue, and only on errors/flags
+shadcn names (`card`, `muted`, `primary`, …) are mapped onto these for compatibility. Prefer the Paper names in new code.
 
 ---
 
 ## 3. Typography
 
-Two font families loaded via `next/font/google`:
+Geist Sans for everything; Geist Mono only for inline `code` in bot messages. Loaded with `next/font`, `display: swap`.
 
-- **`Geist Sans`** — `--font-sans`, `--font-heading`. All body copy, all headlines.
-- **`Geist Mono`** — `--font-mono`. Every eyebrow, label, status chip, HUD corner, ticker, button (uppercase tracked).
-
-Tailwind classes: `font-sans` (default), `font-mono`, `font-heading` (alias for sans on this site).
-
-### Display headings — `.text-display`
-
-Class defined in `globals.css`:
-
-```css
-.text-display {
-  font-feature-settings: "ss01", "cv11", "calt", "ss02";
-  letter-spacing: -0.035em;
-  line-height: 0.98;
-}
-```
-
-Apply to every section h2 / page h1. Tightened tracking + sub-1 leading is the signature look.
-
-Sizes used across the site:
-
-| Surface | Size (mobile → desktop) |
-|---|---|
-| Page hero h1 (`SubPageShell`) | `40px` → `72px` (`text-[40px] sm:text-[56px] lg:text-[72px]`) |
-| Section h2 | `36px` → `56px` (`text-[36px] sm:text-[44px] lg:text-[56px]`) |
-| Featured card title | `28px` → `44px` (`text-[28px] sm:text-[36px] lg:text-[44px]`) |
-| Default card title | `24px` → `28px` (`text-[24px] sm:text-[28px]`) |
-| Sub-page block h3 | `26px` → `32px` (`text-[26px] sm:text-[32px]`) |
-| Mock-card numeric stats | `28px` → `44px` (signal-green ink for emphasis) |
-
-### Body copy
-
-| Use | Class |
-|---|---|
-| Section lede / hero sub | `text-[17px] leading-relaxed text-muted-foreground` |
-| Card body | `text-[15.5px] leading-relaxed text-muted-foreground` |
-| Long-form essay body | `text-[16px] sm:text-[17px] leading-[1.75] text-muted-foreground` |
-| Outcome row | `text-[13.5px] text-foreground/90` |
-| Mock-row primary | `text-[12.5px] font-medium text-foreground` |
-| Mock-row meta | `text-[11.5px] text-muted-foreground` |
-
-### Mono / eyebrow / status labels
-
-| Use | Class |
-|---|---|
-| Section eyebrow | `font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground` |
-| Card kind tag | same as eyebrow, often inside `bg-signal/10 text-signal rounded-full px-2.5 py-1` |
-| Nav links | `font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground` |
-| Tab labels (AnimatedTabs) | `font-mono text-[11px] uppercase tracking-[0.18em]` |
-| Marquee header / HUD corners | `font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground` |
-| Footer column headers | `font-mono text-[10px] font-medium uppercase tracking-[0.22em] text-muted-foreground/70` |
-| Footer links | `text-[13.5px] text-muted-foreground hover:text-foreground` |
-| Buttons (mono) | `font-mono font-medium uppercase tracking-[0.18em]` (sizes: `text-[10.5px]` xs → `text-[12px]` lg) |
-| Numeric tabular data | `font-mono tabular-nums` |
-
-### Italic accent
-
-Used sparingly inside display headings to mark the emphatic clause. Common patterns:
-
-- `<span className="italic text-signal">already knows how you sell</span>`
-- `<span className="text-muted-foreground/85">subordinate clause.</span>` — sometimes the accent is dimmed rather than colored
-
-Never italicize body paragraphs.
-
-### Apostrophes inside JSX
-
-Always escape as `&apos;` in JSX text content. React's `react/no-unescaped-entities` rule flags raw `'`. Double quotes can stay as `"` or `&quot;` — be consistent within a file.
-
----
-
-## 4. Spacing & layout
-
-### Container
-
-Every section uses the same container:
-
-```tsx
-<div className="mx-auto w-full max-w-[1400px] px-6 lg:px-10">
-```
-
-This is wrapped automatically by the `<Section>` component. For pages without `<Section>`, copy the same wrapper.
-
-### Vertical rhythm
-
-`<Section>` default vertical padding:
-
-```
-py-24 sm:py-28 lg:py-36
-```
-
-`<SubPageShell>` hero block (the page title):
-
-```
-pt-32 pb-12 sm:pt-40 sm:pb-16 lg:pt-44
-```
-
-For non-default section padding, override via the `className` prop on `<Section>`. Common variants:
-
-| Use | Padding |
-|---|---|
-| Standard section | `py-24 sm:py-28 lg:py-36` |
-| Tighter (e.g. between two related blocks) | `py-20 sm:py-24 lg:py-28` |
-| Heavy editorial section | `py-28 sm:py-32 lg:py-40` |
-
-### Eyebrow → headline gap
-
-`mb-10 sm:mb-12` between the eyebrow chip and the `<h2>` is the default. Don't push tighter than `mb-8`.
-
-### Inter-paragraph gap (body copy)
-
-`space-y-5` is the default. For long-form essays, `space-y-5` inside a section and `my-12 sm:my-14` for the `<hr>` between sections.
-
-### Grid presets
-
-- Standard 2-col split — `grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-10 lg:gap-12`
-- 3-col card row — `grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-7`
-- Asymmetric 12-col bento — `grid grid-cols-1 gap-3 lg:grid-cols-12 lg:gap-4` with each child spanning `lg:col-span-5` or `lg:col-span-7`
-- Footer — `grid grid-cols-2 gap-10 sm:grid-cols-6 lg:grid-cols-[1.4fr_repeat(5,minmax(0,1fr))]`
-
----
-
-## 5. Surfaces
-
-The site uses three surface depths. Pick the right one — don't mix card backgrounds randomly.
-
-| Surface | Bg | When to use |
+| Class | Size / line | Use |
 |---|---|---|
-| **Page** | `bg-background` | The base canvas. Default for everything. |
-| **Section accent** | `bg-card/40` or `bg-card/60` | The integrations marquee strip, the tab panel, accent bands inside a section. Translucent so the canvas grain shows through. |
-| **Card** | `bg-card` (opaque) or `bg-background/50` | Individual cards inside a section. The 0.5 version pulls the card slightly _below_ the section accent. |
+| `text-display-2xl` | 64 / 1.04, 500 | Hero H1 (lg) |
+| `text-display-xl` | 52 / 1.05 | Hero H1 (sm), sub-page H1 (sm+) |
+| `text-display-lg` | 40 / 1.08 | Hero H1 (mobile), sub-page H1, final CTA |
+| `text-heading-lg` | 36 / 1.12 | Section H2 (sm+) |
+| `text-heading` | 30 / 1.2 | Section H2 (mobile), sub-page H2 |
+| `text-title` | 20 / 1.4 | Card titles, team names |
+| `text-body-lg` / `text-body` | 18 / 16, 1.625 | Intros, body |
+| `text-ui` / `text-ui-sm` | 14 / 13 | Controls, table cells, mock text |
+| `text-caption` / `text-micro` | 12 / 11 | Meta lines, pills |
 
-For inputs and tiles inside a card, use `bg-background/40` so the card itself is still the visual anchor.
+- **Two-tone headings.** Headline in `text-foreground`, second clause in `text-fg-3` (e.g. "Pay for the bots you run. *Plus what they use.*").
+- **Kickers** are quiet sentence-case lines (`text-ui-sm font-medium text-fg-3`), not uppercase mono.
+- `tabular` utility for numbers that change.
+- Inside JSX *string attributes* write `'` directly; `&apos;` only works in JSX text.
 
-### Border + radius defaults
+---
 
-Cards: `rounded-2xl border border-border/60`
-Pills / chips: `rounded-full border border-border/60` (or `border-signal/30` for active)
-Tabs strip + panel: `rounded-xl border border-border/60`
-Long-form essay page: no card — direct on `bg-background`
-Image inside a card: `rounded-xl border border-border/60`
+## 4. Layout
 
-Radius scale (driven by `--radius: 0.5rem` base):
+- Containers: `max-w-prose` (36rem), `max-w-copy` (42rem), `max-w-window` (49rem), `max-w-content` (64rem), `max-w-wide` (80rem).
+- Section rhythm: `<Section>` gives `px-4 py-20 sm:px-6 sm:py-28` and a centred container (`width="wide"` default, or `"content"`). `card` wraps content in `rounded-3xl bg-surface`.
+- `<SectionHeader title muted intro kicker align>` for every section heading.
+- Anchors get `scroll-margin-top` from `[id]` in globals, so the fixed 64px header never covers them.
+- Mobile first. Everything must work at 375px with a 16px gutter, no horizontal scroll, and tap targets of at least 44px (small pills extend their hit area with an `after:` inset).
 
-| Token | Tailwind | Pixels at default |
+---
+
+## 5. Surfaces, radii, shadows
+
+- Radii: `2xs` 2, `xs` 4, `sm` 6, `md` 10, `lg` 12, `xl` 16, `2xl` 20, `3xl` 24, `4xl` 32. Buttons and pills are `rounded-full`. Section cards and the app window are `rounded-3xl`; flow cards `rounded-2xl`; bubbles and result cards `rounded-xl`; rows `rounded-md`.
+- Shadows: `shadow-e1` (resting card), `e2` (floating composer, tables), `e3` (menus), `e4` (modal), `shadow-window` (app window, phone), `shadow-knob` (switch).
+- `hairline` / `hairline-strong` draw a 1px inset ring instead of a border.
+- `fade-y` masks both edges of a scroller; `fade-t` masks only the top (chat transcripts that grow from the bottom).
+
+---
+
+## 6. Status without hue
+
+Every status is told apart by fill, outline, glyph, icon and word ([`status-pill.tsx`](src/components/product-mock/status-pill.tsx)):
+
+| Status | Pill | Dot / icon |
 |---|---|---|
-| `rounded-sm` | `0.3rem` | ~4.8px |
-| `rounded-md` | `0.4rem` | ~6.4px |
-| `rounded-lg` | `0.5rem` | 8px |
-| `rounded-xl` | `0.7rem` | ~11.2px |
-| `rounded-2xl` | `0.9rem` | ~14.4px |
-| `rounded-3xl` | `1.1rem` | ~17.6px |
-| `rounded-bento` | `1.75rem` (literal) | 28px |
-| `rounded-full` | pill | — |
+| off | dashed gray border, gray text | hollow gray ring |
+| scheduled | 1px strong border | Clock |
+| running | `bg-surface-2` | solid ink dot with a live ring |
+| needs you | inverse (black) fill, white text | HandPalm |
+| done | `bg-surface-2` | Check (pops in) |
+| held | dotted ink border | FileText |
+| failed | hatch + ink border | ✕, with a sentence in `text-danger` where it matters |
 
-### Shadows
-
-Use shadow utility classes that draw from the trimmed-blur tokens. Heavy shadows kill scroll perf — don't reach for arbitrary `shadow-2xl`.
-
-| Class | When |
-|---|---|
-| `shadow-diffusion` / `shadow-diffusion-sm` | Big sections, hero blocks |
-| `shadow-pill-floating` | Nav pill detached from scroll |
-| `shadow-pill-grounded` | Nav pill on scroll-attached state |
-| `shadow-card-lift` | Card hover (use sparingly) |
-| `shadow-button-base` | Button base |
-
-### Background decoration
-
-Reusable utilities defined in `globals.css`:
-
-- `.glow-signal` / `.glow-signal-strong` — radial signal-green ellipse glow (18% / 28%)
-- `.section-rule` — 1px horizontal rule, transparent → border → transparent gradient
-- `.scanline` — animated scan line (`scan` keyframe)
-- `.pulse-signal` — pulsing box-shadow ring (3.4s, infinite). Apply to status dots
-- `.shimmer-bar` — left-to-right shimmer overlay
-- `.float-perpetual` — gentle 4px vertical drift, 5.6s
+Labels swap with a short slide (`label-in`). Bot avatars carry a 10px badge for running / needs you / failed.
 
 ---
 
-## 6. Iconography
+## 7. Mascot and brand
 
-**Phosphor icons** are the default. Import from `@phosphor-icons/react/dist/ssr/<Name>` so they SSR cleanly.
-
-Sizing convention:
-
-- Inline with body text: `size-3.5` (14px)
-- Eyebrow chips: `size-3` (12px)
-- Button leading icon: `size-3.5` or `size-4`
-- Section pictograms: `size-5` (20px)
-- Section hero icons: `size-6` (24px)
-
-Weight convention:
-
-- Default body usage: `weight="regular"`
-- Filled chip / status: `weight="fill"`
-- Heavy emphasis (e.g. checkmark inside a status row): `weight="bold"`
-
-`lucide-react` is also installed and used by the shadcn `Button` + `BlogPostCard` (which uses `ArrowRight`). Don't mix freely — prefer Phosphor for marketing surfaces, Lucide only where the upstream shadcn pattern uses it.
+- **Bong** ([`ui/mascot.tsx`](src/components/ui/mascot.tsx)) is a rounded pebble with a single slot eye. States: idle, thinking, working, needs-you, done, off. It blinks only when `blinkKey` changes.
+- **First pass, pending design review.** The pebble, eye and states were drawn in code for this redesign and need a designer's review before launch. The previous planet logo is kept in git history only.
+- Team avatars are round discs: **sales** black with a white eye, **RevOps** white with an ink ring, **marketing** hatched gray. `GroupAvatar` overlaps them by 24%.
+- Wordmark: "bonggy", Geist semibold, −0.03em.
+- Favicon, apple icon and OG image use the black pebble on white.
 
 ---
 
-## 7. Motion language
+## 8. Motion
 
-Configured in [`src/components/marketing/_motion.ts`](src/components/marketing/_motion.ts).
+Tokens: `DUR` (instant 120ms … title 1.1s), `EASE` (outExpo, standard, pop, settle, cursor, snap, exit), `SPRING` (switch, morph, layout, gentle). CSS mirrors them as `--dur-*` and `--ease-*`.
 
-### Springs
+Rules:
 
-| Const | Stiffness / damping / mass | When |
+- Motion explains a state change. Translates stay within ±24px; scale never above 1.1 (and only for a single pulse).
+- The hero H1, sub and CTAs reveal with **CSS** keyframes (`word-in`, `rise-in`) so they paint before hydration and don't delay LCP.
+- **Reduced motion:** CSS durations collapse to 1ms and delays to 0; `MotionConfig reducedMotion="user"` wraps every demo; the demo player jumps to the end state. Typing dots sit at stepped opacities so "working" still reads.
+- Only one looping demo runs at a time: `useLoopFocus` gives focus to the looping section covering most of the viewport. Off-screen demos get `data-demo-offscreen`, which pauses CSS animations.
+
+### Scripted demos
+
+[`demo/player.ts`](src/components/product-mock/demo/player.ts) plays a timeline of `{ action, hold }` steps. State is the reduction of every applied action, so the end state (shown to reduced motion, on skip, and as the fallback) is always complete.
+
+- The clock is virtual: it advances only while the demo is in view, the page is visible and the section has loop focus.
+- A demo starts once, 1000ms after 35% of it is in view (the hero never loops; other sections loop after a pause).
+- Timing helpers ([`demo/types.ts`](src/components/product-mock/demo/types.ts)): bot "thinking" = min(1900 + 22×words, 3000)ms; composer typing in chunks of 1–3 words every 70–110ms, capped at 2.4s; cursor travel clamp(320, 1.05×distance, 850)ms + 80ms press; approval "sending" 1600ms.
+- Skip: a transparent overlay catches pointer-down anywhere on a playing demo; Escape skips too.
+- Team tabs auto-advance 4s after a take ends, until someone picks a tab.
+
+---
+
+## 9. Product mocks
+
+Everything lives in [`src/components/product-mock/`](src/components/product-mock/), driven by [`data.ts`](src/components/product-mock/data.ts).
+
+- **Accessibility.** Mocks render inside `<DemoFrame>`: the drawn UI is `aria-hidden` and `inert`, with a screen-reader summary of what the demo shows. Analytics and company context are real, accessible markup (a table with working filters; a definition list).
+- **Pieces.** `AppWindow` (title bar, screen switcher, 264px sidebar, collapses below 640px), `PhoneFrame`, `BotRow`, `UserBubble` (hard-limit clause underlined and echoed as a `LimitChip`), `BotBubble`, `SystemLine`, `PendingRow`, `ChatComposer`, `FlowCard` (six parts: Trigger, Context, Steps, Approval, Output, Goal; empty parts show tracks; a fresh part sweeps; edits strike through and retype with "edited by you"), `FlowsList`, `RunHistory`, `RunReceipt`, result cards, `ApprovalCard`, `ApprovalsInbox`, `PillTabs`, `HandoffPill`, `ScriptedCursor`.
+- **Bot voice.** Lowercase, terse, and it ends with what didn't happen ("added 5 next-step tasks to your crm. nothing sent.").
+- **Data.** Numbers are small and labelled demo data. Tools stay generic (crm, calendar, call notes, job-change feed, #slack-channel names). No vendor logos, no real companies or people.
+
+---
+
+## 10. Components
+
+- **Buttons** ([`cta-button.tsx`](src/components/marketing/cta-button.tsx)): pills. `primary` (inverse), `soft` (surface-2), `outline`, `ghost`; sizes sm/md/lg. External links open in a new tab with an arrow and sr-only note. Default copy: "Book a 30-min call"; "Get early access" opens the modal.
+- **Header:** fixed 64px, blurs after 8px of scroll, Product menu (Bots, Flows, Approvals, Analytics), Teams, How it works, Pricing, FAQ; full-screen sheet below lg.
+- **Footer:** Bong and wordmark, "Your process, not ours.", four link columns, and a large outlined mascot.
+- **FAQ:** base-ui accordion, hairline dividers, plus icon turns 45°. FAQPage JSON-LD is generated from the same array.
+- **Early-access modal:** role select, inline error with a Warning icon in `text-danger`.
+- **Sub-pages:** `<SubPageShell>` (kicker, two-tone H1, lede), `<SubPageSection>`, `<SubPageCta>`.
+
+---
+
+## 11. Homepage map
+
+| # | Anchor | Section |
 |---|---|---|
-| `SPRING` | 100 / 20 / 0.8 | Default for section reveals, headline entrance, card hovers |
-| `SPRING_FAST` | 280 / 24 / 0.6 | Quick UI feedback (toggle, tab pill slide) |
-| `SPRING_BOUNCE` | 220 / 14 / 0.7 | Playful one-offs (only when intentional) |
-| `EASE_OUT` | `[0.22, 1, 0.36, 1]` | Non-spring duration-based eases (filter blur-in, opacity) |
+| 1 | `#top` | Hero: a bot builds from your sentence (Champion Tracker) |
+| 2 | `#what-we-do` | One workspace. Three teams. |
+| 3 | `#flows` | Every bot runs a flow you design. |
+| 4 | `#agents` | A bot for every job (Flows teams have built) |
+| 5 | `#groups` | Bots hand off work. |
+| 6 | `#approvals` | Bots draft. You decide. (plus the four bright lines) |
+| 7 | `#analytics` | See what every bot did, and why. |
+| 8 | `#context` | Your context, read first. |
+| 9 | `#how-it-works` | Every flow runs on one loop. |
+| 10 | `#pricing` | Pay for the bots you run. |
+| 11 | `#faq` | Questions, answered. |
+| 12 | | Give your first bot a purpose. |
 
-Default duration for non-spring transitions: **`0.35s ease-out`** for content swaps, **`0.5s spring`** for layout transitions.
-
-### Critical motion rules
-
-- **Never hide content with `opacity: 0`** at rest — content must be visible without JS / before hydration / during Playwright capture. Use `y: 16` → `y: 0` for reveals; opacity stays at 1.
-- **Animate transforms only** for reveals (`y`, `scale`, `filter`). Never `top`/`left` (jank).
-- **Hover lifts are ≤ -2px**. The site's register is restrained — `y: -5` reads as too eager.
-- **`prefers-reduced-motion: reduce`** disables every animation, including marquees (parked at `translateX(-12.5%)`). Use the `useReducedMotion()` hook from motion to branch in components that have their own loops.
-- **`whileInView` triggers** use `inViewOnce` (margin `0px 0px -8% 0px`, amount `0`, once `true`) so reveals start just before the user notices.
-
-### Stagger
-
-For grids of cards revealing in:
-
-```tsx
-transition={{ ...SPRING, delay: i * 0.06 }}
-```
-
-`0.06–0.08s` per index is the usual stagger.
-
-### Layout transitions (motion's `layoutId`)
-
-Used by `AnimatedTabs` for the sliding active pill. When you have multiple instances on one page, pass a unique `layoutGroupId` per instance so they don't share an indicator.
-
-### Keyframe animations in globals.css
-
-| Class | Keyframe | Duration | Use |
-|---|---|---|---|
-| `.scanline` | `scan` | 6s ease-in-out infinite | Vertical scan line over an element |
-| `.pulse-signal` | `pulse-signal` | 3.4s ease-out infinite | Pulsing ring on status dots |
-| `.marquee-row.marquee-row--left` | `marquee-left` | 150s linear infinite | Integrations marquee scrolling left |
-| `.marquee-row.marquee-row--right` | `marquee-right` | 150s linear infinite | Integrations marquee scrolling right |
-| `.shimmer-bar::after` | `shimmer` | 3.4s linear infinite | Shimmer sweep overlay |
-| `.float-perpetual` | `float-up` | 5.6s ease-in-out infinite | Gentle 4px y-axis drift |
-
-Marquee mobile slowdown: 220s on screens ≤ 768px.
+Team ownership in mocks: Account Researcher, Deal Coach, Brief Writer, Champion Tracker (sales); Pipeline Watch, CRM Hygiene, Forecast Prep (RevOps); Market Modeller, Campaign Researcher, Content Drafter, **Inbound Router (marketing)**.
 
 ---
 
-## 8. Component patterns
+## 12. Copy rules
 
-### Eyebrow
-
-The signature label that opens every section / page. Mono uppercase, 10px, 0.22em tracking, signal-green dot.
-
-```tsx
-<div className="inline-flex items-center gap-2.5 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-  <span className="size-1 rounded-full bg-signal" />
-  Always on · Reading the world
-</div>
-```
-
-The `Section` and `SubPageShell` components wrap this for you — pass `eyebrow="..."`.
-
-### `<Section>` — [`src/components/marketing/section.tsx`](src/components/marketing/section.tsx)
-
-```tsx
-<Section id="coverage" eyebrow="Always on · Reading the world" className="py-28 lg:py-40">
-  <h2 className="text-display ...">...</h2>
-  {/* content */}
-</Section>
-```
-
-Props:
-
-- `eyebrow` — optional, renders the eyebrow + 10–12mb gap before children
-- `bleed` — drop the container's max-width when you want a full-bleed inner (e.g. marquees)
-- `containerClassName` — override the inner container
-- `className` — section padding overrides
-
-Sections set `content-visibility: auto` and `contain-intrinsic-size: auto 700px` so off-screen sections skip paint. Don't remove these — they're a big perf win on long pages.
-
-### `<SubPageShell>` — [`src/components/marketing/sub-page-shell.tsx`](src/components/marketing/sub-page-shell.tsx)
-
-Used by every sub-page (`/about`, `/contact`, `/faq`, `/resources`, etc.). Renders nav, hero block, content slot, footer.
-
-```tsx
-<SubPageShell
-  eyebrow="Resources"
-  title="What we&apos;ve been"
-  titleAccent="writing."
-  lede="Long-form thinking from the Bonggy team…"
-  narrow  // set for editorial pages (Privacy, Terms, FAQ, essays)
->
-  {/* content */}
-</SubPageShell>
-```
-
-`titleAccent` is the latter half of the title, rendered as `text-muted-foreground/85` so the contrast falls off — the brand pattern of "tightened display with a dimmed second half."
-
-### `<SubPageBlock>` (in same file)
-
-Editorial list item with a giant index number + tag + heading + body. Used in About / FAQ / Privacy.
-
-### Buttons
-
-Two button systems coexist:
-
-**`CtaButton`** ([`src/components/marketing/cta-button.tsx`](src/components/marketing/cta-button.tsx)) — the marketing CTA with the colored gradient blur underneath. Used for "Strategize", "Get early access", etc.
-
-```tsx
-<CtaButton variant="signal" size="lg">Strategize</CtaButton>
-```
-
-Variants: `primary` (dark zinc base + emerald/signal/teal gradient blur), `signal` (same dark base but stronger signal gradient), `ghost` (border + bg-card/40). Sizes `sm` / `md` / `lg`. Mono uppercase 0.18em tracking, ArrowUpRight (Phosphor) trailing icon.
-
-**Shadcn `Button`** ([`src/components/ui/button.tsx`](src/components/ui/button.tsx)) — the generic site button. Used for tertiary actions and inside the `BlogPostCard`. Variants `default` / `outline` / `secondary` / `ghost` / `destructive` / `link`. Smaller sizes (h-8 default, h-9 lg).
-
-Use `CtaButton` for high-stakes marketing CTAs. Use `Button` for everything else. Don't mix the two side-by-side.
-
-### Cards
-
-**Default editorial card**:
-
-```tsx
-<div className="rounded-2xl border border-border/60 bg-card/60 p-7 hover:bg-card/80 transition-colors">
-  ...
-</div>
-```
-
-`bg-card/60` is the default. For a flatter look, drop to `bg-background/50` (e.g. mock cards inside a tab panel).
-
-**Hover lift**: `hover:-translate-y-0.5` paired with `transition-all duration-300`. Don't go bigger than `-translate-y-1` (4px).
-
-**`BlogPostCard`** ([`src/components/ui/blog-post-card.tsx`](src/components/ui/blog-post-card.tsx)) — two variants:
-
-- `default` — wordmark eyebrow + display title + body + read-time row
-- `featured` — 16:10 image on the left, eyebrow + display title + body + "Read" button on the right. Two-layer background tint on the image so it sits in the dark palette.
-
-### Tabs
-
-**`AnimatedTabs`** ([`src/components/ui/animated-tabs.tsx`](src/components/ui/animated-tabs.tsx))
-
-Pills strip on top, motion-driven `layoutId` indicator slides between tabs (`SPRING_FAST`-ish — `type: "spring"`, `duration: 0.5`, `bounce: 0.18`). Content panel blurs in on switch (`filter: blur(6px)` → `0px`, `0.35s ease-out`).
-
-```tsx
-<AnimatedTabs
-  tabs={[
-    { id: "a", label: "Tab A", content: <Panel /> },
-    ...
-  ]}
-  defaultTab="a"
-  layoutGroupId="my-instance"  // required if more than one AnimatedTabs on a page
-/>
-```
-
-Drop into any section that needs a tabbed view. Pass `layoutGroupId` if more than one instance lives on the same page.
-
-### Integrations marquee
-
-Single row, 38 brand logos in `/public/logos/`. CSS `filter: brightness(0) invert(1)` flattens any source SVG to monochrome white. Hover-pause via `.marquee-track:hover .marquee-row { animation-play-state: paused }`. Edge mask via CSS `mask-image: linear-gradient(...)`.
-
-Logo tile spec:
-
-- `h-14 w-[140px]` (56px × 140px)
-- `rounded-lg border border-white/[0.06] bg-white/[0.02]`
-- 32px horizontal gap (`gap-8`)
-- Image inside: `h-6 max-w-[100px] object-contain opacity-60` → `opacity-100` on hover
-
-Section header for the marquee uses the standard eyebrow pattern (`Connects with your stack`).
-
-### Nav — [`src/components/marketing/nav.tsx`](src/components/marketing/nav.tsx)
-
-Floating pill at top of the page, signal-pulse left edge, mono link bar in the middle, Early Access CTA on the right. Link className shared across all entries (data-driven from a `LINKS` array). On scroll, pill transitions from `shadow-pill-floating` to `shadow-pill-grounded`.
-
-### Footer — [`src/components/marketing/footer.tsx`](src/components/marketing/footer.tsx)
-
-6-column grid on `lg` (`grid-cols-[1.4fr_repeat(5,minmax(0,1fr))]`). Column header in mono uppercase 0.22em tracking @ 70% opacity. Links in `text-[13.5px] text-muted-foreground hover:text-foreground`. Brand block on the far left with the BonggyMark + tagline + status line.
-
-### Dialog / Modal
-
-Uses `<Dialog>` from `@/components/ui/dialog`. Wrapper background `bg-card`, max-width usually `420px` for forms (Early Access modal), `560px` for content-heavy modals.
+- The bright lines, word for word: **Approval by action.** Anything customer-facing (emails, posts, sequencer pushes, published content) needs a person. Internal output (a brief in chat, a Slack summary) can run without approval if your team chooses. **No volume blasting.** Marketing bots draft and research; they don't mass-send. Campaign sends stay in your own tools, after approval. **No leaderboards.** Work is measured against revenue, never person against person. **Humans stay in charge.** Bots work only through the tools and permissions you connect.
+- Pricing, word for word: "Pricing is based on active bots plus usage. Flow runs count toward usage. We're setting plans with early-access teams, so there are no public numbers yet." No prices in structured data.
+- Security until engineering confirms: "Built for read-scoped permissions, encryption in transit and at rest, and no training on your data" and "SOC 2 Type II: on the path, not attained". Don't name protocols or ciphers.
+- Key lines: "Start from a preset, or from a sentence. Either way, the flow is yours." and "Your process, not ours." Presets are "Flows teams have built".
+- Banned: AI-powered, supercharge, 10x, autopilot, AI SDR, seamless, leverage, revolutionize, "Templates". Never name a competitor anywhere in the repo.
 
 ---
 
-## 9. Responsive breakpoints
+## 13. Gates
 
-Tailwind defaults — no custom breakpoints:
-
-| Prefix | Min width |
-|---|---|
-| `sm:` | 640px |
-| `md:` | 768px |
-| `lg:` | 1024px |
-| `xl:` | 1280px |
-| `2xl:` | 1536px |
-
-Most sections collapse from 2/3-col grids to single column at `md` (768px and below). Display sizes step down by ~20–30%.
-
-The integrations marquee slows from 150s → 220s on `< 768px` so the scroll doesn't feel chaotic on small screens.
-
----
-
-## 10. Accessibility & performance
-
-- **Color contrast** — all text passes WCAG AA against its surface. `--muted-foreground` is tuned per theme to clear 4.5:1 on `--background` and `--card`. Don't drop opacity below `/60` on text against a card surface.
-- **Focus rings** — `focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background`. Always present on interactive elements.
-- **`prefers-reduced-motion`** — respected by the marquee CSS and by motion components via `useReducedMotion()`. Decorative loops (`pulse-signal`, `scanline`, `float-perpetual`) should also be suppressed when extending the system.
-- **`content-visibility: auto`** + `contain-intrinsic-size: auto 700px` is set on every `<Section>`. Off-screen sections skip paint/layout, scrollbar stays stable. Don't disable.
-- **Image lazy-loading** — every `<img>` should have `loading="lazy"` (the marquee tiles already do).
-- **SVG logos** — flattened to monochrome white via CSS filter, not by pre-processing. Saves needing to recolor each source.
-- **Apostrophes in JSX text** — escape as `&apos;` to satisfy `react/no-unescaped-entities`.
-- **`motion.div` prop types** — when extending an HTML element with motion props and spreading `...props`, use `Omit<HTMLMotionProps<"div">, "title">` (or whichever field collides) instead of `React.HTMLAttributes<HTMLDivElement>` — Motion's `onDrag` callback signature collides with React's `DragEventHandler`.
-
----
-
-## 11. File / folder conventions
-
-- `src/app/` — Next.js App Router. Each route is a folder with `page.tsx`. Sub-pages always wrap in `<SubPageShell>`.
-- `src/components/marketing/` — opinionated, branded components used by the landing + sub-pages. `_motion.ts` holds shared motion constants.
-- `src/components/ui/` — primitive components in the shadcn pattern (`button.tsx`, `card.tsx`, `dialog.tsx`, `animated-tabs.tsx`, `blog-post-card.tsx`, etc.). Style with `cva` for variants.
-- `src/lib/utils.ts` — `cn(...)` helper that merges Tailwind classes.
-- `public/logos/` — brand integration SVGs, monochrome-flattenable at render time.
-- `public/` — favicon, manifest assets, anything served at root.
-
----
-
-## 12. Quick "do this not that"
-
-| Do | Don't |
-|---|---|
-| `bg-background`, `bg-card`, `text-foreground` | Hardcoded hex, `bg-white`, `text-black` |
-| `text-display` + tight tracking on h2 | Default sans on display sizes (looks airy/marketing) |
-| `font-mono uppercase tracking-[0.22em]` for eyebrows | Sentence-case sans labels |
-| `<span className="italic text-signal">word</span>` inside headlines | Italic body paragraphs |
-| Spring transitions on all interactive motion | `transition-all duration-200 ease-linear` |
-| `whileHover={{ y: -2 }}` | `whileHover={{ scale: 1.05 }}` |
-| One eyebrow per section, at the top | Multiple eyebrows inside one block |
-| Phosphor `weight="regular"` icons | Mixed icon libraries in the same section |
-| `rounded-2xl border-border/60 bg-card/60` for cards | Cards with full opacity + heavy shadow |
-| Real routes in the sitemap | `#section` hashes (Google ignores them) |
-| `prefers-reduced-motion` checks on every loop | Always-on infinite animations |
-| Apostrophe escape `&apos;` in JSX | Raw `'` in JSX text content |
-
----
-
-_Last updated: branch `main` as of the most recent design commit. Update this file in the same commit as any token / pattern change._
+Before a release: `npm run lint`, `npx tsc --noEmit`, `npm run build` with zero errors; Lighthouse mobile on `next start` (Performance ≥ 85, Accessibility ≥ 95, Best Practices ≥ 95, SEO 100 on `/`); `node scripts/screenshot.mjs` at 375/768/1280/1440 plus reduced motion; the hue check in §1.

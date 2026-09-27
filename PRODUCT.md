@@ -1,125 +1,133 @@
-# Bonggy — Product Overview
+# Bonggy: product overview
 
-A reference describing what Bonggy is, the problem it solves, how it works, and where the line is drawn between what the agents do and what the human does. Pair this with [DESIGN.md](DESIGN.md) when onboarding new team members, briefing partners, or writing copy.
+What Bonggy is, who it's for, how it works, and where the line sits between what bots do and what people do. Pair this with [DESIGN.md](DESIGN.md) when onboarding.
 
 ---
 
 ## 1. The one-liner
 
-**Agents for the work before the conversation. You still have the conversation.**
+**Build the bots your GTM team needs, running the flows you want, pointed at revenue.**
 
-Bonggy is a studio where GTM teams build their own agents and groups of agents. Agents model the market, research accounts and draft the work: briefs, account plans and messages. Nothing goes out without human approval. Every agent's work ties back to a revenue goal through one loop (Track, Align, Nudge, Report), and agents build shared memory from everything they learn.
+Bonggy is the agent workspace for sales, RevOps and marketing teams. You describe the work in a sentence; a bot turns it into a flow tied to a revenue goal, and a person approves anything a customer would see.
 
-Bonggy is a GTM modeller, researcher and value generator. It is **not** an AI SDR, not a generic chatbot, and it doesn't blast outreach.
+Every bot is a **modeller**, a **researcher** or a **value generator**. Bonggy doesn't blast outreach, and it isn't a generic chatbot.
 
 ---
 
-## 2. The problem we are pointed at
+## 2. The problem
 
-- **The work before the conversation is huge, manual and invisible.** Mapping the market, researching the account, finding the angle, writing the brief. Reps do it between calls, or skip it.
-- **AI made it worse, not better.** Every quarter brings another tool that sends more and drafts more. The pitch is volume; the result is slop that nobody calibrated and nobody would stand behind.
-- **None of it connects to the number.** Your CRM shows pipeline. Your sequencer shows sends. Nothing tells you whether the work actually points at what you're trying to win this quarter.
+- **The work before the conversation is huge, manual and invisible.** Mapping the market, researching the account, cleaning the pipeline, finding the angle, writing the brief.
+- **Tools made it louder, not better.** Every quarter brings another tool that sends more and drafts more. The result is slop nobody calibrated and nobody would stand behind.
+- **None of it connects to the number.** The CRM shows pipeline and the sequencer shows sends, but nothing says whether the work points at what the team is trying to win this quarter.
+- **Generic agent tools make you do the hard part.** You bring the context, invent the process and remember the guardrails yourself.
 
 Volume was never the bottleneck. Good prep, pointed at the right goal, was.
 
 ---
 
-## 3. What Bonggy does
+## 3. How it works
 
-### Three roles
+### Bots
 
-| Role | What it does |
+A bot does one job for a team. You start from a preset ("Flows teams have built") or from a sentence. **Either way, the flow is yours.**
+
+| Team | Example bots |
 |---|---|
-| **Modeller** | Maps your market, ICP, goals and plays. |
-| **Researcher** | Digs into accounts, signals and people. |
-| **Value generator** | Turns it into briefs, drafts and nudges your team can use. |
+| Sales | Account Researcher, Deal Coach, Brief Writer, Champion Tracker |
+| RevOps | Pipeline Watch, CRM Hygiene, Forecast Prep |
+| Marketing | Market Modeller, Campaign Researcher, Content Drafter, Inbound Router |
 
-Teams start from templates (for example Market Modeller, Account Researcher, Brief Writer) or **describe any job in a new chat**. The agent confirms what it will do and which revenue goal it serves, then appears in the sidebar.
+### Flows
+
+Every bot runs a flow with six parts, all editable at any time:
+
+1. **Trigger**: when it runs (a schedule, a new lead, a job change).
+2. **Context**: what it reads (company context plus connected sources).
+3. **Steps**: what it does, in order.
+4. **Approval**: who approves what, before which action.
+5. **Output**: where the work lands (chat, a CRM task, a channel post).
+6. **Goal**: the revenue goal it answers to.
+
+**Hard limits** are rules in your own words ("never email anyone"). They become part of the flow, and the bot can't cross them. Every run leaves a **receipt**: what it read, what it did, and what it didn't send.
 
 ### Groups
 
-Bots can be grouped into **pods** (for example an "Enterprise pod") that work toward one revenue goal and share memory. Research flows in; drafts flow out to people for review.
+Bots from different teams can share a group and hand off work. Marketing's research on what customers say reaches the sales bots working those deals, without anyone copying it across.
 
-### Shared memory
+### Approvals
 
-Agents build shared, dynamic memory from every conversation, call note and deal: accounts, people, objections and wins. What one agent learns, the rest of the pod can use, so the tenth brief is smarter than the first.
-
-### The loop every bot runs on
-
-1. **Track**: bots read activity across your tools.
-2. **Align**: map every action to a revenue goal.
-3. **Nudge**: flag drift and suggest the next move. A person decides.
-4. **Report**: one shared picture from rep to CRO.
+One inbox for everything that needs a person, what ran on its own, and what's held.
 
 ### Analytics
 
-One view of what each bot is doing, what it knows, which revenue goal its work maps to, and where effort is drifting (for example, a pod spending most of its effort on accounts outside the ICP).
+Runs, approvals and estimated hours per bot, with the revenue goal behind each, filterable by team. Every fact a bot uses links back to its source.
 
----
+### Company context
 
-### The three screens
+The defaults every bot reads first (ICP, tone, deal stages, never-rules), with overrides where a team works differently.
 
-The product UI is three screens in one app shell (a sidebar of agents and groups, a top bar, a main pane). The homepage previews are built from the same components (`src/components/product-mock`).
+### The loop
 
-1. **Agents**: one chat per agent or group. You ask; the agent shows what it's reading, then returns work as cards (an account brief, a draft that needs approval) with the revenue goal it maps to.
-2. **Analytics**: activity per agent, what each agent has learned (dated memory), work mapped to revenue goals, and drift alerts.
-3. **Company context**: company, what you sell, ideal customer, revenue goals, voice and connected tools. Every agent reads this first.
+1. **Track**: bots read activity across the tools you connect.
+2. **Align**: every action maps to a revenue goal.
+3. **Nudge**: drift gets flagged with a next move, and a person decides.
+4. **Report**: one picture from rep to CRO, with no leaderboards.
 
 ---
 
 ## 4. The bright lines
 
-- **Humans approve anything that goes out.** Agents draft. Nothing is sent, posted or written to a customer-facing channel without a person on the team approving it. Approved drafts go out from the rep's connected account or get pushed to the team's own email or sequencer.
-- **Not an AI SDR. No volume blasting.** We optimise for better prep and fewer, sharper messages, never throughput.
-- **No leaderboards.** We measure work against revenue, never reps against each other. The picture is shared, not weaponized.
-- **Humans stay in charge.** Agents don't replace the rep. The conversation, the relationship and the judgment stay human.
-- **Agents only use the permissions you connect.** There's a full log of what each agent did, and no training on your data.
+- **Approval by action.** Anything customer-facing (emails, posts, sequencer pushes, published content) needs a person. Internal output (a brief in chat, a Slack summary) can run without approval if your team chooses.
+- **No volume blasting.** Marketing bots draft and research; they don't mass-send. Campaign sends stay in your own tools, after approval.
+- **No leaderboards.** Work is measured against revenue, never person against person.
+- **Humans stay in charge.** Bots work only through the tools and permissions you connect.
+
+Data handling, until engineering confirms specifics: built for read-scoped permissions, encryption in transit and at rest, and no training on your data. SOC 2 Type II: on the path, not attained.
 
 ---
 
 ## 5. Who it's for
 
-The whole GTM motion: SDRs, AEs, account managers, CS, managers, RevOps and the CRO. Anyone whose work should roll up to revenue. Renewal and expansion agents count the same as new-logo ones.
-
-The typical buyer is a VP of Sales, CRO or Head of RevOps. Every seat sees the same picture.
+Sales, RevOps and marketing teams. It usually lands with one team's flows and spreads as other teams build their own. Typical buyers: CRO, VP Sales, Head of RevOps, Head of Marketing.
 
 ---
 
 ## 6. How teams start
 
-- **Early access, in waves.** We onboard in small cohorts so every team gets set up properly.
-- **A 30-minute call.** We map the market with the team, sketch the first agents they'd build, and show how that work ties to their revenue goal.
+- **Early access, in waves**, so every team gets set up properly.
+- **A 30-minute call** where we map one flow with the team on real work.
 
 ---
 
 ## 7. Pricing
 
-Pay for the agents you run: pricing is based on **active agents plus usage**. Plans are being set with early-access teams; there are no public numbers yet.
+Pricing is based on active bots plus usage. Flow runs count toward usage. We're setting plans with early-access teams, so there are no public numbers yet.
 
 ---
 
 ## 8. Integrations
 
-Agents work with the tools a team already uses: CRM, email, calendar, Slack and call notes. Agents only use the permissions a team connects.
+Bots work with the tools a team already uses: CRM, email, calendar, Slack and call notes, and only through the permissions a team connects.
 
-_TODO: confirm which named integrations are live before listing any. None of the brand logos previously shown on the site are confirmed integrations._
+_TODO: confirm which named integrations are live before listing any vendor on the site._
 
 ---
 
 ## 9. Principles
 
-1. **Alignment, not volume.** Every agent's work ties back to a revenue goal.
-2. **Humans approve.** Agents research and draft; people decide what goes out.
+1. **Alignment, not volume.** Every flow ties back to a revenue goal.
+2. **Humans approve.** Bots research and draft; people decide what customers see.
 3. **Shared, not weaponized.** The same picture, rep to CRO. No leaderboard.
+4. **Your process, not ours.** Teams design their own flows.
 
 ---
 
 ## 10. The team
 
-Three salespeople from Bengaluru. We did the job for a living before we started this company — cold calls, cold emails, conference dinners, missed quarters, hit quarters. We watched good reps do hours of prep with no way to show it counted, and watched the AI tools around them get louder instead of better. We had that conversation over coffee in Indiranagar and beers in Koramangala for years. We met on a sales floor. We never stopped meeting after that floor scattered. Eventually you can only have a conversation that many times before you either stop having it or do something about it.
+Three salespeople from Bengaluru. We did the job for a living before we started this company: cold calls, cold emails, conference dinners, missed quarters, hit quarters. We watched good reps do hours of prep with no way to show it counted, and watched the tools around them get louder instead of better. We had that conversation over coffee in Indiranagar and beers in Koramangala for years. Eventually you can only have a conversation that many times before you either stop having it or do something about it.
 
 We did the second one.
 
 ---
 
-_Update this file in the same commit as any product or positioning change. In particular, keep the bright lines (§4), integrations (§8) and principles (§9) in sync with the site._
+_Update this file in the same commit as any product or positioning change. Keep the bright lines (§4), pricing (§7) and integrations (§8) in sync with the site._

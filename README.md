@@ -1,78 +1,73 @@
 # Bonggy
 
-**Agents for the work before the conversation.** Bonggy is a studio where GTM
-teams build their own sales agents and groups of agents. Agents model the
-market, research accounts and draft the work (briefs, account plans,
-messages). Nothing goes out without human approval. Every agent's work ties
-back to a revenue goal through the loop Track, Align, Nudge, Report, and
-agents build shared memory from everything they learn.
+**The agent workspace for sales, RevOps and marketing teams.** Teams build
+bots from a sentence. Each bot runs a flow with six parts (trigger, context,
+steps, approval, output, goal), every flow maps to a revenue goal, and a person
+approves anything a customer would see.
 
 This repo is the marketing site plus early-access and careers capture. See
-[PRODUCT.md](./PRODUCT.md) for the full product overview.
+[PRODUCT.md](./PRODUCT.md) for the product and [DESIGN.md](./DESIGN.md) for
+the "Paper" design system.
 
 ## Stack
 
-- **Next.js 16** (App Router, Turbopack)
-- **Tailwind v4** + **shadcn/ui** (base-nova preset)
-- **Motion 12** (framer-motion) for animations
-- **Phosphor Icons** for iconography
+- **Next.js 16** (App Router, Turbopack), React 19, TypeScript
+- **Tailwind v4**, CSS-first tokens in `src/app/globals.css`; shadcn (base-nova) on `@base-ui/react`
+- **Motion 12** for animation; **@number-flow/react** for the analytics totals
+- **Phosphor Icons**; **Geist** via `next/font`
 
 ## Develop
 
 ```bash
 npm install
-npm run dev
+npm run dev          # http://localhost:3000
+npm run lint
+npx tsc --noEmit
+npm run build
 ```
 
-Open http://localhost:3000
+Screenshots at 375/768/1280/1440 plus a reduced-motion pass (dev or `next start`
+must be running; `CHROME_PATH` is optional):
+
+```bash
+URL=http://localhost:3000 node scripts/screenshot.mjs
+```
 
 ## Routes
 
 | Route | What's there |
 |---|---|
-| `/` | Landing page: Hero (Agents screen preview) → Roles (`#what-we-do`) → An agent for every job (`#agents`) → Analytics + memory (`#analytics`) → Your context (`#context`) → The loop (`#how-it-works`) → Human in the loop (`#trust`) → Pricing (`#pricing`) → FAQ (`#faq`) → CTA |
-| `/resources` | Long-form notes index |
-| `/resources/a-note-from-us` | The team's note on AI slop and agents for the work before the conversation |
+| `/` | Hero (a bot builds from your sentence, `#top`) → Teams (`#what-we-do`) → Flows (`#flows`) → A bot for every job (`#agents`) → Groups (`#groups`) → Approvals and bright lines (`#approvals`) → Analytics (`#analytics`) → Company context (`#context`) → How it works (`#how-it-works`) → Pricing (`#pricing`) → FAQ (`#faq`) → Final CTA |
 | `/about` | Mission and principles |
 | `/contact` | 30-min call link + email |
 | `/careers` | Pitch form (writes to Sheets) |
 | `/faq` | Q&As + FAQPage JSON-LD |
-| `/privacy` `/terms` `/security` | Legal + trust pages |
+| `/security` | Bright lines and data handling (softened, pending engineering) |
+| `/resources`, `/resources/a-note-from-us` | Notes index and the team's essay |
+| `/privacy`, `/terms` | Legal pages (drafts for review in `docs/legal-drafts.md`) |
 
-`/fix` was removed and permanently redirects (308) to `/` (see `next.config.ts`).
+`/fix` permanently redirects (308) to `/` (see `next.config.ts`).
 
 ## Forms
 
-Both `Early Access` (in nav modal) and `Careers` (on `/careers`) write to a
-single Google Spreadsheet with two tabs (`Early Access`, `Careers`) via a
-Google Apps Script web-app webhook.
-
-The webhook URL lives in `src/lib/sheets.ts`.
-
-Full setup: [INTEGRATIONS.md](./INTEGRATIONS.md)
+Early access (header modal) and careers (`/careers`) write to one Google
+Spreadsheet (tabs `Early Access`, `Careers`) through a Google Apps Script
+webhook. The URL lives in `src/lib/sheets.ts`; roles are validated against
+`src/lib/early-access.ts`. Setup: [INTEGRATIONS.md](./INTEGRATIONS.md).
 
 ## Deploy
 
-Push to `main`. Vercel imports the repo and builds — no environment variables
-required (the Sheets webhook URL is hardcoded in `src/lib/sheets.ts`).
+Push to `main`. Vercel builds it; no environment variables are required.
 
 ## Project layout
 
 ```
 src/
-├── app/
-│   ├── (each route)/page.tsx     # one file per page
-│   ├── api/early-access/route.ts # → src/lib/sheets.ts
-│   ├── api/careers/route.ts      # → src/lib/sheets.ts
-│   ├── layout.tsx                # root layout + SEO metadata
-│   ├── sitemap.ts robots.ts manifest.ts icon.svg apple-icon.tsx
-│   └── globals.css               # design tokens, utilities
+├── app/                         # one folder per route, api/, layout, metadata routes
+│   └── globals.css              # Paper tokens, utilities, keyframes, reduced motion
 ├── components/
-│   ├── marketing/                # all section + page components
-│   ├── product-mock/             # product UI seed: AppShell, Sidebar, chat,
-│   │                             #   Analytics and Company context screens
-│   └── ui/                       # shadcn primitives
-└── lib/
-    ├── sheets.ts                 # webhook URL + appendToSheet helper
-    └── utils.ts                  # cn() utility
+│   ├── marketing/               # header, footer, homepage sections, sub-page shell
+│   ├── product-mock/            # drawn product UI + data.ts + demo/ (scripted player)
+│   └── ui/                      # mascot, typing dots, shadcn primitives
+└── lib/                         # metadata, early-access roles, sheets, utils (cn)
 ```
