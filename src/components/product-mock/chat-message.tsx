@@ -9,7 +9,7 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import { cn } from "@/lib/utils";
 import { AgentAvatar } from "./avatar";
-import type { Agent } from "./data";
+import type { Agent } from "./legacy-data";
 
 /** The user's message: a small right-aligned bubble. */
 export function UserMessage({ children, time }: { children: React.ReactNode; time?: string }) {

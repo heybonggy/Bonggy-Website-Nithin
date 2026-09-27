@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { TONES, type AvatarSpec } from "./data";
+import { TONES, type AvatarSpec } from "./legacy-data";
 
 const SHAPE_CLASS: Record<AvatarSpec["shape"], string> = {
   circle: "rounded-full",

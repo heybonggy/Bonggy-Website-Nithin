@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { AgentAvatar, AvatarStack } from "./avatar";
-import type { Agent, Group } from "./data";
+import type { Agent, Group } from "./legacy-data";
 
 type RowProps = {
   active?: boolean;

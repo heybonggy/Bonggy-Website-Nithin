@@ -11,7 +11,7 @@ import {
 import { cn } from "@/lib/utils";
 import { AgentRow } from "./agent-row";
 import { AgentAvatar, AvatarStack } from "./avatar";
-import { USER, type Agent, type Group } from "./data";
+import { USER, type Agent, type Group } from "./legacy-data";
 
 export type View = "agents" | "analytics" | "context";
 

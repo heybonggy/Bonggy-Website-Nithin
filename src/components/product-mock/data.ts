@@ -1,183 +1,274 @@
 /**
- * Example data for the product mocks. Everything here is fictional: agent
- * names are Bonggy templates, and the companies and people are made up.
+ * Example data for the product mocks (Paper). All companies, people and
+ * numbers are fictional demo data. Tools are generic and lowercase.
  */
+import type { Team } from "@/components/ui/mascot";
 
-export type AvatarShape = "circle" | "square" | "squircle" | "pill" | "diamond";
+export type { Team };
+export type Role = "modeller" | "researcher" | "value generator";
+export type StatusKind = "off" | "scheduled" | "running" | "needs-you" | "done" | "held" | "failed";
+export type FlowPart = "trigger" | "context" | "steps" | "approval" | "output" | "goal";
 
-/** Muted avatar tones. Bonggy's accent green is kept for status, not avatars. */
-export const TONES = {
-  sage: "oklch(0.62 0.05 165)",
-  slate: "oklch(0.6 0.035 255)",
-  sand: "oklch(0.68 0.045 75)",
-  mauve: "oklch(0.6 0.04 320)",
-  steel: "oklch(0.64 0.02 220)",
-  clay: "oklch(0.62 0.05 40)",
-} as const;
-export type Tone = keyof typeof TONES;
+export const FLOW_PARTS: FlowPart[] = ["trigger", "context", "steps", "approval", "output", "goal"];
 
-export type AvatarSpec = { shape: AvatarShape; tone: Tone };
+export const TEAM_LIST: { id: Team; label: string }[] = [
+  { id: "sales", label: "sales" },
+  { id: "revops", label: "revops" },
+  { id: "marketing", label: "marketing" },
+];
 
-export type Agent = {
+export type Bot = {
   id: string;
   name: string;
-  role: string;
-  avatar: AvatarSpec;
+  team: Team;
+  role: Role;
+  /** One line on what the bot does (teams strip). */
+  job: string;
+  status: StatusKind;
+  statusLabel?: string;
   preview: string;
   time: string;
   unread?: boolean;
 };
 
-export type Group = {
+export const BOTS: Bot[] = [
+  { id: "account-researcher", name: "Account Researcher", team: "sales", role: "researcher", job: "A brief before every first call.", status: "done", statusLabel: "done · 1h ago", preview: "brief ready · northwind", time: "1h" },
+  { id: "deal-coach", name: "Deal Coach", team: "sales", role: "value generator", job: "Mondays: stuck deals and next steps.", status: "scheduled", statusLabel: "mondays 08:00", preview: "5 stuck deals flagged", time: "mon" },
+  { id: "brief-writer", name: "Brief Writer", team: "sales", role: "value generator", job: "Research into a follow-up draft, for approval.", status: "held", statusLabel: "held for you", preview: "1 draft held for you", time: "3h", unread: true },
+  { id: "pipeline-watch", name: "Pipeline Watch", team: "revops", role: "researcher", job: "Accounts drifting from the ICP, deals with no next step.", status: "done", statusLabel: "done · 2h ago", preview: "3 accounts off-icp", time: "2h" },
+  { id: "crm-hygiene", name: "CRM Hygiene", team: "revops", role: "value generator", job: "Missing fields and duplicates; proposes fixes, for approval.", status: "needs-you", statusLabel: "needs you", preview: "12 fixes to review", time: "4h" },
+  { id: "forecast-prep", name: "Forecast Prep", team: "revops", role: "modeller", job: "Before the weekly call: what changed and why.", status: "scheduled", statusLabel: "thursdays 16:00", preview: "next run thu 16:00", time: "thu" },
+  { id: "market-modeller", name: "Market Modeller", team: "marketing", role: "modeller", job: "Segments and which ones win.", status: "done", statusLabel: "done · 1d ago", preview: "mid-market is 40% of wins", time: "1d" },
+  { id: "campaign-researcher", name: "Campaign Researcher", team: "marketing", role: "researcher", job: "Pains and objections from recent calls.", status: "held", statusLabel: "held for you", preview: "post to #q4-campaign held", time: "3h" },
+  { id: "content-drafter", name: "Content Drafter", team: "marketing", role: "value generator", job: "Posts, pages and emails in your voice, for approval.", status: "off", statusLabel: "off", preview: "off", time: "5d" },
+  { id: "inbound-router", name: "Inbound Router", team: "marketing", role: "researcher", job: "Scores new leads against the ICP and briefs the right rep.", status: "needs-you", statusLabel: "needs you", preview: "2 leads to route", time: "12m" },
+];
+
+/** Any bot by id, including the one the hero creates (Champion Tracker). */
+export const botById = (id: string): Bot => {
+  const bot = [...BOTS, CHAMPION_TRACKER].find((b) => b.id === id);
+  if (!bot) throw new Error(`unknown bot: ${id}`);
+  return bot;
+};
+
+/** The bot the hero builds from a sentence. */
+export const CHAMPION_TRACKER: Bot = {
+  id: "champion-tracker",
+  name: "Champion Tracker",
+  team: "sales",
+  role: "researcher",
+  job: "Tells you when a lost deal's champion changes jobs.",
+  status: "scheduled",
+  statusLabel: "daily 07:00",
+  preview: "watching closed-lost champions",
+  time: "now",
+};
+
+export const HANDOFF_GROUP = {
+  id: "handoff-pod",
+  name: "Marketing → Sales handoff",
+  members: ["campaign-researcher", "deal-coach", "inbound-router"],
+};
+
+export const VIEWER = { initials: "NR", name: "Nithin" };
+
+/* ---------------------------------- flows --------------------------------- */
+
+export type Run = { id: string; when: string; status: StatusKind; label: string };
+
+export type Flow = {
   id: string;
-  name: string;
-  members: AvatarSpec[];
-  /** Members beyond the stacked avatars, shown as "+n". */
-  more: number;
-  preview: string;
-  time: string;
-  unread?: boolean;
+  botId: string;
+  on: boolean;
+  schedule: string;
+  lastRun: string;
+  nextRun: string;
+  parts: Record<FlowPart, string | string[]>;
+  /** A hard limit shown as a chip, and the part it sits in. */
+  limit?: { part: FlowPart; text: string };
+  runs: Run[];
 };
 
-export const AGENTS: Agent[] = [
-  {
-    id: "researcher",
-    name: "Account Researcher",
-    role: "Researcher",
-    avatar: { shape: "circle", tone: "sage" },
-    preview: "Ready for your next account",
-    time: "now",
+export const DEAL_COACH_FLOW: Flow = {
+  id: "deal-coach-weekly",
+  botId: "deal-coach",
+  on: true,
+  schedule: "every monday 08:00",
+  lastRun: "mon 08:00 · 5 found",
+  nextRun: "mon 08:00",
+  parts: {
+    trigger: "every monday 08:00",
+    context: "open deals in crm · calendar · call notes",
+    steps: ["read every open deal", "flag no next step or 14+ days quiet", "suggest one next step per deal"],
+    approval: "you · before any crm change",
+    output: "this chat · a crm task per deal",
+    goal: "q4 enterprise logos",
   },
-  {
-    id: "modeller",
-    name: "Market Modeller",
-    role: "Modeller",
-    avatar: { shape: "squircle", tone: "slate" },
-    preview: "Mid-market logistics is 40% of Q3 wins",
-    time: "2h",
-  },
-  {
-    id: "writer",
-    name: "Brief Writer",
-    role: "Value generator",
-    avatar: { shape: "square", tone: "sand" },
-    preview: "2 drafts waiting for approval",
-    time: "3h",
-    unread: true,
-  },
-  {
-    id: "coach",
-    name: "Deal Coach",
-    role: "Value generator",
-    avatar: { shape: "pill", tone: "mauve" },
-    preview: "Northwind deal has no next step",
-    time: "Mon",
-  },
-  {
-    id: "pipeline",
-    name: "Pipeline Watch",
-    role: "Researcher",
-    avatar: { shape: "diamond", tone: "steel" },
-    preview: "3 accounts drifting from ICP",
-    time: "Mon",
-    unread: true,
-  },
-];
-
-export const GROUPS: Group[] = [
-  {
-    id: "enterprise",
-    name: "Enterprise pod",
-    members: [AGENTS[0].avatar, AGENTS[1].avatar, AGENTS[2].avatar],
-    more: 3,
-    preview: "Weekly plan for 12 target accounts",
-    time: "1d",
-  },
-];
-
-export const ACCOUNT_RESEARCHER = AGENTS[0];
-export const DEAL_COACH = AGENTS[3];
-
-export const USER = { initials: "NR", name: "You" };
-
-/** The goal the demo conversation's work maps to. */
-export const DEMO_GOAL = "Q4 new enterprise logos";
-
-export const DEMO_PROMPT =
-  "Research acme.com before my Thursday call with their VP Sales.";
-
-export const DEMO_SOURCES = ["acme.com", "LinkedIn", "CRM notes"];
-
-export const DEMO_BRIEF = {
-  company: "Acme Logistics · freight software · ~600 people · Series C",
-  whyNow:
-    "Hired a new VP Sales in August and posted four RevOps roles this month. They're rebuilding the sales motion.",
-  pains: [
-    "Ramp time for the new AE hires",
-    "Forecast calls rely on rep gut feel",
-    "Outbound volume up, reply rates down",
+  limit: { part: "approval", text: "never email anyone" },
+  runs: [
+    { id: "r4", when: "mon 08:00", status: "running", label: "reading open deals…" },
+    { id: "r3", when: "fri 16:05", status: "needs-you", label: "5 tasks to add" },
+    { id: "r2", when: "mon 08:00", status: "done", label: "5 found · nothing sent" },
+    { id: "r1", when: "next mon 08:00", status: "scheduled", label: "queued" },
   ],
-  room: [
-    { role: "VP Sales", note: "meeting owner, new in seat" },
-    { role: "Head of RevOps", note: "likely evaluator" },
-    { role: "CFO", note: "signs off above $50k" },
-  ],
-  angle:
-    "Lead with ramp time: show how a researched brief before every first call gets new AEs productive faster.",
 };
 
-export const DEMO_DRAFT = {
-  to: "VP Sales, Acme Logistics",
-  subject: "Thursday: getting your new AEs to first meetings faster",
+/** The remix: the user edits Deal Coach and the card follows. */
+export const DEAL_COACH_REMIX = {
+  trigger: { from: "every monday 08:00", to: "fridays after forecast" },
+  context: { from: "open deals in crm · calendar · call notes", to: "open enterprise deals only · crm · calendar · call notes" },
+};
+
+/** Other flows in the Flows screen list. */
+export const FLOW_LIST: { botId: string; on: boolean; schedule: string; lastRun: string }[] = [
+  { botId: "deal-coach", on: true, schedule: "mondays 08:00", lastRun: "mon 08:00" },
+  { botId: "pipeline-watch", on: true, schedule: "daily 07:00", lastRun: "today 07:00" },
+  { botId: "inbound-router", on: true, schedule: "on new lead", lastRun: "12m ago" },
+  { botId: "campaign-researcher", on: false, schedule: "one-off", lastRun: "wed 11:20" },
+  { botId: "crm-hygiene", on: false, schedule: "fridays 17:00", lastRun: "fri 17:00" },
+];
+
+export const DEAL_COACH_RECEIPT = {
+  title: "run receipt · fri 16:05",
+  items: [
+    { verb: "read", text: "18 open deals" },
+    { verb: "found", text: "5 stuck: 3 no next step, 2 quiet 14+ days" },
+    { verb: "added", text: "5 next-step tasks" },
+  ],
+  footer: "nothing sent.",
+};
+
+/* ------------------------------ result cards ------------------------------ */
+
+export type DealRisk = { name: string; stage: string; daysQuiet: number; reason: string; risk: number };
+
+export const STUCK_DEALS: DealRisk[] = [
+  { name: "northwind freight", stage: "proposal", daysQuiet: 16, reason: "quiet 14+ days", risk: 4 },
+  { name: "helix health", stage: "evaluation", daysQuiet: 9, reason: "no next step", risk: 3 },
+  { name: "atlas corp", stage: "discovery", daysQuiet: 21, reason: "quiet 14+ days", risk: 5 },
+  { name: "pylon", stage: "proposal", daysQuiet: 6, reason: "no next step", risk: 2 },
+  { name: "corvid labs", stage: "evaluation", daysQuiet: 11, reason: "no next step", risk: 3 },
+];
+
+/* -------------------------------- approvals ------------------------------- */
+
+export type Approval = {
+  id: string;
+  botId: string;
+  /** Two-tone line: bot name, then the action. */
+  action: string;
+  kind: "customer-facing" | "internal";
+  goal: string;
+  age: string;
+  status: StatusKind;
+};
+
+export const APPROVALS: Approval[] = [
+  { id: "a1", botId: "champion-tracker", action: "wants to send a note to dana at globex", kind: "customer-facing", goal: "q4 new pipeline", age: "2m", status: "needs-you" },
+  { id: "a2", botId: "deal-coach", action: "wants to add 5 next-step tasks to your crm", kind: "internal", goal: "q4 enterprise logos", age: "14m", status: "needs-you" },
+  { id: "a3", botId: "inbound-router", action: "briefed 4 reps in #inbound", kind: "internal", goal: "pipeline from inbound", age: "1h", status: "done" },
+  { id: "a4", botId: "campaign-researcher", action: "post to #q4-campaign", kind: "customer-facing", goal: "pipeline from inbound", age: "3h", status: "held" },
+];
+
+export const CHAMPION_NOTE = {
+  strip: "needs your ok · you · before any note is sent",
+  to: "dana, now at globex",
+  subject: "congrats on the move to globex",
   body: [
-    "Hi Dana,",
-    "Congrats on the new role. Ahead of Thursday, I pulled together how teams rebuilding their motion cut ramp time with account briefs before every first call.",
-    "Happy to walk through what that looks like for your four new RevOps hires.",
+    "hi dana,",
+    "congrats on the new role. when we spoke last year, onboarding time was the blocker at your old team.",
+    "if it's on your list at globex, happy to share what we've learned since. 20 minutes next week?",
   ],
+  goal: "q4 new pipeline",
 };
 
-export const COACH_PROMPT =
-  "You're my Deal Coach. Review my open deals every Monday and tell me which ones are stuck.";
+/* -------------------------------- analytics ------------------------------- */
 
-export const COACH_SETUP = [
-  { k: "When", v: "Every Monday, 8:00" },
-  { k: "Looks at", v: "Open deals in your CRM" },
-  { k: "Flags as stuck", v: "No activity in 14 days, or no next step" },
-  { k: "Sends", v: "A short list here, for you" },
+export type AnalyticsRow = { botId: string; runs: number; approved: number; hours: number; goal: string };
+
+export const ANALYTICS_ROWS: AnalyticsRow[] = [
+  { botId: "champion-tracker", runs: 14, approved: 1, hours: 0.5, goal: "q4 new pipeline" },
+  { botId: "deal-coach", runs: 4, approved: 4, hours: 3, goal: "q4 enterprise logos" },
+  { botId: "pipeline-watch", runs: 30, approved: 2, hours: 4.5, goal: "q4 enterprise logos" },
+  { botId: "campaign-researcher", runs: 3, approved: 1, hours: 2, goal: "pipeline from inbound" },
+  { botId: "inbound-router", runs: 21, approved: 19, hours: 3.5, goal: "pipeline from inbound" },
 ];
 
-export type MemoryFact = { date: string; fact: string };
-
-/** What the Account Researcher has learned, oldest first. */
-export const MEMORY: MemoryFact[] = [
-  { date: "Aug 04", fact: "Freight software buyers ask for a security review before any pilot." },
-  { date: "Aug 12", fact: "VP Sales is usually the meeting owner; RevOps does the evaluation." },
-  { date: "Aug 21", fact: "Ramp-time angle gets replies twice as often as forecast accuracy." },
-  { date: "Sep 02", fact: "Northwind prefers a phased budget; won after splitting into two quarters." },
-  { date: "Sep 10", fact: "Accounts hiring RevOps roles convert faster in the next 60 days." },
-  { date: "Sep 18", fact: "Acme's new VP Sales came from Helix; Helix was a win in Q2." },
+export const MEMORY_SOURCES = [
+  { source: "crm notes", count: 212, updated: "2h ago" },
+  { source: "call notes", count: 64, updated: "1h ago" },
+  { source: "docs", count: 9, updated: "3d ago" },
 ];
 
-export const ACTIVITY = [
-  { name: "Account Researcher", tone: "sage" as Tone, value: 46 },
-  { name: "Brief Writer", tone: "sand" as Tone, value: 31 },
-  { name: "Market Modeller", tone: "slate" as Tone, value: 18 },
-  { name: "Pipeline Watch", tone: "steel" as Tone, value: 14 },
-  { name: "Deal Coach", tone: "mauve" as Tone, value: 9 },
-];
+/* ----------------------------- company context ---------------------------- */
 
-export const GOALS = [
-  { goal: "Q4 new enterprise logos", share: 52 },
-  { goal: "Mid-market expansion", share: 27 },
-  { goal: "Net revenue retention", share: 13 },
-  { goal: "Not mapped to a goal", share: 8 },
-];
-
-export const CONTEXT = {
-  company: "Pylon Software",
-  sells: "Freight quoting software for mid-market and enterprise logistics teams.",
-  icp: "Logistics and 3PL companies, 200–5,000 people, with a RevOps function and a sales team of 10+.",
-  goals: ["Q4 new enterprise logos", "Mid-market expansion", "Net revenue retention"],
-  voice: "Plain and specific. Short emails, no hype, one clear ask.",
-  tools: ["CRM", "Email", "Calendar", "Slack", "Call notes"],
+export type ContextRow = {
+  label: string;
+  value: string;
+  override?: { team: Team; value: string };
 };
+
+export const COMPANY_CONTEXT: ContextRow[] = [
+  { label: "ICP", value: "b2b saas, 50–500 employees", override: { team: "revops", value: "enterprise plan: 1000+" } },
+  { label: "Tone", value: "plain, specific, one clear ask", override: { team: "marketing", value: "warmer, story-first, still no hype" } },
+  { label: "Deal stages", value: "discovery → evaluation → proposal → closed" },
+  { label: "Never", value: "never contact current customers' champions without the AE" },
+];
+
+/* -------------------------------- team takes ------------------------------ */
+
+export type TeamTake = {
+  botId: string;
+  instruction: string;
+  /** The hard-limit clause inside the instruction. */
+  limit: string;
+  flowSaved: string;
+  report: string;
+  human: string;
+  confirmation: string;
+  /** Two-tone description on the left: lead, rest. */
+  description: [string, string];
+};
+
+export const TEAM_TAKES: TeamTake[] = [
+  {
+    botId: "deal-coach",
+    instruction: "Every Monday, flag my stuck deals. Never email anyone.",
+    limit: "Never email anyone.",
+    flowSaved: "mondays 08:00 · internal only",
+    report: "5 of 18 open deals are stuck: 3 have no next step, 2 went quiet 14+ days.",
+    human: "approve",
+    confirmation: "added 5 next-step tasks to your crm. nothing sent.",
+    description: ["Deal Coach.", "Flags stuck deals every Monday. Never emails anyone."],
+  },
+  {
+    botId: "pipeline-watch",
+    instruction: "Check pipeline daily for accounts drifting off ICP. Don't change any records.",
+    limit: "Don't change any records.",
+    flowSaved: "daily 07:00 · read-only",
+    report: "3 accounts in the enterprise plan sit outside your icp.",
+    human: "reassign",
+    confirmation: "moved research to 3 in-icp accounts. no crm records changed.",
+    description: ["Pipeline Watch.", "Checks pipeline every morning. Never changes a record."],
+  },
+  {
+    botId: "campaign-researcher",
+    instruction: "Pull the top pains and objections from last month's calls. Don't write copy yet.",
+    limit: "Don't write copy yet.",
+    flowSaved: "one-off · internal",
+    report: "read 24 call notes; 4 pains came up 3+ times.",
+    human: "share",
+    confirmation: "posted to #q4-campaign. no copy drafted.",
+    description: ["Campaign Researcher.", "Turns last month's calls into a list of pains. Writes no copy."],
+  },
+  {
+    botId: "inbound-router",
+    instruction: "Score new demo requests against our ICP and brief the right rep. Never reply to the lead.",
+    limit: "Never reply to the lead.",
+    flowSaved: "on new lead · internal only",
+    report: "7 new leads today; 4 fit the icp, 2 are enterprise.",
+    human: "route",
+    confirmation: "briefed 4 reps in slack, owners set in crm. no reply sent to leads.",
+    description: ["Inbound Router.", "Scores demo requests and briefs reps. Never replies to a lead."],
+  },
+];

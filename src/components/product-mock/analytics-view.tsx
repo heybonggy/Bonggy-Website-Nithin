@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { Warning } from "@phosphor-icons/react/dist/ssr";
 import { cn } from "@/lib/utils";
 import { AgentAvatar } from "./avatar";
-import { ACTIVITY, GOALS, MEMORY, TONES, ACCOUNT_RESEARCHER } from "./data";
+import { ACTIVITY, GOALS, MEMORY, TONES, ACCOUNT_RESEARCHER } from "./legacy-data";
 
 /**
  * Analytics: per-agent activity, what an agent has learned, work mapped to

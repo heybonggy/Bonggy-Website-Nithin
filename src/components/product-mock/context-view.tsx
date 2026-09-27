@@ -5,7 +5,7 @@ import {
   EnvelopeSimple,
   Microphone,
 } from "@phosphor-icons/react/dist/ssr";
-import { CONTEXT } from "./data";
+import { CONTEXT } from "./legacy-data";
 
 // Generic tool names only; none are named integrations.
 const TOOL_ICONS: Record<string, React.ComponentType<{ className?: string; "aria-hidden"?: boolean }>> = {
