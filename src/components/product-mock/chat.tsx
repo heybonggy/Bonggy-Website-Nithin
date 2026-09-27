@@ -5,7 +5,7 @@ import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 import { BotAvatar, type Team } from "@/components/ui/mascot";
 import type { CharacterState } from "@/components/ui/bot-character";
-import { botColorVars } from "@/components/ui/bot-look";
+import { botColorVars, type BotLook } from "@/components/ui/bot-look";
 import { useBotLook } from "./bot-looks";
 import { TypingDots } from "@/components/ui/typing-dots";
 import { DUR, EASE } from "@/components/marketing/_motion";
@@ -61,8 +61,9 @@ export function UserBubble({ text, limit, className }: { text: string; limit?: s
 }
 
 /** The bot's name over its bubble, in its own ink colour. */
-function BubbleName({ botId, name }: { botId?: string; name: string }) {
-  const look = useBotLook(botId);
+function BubbleName({ botId, name, look: override }: { botId?: string; name: string; look?: BotLook }) {
+  const stored = useBotLook(botId);
+  const look = override ?? stored;
   return (
     <span className="rounded-full bg-[var(--bot-tint)] px-2 py-px font-medium text-[var(--bot-ink)]" style={botColorVars(look.color)}>
       {name}
@@ -74,12 +75,15 @@ function BubbleName({ botId, name }: { botId?: string; name: string }) {
 export function BotBubble({
   text,
   botId,
+  look,
   name,
   time,
   state,
   children,
   className,
 }: {
+  /** A look not stored by id (e.g. a bot that just named itself). */
+  look?: BotLook;
   /** @deprecated kept for call sites; the bot's look comes from botId. */
   team?: Team;
   botId?: string;
@@ -94,11 +98,11 @@ export function BotBubble({
 }) {
   return (
     <motion.div {...bubbleIn} className={cn("flex items-start gap-2", className)}>
-      <BotAvatar botId={botId} size={24} state={state} className="mt-0.5" />
+      <BotAvatar botId={botId} look={look} size={24} state={state} className="mt-0.5" />
       <div className={cn("flex min-w-0 max-w-[86%] flex-col gap-2", children && "flex-1")}>
         {name || time ? (
           <p data-bubble-head className="-mb-1 flex items-baseline gap-2 text-ui-sm">
-            {name ? <BubbleName botId={botId} name={name} /> : null}
+            {name ? <BubbleName botId={botId} look={look} name={name} /> : null}
             {time ? <span className="text-caption text-fg-3">{time}</span> : null}
           </p>
         ) : null}

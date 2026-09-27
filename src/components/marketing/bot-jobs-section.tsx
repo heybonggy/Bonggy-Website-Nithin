@@ -25,6 +25,7 @@ import {
   readDuration,
   useDemoPlayer,
   type CursorState,
+  type PillTab,
   type TeamTake,
   type Timeline,
 } from "@/components/product-mock";
@@ -35,6 +36,12 @@ import { EASE, usePrefersReducedMotion } from "./_motion";
 import { AnimatePresence, motion } from "motion/react";
 import { REPLAY_HERO_EVENT } from "./hero-demo";
 import { CtaButton } from "./cta-button";
+import { YourBotDemo } from "./your-bot-demo";
+import { Confetti } from "@/components/ui/sparkle";
+
+/** The "build your own" tab id, and the tab order (presets, then yours). */
+const YOURS = "yours";
+const TAB_ORDER = [...TEAM_TAKES.map((t) => t.botId), YOURS];
 
 /** Wait after a take ends before the next tab, until someone picks one. */
 const AUTO_ADVANCE_MS = 4000;
@@ -191,18 +198,52 @@ export function BotJobsSection() {
   const [active, setActive] = React.useState(TEAM_TAKES[0].botId);
   const [picked, setPicked] = React.useState(false);
   const reduced = usePrefersReducedMotion();
+  const isYours = active === YOURS;
   const take = TEAM_TAKES.find((t) => t.botId === active) ?? TEAM_TAKES[0];
-  const tabs = TEAM_TAKES.map((t) => {
-    const bot = botById(t.botId);
-    return { id: t.botId, label: bot.name, team: bot.team };
-  });
 
+  // The "Your bot" tab bursts confetti on hover / focus, and once the first
+  // time the section comes into view.
+  const [burst, setBurst] = React.useState(0);
+  const sectionRef = React.useRef<HTMLDivElement>(null);
+  React.useEffect(() => {
+    const el = sectionRef.current;
+    if (!el || reduced) return;
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          setBurst((n) => n + 1);
+          io.disconnect();
+        }
+      },
+      { threshold: 0.35 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [reduced]);
+
+  const tabs: PillTab[] = [
+    ...TEAM_TAKES.map((t) => {
+      const bot = botById(t.botId);
+      return { id: t.botId, label: bot.name, team: bot.team };
+    }),
+    {
+      id: YOURS,
+      label: "Your bot",
+      team: "sales" as const,
+      special: true,
+      ariaLabel: "Build your own bot",
+      onAttention: () => {
+        if (!reduced) setBurst((n) => n + 1);
+      },
+      decoration: burst > 0 && !reduced ? <Confetti key={burst} /> : null,
+    },
+  ];
+
+  // Presets play in order; "Your bot" comes after the four presets, then the
+  // loop starts again.
   const advance = React.useCallback(() => {
     if (picked || reduced) return;
-    setActive((id) => {
-      const i = TEAM_TAKES.findIndex((t) => t.botId === id);
-      return TEAM_TAKES[(i + 1) % TEAM_TAKES.length].botId;
-    });
+    setActive((id) => TAB_ORDER[(TAB_ORDER.indexOf(id) + 1) % TAB_ORDER.length]);
   }, [picked, reduced]);
 
   const startFromSentence = () => {
@@ -212,6 +253,7 @@ export function BotJobsSection() {
 
   return (
     <Section id="agents" aria-labelledby="agents-title">
+      <div ref={sectionRef}>
       <SectionHeader
         kicker="Flows teams have built"
         title={<span id="agents-title">A bot for every job.</span>}
@@ -236,6 +278,28 @@ export function BotJobsSection() {
             aria-labelledby={`bot-jobs-tab-${active}`}
             className="mt-8 flex flex-col gap-6"
           >
+            {isYours ? (
+              <>
+                <p className="max-w-copy text-title text-foreground">
+                  Your bot. <span className="text-fg-3">Start from a sentence; it names itself, picks a face and builds its flow.</span>
+                </p>
+                <dl className="grid max-w-copy gap-3 text-ui-sm">
+                  <div className="grid grid-cols-[96px_1fr] items-start gap-3 border-t border-border pt-3">
+                    <dt className="text-fg-3">You say</dt>
+                    <dd className="text-foreground">what it&apos;s for, in plain words</dd>
+                  </div>
+                  <div className="grid grid-cols-[96px_1fr] items-start gap-3 border-t border-border pt-3">
+                    <dt className="text-fg-3">It picks</dt>
+                    <dd className="text-foreground">a name, a colour and a face</dd>
+                  </div>
+                  <div className="grid grid-cols-[96px_1fr] items-start gap-3 border-y border-border py-3">
+                    <dt className="text-fg-3">You get</dt>
+                    <dd className="text-foreground">a flow with all six parts, yours to change</dd>
+                  </div>
+                </dl>
+              </>
+            ) : (
+            <>
             <p className="max-w-copy text-title text-foreground">
               {take.description[0]} <span className="text-fg-3">{take.description[1]}</span>
             </p>
@@ -255,6 +319,8 @@ export function BotJobsSection() {
                 <dd className="text-foreground">{take.flowSaved}</dd>
               </div>
             </dl>
+            </>
+            )}
           </div>
 
           <div className="mt-10 flex flex-wrap items-center gap-4">
@@ -268,16 +334,17 @@ export function BotJobsSection() {
         <div className="relative min-w-0">
           <AnimatePresence mode="popLayout" initial={false}>
             <motion.div
-              key={take.botId}
+              key={isYours ? YOURS : take.botId}
               initial={reduced ? { opacity: 0 } : { opacity: 0, x: 40 }}
               animate={{ opacity: 1, x: 0 }}
               exit={reduced ? { opacity: 0 } : { opacity: 0, x: -40 }}
               transition={{ duration: 0.35, ease: EASE.outExpo }}
             >
-              <TakeDemo take={take} onDone={advance} />
+              {isYours ? <YourBotDemo onDone={advance} /> : <TakeDemo take={take} onDone={advance} />}
             </motion.div>
           </AnimatePresence>
         </div>
+      </div>
       </div>
     </Section>
   );

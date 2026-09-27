@@ -68,9 +68,12 @@ export function PhoneChatHeader({
   statusLabel,
   character = "idle",
   avatarLayoutId,
+  avatar,
   right,
 }: {
   avatarLayoutId?: string;
+  /** Custom avatar content instead of a bot by id. */
+  avatar?: React.ReactNode;
   botId?: string;
   title: string;
   subtitle?: string;
@@ -82,11 +85,11 @@ export function PhoneChatHeader({
   return (
     <div className="flex shrink-0 items-center gap-2.5 border-b-[0.5px] border-border-strong px-3 pb-2.5 pt-1">
       <CaretLeft weight="bold" className="size-5 shrink-0 text-fg-2" aria-hidden />
-      {botId ? (
+      {avatar ?? (botId ? (
         <motion.span layoutId={avatarLayoutId} className="inline-flex" transition={{ type: "spring", stiffness: 340, damping: 32, mass: 0.9 }}>
           <BotAvatar botId={botId} size={30} state={character} />
         </motion.span>
-      ) : null}
+      ) : null)}
       <span className="min-w-0 flex-1">
         <span className="block truncate text-[14px] font-semibold text-foreground">{title}</span>
         {status ? (
@@ -188,11 +191,21 @@ function Keyboard() {
 }
 
 /** Composer pinned at the bottom; the keyboard slides up under it while typing. */
-export function PhoneComposer({ value = "", caret = false, keyboard = false }: { value?: string; caret?: boolean; keyboard?: boolean }) {
+export function PhoneComposer({
+  value = "",
+  caret = false,
+  keyboard = false,
+  placeholder,
+}: {
+  value?: string;
+  caret?: boolean;
+  keyboard?: boolean;
+  placeholder?: string;
+}) {
   return (
     <div className="shrink-0 border-t-[0.5px] border-border bg-surface-raised">
       <div className={cn("px-2.5 pt-2", keyboard ? "pb-2" : "pb-7")}>
-        <ChatComposer value={value} caret={caret} className="shadow-none" />
+        <ChatComposer value={value} caret={caret} placeholder={placeholder} className="shadow-none" />
       </div>
       <AnimatePresence initial={false}>
         {keyboard ? (

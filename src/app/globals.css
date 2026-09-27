@@ -370,6 +370,7 @@
   --animate-rise-in: rise-in 700ms var(--ease-out-expo) both;
   --animate-bar-draw: bar-draw 450ms var(--ease-out-expo) both;
   --animate-shake: shake 360ms var(--ease-standard) both;
+  --animate-twinkle: twinkle 2.4s var(--ease-standard) infinite;
 
   @keyframes typing-dot {
     0%, 55%, 100% { opacity: 0.25; }
@@ -408,6 +409,10 @@
   }
   @keyframes rise-in {
     from { opacity: 0; transform: translateY(var(--rise-from, 10px)); }
+  }
+  @keyframes twinkle {
+    0%, 100% { transform: scale(0.8) rotate(0deg); }
+    50% { transform: scale(1.15) rotate(12deg); }
   }
   @keyframes shake {
     20%, 60% { transform: translateX(-5px); }
@@ -492,6 +497,16 @@
   transform-box: view-box;
   transform-origin: 50% 60%;
   transform: rotate(var(--acc-rot, 0deg));
+}
+.confetti-dot {
+  transform: translate(-50%, -50%) rotate(var(--a)) translateY(0) scale(1);
+  animation: confetti 500ms var(--ease-out-expo) forwards;
+}
+@keyframes confetti {
+  to { transform: translate(-50%, -50%) rotate(var(--a)) translateY(calc(-1 * var(--d, 28px))) scale(0.5); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .confetti-dot { display: none; }
 }
 .bot-spark {
   transform: translate(-50%, -50%) rotate(var(--a)) translateY(0) scale(1);

@@ -4,10 +4,22 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import { BotAvatar, type Team } from "@/components/ui/mascot";
 import { botColorVars } from "@/components/ui/bot-look";
+import { Sparkle } from "@/components/ui/sparkle";
 import { useBotLook } from "./bot-looks";
 
 /** `id` is the bot id; the active pill takes that bot's colour. */
-export type PillTab = { id: string; label: string; team: Team };
+export type PillTab = {
+  id: string;
+  label: string;
+  team: Team;
+  /** A "build your own" tab: sparkle instead of a bot, dashed outline. */
+  special?: boolean;
+  ariaLabel?: string;
+  /** Fires on hover / focus (e.g. a confetti burst). */
+  onAttention?: () => void;
+  /** Rendered inside the tab (e.g. confetti). */
+  decoration?: React.ReactNode;
+};
 
 /**
  * Pill tabs with a roving tabindex: ←/→ move, Home/End jump. Selection
@@ -55,20 +67,26 @@ export function PillTabs({
             role="tab"
             id={`${idPrefix}-tab-${t.id}`}
             aria-selected={active}
+            aria-label={t.ariaLabel}
+            onPointerEnter={t.onAttention}
+            onFocus={t.onAttention}
             aria-controls={`${idPrefix}-panel`}
             tabIndex={active ? 0 : -1}
             onClick={() => onChange(t.id)}
             onKeyDown={(e) => onKeyDown(e, i)}
-            style={active ? botColorVars(colors[i]) : undefined}
+            style={active ? botColorVars(t.special ? "violet" : colors[i]) : undefined}
             className={cn(
               "relative inline-flex h-8 items-center gap-1.5 rounded-full pl-[5px] pr-3 text-ui-sm font-medium transition-colors duration-[var(--dur-quick)]",
               "after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-['']",
-              active
-                ? "bg-[var(--bot-tint)] text-[var(--bot-ink)] shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--bot-ink)_28%,transparent)]"
-                : "bg-surface-2 text-foreground hover:bg-surface-3",
+              t.special && !active
+                ? "border border-dashed border-border-strong bg-transparent pl-2 text-foreground hover:bg-surface-2"
+                : active
+                  ? "bg-[var(--bot-tint)] text-[var(--bot-ink)] shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--bot-ink)_28%,transparent)]"
+                  : "bg-surface-2 text-foreground hover:bg-surface-3",
             )}
           >
-            <BotAvatar botId={t.id} size={22} />
+            {t.special ? <Sparkle className="size-4" twinkle={!active} /> : <BotAvatar botId={t.id} size={22} />}
+            {t.decoration}
             {t.label}
           </button>
         );

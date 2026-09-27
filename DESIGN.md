@@ -254,6 +254,7 @@ Everything lives in [`src/components/product-mock/`](src/components/product-mock
 | 2 | `#teams` (old `#what-we-do` still lands here) | One workspace. Three teams. (three team columns: the team's bots as compact rows with a live status that alternates between two real moments, staggered 300–700ms per row; one line on what the team gets; clicking a bot opens it in the customiser) |
 | 3 | `#flows` | Every bot runs a flow you design. |
 | 4 | `#agents` | A bot for every job (Flows teams have built) |
+| 4a | `#agents` (tab 5) | **Your bot**: a dashed tab with a twinkling bot-coloured sparkle (confetti on hover / focus, and once when the section first enters view). Its take: a blank, colourless bot; a purpose is typed (a different one each loop); the bot wakes, picks a colour, face and name ("named itself nudge") with a celebrate; the six flow parts snap in as chips; it ends on a real link card, "This one's yours. Build it on a strategy call →". It plays after the four presets, or when picked. Reduced motion: no twinkle or confetti; end state with fades. |
 | 4b | `#make-it-yours` | Make it yours. (the customiser, §7.21) |
 | 5 | `#groups` | Bots hand off work. |
 | 6 | `#approvals` | Bots draft. You decide. (plus the four bright lines) |
