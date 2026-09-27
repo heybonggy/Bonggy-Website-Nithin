@@ -6,6 +6,7 @@ import { StatusPill } from "@/components/product-mock/status-pill";
 import { useAmbientTick } from "@/components/product-mock/ambient";
 import { BOTS, TEAM_LIST, type Bot, type StatusKind } from "@/components/product-mock/data";
 import { Section, SectionHeader } from "./section";
+import { Stagger } from "./entrances";
 import { CUSTOMISE_EVENT } from "./make-it-yours";
 
 const TEAM_NAME = { sales: "Sales", revops: "RevOps", marketing: "Marketing" } as const;
@@ -79,7 +80,7 @@ function TeamColumn({ team }: { team: (typeof TEAM_LIST)[number]["id"] }) {
   const tick = useAmbientTick(ref, 2600, 1400);
   const bots = BOTS.filter((b) => b.team === team);
   return (
-    <div ref={ref} className="reveal flex min-w-0 flex-col gap-4 rounded-3xl bg-surface p-5 sm:p-6">
+    <div ref={ref} className="flex min-w-0 flex-col gap-4 rounded-3xl bg-surface p-5 sm:p-6">
       <div className="flex items-center gap-3">
         <GroupAvatar botIds={bots.slice(0, 3).map((b) => b.id)} size={28} />
         <h3 className="text-title font-medium text-foreground">{TEAM_NAME[team]}</h3>
@@ -104,11 +105,11 @@ export function TeamsSection() {
         title={<span id="teams-title">One workspace. Three teams.</span>}
         intro="Sales, RevOps and marketing teams each build bots for their own work. Every bot answers to a revenue goal."
       />
-      <div className="mt-10 grid gap-4 lg:grid-cols-3">
+      <Stagger className="mt-10 grid gap-4 lg:grid-cols-3">
         {TEAM_LIST.map((t) => (
           <TeamColumn key={t.id} team={t.id} />
         ))}
-      </div>
+      </Stagger>
     </Section>
   );
 }

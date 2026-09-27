@@ -1,3 +1,4 @@
+import { Stagger } from "./entrances";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 export type FaqItem = { q: string; a: string };
@@ -13,6 +14,7 @@ export function FaqList({
   openFirst?: boolean;
 }) {
   return (
+    <Stagger deep>
     <Accordion defaultValue={openFirst ? [items[0]?.q] : []}>
       {items.map((item) => (
         <AccordionItem key={item.q} value={item.q}>
@@ -21,6 +23,7 @@ export function FaqList({
         </AccordionItem>
       ))}
     </Accordion>
+    </Stagger>
   );
 }
 

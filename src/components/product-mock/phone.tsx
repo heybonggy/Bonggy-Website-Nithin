@@ -30,7 +30,7 @@ export function PhoneFrame({
       {plate ? (
         <div
           aria-hidden
-          className="hatch-faint absolute -inset-x-2 -top-4 bottom-[-40px] rounded-[40px] bg-surface sm:-inset-x-6 sm:-top-6"
+          className="parallax hatch-faint absolute -inset-x-2 -top-4 bottom-[-40px] rounded-[40px] bg-surface sm:-inset-x-6 sm:-top-6"
           style={{ maskImage: "linear-gradient(#000 60%, transparent)", WebkitMaskImage: "linear-gradient(#000 60%, transparent)" }}
         />
       ) : null}

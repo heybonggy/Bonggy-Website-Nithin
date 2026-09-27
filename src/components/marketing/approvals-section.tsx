@@ -23,6 +23,7 @@ import {
   PhoneTranscript,
 } from "@/components/product-mock";
 import { Section, SectionHeader } from "./section";
+import { Stagger } from "./entrances";
 import { BotAvatar } from "@/components/ui/mascot";
 import { useLoopFocus } from "./loop-focus";
 
@@ -146,7 +147,7 @@ export function ApprovalsSection() {
       </DemoFrame>
       </div>
 
-      <ul className="mt-14 grid gap-x-10 gap-y-8 sm:grid-cols-2">
+      <Stagger as="ul" className="mt-14 grid gap-x-10 gap-y-8 sm:grid-cols-2">
         {BRIGHT_LINES.map((l) => (
           <li key={l.title} className="flex gap-3">
             <span className="mt-0.5 inline-flex size-6 shrink-0 items-center justify-center rounded-full bg-surface-inverse text-fg-inverse">
@@ -157,7 +158,7 @@ export function ApprovalsSection() {
             </p>
           </li>
         ))}
-      </ul>
+      </Stagger>
       <Link
         href="/security"
         className="mt-10 inline-flex min-h-11 items-center gap-1.5 text-ui font-medium text-foreground underline-offset-4 hover:underline"

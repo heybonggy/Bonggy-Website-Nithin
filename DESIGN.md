@@ -192,6 +192,13 @@ Rules:
 - **Budget.** Off-screen characters and hidden tabs are skipped, and the loop stops when none are visible. At most 24 characters run fully; the smallest beyond that only blink.
 - **Reduced motion.** No loop at all. Each state is a static pose (thinking tilted with gaze up-left, waiting tilted with gaze up-right, happy with the ✓ eye, drowsy eye shut), and pose changes fade over 150ms. Status words and pills carry the meaning.
 
+### Scroll motion
+
+- **Scroll-linked (CSS `view()` timelines, off the main thread; `<ScrollMotionFallback>` uses Motion's `scroll()` where unsupported):** mocks and cards (`.reveal`) enter with opacity 0.001 → 1, y 24 → 0 and scale 0.98 → 1 over entry 0%–cover 25%, and ease to 0.85 / −12px on exit. The hatched plates (`.parallax`) drift 24px across their section. The How it works band (`.band-fade`) fades its background in over its first 120px. The hero window (`.hero-leave`) scales to 0.98 and fades to 0.9 as it leaves; the H1 and sub never move with scroll.
+- **Once-only entrances** (`<Rise>`, `<Stagger>` in [`entrances.tsx`](src/components/marketing/entrances.tsx), built on `useEntrance`): section headings and intros fade and rise (y 16 → 0, 0.6s outExpo, intro 0.08s later, at 30% in view). Team columns, How it works tiles, the bright lines, FAQ rows and footer columns stagger in (y 12 → 0, 0.45s, 60ms apart, at 25%). Pre-states apply only while hydrated and off screen, so nothing is hidden for crawlers or before hydration.
+- **Reduced motion:** none of this runs.
+- **Budget:** transforms and opacity only; no width/height animation; no sideways overflow; Lighthouse mobile Performance ≥ 90 and TBT within ±50ms.
+
 ### Entrances
 
 - `useEntrance(ref, amount)` returns `static` (server render, reduced motion, or already on screen at mount), `armed` (hydrated and still off screen) or `go` (scrolled into view). Pre-animation states (zeros, hidden rows) only apply while `armed`, so crawlers and no-JS readers always get the real content.

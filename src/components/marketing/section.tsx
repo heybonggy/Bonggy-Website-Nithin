@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
+import { Rise } from "./entrances";
 
 type SectionProps = Omit<React.ComponentPropsWithoutRef<"section">, "title"> & {
   /** Container width: text-led sections use content (64rem), grids use wide. */
@@ -25,7 +26,7 @@ export function Section({
   ...rest
 }: SectionProps) {
   return (
-    <section {...rest} className={cn("px-4 py-20 sm:px-6 sm:py-24", band && "bg-surface", className)}>
+    <section {...rest} className={cn("px-4 py-20 sm:px-6 sm:py-24", band && "band-fade bg-surface", className)}>
       <div
         className={cn(
           "relative mx-auto w-full",
@@ -79,7 +80,7 @@ export function SectionHeader({
       )}
     >
       {kicker ? <p className="text-ui-sm font-medium text-fg-3">{kicker}</p> : null}
-      <h2 className="text-heading text-foreground sm:text-heading-lg lg:text-heading-xl">
+      <Rise as="h2" className="text-heading text-foreground sm:text-heading-lg lg:text-heading-xl">
         {title}
         {muted ? (
           <>
@@ -87,8 +88,12 @@ export function SectionHeader({
             <span className="text-fg-3">{muted}</span>
           </>
         ) : null}
-      </h2>
-      {intro ? <p className="max-w-prose text-body text-fg-2 sm:text-body-lg">{intro}</p> : null}
+      </Rise>
+      {intro ? (
+        <Rise as="p" delay={0.08} className="max-w-prose text-body text-fg-2 sm:text-body-lg">
+          {intro}
+        </Rise>
+      ) : null}
     </div>
   );
 }

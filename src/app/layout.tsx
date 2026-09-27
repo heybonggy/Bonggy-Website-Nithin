@@ -9,6 +9,7 @@ import {
   LOGO_URL,
 } from "@/lib/metadata";
 import { THEME_INIT_SCRIPT } from "@/components/marketing/theme-script";
+import { ScrollMotionFallback } from "@/components/marketing/scroll-motion-fallback";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -133,6 +134,7 @@ export default function RootLayout({
       </head>
       <body className="bg-background text-foreground">
         {children}
+        <ScrollMotionFallback />
       </body>
     </html>
   );

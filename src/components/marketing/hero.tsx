@@ -83,13 +83,13 @@ export function Hero() {
           {/* Depth without hue: a faint hatched plate the window floats on. */}
           <div
             aria-hidden
-            className="hatch-faint absolute -inset-x-2 -top-4 bottom-[-48px] rounded-[32px] bg-surface sm:-inset-x-6 sm:-top-6"
+            className="parallax hatch-faint absolute -inset-x-2 -top-4 bottom-[-48px] rounded-[32px] bg-surface sm:-inset-x-6 sm:-top-6"
             style={{
               maskImage: "linear-gradient(#000 55%, transparent)",
               WebkitMaskImage: "linear-gradient(#000 55%, transparent)",
             }}
           />
-          <div className="relative">
+          <div className="hero-leave relative">
             <HeroDemo />
           </div>
         </div>

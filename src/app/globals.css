@@ -511,20 +511,77 @@
   from { opacity: 1; }
 }
 
-/* Scroll reveal for mocks and cards (not headings): transform only, never
-   hidden, and only where scroll-driven animations exist. No JS. */
-@keyframes reveal-up {
-  from { transform: translateY(24px) scale(0.985); }
+/* Scroll-linked motion (DESIGN.md §8). CSS scroll-driven animations where
+   supported; <ScrollMotionFallback> applies the same with Motion elsewhere.
+   Transforms and opacity only. Off under reduced motion. */
+@keyframes reveal-in {
+  from { opacity: 0.001; transform: translateY(24px) scale(0.98); }
+}
+@keyframes reveal-out {
+  to { opacity: 0.85; transform: translateY(-12px); }
+}
+@keyframes plate-drift {
+  from { transform: translateY(12px); }
+  to { transform: translateY(-12px); }
+}
+@keyframes band-in {
+  from { background-color: transparent; }
+}
+@keyframes hero-leave {
+  to { transform: scale(0.98); opacity: 0.9; }
 }
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
+    /* Mocks and cards: enter over entry 0%–cover 25%, fade a little on exit. */
     .reveal {
-      animation: reveal-up linear both;
+      animation: reveal-in linear both, reveal-out linear both;
+      animation-timeline: view(), view();
+      animation-range: entry 0% cover 25%, exit 0% exit 100%;
+    }
+    /* Hatched plates drift 24px across their section. */
+    .parallax {
+      animation: plate-drift linear both;
       animation-timeline: view();
-      animation-range: entry 0% cover 30%;
+      animation-range: cover 0% cover 100%;
+    }
+    /* The full-width band fades its background in over its first 120px. */
+    .band-fade {
+      animation: band-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0px entry 120px;
+    }
+    /* The hero window eases back as it leaves (never the H1 or sub). */
+    .hero-leave {
+      animation: hero-leave linear both;
+      animation-timeline: view();
+      animation-range: exit 0% exit 100%;
     }
   }
 }
+
+/* Once-only entrances (useEntrance): pre-states apply only while "armed"
+   (hydrated and off screen), so content is never hidden for crawlers. */
+@keyframes fade-rise {
+  from { opacity: 0; transform: translateY(16px); }
+}
+@keyframes fade-rise-sm {
+  from { opacity: 0; transform: translateY(12px); }
+}
+[data-rise="armed"] { opacity: 0; transform: translateY(16px); }
+[data-rise="go"] { animation: fade-rise 600ms var(--ease-out-expo) both; }
+[data-stagger="armed"] > *, [data-stagger-deep="armed"] > * > * { opacity: 0; transform: translateY(12px); }
+[data-stagger="go"] > *, [data-stagger-deep="go"] > * > * { animation: fade-rise-sm 450ms var(--ease-out-expo) both; }
+[data-stagger="go"] > :nth-child(2), [data-stagger-deep="go"] > * > :nth-child(2) { animation-delay: 60ms; }
+[data-stagger="go"] > :nth-child(3), [data-stagger-deep="go"] > * > :nth-child(3) { animation-delay: 120ms; }
+[data-stagger="go"] > :nth-child(4), [data-stagger-deep="go"] > * > :nth-child(4) { animation-delay: 180ms; }
+[data-stagger="go"] > :nth-child(5), [data-stagger-deep="go"] > * > :nth-child(5) { animation-delay: 240ms; }
+[data-stagger="go"] > :nth-child(6), [data-stagger-deep="go"] > * > :nth-child(6) { animation-delay: 300ms; }
+[data-stagger="go"] > :nth-child(7), [data-stagger-deep="go"] > * > :nth-child(7) { animation-delay: 360ms; }
+[data-stagger="go"] > :nth-child(8), [data-stagger-deep="go"] > * > :nth-child(8) { animation-delay: 420ms; }
+[data-stagger="go"] > :nth-child(9), [data-stagger-deep="go"] > * > :nth-child(9) { animation-delay: 480ms; }
+[data-stagger="go"] > :nth-child(10), [data-stagger-deep="go"] > * > :nth-child(10) { animation-delay: 540ms; }
+[data-stagger="go"] > :nth-child(11), [data-stagger-deep="go"] > * > :nth-child(11) { animation-delay: 600ms; }
+[data-stagger="go"] > :nth-child(12), [data-stagger-deep="go"] > * > :nth-child(12) { animation-delay: 660ms; }
 
 /* Offscreen demos pause their CSS animations. */
 [data-demo-offscreen] *, [data-demo-offscreen]::before, [data-demo-offscreen]::after {

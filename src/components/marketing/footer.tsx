@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Logo } from "@/components/ui/logo";
+import { Stagger } from "./entrances";
 
 const COLUMNS: { heading: string; items: { label: string; href: string }[] }[] = [
   {
@@ -41,7 +42,7 @@ export function Footer() {
   return (
     <footer className="border-t border-border px-4 pb-16 pt-10 sm:px-6">
       <div className="mx-auto w-full max-w-wide">
-        <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-[280px_repeat(4,minmax(0,1fr))]">
+        <Stagger className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-[280px_repeat(4,minmax(0,1fr))]">
           <div className="col-span-2 md:col-span-1">
             <Link href="/" aria-label="Bonggy, home" className="inline-flex min-h-11 items-center">
               <Logo />
@@ -69,7 +70,7 @@ export function Footer() {
               </ul>
             </div>
           ))}
-        </div>
+        </Stagger>
 
         <div className="mt-12 flex flex-col gap-2 border-t border-border pt-6 text-caption text-fg-3 sm:flex-row sm:items-center sm:justify-between">
           <span>© {new Date().getFullYear()} Bonggy. All rights reserved.</span>

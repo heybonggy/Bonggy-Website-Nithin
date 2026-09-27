@@ -9,6 +9,7 @@ import { StatusPill } from "@/components/product-mock/status-pill";
 import { useAmbientTick } from "@/components/product-mock/ambient";
 import type { StatusKind } from "@/components/product-mock/data";
 import { Section, SectionHeader } from "./section";
+import { Stagger } from "./entrances";
 import { usePrefersReducedMotion } from "./_motion";
 
 /**
@@ -152,9 +153,9 @@ export function HowItWorks() {
   return (
     <Section id="how-it-works" band aria-labelledby="how-title">
       <SectionHeader title={<span id="how-title">Every flow runs on one loop.</span>} />
-      <ul className="mt-10 grid gap-4 md:grid-cols-2">
+      <Stagger as="ul" className="mt-10 grid gap-4 md:grid-cols-2">
         {CARDS.map(({ title, lead, rest, Stage }) => (
-          <li key={title} className="reveal flex flex-col overflow-hidden rounded-3xl bg-background shadow-e1">
+          <li key={title} className="flex flex-col overflow-hidden rounded-3xl bg-background shadow-e1">
             <div aria-hidden className="h-[230px] border-b border-border bg-surface-sunken">
               <Stage />
             </div>
@@ -167,7 +168,7 @@ export function HowItWorks() {
             </div>
           </li>
         ))}
-      </ul>
+      </Stagger>
     </Section>
   );
 }

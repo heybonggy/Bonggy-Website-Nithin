@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
 import { Section } from "./section";
 import { FaqJsonLd, FaqList, type FaqItem } from "./faq-list";
+import { Rise } from "./entrances";
 
 // Keep these consistent with /faq, which reuses them word for word.
 export const HOME_FAQ: FaqItem[] = [
@@ -57,9 +58,9 @@ export function HomeFaq() {
       <FaqJsonLd items={HOME_FAQ} />
       <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] lg:gap-16">
         <div className="lg:sticky lg:top-[calc(var(--header-h)+2rem)] lg:self-start">
-          <h2 id="faq-title" className="text-heading text-foreground sm:text-heading-lg">
+          <Rise as="h2" id="faq-title" className="text-heading text-foreground sm:text-heading-lg lg:text-heading-xl">
             Questions, answered.
-          </h2>
+          </Rise>
           <Link
             href="/faq"
             className="mt-4 inline-flex min-h-11 items-center gap-1.5 text-ui font-medium text-foreground underline-offset-4 hover:underline"
