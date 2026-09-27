@@ -49,7 +49,11 @@ export function AnalyticsView({ rows = ANALYTICS_ROWS, className }: { rows?: Ana
   return (
     <div className={cn("grid gap-6 lg:grid-cols-[minmax(0,1fr)_260px]", className)}>
       <div ref={tableRef} className="reveal min-w-0 rounded-3xl bg-surface-raised p-4 shadow-e2 hairline sm:p-6">
-        <div role="group" aria-label="Filter by team" className="flex flex-wrap gap-2">
+        <div
+          role="group"
+          aria-label="Filter by team"
+          className="-mx-4 flex gap-2 overflow-x-auto px-4 py-1.5 [mask-image:linear-gradient(90deg,transparent,#000_16px,#000_calc(100%-24px),transparent)] [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:[mask-image:none]"
+        >
           {filters.map((f) => {
             const active = f === filter;
             return (
@@ -62,7 +66,7 @@ export function AnalyticsView({ rows = ANALYTICS_ROWS, className }: { rows?: Ana
                   setFilter(f);
                 }}
                 className={cn(
-                  "relative inline-flex h-8 items-center gap-1.5 rounded-full px-3 text-ui-sm font-medium transition-colors duration-[var(--dur-quick)]",
+                  "relative inline-flex h-8 shrink-0 items-center gap-1.5 rounded-full px-3 text-ui-sm font-medium transition-colors duration-[var(--dur-quick)]",
                   "after:absolute after:-inset-y-1.5 after:inset-x-0 after:content-['']",
                   active ? "bg-surface-inverse text-fg-inverse" : "bg-surface-2 text-foreground hover:bg-surface-3",
                 )}
@@ -79,7 +83,65 @@ export function AnalyticsView({ rows = ANALYTICS_ROWS, className }: { rows?: Ana
             no runs yet for {filter}. start from a sentence.
           </p>
         ) : (
-          <table className="mt-5 w-full table-fixed border-collapse text-left text-ui-sm">
+          <>
+          {/* Below 640px: one card per bot, then the totals. */}
+          <ul className="mt-4 flex flex-col gap-3 sm:hidden">
+            {shown.map((r, i) => (
+              <li key={r.botId} className="rounded-2xl bg-surface p-4">
+                <div className="flex items-center gap-3">
+                  <BotAvatar botId={r.botId} size={32} />
+                  <span className="min-w-0 flex-1">
+                    <span className="block text-ui font-medium text-foreground">{r.bot.name}</span>
+                    <span className="block text-ui-sm text-fg-3">{r.bot.team}</span>
+                  </span>
+                </div>
+                <dl className="mt-3 grid grid-cols-3 gap-2">
+                  {([
+                    ["runs", r.runs, undefined],
+                    ["approved", r.approved, undefined],
+                    ["est. hours", r.hours, { maximumFractionDigits: 1 }],
+                  ] as const).map(([label, v, fmt]) => (
+                    <div key={label} className="min-w-0 rounded-xl bg-surface-raised px-2 py-2">
+                      <dt className="whitespace-nowrap text-caption text-fg-3">{label}</dt>
+                      <dd className="tabular text-title font-medium text-foreground">
+                        <LazyNumber live={live} value={n(v)} format={fmt} />
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+                <div className="mt-3 flex flex-col gap-2">
+                  <GoalTag goal={r.goal} className="self-start" />
+                  <span aria-hidden className="block h-1 overflow-hidden rounded-full bg-status-track">
+                    <motion.span
+                      className="block h-full origin-left rounded-full bg-status-ink"
+                      style={{ width: `${(r.runs / maxRuns) * 100}%` }}
+                      initial={false}
+                      animate={{ scaleX: zero ? 0 : 1 }}
+                      transition={{ duration: 0.7, ease: EASE.outExpo, delay: entrance === "go" ? i * 0.06 : 0 }}
+                    />
+                  </span>
+                </div>
+              </li>
+            ))}
+            <li className="rounded-2xl bg-surface-inverse p-4 text-fg-inverse">
+              <p className="text-ui-sm font-medium">Total · {FILTER_LABEL[filter].toLowerCase()}</p>
+              <dl className="mt-2 grid grid-cols-3 gap-2">
+                {([
+                  ["runs", total.runs, undefined],
+                  ["approved", total.approved, undefined],
+                  ["est. hours", total.hours, { maximumFractionDigits: 1 }],
+                ] as const).map(([label, v, fmt]) => (
+                  <div key={label}>
+                    <dt className="whitespace-nowrap text-caption opacity-70">{label}</dt>
+                    <dd className="tabular text-title font-medium">
+                      <LazyNumber live={live} value={n(v)} format={fmt} />
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            </li>
+          </ul>
+          <table className="mt-5 hidden w-full table-fixed border-collapse text-left text-ui-sm sm:table">
             <caption className="sr-only">Runs, approvals and estimated hours per bot, demo data</caption>
             <thead>
               <tr className="border-b border-border text-caption text-fg-3">
@@ -155,6 +217,7 @@ export function AnalyticsView({ rows = ANALYTICS_ROWS, className }: { rows?: Ana
               </tr>
             </tfoot>
           </table>
+          </>
         )}
         <p className="mt-3 text-caption text-fg-3">demo data</p>
       </div>
