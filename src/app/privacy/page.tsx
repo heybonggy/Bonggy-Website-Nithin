@@ -50,18 +50,18 @@ export default function PrivacyPage() {
       lede="Last updated: May 2026. Plain language. No tracking surprises. We collect only what we need to make Bonggy work for your team."
       narrow
     >
-      <div className="max-w-[70ch] divide-y divide-border/40">
+      <div className="max-w-copy divide-y divide-border">
         {SECTIONS.map((s, i) => (
           <section key={s.h} className="py-8 first:pt-0">
             <div className="flex items-baseline gap-3">
-              <span className="font-mono text-[11px] tabular-nums text-signal/70">
+              <span className="tabular text-ui-sm text-fg-3">
                 {String(i + 1).padStart(2, "0")}
               </span>
-              <h2 className="text-[19px] font-medium tracking-tight text-foreground">
+              <h2 className="text-title font-medium text-foreground">
                 {s.h}
               </h2>
             </div>
-            <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground sm:pl-[26px]">
+            <p className="mt-3 text-body text-fg-2 sm:pl-[26px]">
               {s.body}
             </p>
           </section>

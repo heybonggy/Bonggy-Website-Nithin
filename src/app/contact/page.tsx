@@ -1,15 +1,18 @@
 import type { Metadata } from "next";
+import { ArrowUpRight, Clock, EnvelopeSimple } from "@phosphor-icons/react/dist/ssr";
 import { pageMetadata } from "@/lib/metadata";
-import { SubPageShell } from "@/components/marketing/sub-page-shell";
+import { SubPageCta, SubPageShell } from "@/components/marketing/sub-page-shell";
 import { CtaButton, CAL_LINK } from "@/components/marketing/cta-button";
-import { EnvelopeSimple, Clock, ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
 
 export const metadata: Metadata = pageMetadata({
   path: "/contact",
   title: "Contact",
   description:
-    "Get in touch with the Bonggy team. A 30-minute call is the fastest way to see what agents would do for your team, and we read every email.",
+    "Get in touch with the Bonggy team. A 30-minute call is the fastest way to map your first flow, and we read every email.",
 });
+
+const card =
+  "group/card flex flex-col gap-5 rounded-3xl bg-surface p-6 transition-colors duration-[var(--dur-fast)] hover:bg-surface-2 sm:p-7";
 
 export default function ContactPage() {
   return (
@@ -17,74 +20,45 @@ export default function ContactPage() {
       eyebrow="Contact"
       title="We read every email."
       titleAccent="A call is faster."
-      lede="The fastest path is a 30-minute call. We map your market with you, sketch the first agents your team would build, and show how their work ties to your revenue goal. Or send us an email — we read every one."
+      lede="The fastest path is a 30-minute call. We'll map your first flow with you on real work and show how it ties to your revenue goal. Or send us an email; we read every one."
       narrow
     >
-      <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-12">
-        <a
-          href={CAL_LINK}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="terminal-corners group/card relative flex flex-col gap-5 rounded-[6px] border border-border/80 bg-card/60 p-7 transition-colors hover:border-signal/40 hover:bg-card/80"
-        >
-          <div className="flex items-center justify-between">
-            <Clock weight="regular" className="size-6 text-signal" />
-            <ArrowUpRight
-              weight="bold"
-              className="size-4 text-muted-foreground/50 transition-all group-hover/card:-translate-y-0.5 group-hover/card:translate-x-0.5 group-hover/card:text-foreground"
-            />
-          </div>
-          <div>
-            <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/90">
-              Strategy session
-            </div>
-            <h2 className="mt-2 text-display text-[24px] font-normal leading-tight tracking-tight text-foreground sm:text-[28px]">
-              Book a 30-minute call
-            </h2>
-            <p className="mt-3 text-[14.5px] leading-relaxed text-muted-foreground">
-              We&apos;ll sketch your first agents on a real account from your
-              list. If it&apos;s not obviously useful in the first ten
-              minutes, we&apos;ll tell you.
+      <div className="grid gap-4 sm:grid-cols-2">
+        <a href={CAL_LINK} target="_blank" rel="noopener noreferrer" className={card}>
+          <span className="flex items-center justify-between text-fg-2">
+            <Clock className="size-6" aria-hidden />
+            <ArrowUpRight className="size-4 transition-transform group-hover/card:-translate-y-0.5 group-hover/card:translate-x-0.5" aria-hidden />
+          </span>
+          <span>
+            <span className="text-ui-sm font-medium text-fg-3">Call</span>
+            <h2 className="mt-1 text-title font-medium text-foreground">Book a 30-minute call</h2>
+            <p className="mt-2 text-ui text-fg-2">
+              We&apos;ll map your first flow on a real account from your list. If it&apos;s not obviously useful in the
+              first ten minutes, we&apos;ll tell you.
             </p>
-          </div>
+            <span className="sr-only"> (opens in a new tab)</span>
+          </span>
         </a>
 
-        <a
-          href="mailto:founders@bonggy.com"
-          className="terminal-corners group/card relative flex flex-col gap-5 rounded-[6px] border border-border/80 bg-card/60 p-7 transition-colors hover:border-signal/40 hover:bg-card/80"
-        >
-          <div className="flex items-center justify-between">
-            <EnvelopeSimple weight="regular" className="size-6 text-foreground/80" />
-            <ArrowUpRight
-              weight="bold"
-              className="size-4 text-muted-foreground/50 transition-all group-hover/card:-translate-y-0.5 group-hover/card:translate-x-0.5 group-hover/card:text-foreground"
-            />
-          </div>
-          <div>
-            <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/90">
-              Email
-            </div>
-            <h2 className="mt-2 text-display text-[24px] font-normal leading-tight tracking-tight text-foreground sm:text-[28px]">
-              founders@bonggy.com
-            </h2>
-            <p className="mt-3 text-[14.5px] leading-relaxed text-muted-foreground">
-              Long-form questions, partnerships, press, pilots, anything else.
-              We read every one and we reply within 48 hours.
+        <a href="mailto:founders@bonggy.com" className={card}>
+          <span className="flex items-center justify-between text-fg-2">
+            <EnvelopeSimple className="size-6" aria-hidden />
+            <ArrowUpRight className="size-4 transition-transform group-hover/card:-translate-y-0.5 group-hover/card:translate-x-0.5" aria-hidden />
+          </span>
+          <span>
+            <span className="text-ui-sm font-medium text-fg-3">Email</span>
+            <h2 className="mt-1 text-title font-medium text-foreground">founders@bonggy.com</h2>
+            <p className="mt-2 text-ui text-fg-2">
+              Long-form questions, partnerships, press, pilots, anything else. We read every one and reply within 48
+              hours.
             </p>
-          </div>
+          </span>
         </a>
       </div>
 
-      <div className="mt-20 border-t border-border/60 pt-12">
-        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
-          <h2 className="text-display text-balance text-[28px] font-normal leading-tight tracking-tight sm:text-[36px]">
-            Ready to see it live?
-          </h2>
-          <div className="flex items-start lg:justify-end">
-            <CtaButton size="lg">Book a 30-min call</CtaButton>
-          </div>
-        </div>
-      </div>
+      <SubPageCta title="Ready to see it live?">
+        <CtaButton size="lg">Book a 30-min call</CtaButton>
+      </SubPageCta>
     </SubPageShell>
   );
 }

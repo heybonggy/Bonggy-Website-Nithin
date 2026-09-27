@@ -53,3 +53,34 @@ export function SubPageShell({
     </>
   );
 }
+
+/** A titled block of prose inside a sub-page. */
+export function SubPageSection({
+  kicker,
+  title,
+  children,
+  className,
+}: {
+  kicker?: string;
+  title: React.ReactNode;
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <section className={cn("flex flex-col", className)}>
+      {kicker ? <p className="text-ui-sm font-medium text-fg-3">{kicker}</p> : null}
+      <h2 className={cn("text-heading text-foreground", kicker && "mt-2")}>{title}</h2>
+      <div className="mt-4 space-y-4 text-body text-fg-2">{children}</div>
+    </section>
+  );
+}
+
+/** Closing line and call button at the end of a sub-page. */
+export function SubPageCta({ title, children }: { title: string; children?: React.ReactNode }) {
+  return (
+    <div className="mt-20 flex flex-col gap-6 border-t border-border pt-12 sm:flex-row sm:items-center sm:justify-between">
+      <h2 className="text-heading text-foreground">{title}</h2>
+      <div className="flex flex-wrap gap-3">{children}</div>
+    </div>
+  );
+}

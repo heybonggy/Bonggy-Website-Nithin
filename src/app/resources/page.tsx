@@ -7,7 +7,7 @@ export const metadata: Metadata = pageMetadata({
   path: "/resources",
   title: "Resources",
   description:
-    "Long-form thinking from the Bonggy team on sales agents, the work before the conversation, and keeping people in charge of what goes out.",
+    "Long-form thinking from the Bonggy team on GTM bots, the work before the conversation, and keeping people in charge of what customers see.",
 });
 
 type Post = {
@@ -26,7 +26,7 @@ const POSTS: Post[] = [
     slug: "a-note-from-us",
     title: "A note from us <3",
     excerpt:
-      "On why GTM is drowning in AI slop, and why the fix is not more sending. It is agents that do the work before the conversation, with people deciding what goes out.",
+      "On why GTM is drowning in AI slop, and why the fix is not more sending. It is bots that do the work before the conversation, with people deciding what customers see.",
     readTime: "6 min read",
     date: "",
     kind: "Note",
@@ -43,9 +43,9 @@ export default function ResourcesPage() {
   return (
     <SubPageShell
       eyebrow="Resources"
-      title="What we&apos;ve been"
+      title="What we've been"
       titleAccent="writing."
-      lede="Long-form thinking from the Bonggy team — on sales agents, the work before the conversation, and the parts of the job a human still has to do."
+      lede="Long-form thinking from the Bonggy team on GTM bots, the work before the conversation, and the parts of the job a person still has to do."
     >
       {featured && (
         <div className="mb-12 md:mb-16">

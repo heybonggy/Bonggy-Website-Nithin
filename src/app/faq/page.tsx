@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/metadata";
-import { SubPageShell } from "@/components/marketing/sub-page-shell";
+import { SubPageCta, SubPageShell } from "@/components/marketing/sub-page-shell";
 import { CtaButton } from "@/components/marketing/cta-button";
 import { FaqJsonLd, FaqList, type FaqItem } from "@/components/marketing/faq-list";
 import { HOME_FAQ } from "@/components/marketing/home-faq";
@@ -47,16 +47,9 @@ export default function FaqPage() {
       >
         <FaqList items={QUESTIONS} headingLevel={2} />
 
-        <div className="mt-20 border-t border-border/60 pt-12">
-          <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
-            <h2 className="text-display text-balance text-[28px] font-normal leading-tight tracking-tight sm:text-[36px]">
-              Got a different question?
-            </h2>
-            <div className="flex items-start lg:justify-end">
-              <CtaButton size="lg">Book a 30-min call</CtaButton>
-            </div>
-          </div>
-        </div>
+        <SubPageCta title="Got a different question?">
+          <CtaButton size="lg">Book a 30-min call</CtaButton>
+        </SubPageCta>
       </SubPageShell>
     </>
   );

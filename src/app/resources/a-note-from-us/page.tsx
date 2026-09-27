@@ -6,7 +6,7 @@ export const metadata: Metadata = pageMetadata({
   path: "/resources/a-note-from-us",
   title: "A note from us",
   description:
-    "A note from the Bonggy team on why GTM is drowning in AI slop, and why the fix is not more sending. It is agents that do the work before the conversation, with people deciding what goes out.",
+    "A note from the Bonggy team on why GTM is drowning in AI slop, and why the fix is not more sending. It is bots that do the work before the conversation, with people deciding what customers see.",
 });
 
 export default function ANoteFromUsPage() {
@@ -15,16 +15,16 @@ export default function ANoteFromUsPage() {
       eyebrow="Resources · Note"
       title="A note from us"
       titleAccent="<3"
-      lede="On why GTM is drowning in AI slop, and why the fix is not more sending. It is agents that do the work before the conversation, with people deciding what goes out."
+      lede="On why GTM is drowning in AI slop, and why the fix is not more sending. It is bots that do the work before the conversation, with people deciding what customers see."
       narrow
     >
-      <article className="mx-auto w-full max-w-[680px]">
-        <p className="text-[16px] italic leading-[1.75] text-muted-foreground sm:text-[17px]">
+      <article className="mx-auto w-full max-w-prose">
+        <p className="text-body-lg italic text-fg-2">
           The Bonggy team
         </p>
 
-        {/* Section 1 — The pattern, the slop */}
-        <section className="mt-10 space-y-5 text-[16px] leading-[1.75] text-muted-foreground sm:text-[17px]">
+        {/* 1. The pattern, the slop */}
+        <section className="mt-10 space-y-5 text-body-lg text-fg-2">
           <p>There is a pattern in software that repeats every decade or so.</p>
           <p>
             A category of work gets tooled. Then the tools multiply. Then AI
@@ -45,31 +45,31 @@ export default function ANoteFromUsPage() {
           </p>
         </section>
 
-        <div aria-hidden className="my-12 border-t border-border/40 sm:my-14" />
+        <div aria-hidden className="my-12 border-t border-border sm:my-14" />
 
-        {/* Section 2 — What we are not */}
-        <section className="space-y-5 text-[16px] leading-[1.75] text-muted-foreground sm:text-[17px]">
+        {/* 2. What we are not */}
+        <section className="space-y-5 text-body-lg text-fg-2">
           <p>
             We want to be honest about what Bonggy is, because the easy thing
             would have been to build more slop.
           </p>
           <p>
-            We are not an AI SDR. We do not blast outreach, and nothing an
-            agent drafts goes out without a person approving it. We are not
+            We don&apos;t build tools that blast outreach. Nothing customer-facing
+            a bot drafts goes out without a person approving it. We are not
             trying to add volume to the pile.
           </p>
           <p>
-            Bonggy is a studio where your team builds its own agents for the
-            work before the conversation: modelling the market, researching
-            the account, drafting the brief. Every piece of that work ties back
+            Bonggy is an agent workspace where sales, RevOps and marketing
+            teams build their own bots for the work before the conversation:
+            modelling the market, researching the account, drafting the brief. Every piece of that work ties back
             to the goal you are actually trying to hit.
           </p>
         </section>
 
-        <div aria-hidden className="my-12 border-t border-border/40 sm:my-14" />
+        <div aria-hidden className="my-12 border-t border-border sm:my-14" />
 
-        {/* Section 3 — The real problem */}
-        <section className="space-y-5 text-[16px] leading-[1.75] text-muted-foreground sm:text-[17px]">
+        {/* 3. The real problem */}
+        <section className="space-y-5 text-body-lg text-fg-2">
           <p>
             Here is the thing nobody says out loud. The problem was never that
             reps do not work hard enough.
@@ -87,19 +87,19 @@ export default function ANoteFromUsPage() {
           </p>
         </section>
 
-        <div aria-hidden className="my-12 border-t border-border/40 sm:my-14" />
+        <div aria-hidden className="my-12 border-t border-border sm:my-14" />
 
-        {/* Section 4 — What we do */}
-        <section className="space-y-5 text-[16px] leading-[1.75] text-muted-foreground sm:text-[17px]">
-          <p>So we built a studio for it.</p>
+        {/* 4. What we do */}
+        <section className="space-y-5 text-body-lg text-fg-2">
+          <p>So we built a workspace for it.</p>
           <p>
-            Teams build agents and groups of agents: a Market Modeller that
-            maps the segments, an Account Researcher that digs into accounts
-            and people, a Brief Writer that turns it into something a rep can
-            use. They share memory, so what one agent learns the rest can use.
+            Teams build bots from a sentence: a Market Modeller that maps the
+            segments, an Account Researcher that digs into accounts and people,
+            a Brief Writer that turns it into something a rep can use. Each one
+            runs a flow the team designs, and bots hand off work in groups.
           </p>
           <p>
-            Every agent runs on one loop. Track the work across your tools,
+            Every flow runs on one loop. Track the work across your tools,
             align it to a revenue goal, nudge when it drifts, and report one
             picture from rep to CRO. Think of it as the research bench every
             rep wishes they had. Not a chatbot you prompt when you feel like
@@ -107,13 +107,13 @@ export default function ANoteFromUsPage() {
           </p>
         </section>
 
-        <div aria-hidden className="my-12 border-t border-border/40 sm:my-14" />
+        <div aria-hidden className="my-12 border-t border-border sm:my-14" />
 
-        {/* Section 5 — The human, the line */}
-        <section className="space-y-5 text-[16px] leading-[1.75] text-muted-foreground sm:text-[17px]">
+        {/* 5. The human, the line */}
+        <section className="space-y-5 text-body-lg text-fg-2">
           <p>
-            We do not replace the rep. Agents draft; people decide. Nothing
-            goes out on its own, and nothing gets sent at volume.
+            We do not replace the rep. Bots draft; people decide. Nothing
+            customer-facing goes out on its own, and nothing gets sent at volume.
           </p>
           <p>
             The conversation is the rep&apos;s. The relationship is the
@@ -129,10 +129,10 @@ export default function ANoteFromUsPage() {
           </p>
         </section>
 
-        <div aria-hidden className="my-12 border-t border-border/40 sm:my-14" />
+        <div aria-hidden className="my-12 border-t border-border sm:my-14" />
 
-        {/* Section 6 — The wedge, who it is for */}
-        <section className="space-y-5 text-[16px] leading-[1.75] text-muted-foreground sm:text-[17px]">
+        {/* 6. The wedge, who it is for */}
+        <section className="space-y-5 text-body-lg text-fg-2">
           <p>
             Most GTM tools take a year to prove their worth, if they ever do.
             Our whole job is proof.
@@ -142,7 +142,7 @@ export default function ANoteFromUsPage() {
             show that it counted. For the manager coaching on activity instead
             of strategy. For the leader who set a goal and watched it dilute on
             the way down. And for every seat in between, sales and success
-            alike.
+            alike, and the RevOps and marketing teams beside them.
           </p>
           <p>
             The effort was always there. Now it gets a bench, and a line to the
@@ -150,7 +150,7 @@ export default function ANoteFromUsPage() {
           </p>
         </section>
 
-        <p className="mt-12 text-[16px] italic leading-[1.75] text-muted-foreground sm:mt-14 sm:text-[17px]">
+        <p className="mt-12 text-body-lg italic text-fg-2 sm:mt-14">
           The Bonggy team
         </p>
       </article>

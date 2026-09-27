@@ -2,7 +2,8 @@
 
 import * as React from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { ArrowUpRight, CircleNotch } from "@phosphor-icons/react/dist/ssr";
+import { ArrowUpRight, CaretDown, Check, Warning } from "@phosphor-icons/react/dist/ssr";
+import { TypingDots } from "@/components/ui/typing-dots";
 import { cn } from "@/lib/utils";
 import { SPRING } from "./_motion";
 
@@ -57,44 +58,43 @@ export function CareersForm() {
   return (
     <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
       <div>
-        <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/90">
-          No listed roles · Hiring quietly
-        </div>
-        <h2 className="mt-3 text-display text-[26px] font-normal leading-tight tracking-tight text-foreground sm:text-[32px]">
+        <p className="text-ui-sm font-medium text-fg-3">No listed roles · Hiring quietly</p>
+        <h2 className="mt-2 text-heading text-foreground">
           Tell us what you would build.
         </h2>
-        <p className="mt-5 max-w-[52ch] text-[15.5px] leading-relaxed text-muted-foreground">
+        <p className="mt-4 max-w-copy text-body text-fg-2">
           We&apos;re hiring in waves for engineering, design, and early GTM. We
-          don&apos;t list roles publicly — if you want to build agents that do
+          don&apos;t list roles publicly. If you want to build bots that do
           real GTM work with people in charge, send us your take and we&apos;ll figure
           out the right shape together.
         </p>
-        <ul className="mt-7 space-y-2.5 text-[14px] text-muted-foreground">
+        <ul className="mt-6 space-y-2.5 text-ui text-fg-2">
           {[
             "Async-first, written-first, demo-first",
-            "Everyone here ships — no layers",
+            "Everyone here ships, no layers",
             "We respond within 48 hours",
           ].map((item) => (
             <li key={item} className="flex items-start gap-2.5">
-              <span className="mt-2 size-1 flex-none rounded-full bg-signal" />
+              <Check weight="bold" className="mt-1 size-3.5 flex-none text-foreground" aria-hidden />
               <span>{item}</span>
             </li>
           ))}
         </ul>
       </div>
 
-      <div className="rounded-xl border border-border/80 bg-card/60 p-6 sm:p-7">
+      <div className="rounded-3xl bg-surface p-6 sm:p-7">
         {submitted ? (
           <motion.div
             initial={{ y: 8, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={SPRING.gentle}
-            className="rounded-lg border border-signal/30 bg-signal/[0.05] p-5"
+            className="rounded-2xl bg-background p-5 hairline"
           >
-            <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-signal">
+            <p className="flex items-center gap-1.5 text-ui font-semibold text-foreground">
+              <Check weight="bold" className="size-4" aria-hidden />
               Pitch received
-            </div>
-            <p className="mt-2 text-[14px] leading-relaxed text-foreground/90">
+            </p>
+            <p className="mt-2 text-ui text-fg-2">
               We read every one. If there&apos;s a match, you&apos;ll hear from
               us within 48 hours. If not, we&apos;ll still tell you.
             </p>
@@ -102,10 +102,8 @@ export function CareersForm() {
         ) : (
           <form onSubmit={handleSubmit} className="flex flex-col gap-3">
             <div className="mb-1">
-              <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground/90">
-                Send a pitch
-              </div>
-              <h3 className="mt-1.5 text-[16px] font-medium tracking-tight text-foreground">
+              <p className="text-ui-sm font-medium text-fg-3">Send a pitch</p>
+              <h3 className="mt-1 text-title font-medium text-foreground">
                 What would you build at Bonggy?
               </h3>
             </div>
@@ -159,22 +157,15 @@ export function CareersForm() {
               <button
                 type="submit"
                 disabled={submitting}
-                className={cn(
-                  "group/cta relative mt-2 inline-flex h-11 w-full items-center justify-center gap-2 overflow-hidden rounded-md bg-zinc-950 px-5 font-mono text-[11.5px] font-medium uppercase tracking-[0.2em] text-signal transition-all duration-200 active:translate-y-[1px] disabled:opacity-60",
-                )}
-                style={{
-                  boxShadow:
-                    "0 0 12px -3px oklch(0.78 0.13 152 / 18%)",
-                }}
+                className="group/cta mt-2 inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-surface-inverse px-5 text-ui font-medium text-fg-inverse transition-opacity duration-[var(--dur-fast)] hover:opacity-90 disabled:opacity-60"
               >
                 {submitting ? (
                   <>
-                    <CircleNotch weight="bold" className="size-4 animate-spin" />
-                    <span>Sending…</span>
+                    <TypingDots label="Sending" />
+                    <span>Sending</span>
                   </>
                 ) : (
                   <>
-                    <span className="size-1 rounded-full bg-signal" />
                     <span>Send pitch</span>
                     <ArrowUpRight
                       weight="bold"
@@ -184,7 +175,7 @@ export function CareersForm() {
                 )}
               </button>
 
-            <p className="mt-1 text-center font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground/90">
+            <p className="mt-1 text-center text-caption text-fg-3">
               48-hour response · We read every one
             </p>
           </form>
@@ -199,7 +190,8 @@ export function CareersForm() {
 /** Short inline validation message, announced when it appears. */
 function FieldError({ id, children }: { id: string; children: string }) {
   return (
-    <p id={id} role="alert" className="mt-1.5 text-[12.5px] text-destructive">
+    <p id={id} role="alert" className="mt-1.5 flex items-center gap-1 text-ui-sm text-danger">
+      <Warning className="size-3.5" aria-hidden />
       {children}
     </p>
   );
@@ -226,7 +218,7 @@ function Field(
         {...rest}
         id={id}
         className={cn(
-          "h-11 w-full rounded-md border border-border/80 bg-background/60 px-3.5 text-[14px] text-foreground placeholder:text-muted-foreground/90 outline-none transition-colors focus:border-signal/60 focus:ring-2 focus:ring-signal/20",
+          "h-11 w-full rounded-md border border-input bg-background px-3.5 text-ui text-foreground placeholder:text-fg-3 outline-none transition-colors focus-visible:border-foreground focus-visible:ring-2 focus-visible:ring-ring/30",
           className,
         )}
       />
@@ -246,7 +238,7 @@ function TextArea(
         {...rest}
         id={id}
         className={cn(
-          "w-full rounded-md border border-border/80 bg-background/60 px-3.5 py-3 text-[14px] text-foreground placeholder:text-muted-foreground/90 outline-none transition-colors focus:border-signal/60 focus:ring-2 focus:ring-signal/20",
+          "w-full rounded-md border border-input bg-background px-3.5 py-3 text-ui text-foreground placeholder:text-fg-3 outline-none transition-colors focus-visible:border-foreground focus-visible:ring-2 focus-visible:ring-ring/30",
           "resize-none",
           className,
         )}
@@ -305,33 +297,20 @@ function AreaSelect({
         aria-labelledby={`${labelId} ${valueId}`}
         aria-describedby={error ? errorId : undefined}
         className={cn(
-          "flex h-11 w-full items-center justify-between rounded-md border bg-background/60 px-3.5 text-left text-[14px] outline-none transition-colors",
+          "flex h-11 w-full items-center justify-between rounded-md border bg-background px-3.5 text-left text-ui outline-none transition-colors",
           error
-            ? "border-destructive/70 ring-2 ring-destructive/20"
-            : "border-border/80 hover:border-border focus:border-signal/60 focus:ring-2 focus:ring-signal/20",
-          open && !error && "border-signal/60 ring-2 ring-signal/20",
+            ? "border-danger ring-2 ring-danger/20"
+            : "border-input hover:border-border-strong focus-visible:border-foreground focus-visible:ring-2 focus-visible:ring-ring/30",
+          open && !error && "border-foreground",
         )}
       >
         <span
           id={valueId}
-          className={value ? "text-foreground" : "text-muted-foreground/90"}
+          className={value ? "text-foreground" : "text-fg-3"}
         >
           {value || "Area of interest"}
         </span>
-        <svg
-          width="12"
-          height="12"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          className={cn(
-            "size-3 text-muted-foreground transition-transform",
-            open && "rotate-180",
-          )}
-        >
-          <path d="m6 9 6 6 6-6" />
-        </svg>
+        <CaretDown aria-hidden className={cn("size-3.5 text-fg-3 transition-transform", open && "rotate-180")} />
       </button>
       {error ? <FieldError id={errorId}>Pick an area of interest.</FieldError> : null}
 
@@ -344,7 +323,7 @@ function AreaSelect({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -4, scale: 0.98 }}
             transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
-            className="absolute left-0 right-0 top-full z-50 mt-1.5 overflow-hidden rounded-md border border-border/80 bg-card p-1 shadow-[0_18px_40px_-12px_oklch(0_0_0_/_60%),inset_0_1px_0_oklch(1_0_0_/_6%)]"
+            className="absolute left-0 right-0 top-full z-50 mt-1.5 overflow-hidden rounded-lg bg-surface-raised p-1 shadow-e3 hairline"
           >
             {AREAS.map((r) => {
               const active = r === value;
@@ -359,25 +338,15 @@ function AreaSelect({
                       setOpen(false);
                     }}
                     className={cn(
-                      "flex w-full items-center justify-between rounded-sm px-3 py-2 text-left text-[13.5px] transition-colors",
+                      "flex min-h-10 w-full items-center justify-between rounded-sm px-3 text-left text-ui transition-colors",
                       active
-                        ? "bg-signal/10 text-signal"
-                        : "text-foreground/90 hover:bg-foreground/[0.05] hover:text-foreground",
+                        ? "bg-wash-selected font-medium text-foreground"
+                        : "text-foreground hover:bg-wash-hover",
                     )}
                   >
                     <span>{r}</span>
                     {active && (
-                      <svg
-                        width="12"
-                        height="12"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2.5"
-                        className="size-3"
-                      >
-                        <path d="M5 13l4 4L19 7" />
-                      </svg>
+                      <Check weight="bold" aria-hidden className="size-3.5" />
                     )}
                   </button>
                 </li>
