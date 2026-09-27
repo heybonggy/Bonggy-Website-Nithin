@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { pageMetadata, SITE_DESCRIPTION } from "@/lib/metadata";
 import { Navbar } from "@/components/marketing/navbar";
 import { Hero } from "@/components/marketing/hero";
-import { TheReframeFix } from "@/components/marketing/the-reframe-fix";
+import { HowItWorks } from "@/components/marketing/how-it-works";
 import { TeamsSection } from "@/components/marketing/teams-section";
 import { FlowsSection } from "@/components/marketing/flows-section";
 import { BotJobsSection } from "@/components/marketing/bot-jobs-section";
@@ -33,7 +33,7 @@ export default function Home() {
         <ApprovalsSection />
         <AnalyticsSection />
         <ContextSection />
-        <TheReframeFix />
+        <HowItWorks />
         <PricingTeaser />
         <HomeFaq />
         <CtaPanel />
