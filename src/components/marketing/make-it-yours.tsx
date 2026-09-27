@@ -21,6 +21,7 @@ import { TeamTag } from "@/components/product-mock/tags";
 import { CUSTOMISABLE_BOTS, DEFAULT_LOOKS, botById } from "@/components/product-mock/data";
 import { resetBotLook, setBotLook, useBotLook } from "@/components/product-mock/bot-looks";
 import { Section, SectionHeader } from "./section";
+import { usePrefersReducedMotion } from "./_motion";
 
 /** Fired by the hero's "customise" chip with the bot id to preselect. */
 export const CUSTOMISE_EVENT = "bonggy:customise";
@@ -86,6 +87,7 @@ function OptionGroup<T extends string>({
 export function MakeItYours() {
   const [botId, setBotId] = React.useState(CUSTOMISABLE_BOTS[0]);
   const bot = botById(botId);
+  const reduced = usePrefersReducedMotion();
   const look = useBotLook(botId);
   const [announce, setAnnounce] = React.useState("");
   const [preview, setPreview] = React.useState<CharacterState>("idle");
@@ -218,10 +220,10 @@ export function MakeItYours() {
             <BotAvatar botId={botId} size={160} state={preview} interactive />
             <p className="mt-2 text-title font-medium text-foreground">{bot.name}</p>
             <TeamTag team={bot.team} />
-            <p className="text-caption text-fg-3">tap it</p>
+            <p className="text-caption text-fg-3">{reduced ? "your bot" : "poke it"}</p>
           </div>
           <div aria-hidden inert className="flex flex-col gap-3 rounded-3xl bg-surface-raised p-4 hairline">
-            <BotRow bot={bot} active status="done" preview="looking sharp" />
+            <BotRow bot={bot} active status="done" preview="new look saved" />
             <BotBubble botId={botId} name={bot.name.toLowerCase()} time="now" text="new look saved. nothing else changed." />
           </div>
         </div>

@@ -12,21 +12,21 @@ const TEAM_NAME = { sales: "Sales", revops: "RevOps", marketing: "Marketing" } a
 
 /** What each team gets, in one line. */
 const TEAM_LINE = {
-  sales: "Prep before every call, and a next step on every deal.",
+  sales: "A brief before every call, and a next step on every deal.",
   revops: "A clean pipeline and a forecast you can explain.",
-  marketing: "Messages built from what customers say, and leads that reach the right rep.",
+  marketing: "Messaging built from what customers actually say, and leads that reach the right rep.",
 } as const;
 
 /** Two real moments per bot; each row alternates between them while in view. */
 const MOMENTS: Record<string, [StatusKind, string][]> = {
-  "account-researcher": [["running", "researching northwind…"], ["done", "brief ready · 1h ago"]],
-  "deal-coach": [["running", "reading 18 open deals…"], ["done", "5 stuck deals flagged · 2m ago"]],
+  "account-researcher": [["running", "reading northwind's last 3 calls…"], ["done", "brief ready · 1h ago"]],
+  "deal-coach": [["running", "reading 18 open deals…"], ["done", "5 stuck deals flagged · nothing sent"]],
   "brief-writer": [["running", "drafting a follow-up…"], ["held", "1 draft held for you"]],
-  "pipeline-watch": [["running", "checking icp fit…"], ["done", "3 accounts off-icp · 2h ago"]],
+  "pipeline-watch": [["running", "checking icp fit…"], ["done", "3 accounts off-icp · no records changed"]],
   "crm-hygiene": [["running", "scanning 212 records…"], ["needs-you", "12 fixes to review"]],
   "forecast-prep": [["scheduled", "thursdays 16:00"], ["running", "comparing this week to last…"]],
   "market-modeller": [["running", "segmenting q3 wins…"], ["done", "mid-market is 40% of wins"]],
-  "campaign-researcher": [["running", "reading 24 call notes…"], ["held", "post to #q4-campaign held"]],
+  "campaign-researcher": [["running", "reading 24 call notes…"], ["held", "#q4-campaign post held for you"]],
   "content-drafter": [["off", "paused by you"], ["scheduled", "next run fri 10:00"]],
   "inbound-router": [["running", "scoring 2 demo requests…"], ["needs-you", "2 leads to route"]],
 };

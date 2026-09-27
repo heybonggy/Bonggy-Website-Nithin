@@ -161,7 +161,7 @@ export function AnalyticsView({ rows = ANALYTICS_ROWS, className }: { rows?: Ana
 
       <div className="reveal self-start rounded-3xl bg-surface p-5 sm:p-6">
         <h3 className="text-ui font-semibold text-foreground">What bots read</h3>
-        <p className="mt-1 text-ui-sm text-fg-2">Every fact a bot uses links back to its source.</p>
+        <p className="mt-1 text-ui-sm text-fg-2">Each fact a bot uses links back to where it came from. Read-only unless a flow says otherwise.</p>
         <ul className="mt-4 flex flex-col divide-y divide-border">
           {MEMORY_SOURCES.map((m) => (
             <li key={m.source} className="flex items-baseline justify-between gap-3 py-2.5 text-ui-sm">

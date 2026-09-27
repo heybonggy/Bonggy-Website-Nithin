@@ -30,7 +30,7 @@ import { GroupAvatar } from "@/components/ui/mascot";
 import { Section, SectionHeader } from "./section";
 import { useLoopFocus } from "./loop-focus";
 
-const RESEARCH = "top pains from 24 calls: slow onboarding, manual quotes, no forecast view. sharing with deal coach.";
+const RESEARCH = "top pains from 24 calls: slow onboarding, manual quotes, no forecast view. sharing with deal coach. no copy drafted.";
 const COACH = "got it. i'll add the matching pain to each stuck deal's next-step note. nothing sent.";
 
 type State = {
@@ -67,9 +67,9 @@ function PinnedRun() {
       <PushPin weight="fill" className="size-4 shrink-0 text-fg-3" aria-hidden />
       <span className="min-w-0 flex-1 truncate">
         <span className="font-medium text-foreground">weekly handoff</span>
-        <span className="text-fg-3"> · fridays 16:00 · pains → next steps</span>
+        <span className="text-fg-3"> · fridays 16:00 · call pains → deal next steps</span>
       </span>
-      <StatusPill status="done" label="last run · 3 handed off" className="hidden sm:inline-flex" />
+      <StatusPill status="done" label="last run · 3 pains handed off" className="hidden sm:inline-flex" />
     </div>
   );
 }
