@@ -81,7 +81,7 @@ export function ApprovalsSection() {
   const items = APPROVALS.map((a) => (a.id === "a1" && s.approval === "approved" ? { ...a, action: "sent a note to dana at globex", status: "done" as const, age: "now" } : a));
 
   return (
-    <Section id="approvals" card peek={<BotAvatar botId="boomerang" size={48} state="waiting" interactive />} aria-labelledby="approvals-title">
+    <Section id="approvals" card peek={<BotAvatar botId="boomerang" size={48} state="waiting" interactive className="-rotate-12" />} aria-labelledby="approvals-title">
       <SectionHeader
         title={<span id="approvals-title">Bots draft. You decide.</span>}
         intro="Anything a customer would see waits for a person. Everything else can run on its own, if your team says so."

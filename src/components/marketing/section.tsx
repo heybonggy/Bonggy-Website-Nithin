@@ -35,9 +35,10 @@ export function Section({
         )}
       >
         {card && peek ? (
-          // Only the top of the bot shows above the card edge.
-          <span className="pointer-events-none absolute right-10 top-0 h-9 w-14 -translate-y-full overflow-hidden sm:right-16">
-            <span className="pointer-events-auto absolute left-1 top-2">{peek}</span>
+          // The top ~32px of the bot (down to just below its eyes) shows above
+          // the card edge; the rest is hidden behind it.
+          <span className="pointer-events-none absolute right-10 top-0 h-8 w-16 -translate-y-full overflow-hidden sm:right-16">
+            <span className="pointer-events-auto absolute left-2 top-0">{peek}</span>
           </span>
         ) : null}
         {children}
