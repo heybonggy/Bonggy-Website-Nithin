@@ -12,6 +12,8 @@ import {
   SidebarTeam,
   SystemLine,
   TakeHistory,
+  RunningBotRow,
+  useAmbientTick,
   botById,
   pendingDuration,
   readDuration,
@@ -25,28 +27,28 @@ import { useLoopFocus } from "./loop-focus";
 const RESEARCH = "top pains from 24 calls: slow onboarding, manual quotes, no forecast view. sharing with deal coach.";
 const COACH = "got it. i'll add the matching pain to each stuck deal's next-step note. nothing sent.";
 
-type Handoff = { from: string; label: string };
-
 type State = {
   research: boolean;
-  handoff: Handoff | null;
   pending: boolean;
   coach: boolean;
   system: boolean;
 };
 
-const INITIAL: State = { research: false, handoff: null, pending: false, coach: false, system: false };
+const INITIAL: State = { research: false, pending: false, coach: false, system: false };
 
 const patch = (s: State, a: Partial<State>): State => ({ ...s, ...a });
 
 const TIMELINE: Timeline<Partial<State>> = [
   { action: { pending: true }, hold: pendingDuration(RESEARCH) },
   { action: { pending: false, research: true }, hold: readDuration(RESEARCH) },
-  { action: { handoff: { from: "campaign-researcher", label: "sharing pains with Deal Coach…" } }, hold: 2300 },
   { action: { system: true, pending: true }, hold: pendingDuration(COACH) },
-  { action: { pending: false, coach: true, handoff: { from: "deal-coach", label: "adding pains to 5 next steps…" } }, hold: 2300 },
-  { action: { handoff: { from: "inbound-router", label: "routing lead to Deal Coach…" } }, hold: 2300 },
-  { action: { handoff: { from: "campaign-researcher", label: "sharing pains with Deal Coach…" } }, hold: 0 },
+  { action: { pending: false, coach: true }, hold: 0 },
+];
+
+const HANDOFFS = [
+  { from: "campaign-researcher", label: "sharing pains with Deal Coach…" },
+  { from: "deal-coach", label: "adding pains to 5 next steps…" },
+  { from: "inbound-router", label: "routing lead to Deal Coach…" },
 ];
 
 const SUMMARY =
@@ -75,7 +77,12 @@ export function GroupsSection() {
     focused,
     loopAfter: 4000,
     poster: "end",
+    startAt: 0.25,
+    startDelay: 400,
   });
+  // The handoff pill cycles on its own while the window is on screen.
+  const tick = useAmbientTick(frameRef, 2300, 900);
+  const handoff = HANDOFFS[tick % HANDOFFS.length];
   const s = player.state;
   const members = HANDOFF_GROUP.members.map(botById);
   const researcher = botById("campaign-researcher");
@@ -89,9 +96,17 @@ export function GroupsSection() {
           <span className="block truncate text-caption text-fg-3">{members.length} bots · 2 teams</span>
         </span>
       </div>
-      {members.map((m) => (
-        <BotRow key={m.id} bot={m} className="ml-2" />
-      ))}
+      {members.map((m) =>
+        m.id === "inbound-router" ? (
+          <div key={m.id} className="ml-2">
+            <RunningBotRow bot={m} labels={["routing 2 leads…", "scoring a demo request…", "briefing #inbound…"]} />
+          </div>
+        ) : m.id === "deal-coach" ? (
+          <BotRow key={m.id} bot={m} status="needs-you" preview="5 tasks to add" className="ml-2" />
+        ) : (
+          <BotRow key={m.id} bot={m} className="ml-2" />
+        ),
+      )}
     </SidebarTeam>
   );
 
@@ -114,8 +129,8 @@ export function GroupsSection() {
             <span className="hidden text-caption text-fg-3 sm:inline">group · marketing and sales</span>
             <HandoffPill
               members={members.map((m) => ({ id: m.id, team: m.team }))}
-              activeId={s.handoff?.from}
-              label={s.handoff?.label}
+              activeId={handoff.from}
+              label={handoff.label}
             />
           </div>
           <div className="fade-t flex min-h-0 flex-1 flex-col justify-end overflow-hidden px-4 pb-6 pt-8 sm:px-6">

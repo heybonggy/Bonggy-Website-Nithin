@@ -15,6 +15,8 @@ import {
   RunHistory,
   RunReceipt,
   ScriptedCursor,
+  CyclingLabel,
+  useAmbientTick,
   botById,
   useDemoPlayer,
   type CursorState,
@@ -79,7 +81,10 @@ export function FlowsSection() {
     ref: frameRef,
     focused,
     loopAfter: 5000,
+    startAt: 0.25,
+    startDelay: 400,
   });
+  const tick = useAmbientTick(frameRef, 1800);
   const s = player.state;
   const bot = botById(DEAL_COACH_FLOW.botId);
 
@@ -117,7 +122,14 @@ export function FlowsSection() {
             sidebar={
               <div className="pt-1">
                 <p className="px-2 pb-1 pt-2 text-caption font-medium text-fg-3">flows</p>
-                <FlowsList flows={FLOW_LIST} selectedId={DEAL_COACH_FLOW.botId} />
+                <FlowsList
+                  flows={FLOW_LIST}
+                  selectedId={DEAL_COACH_FLOW.botId}
+                  running={{
+                    botId: "inbound-router",
+                    line: <CyclingLabel labels={["routing 2 new leads…", "scoring against icp…", "briefing #inbound…"]} tick={tick} />,
+                  }}
+                />
               </div>
             }
           >

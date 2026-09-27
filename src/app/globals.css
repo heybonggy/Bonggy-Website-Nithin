@@ -344,6 +344,7 @@
   --animate-caret: caret 1s steps(1) infinite;
   --animate-word-in: word-in 650ms var(--ease-out-expo) both;
   --animate-rise-in: rise-in 700ms var(--ease-out-expo) both;
+  --animate-blink: blink 5.2s var(--ease-standard) infinite;
 
   @keyframes typing-dot {
     0%, 55%, 100% { opacity: 0.25; }
@@ -382,6 +383,11 @@
   }
   @keyframes rise-in {
     from { opacity: 0; transform: translateY(var(--rise-from, 10px)); }
+  }
+  /* Interim bot blink (replaced by the character engine). */
+  @keyframes blink {
+    0%, 93%, 100% { transform: scaleY(1); }
+    95.5% { transform: scaleY(0.1); }
   }
   @keyframes caret {
     0%, 50% { opacity: 1; }

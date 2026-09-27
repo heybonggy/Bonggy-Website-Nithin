@@ -120,7 +120,8 @@ function TakeDemo({ take, onDone }: { take: TeamTake; onDone: () => void }) {
     initial: INITIAL,
     ref: frameRef,
     focused,
-    startDelay: 600,
+    startAt: 0.25,
+    startDelay: 400,
     poster: "end",
   });
   const s = player.state;

@@ -24,3 +24,4 @@ export { DemoFrame } from "./demo-frame";
 export * from "./demo/types";
 export { useDemoPlayer, type DemoPlayer } from "./demo/player";
 export { TakeHistory } from "./take-history";
+export { useAmbientTick, CyclingLabel, RunningBotRow } from "./ambient";

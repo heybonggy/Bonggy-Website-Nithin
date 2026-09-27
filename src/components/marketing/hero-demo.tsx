@@ -18,6 +18,7 @@ import {
   PendingRow,
   RunReceipt,
   SENDING_MS,
+  RunningBotRow,
   ScriptedCursor,
   SidebarTeam,
   SystemLine,
@@ -36,6 +37,11 @@ import {
 import { motion } from "motion/react";
 import { Mascot } from "@/components/ui/mascot";
 import { SPRING, usePrefersReducedMotion } from "./_motion";
+
+/** Sidebar rows that keep working while the window is on screen. */
+const AMBIENT = {
+  pipeline: ["reading call notes…", "checking icp…", "scoring 3 accounts…"],
+};
 
 /** Fired by "Start from a sentence" elsewhere on the page to replay the hero. */
 export const REPLAY_HERO_EVENT = "bonggy:replay-hero";
@@ -171,9 +177,13 @@ export function HeroDemo() {
           ) : null}
           {BOTS.filter((b) => b.team === t.id)
             .slice(0, t.id === "sales" && s.named ? 1 : 2)
-            .map((b) => (
-              <BotRow key={b.id} bot={b} />
-            ))}
+            .map((b) =>
+              b.id === "pipeline-watch" ? (
+                <RunningBotRow key={b.id} bot={b} labels={AMBIENT.pipeline} />
+              ) : (
+                <BotRow key={b.id} bot={b} />
+              ),
+            )}
         </SidebarTeam>
       ))}
     </>

@@ -69,6 +69,8 @@ export function ApprovalsSection() {
     ref: frameRef,
     focused,
     loopAfter: 4500,
+    startAt: 0.25,
+    startDelay: 400,
   });
   const s = player.state;
   const items = APPROVALS.map((a) => (a.id === "a1" && s.approval === "approved" ? { ...a, action: "sent a note to dana at globex", status: "done" as const, age: "now" } : a));

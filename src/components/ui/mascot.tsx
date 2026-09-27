@@ -175,7 +175,13 @@ export function BotAvatar({
       style={{ width: size, height: size }}
     >
       <svg viewBox="0 0 100 100" className="size-full">
-        <Eye state={state} ink={ink} blink={false} />
+        {/* Interim CSS blink; staggered per team so rows don't blink in sync. */}
+        <g
+          className={state === "idle" || state === "needs-you" ? "animate-blink" : undefined}
+          style={{ transformOrigin: "50px 44px", animationDelay: `${{ sales: 0, revops: 1.7, marketing: 3.1 }[team]}s` }}
+        >
+          <Eye state={state} ink={ink} blink={false} />
+        </g>
       </svg>
     </span>
   );

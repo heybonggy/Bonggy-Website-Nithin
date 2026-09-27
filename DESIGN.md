@@ -138,7 +138,8 @@ Rules:
 - Motion explains a state change. Translates stay within ±24px; scale never above 1.1 (and only for a single pulse).
 - The hero H1, sub and CTAs reveal with **CSS** keyframes (`word-in`, `rise-in`) so they paint before hydration and don't delay LCP.
 - **Reduced motion:** CSS durations collapse to 1ms and delays to 0; `MotionConfig reducedMotion="user"` wraps every demo; the demo player jumps to the end state. Typing dots sit at stepped opacities so "working" still reads.
-- Only one looping demo runs at a time: `useLoopFocus` gives focus to the looping section covering most of the viewport. Off-screen demos get `data-demo-offscreen`, which pauses CSS animations.
+- Only one scripted take runs at a time: `useLoopFocus` gives focus to the looping section covering most of the viewport (at least 12%). Sections start at 25% in view after 400ms.
+- **Ambient motion** runs whenever a window is on screen, independent of takes and loop focus ([`ambient.tsx`](src/components/product-mock/ambient.tsx)): one sidebar row always running (live dot, a preview that cycles every 1.8s with typing dots), one row with a "needs you" pill, and the group handoff pill cycling every 2.3s. It pauses off screen and on hidden tabs, and is static under reduced motion. Off-screen demos get `data-demo-offscreen`, which pauses CSS animations.
 
 ### Scripted demos
 

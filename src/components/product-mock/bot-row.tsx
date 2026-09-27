@@ -1,7 +1,8 @@
+import type * as React from "react";
 import { cn } from "@/lib/utils";
 import { BotAvatar } from "@/components/ui/mascot";
 import type { Bot, StatusKind } from "./data";
-import { StatusDot } from "./status-pill";
+import { StatusDot, StatusPill } from "./status-pill";
 
 /** One bot in the sidebar list: avatar with status badge, name, time, preview. */
 export function BotRow({
@@ -10,6 +11,7 @@ export function BotRow({
   fresh = false,
   status,
   preview,
+  time,
   className,
 }: {
   bot: Bot;
@@ -17,7 +19,8 @@ export function BotRow({
   /** Newly created: slides in. */
   fresh?: boolean;
   status?: StatusKind;
-  preview?: string;
+  preview?: React.ReactNode;
+  time?: string;
   className?: string;
 }) {
   const s = status ?? bot.status;
@@ -32,7 +35,7 @@ export function BotRow({
       )}
     >
       <span className="relative shrink-0">
-        <BotAvatar team={bot.team} size={32} />
+        <BotAvatar team={bot.team} size={32} state={s === "running" ? "working" : s === "needs-you" ? "needs-you" : "idle"} />
         {badge ? (
           <span
             className={cn(
@@ -47,7 +50,11 @@ export function BotRow({
       <span className="min-w-0 flex-1">
         <span className="flex items-baseline justify-between gap-2">
           <span className={cn("truncate text-ui-sm font-medium text-foreground", bot.unread && "font-semibold")}>{bot.name}</span>
-          <span className="hidden shrink-0 text-caption text-fg-3 @min-[160px]:inline">{bot.time}</span>
+          {s === "needs-you" ? (
+            <StatusPill status="needs-you" className="hidden h-4 px-1.5 text-micro @min-[180px]:inline-flex" />
+          ) : (
+            <span className="hidden shrink-0 text-caption text-fg-3 @min-[160px]:inline">{time ?? bot.time}</span>
+          )}
         </span>
         <span className={cn("block truncate text-caption", s === "needs-you" ? "font-medium text-foreground" : "text-fg-3")}>
           {preview ?? bot.preview}

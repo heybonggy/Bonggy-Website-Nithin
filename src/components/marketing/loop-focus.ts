@@ -8,7 +8,7 @@ import * as React from "react";
  * the viewport (at least MIN_SHARE) is "focused" and may animate. Everything
  * else pauses, including sections that are merely peeking into view.
  */
-const MIN_SHARE = 0.2;
+const MIN_SHARE = 0.12;
 const shares = new Map<string, number>();
 const listeners = new Set<() => void>();
 let focused: string | null = null;
