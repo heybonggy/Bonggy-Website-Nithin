@@ -84,7 +84,9 @@ export function LogoMark({
 export function Logo({ className, markClassName }: { className?: string; markClassName?: string }) {
   return (
     <span className={cn("inline-flex items-center gap-2.5 text-foreground", className)}>
-      <LogoMark className={cn("size-6", markClassName)} />
+      {/* At 24px the original 4/256 ring breaks into a dotted hairline, so small
+          marks use the icons' heavier 12/256 ring (DESIGN.md §7.1). */}
+      <LogoMark ring={12} className={cn("size-6", markClassName)} />
       <span className="text-[1.0625rem] font-medium leading-none tracking-[-0.02em]">Bonggy</span>
     </span>
   );

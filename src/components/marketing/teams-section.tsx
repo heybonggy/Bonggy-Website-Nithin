@@ -65,9 +65,10 @@ function TeamBotRow({ bot, tick, offset, delay }: { bot: Bot; tick: number; offs
           {bot.name}
           <span className="sr-only">, customise its look</span>
         </span>
-        <span key={line} className="mt-1 flex animate-label-in items-center gap-2">
+        <span key={line} className="mt-1 flex animate-label-in items-center gap-2 lg:items-start">
           <StatusPill status={status} label={PILL_LABEL[status]} />
-          <span className="truncate text-ui-sm text-fg-2">{line}</span>
+          {/* One line on phones; up to two on wide screens, so it isn't cut. */}
+          <span className="truncate text-ui-sm text-fg-2 lg:line-clamp-2 lg:whitespace-normal">{line}</span>
         </span>
       </span>
       </button>

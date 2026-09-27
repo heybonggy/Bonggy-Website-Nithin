@@ -90,6 +90,13 @@ export function MakeItYours() {
   const reduced = usePrefersReducedMotion();
   const look = useBotLook(botId);
   const [announce, setAnnounce] = React.useState("");
+  // Which bot was actually changed (not just selected), for the preview copy.
+  const [changedId, setChangedId] = React.useState<string | null>(null);
+  const saved = changedId === botId;
+  const select = (id: string) => {
+    setBotId(id);
+    setAnnounce(`editing ${botById(id).name}`);
+  };
   const [preview, setPreview] = React.useState<CharacterState>("idle");
   const excitedTimer = React.useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
@@ -97,7 +104,7 @@ export function MakeItYours() {
   React.useEffect(() => {
     const on = (e: Event) => {
       const id = (e as CustomEvent<string>).detail;
-      if (id in DEFAULT_LOOKS) setBotId(id);
+      if (id in DEFAULT_LOOKS) select(id);
     };
     window.addEventListener(CUSTOMISE_EVENT, on);
     return () => window.removeEventListener(CUSTOMISE_EVENT, on);
@@ -109,6 +116,7 @@ export function MakeItYours() {
     setBotLook(botId, { [key]: value } as Partial<BotLook>);
     const labels = LOOK_LABELS[key] as Record<string, string>;
     setAnnounce(`${bot.name} is now ${labels[value].toLowerCase()}`);
+    setChangedId(botId);
     setPreview("excited");
     clearTimeout(excitedTimer.current);
     excitedTimer.current = setTimeout(() => setPreview("idle"), 1200);
@@ -135,7 +143,7 @@ export function MakeItYours() {
             title={<span id="make-title">Make it yours.</span>}
             intro="Pick a colour, a shape and a face. Your bots look like yours everywhere they show up."
           />
-          <PillTabs tabs={tabs} value={botId} onChange={setBotId} idPrefix="customise" label="Bot to customise" />
+          <PillTabs tabs={tabs} value={botId} onChange={select} idPrefix="customise" label="Bot to customise" />
           <div id="customise-panel" role="tabpanel" aria-labelledby={`customise-tab-${botId}`} className="flex flex-col gap-6">
             <OptionGroup
               label="Colour"
@@ -202,6 +210,7 @@ export function MakeItYours() {
                 onClick={() => {
                   resetBotLook(botId);
                   setAnnounce(`${bot.name} is back to its default look`);
+                  setChangedId(null);
                 }}
                 className="inline-flex min-h-11 items-center rounded-full px-4 text-ui font-medium text-foreground hover:bg-wash-hover"
               >
@@ -223,8 +232,13 @@ export function MakeItYours() {
             <p className="text-caption text-fg-3">{reduced ? "your bot" : "poke it"}</p>
           </div>
           <div aria-hidden inert className="flex flex-col gap-3 rounded-3xl bg-surface-raised p-4 hairline">
-            <BotRow bot={bot} active status="done" preview="new look saved" />
-            <BotBubble botId={botId} name={bot.name.toLowerCase()} time="now" text="new look saved. nothing else changed." />
+            <BotRow bot={bot} active status="done" preview={saved ? "new look saved" : `editing ${bot.name.toLowerCase()}`} />
+            <BotBubble
+              botId={botId}
+              name={bot.name.toLowerCase()}
+              time="now"
+              text={saved ? "new look saved. nothing else changed." : "pick a colour, a shape or a face."}
+            />
           </div>
         </div>
       </div>
