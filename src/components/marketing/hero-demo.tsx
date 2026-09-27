@@ -173,7 +173,11 @@ export function HeroDemo() {
     const last = el?.firstElementChild?.lastElementChild;
     if (!el || !last) return;
     const offset = last.getBoundingClientRect().top - el.getBoundingClientRect().top + el.scrollTop;
-    const top = Math.max(0, Math.min(el.scrollHeight - el.clientHeight, offset - 64));
+    // The final frame anchors to the bottom: the approved card's last lines,
+    // the receipt, then the composer, with no gap.
+    const top = s.receipt
+      ? el.scrollHeight - el.clientHeight
+      : Math.max(0, Math.min(el.scrollHeight - el.clientHeight, offset - 64));
     el.scrollTo({ top, behavior: reduced || !player.playing ? "auto" : "smooth" });
   }, [s, reduced, player.playing]);
 
@@ -256,7 +260,7 @@ export function HeroDemo() {
               active
               fresh
               status={trackerStatus}
-              preview={s.found && !s.receipt ? "needs you: note to dana" : s.receipt ? "sent after your ok" : BOOMERANG.preview}
+              preview={s.found && !s.receipt ? "note to dana" : s.receipt ? "sent after your ok" : BOOMERANG.preview}
             />
             </div>
           ) : null}
@@ -290,8 +294,9 @@ export function HeroDemo() {
             <div className="mx-auto flex w-full max-w-[600px] flex-col gap-4">
               {renderMessages("desk")}
             </div>
-            {/* Room below the newest message so it can scroll up into view. */}
-            <div aria-hidden className="h-[260px] shrink-0" />
+            {/* Room below the newest message so it can scroll up into view;
+                gone at the end so the final frame sits on the composer. */}
+            {!s.receipt ? <div aria-hidden className="h-[260px] shrink-0" /> : null}
           </div>
 
           {/* Before sending, the composer floats in the window's top third so

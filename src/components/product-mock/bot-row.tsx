@@ -69,14 +69,12 @@ export function BotRow({
       <span className="min-w-0 flex-1">
         <span className="flex items-baseline justify-between gap-2">
           <span className={cn("truncate text-ui-sm font-medium text-foreground", bot.unread && "font-semibold")}>{bot.name}</span>
-          {s === "needs-you" ? (
-            <StatusPill status="needs-you" className="hidden h-4 px-1.5 text-micro @min-[180px]:inline-flex" />
-          ) : (
-            <span className={cn("hidden shrink-0 text-caption @min-[160px]:inline", active ? "text-fg-2" : "text-fg-3")}>{time ?? bot.time}</span>
-          )}
+          <span className={cn("hidden shrink-0 text-caption @min-[160px]:inline", active ? "text-fg-2" : "text-fg-3")}>{time ?? bot.time}</span>
         </span>
-        <span className={cn("block truncate text-ui-sm", s === "needs-you" ? "font-medium text-foreground" : active ? "text-fg-2" : "text-fg-3")}>
-          {preview ?? bot.preview}
+        {/* "Needs you" sits on the preview line, so it never squeezes the name. */}
+        <span className={cn("flex min-w-0 items-center gap-1.5 text-ui-sm", s === "needs-you" ? "font-medium text-foreground" : active ? "text-fg-2" : "text-fg-3")}>
+          {s === "needs-you" ? <StatusPill status="needs-you" className="h-4 shrink-0 px-1.5 text-micro" /> : null}
+          <span className="truncate">{preview ?? bot.preview}</span>
         </span>
       </span>
     </div>
