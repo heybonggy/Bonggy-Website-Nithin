@@ -4,6 +4,7 @@ import { Navbar } from "@/components/marketing/navbar";
 import { Hero } from "@/components/marketing/hero";
 import { TheReframeFix } from "@/components/marketing/the-reframe-fix";
 import { TeamsSection } from "@/components/marketing/teams-section";
+import { FlowsSection } from "@/components/marketing/flows-section";
 import { NewAgentSection } from "@/components/marketing/new-agent-section";
 import { AnalyticsSection } from "@/components/marketing/analytics-section";
 import { ContextSection } from "@/components/marketing/context-section";
@@ -25,6 +26,7 @@ export default function Home() {
       <main className="flex flex-col">
         <Hero />
         <TeamsSection />
+        <FlowsSection />
         <NewAgentSection />
         <AnalyticsSection />
         <ContextSection />

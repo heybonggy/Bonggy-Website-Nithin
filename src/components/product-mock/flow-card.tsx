@@ -161,7 +161,7 @@ export function FlowCard({
                 <Icon weight={isFresh ? "fill" : "regular"} className="size-3.5 shrink-0 transition-all duration-[600ms]" aria-hidden />
                 {meta.label}
               </dt>
-              <dd className="min-w-0 text-foreground">
+              <dd data-cursor-target={`part-${part}`} className="min-w-0 text-foreground">
                 <AnimatePresence mode="popLayout" initial={false}>
                   {value ? (
                     <motion.div
