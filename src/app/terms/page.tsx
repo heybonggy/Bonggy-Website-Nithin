@@ -13,11 +13,11 @@ export const metadata: Metadata = pageMetadata({
 const SECTIONS = [
   {
     h: "What you get",
-    body: "Bonggy is an orchestration layer for GTM. It reads the effort your team already makes across your tools, ties each action to the revenue goal it serves, flags what's drifting, and reports one shared picture from rep to CRO. What we don't do: send, sequence, or act on your reps' behalf, guarantee pipeline, or replace anyone. We make the work legible.",
+    body: "Bonggy is an agent workspace for sales, RevOps and marketing teams. Your team builds bots and designs the flows they run; every flow ties to a revenue goal, and a person on your team approves anything a customer would see. What we don't do: send customer-facing messages without that approval, guarantee pipeline, or replace anyone."
   },
   {
     h: "Acceptable use",
-    body: "Use Bonggy to read and align your own team's effort. Connect only the tools and accounts you're authorized to. Don't use it to ingest data you don't have rights to, or to monitor individuals outside a legitimate GTM context. Bonggy is read-only — it doesn't send, so the rules are about what you connect, not what goes out.",
+    body: "Use Bonggy to build and run bots for your own team's work. Connect only the tools and accounts you're authorized to. Don't use it to ingest data you don't have rights to, to send bulk or unsolicited messages, to get around the approval step, or to monitor individuals outside a legitimate business context.",
   },
   {
     h: "Billing",
@@ -25,11 +25,11 @@ const SECTIONS = [
   },
   {
     h: "Data ownership",
-    body: "Your account data, contacts, and activity are yours. We provide the alignment layer; you provide the work and the strategy. Export anytime, leave anytime, no lock-in.",
+    body: "Your account data, contacts, activity and the work your bots produce are yours. You design the flows and approve what goes out; we run the workspace. Export anytime, leave anytime, no lock-in.",
   },
   {
     h: "Limitation of liability",
-    body: "Bonggy reads and aligns your team's effort; it doesn't send, act, or close deals. We're not responsible for what your reps actually do, how prospects respond, or whether a deal closes. The work stays human. The service is provided “as is,” to the fullest extent permitted by law.",
+    body: "Bonggy runs the flows your team designs, and people on your team approve what customers see. We're not responsible for what your team approves or sends, how prospects respond, or whether a deal closes. The service is provided “as is,” to the fullest extent permitted by law.",
   },
   {
     h: "Contact",
@@ -43,7 +43,7 @@ export default function TermsPage() {
       eyebrow="Terms of Service"
       title="Plain English."
       titleAccent="No legalese tricks."
-      lede="Last updated: May 2026. Bonggy reads your team's effort and points it at revenue. The work stays human. Here's what you get, what you can do, and what's on you."
+      lede="Last updated: May 2026. Teams build bots in Bonggy, every flow ties to a revenue goal, and people approve what customers see. Here's what you get, what you can do, and what's on you."
       narrow
     >
       <div className="max-w-copy divide-y divide-border">

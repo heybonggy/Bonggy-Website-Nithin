@@ -6,18 +6,18 @@ export const metadata: Metadata = pageMetadata({
   path: "/privacy",
   title: "Privacy Policy",
   description:
-    "Bonggy privacy policy. We collect only what we need, we don't sell your data, and we don't train AI models on your proprietary account information. Bonggy is read-only.",
+    "Bonggy privacy policy. We collect only what we need, we don't sell your data, and we don't train AI models on your account information. Bots are read-scoped by default and write only when a flow allows it.",
   robots: { index: true, follow: true },
 });
 
 const SECTIONS = [
   {
     h: "What we collect",
-    body: "We collect only what we need to make Bonggy work for your team: account information (your email, company name), product usage data to improve the service, and the effort data Bonggy reads through the tools you connect. We do not sell your data. We do not train AI models on your proprietary account information.",
+    body: "We collect only what we need to make Bonggy work for your team: account information (your email, company name), product usage data to improve the service, and the data your bots read through the tools you connect. We do not sell your data. We do not train AI models on your account information.",
   },
   {
     h: "How we use it",
-    body: "Your data powers your own picture. Reading effort across your tools, aligning it to revenue, and surfacing drift all happen on your data, for your team. We use anonymized, aggregate metrics to improve the product — never your specific account data or contact lists.",
+    body: "Your data powers your own bots. Running your flows, mapping work to your revenue goals, and showing your team what each bot did all happen on your data, for your team. We use anonymized, aggregate metrics to improve the product, never your specific account data or contact lists.",
   },
   {
     h: "Cookies and website analytics",
@@ -29,7 +29,7 @@ const SECTIONS = [
   },
   {
     h: "Third-party integrations",
-    body: "Bonggy connects to the tools your team already uses — CRM, sequencer, email, calendar, Slack, calls — to read the effort they already log. It's read-only: we request only the permissions needed to read, and Bonggy doesn't write back, send, or act on your behalf.",
+    body: "Bonggy connects to the tools your team already uses (CRM, email, calendar, Slack, call notes) through the permissions you grant. Bots are read-scoped by default. They write back only when a flow allows it, such as adding a CRM task, and anything a customer would see waits for a person on your team to approve it first.",
   },
   {
     h: "Your choices",

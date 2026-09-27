@@ -90,6 +90,9 @@ const BlogPostCard = React.forwardRef<HTMLDivElement, BlogPostCardProps>(
                 src={imageUrl}
                 alt={title}
                 fill
+                // The featured cover is the page's largest paint: load it first.
+                preload
+                loading="eager"
                 sizes="(min-width: 1024px) 60vw, (min-width: 768px) 50vw, 100vw"
                 className="object-cover grayscale"
               />
