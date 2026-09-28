@@ -24,10 +24,9 @@ type Post = {
 const POSTS: Post[] = [
   {
     slug: "a-note-from-us",
-    title: "A note from us <3",
-    excerpt:
-      "On why GTM is drowning in AI slop, and why the fix is not more sending. It is bots that do the work before the conversation, with people deciding what customers see.",
-    readTime: "6 min read",
+    title: "A note from us",
+    excerpt: "Why we built Bonggy, and the few things we will not do.",
+    readTime: "3 min read",
     date: "",
     kind: "Note",
     featured: true,

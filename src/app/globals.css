@@ -208,6 +208,19 @@
   --bot-pink-ink: #f79acb; --bot-pink-tint: #412734; --bot-pink-ring: transparent;
 }
 
+/* Announcement banner (news-banner.tsx). It sits in flow above the page;
+   --banner-h is its height while shown (0 when dismissed or absent), and the
+   fixed navbar sits at --nav-top, following the banner as it scrolls away. */
+:root {
+  --banner-h: 0px;
+  --nav-top: max(0px, calc(var(--banner-h) - var(--banner-scroll, 0px)));
+}
+html:not(.news-dismissed):has(.news-banner) { --banner-h: 3.5rem; }
+@media (min-width: 640px) {
+  html:not(.news-dismissed):has(.news-banner) { --banner-h: 2.5rem; }
+}
+.news-dismissed .news-banner { display: none; }
+
 /* One frame without transitions while the theme flips (theme.ts). */
 .theme-switching, .theme-switching *, .theme-switching *::before, .theme-switching *::after {
   transition: none !important;
@@ -371,6 +384,7 @@
   --animate-bar-draw: bar-draw 450ms var(--ease-out-expo) both;
   --animate-shake: shake 360ms var(--ease-standard) both;
   --animate-twinkle: twinkle 2.4s var(--ease-standard) infinite;
+  --animate-bob: bob 4.5s var(--ease-standard) infinite;
 
   @keyframes typing-dot {
     0%, 55%, 100% { opacity: 0.25; }
@@ -409,6 +423,12 @@
   }
   @keyframes rise-in {
     from { opacity: 0; transform: translateY(var(--rise-from, 10px)); }
+  }
+  /* The banner planet: still most of the time, one gentle bob every few seconds. */
+  @keyframes bob {
+    0%, 70%, 100% { transform: translateY(0) rotate(0deg); }
+    80% { transform: translateY(-3px) rotate(-8deg); }
+    90% { transform: translateY(0) rotate(4deg); }
   }
   @keyframes twinkle {
     0%, 100% { transform: scale(0.8) rotate(0deg); }

@@ -19,13 +19,8 @@ const COLUMNS: { heading: string; items: { label: string; href: string }[] }[] =
       { label: "About", href: "/about" },
       { label: "Contact", href: "/contact" },
       { label: "Careers", href: "/careers" },
-    ],
-  },
-  {
-    heading: "Resources",
-    items: [
+      // Individual resources live on /resources, not in the footer.
       { label: "All resources", href: "/resources" },
-      { label: "A note from us", href: "/resources/a-note-from-us" },
     ],
   },
   {
@@ -42,7 +37,7 @@ export function Footer() {
   return (
     <footer className="border-t border-border px-4 pb-16 pt-10 sm:px-6">
       <div className="mx-auto w-full max-w-wide">
-        <Stagger className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-[280px_repeat(4,minmax(0,1fr))]">
+        <Stagger className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-[280px_repeat(3,minmax(0,1fr))]">
           <div className="col-span-2 md:col-span-1">
             <Link href="/" aria-label="Bonggy, home" className="inline-flex min-h-11 items-center">
               <Logo />

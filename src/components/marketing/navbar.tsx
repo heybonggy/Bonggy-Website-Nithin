@@ -65,7 +65,10 @@ export function Navbar() {
     <>
       <header
         className={cn(
-          "fixed inset-x-0 top-0 z-50 h-16 transition-[background-color,backdrop-filter] duration-[var(--dur-quick)]",
+          // Sits under the announcement banner until it scrolls away (--nav-top).
+          // A transform, not `top`, so following the scroll never counts as a
+          // layout shift.
+          "fixed inset-x-0 top-0 z-50 h-16 translate-y-[var(--nav-top)] transition-[background-color,backdrop-filter] duration-[var(--dur-quick)]",
           scrolled || menuOpen ? "bg-background/85 backdrop-blur-[12px]" : "bg-transparent",
         )}
       >
@@ -120,7 +123,7 @@ export function Navbar() {
             animate={{ y: 0 }}
             exit={{ y: "-100%" }}
             transition={SPRING.layout}
-            className="fixed inset-x-0 top-0 z-40 flex h-[100svh] flex-col bg-background px-4 pb-8 pt-20 lg:hidden"
+            className="fixed inset-x-0 top-0 z-40 flex h-[100svh] flex-col bg-background px-4 pb-8 pt-[calc(5rem+var(--nav-top))] lg:hidden"
           >
             <nav aria-label="Mobile" className="flex flex-col">
               {[...PRODUCT, ...LINKS].map((l) => (

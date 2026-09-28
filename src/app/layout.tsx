@@ -10,6 +10,8 @@ import {
 } from "@/lib/metadata";
 import { THEME_INIT_SCRIPT } from "@/components/marketing/theme-script";
 import { ScrollMotionFallback } from "@/components/marketing/scroll-motion-fallback";
+import { NewsBanner } from "@/components/news-banner";
+import { NEWS_INIT_SCRIPT } from "@/content/news";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -107,6 +109,8 @@ export default function RootLayout({
       <head>
         {/* Theme first, before any stylesheet, so there's no flash. */}
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+        {/* Hide a dismissed announcement before first paint (no layout shift). */}
+        <script dangerouslySetInnerHTML={{ __html: NEWS_INIT_SCRIPT }} />
         {/* Organization structured data , readable for AI agents + search */}
         <script
           type="application/ld+json"
@@ -133,6 +137,7 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-background text-foreground">
+        <NewsBanner />
         {children}
         <ScrollMotionFallback />
       </body>
