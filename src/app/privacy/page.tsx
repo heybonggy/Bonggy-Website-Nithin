@@ -1,19 +1,20 @@
 import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/metadata";
 import { SubPageShell } from "@/components/marketing/sub-page-shell";
+import { EmailLink } from "@/components/marketing/email-link";
 
 export const metadata: Metadata = pageMetadata({
   path: "/privacy",
   title: "Privacy Policy",
   description:
-    "Bonggy privacy policy. We collect only what we need, we don't sell your data, and we don't train AI models on your account information. Bots are read-scoped by default and write only when a flow allows it.",
+    "Bonggy privacy policy. We collect only what we need, we don't sell your data, and no training on your data: we don't use it to train AI models. Bots are read-scoped by default and write only when a flow allows it.",
   robots: { index: true, follow: true },
 });
 
-const SECTIONS = [
+const SECTIONS: { h: string; body: React.ReactNode }[] = [
   {
     h: "What we collect",
-    body: "We collect only what we need to make Bonggy work for your team: account information (your email, company name), product usage data to improve the service, and the data your bots read through the tools you connect. We do not sell your data. We do not train AI models on your account information.",
+    body: "We collect only what we need to make Bonggy work for your team: account information (your email, company name), product usage data to improve the service, and the data your bots read through the tools you connect. We do not sell your data, and there's no training on your data: we don't use it to train AI models.",
   },
   {
     h: "How we use it",
@@ -37,7 +38,11 @@ const SECTIONS = [
   },
   {
     h: "Contact",
-    body: "Questions? Reach us at founders@bonggy.com. We read every email.",
+    body: (
+      <>
+        Questions? Reach us at <EmailLink />. We read every email.
+      </>
+    ),
   },
 ];
 

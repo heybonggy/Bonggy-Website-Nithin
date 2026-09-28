@@ -33,6 +33,10 @@ import { useLoopFocus } from "./loop-focus";
 const RESEARCH = "top pains from 24 calls: slow onboarding, manual quotes, no forecast view. sharing with unstick. no copy drafted.";
 const COACH = "got it. i'll add the matching pain to each stuck deal's next-step note. nothing sent.";
 
+// Last week's handoff, shown faded above today's once the demo has played.
+const EARLIER_RESEARCH = "top pains from 19 calls: pricing confusion, slow security review, no admin seats. sharing with unstick.";
+const EARLIER_COACH = "added the matching pain to 3 stuck deals' next steps. nothing sent.";
+
 type State = {
   research: boolean;
   pending: boolean;
@@ -52,9 +56,10 @@ const TIMELINE: Timeline<Partial<State>> = [
 ];
 
 const HANDOFFS = [
-  { from: "echo", label: "sharing pains with Unstick…" },
-  { from: "unstick", label: "adding pains to 5 next steps…" },
-  { from: "relay", label: "routing lead to Unstick…" },
+  // Short enough to fit the pill inside a 360px phone.
+  { from: "echo", label: "pains to Unstick…" },
+  { from: "unstick", label: "adding pains to 5 deals…" },
+  { from: "relay", label: "routing a lead…" },
 ];
 
 const SUMMARY =
@@ -87,6 +92,17 @@ function Take({ s }: { s: State }) {
       {s.system ? <SystemLine text="**Echo** handed off to **Unstick**" /> : null}
       {s.coach ? <BotBubble botId="unstick" name="unstick" time="fri 16:01" text={COACH} /> : null}
       {s.pending ? <PendingRow label="working" botId={s.research ? "unstick" : "echo"} /> : null}
+    </>
+  );
+}
+
+/** The previous weekly run: different messages, a week earlier. */
+function EarlierTake() {
+  return (
+    <>
+      <BotBubble botId="echo" name="echo" time="last fri 15:57" text={EARLIER_RESEARCH} />
+      <SystemLine text="**Echo** handed off to **Unstick**" />
+      <BotBubble botId="unstick" name="unstick" time="last fri 16:02" text={EARLIER_COACH} />
     </>
   );
 }
@@ -168,7 +184,7 @@ export function GroupsSection() {
             <div className="mx-auto flex w-full max-w-[600px] flex-col gap-4">
               {player.phase === "live" ? (
                 <TakeHistory label="today">
-                  <Take s={player.end} />
+                  <EarlierTake />
                 </TakeHistory>
               ) : null}
               <Take s={s} />
@@ -196,7 +212,7 @@ export function GroupsSection() {
             <PhoneTranscript deps={s}>
               {player.phase === "live" ? (
                 <TakeHistory label="today">
-                  <Take s={player.end} />
+                  <EarlierTake />
                 </TakeHistory>
               ) : null}
               <Take s={s} />

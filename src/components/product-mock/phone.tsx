@@ -109,6 +109,9 @@ export function PhoneChatHeader({
  * A scrolling transcript that fills from the top and brings each new
  * message into view, like a real chat.
  */
+/** Height of the scrolled transcript's top fade, in px. */
+const FADE_BAND = 44;
+
 export function PhoneTranscript({
   children,
   deps,
@@ -138,7 +141,8 @@ export function PhoneTranscript({
       const last = inner.lastElementChild;
       if (!last) return;
       const offset = last.getBoundingClientRect().top - el.getBoundingClientRect().top + el.scrollTop;
-      el.scrollTo({ top: Math.max(0, offset - 16), behavior });
+      // Park it below the fade band (see SCROLLED_MASK) so it's fully visible.
+      el.scrollTo({ top: Math.max(0, offset - FADE_BAND), behavior });
     },
     [follow, reduced],
   );
@@ -156,8 +160,22 @@ export function PhoneTranscript({
     return () => ro.disconnect();
   }, [scroll]);
 
+  // Only a scrolled transcript has something to hide under the header.
+  const [scrolled, setScrolled] = React.useState(false);
+
   return (
-    <div ref={ref} className={cn("fade-t flex min-h-0 flex-1 flex-col gap-3 overflow-hidden px-3 pb-3 pt-4 text-[14px]", className)}>
+    <div
+      ref={ref}
+      onScroll={(e) => setScrolled(e.currentTarget.scrollTop > 0)}
+      data-scrolled={scrolled || undefined}
+      className={cn(
+        "flex min-h-0 flex-1 flex-col gap-3 overflow-hidden px-3 pb-3 pt-4 text-[14px]",
+        // Scrolled: the top 14px is fully masked and the next 30px fade in,
+        // so a message sliding under the header never shows half-cut.
+        "data-[scrolled]:[mask-image:linear-gradient(to_bottom,transparent_14px,#000_44px)] data-[scrolled]:[-webkit-mask-image:linear-gradient(to_bottom,transparent_14px,#000_44px)]",
+        className,
+      )}
+    >
       <div ref={innerRef} className="flex shrink-0 flex-col gap-[inherit]">
         {children}
       </div>

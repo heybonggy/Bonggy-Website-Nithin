@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 
+/** www is the served host; the apex redirects to it. */
 export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://bonggy.com";
+  process.env.NEXT_PUBLIC_SITE_URL || "https://www.bonggy.com";
+
+/** Browser chrome colour per theme: the page background (see globals.css). */
+export const THEME_COLORS = { light: "#ffffff", dark: "#1b1b1b" } as const;
 
 /** The planet mark, monochrome (public/logo.svg). */
 export const LOGO_URL = `${SITE_URL}/logo.svg`;

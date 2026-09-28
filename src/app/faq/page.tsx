@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/metadata";
 import { SubPageCta, SubPageShell } from "@/components/marketing/sub-page-shell";
 import { CtaButton } from "@/components/marketing/cta-button";
+import { EmailLink } from "@/components/marketing/email-link";
 import { FaqJsonLd, FaqList, type FaqItem } from "@/components/marketing/faq-list";
 import { HOME_FAQ } from "@/components/marketing/home-faq";
 
@@ -42,7 +43,12 @@ export default function FaqPage() {
         eyebrow="FAQ"
         title="The questions"
         titleAccent="every VP asks before booking."
-        lede="Straight answers on what Bonggy's bots do, what they don't, and how to get started. If your question isn't here, email founders@bonggy.com and we'll add it."
+        lede={
+          <>
+            Straight answers on what Bonggy&apos;s bots do, what they don&apos;t, and how to get started. If your
+            question isn&apos;t here, email <EmailLink /> and we&apos;ll add it.
+          </>
+        }
         narrow
       >
         <FaqList items={QUESTIONS} headingLevel={2} />

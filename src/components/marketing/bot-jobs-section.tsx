@@ -235,7 +235,7 @@ export function BotJobsSection() {
       onAttention: () => {
         if (!reduced) setBurst((n) => n + 1);
       },
-      decoration: burst > 0 && !reduced ? <Confetti key={burst} /> : null,
+      decoration: burst > 0 && !reduced ? <Confetti key={burst} big /> : null,
     },
   ];
 

@@ -57,7 +57,7 @@
   --border-strong: rgb(10 10 10 / 0.16);
   --border-inverse: rgb(255 255 255 / 0.16);
   --input: rgb(10 10 10 / 0.12);
-  --ring: rgb(10 10 10 / 0.35);
+  --ring: var(--gray-950); /* solid focus ring, 19:1 on white */
 
   /* interaction washes */
   --wash-hover: rgb(10 10 10 / 0.04);
@@ -150,7 +150,7 @@
   --border-strong: rgb(255 255 255 / 0.18);
   --border-inverse: rgb(20 20 20 / 0.16);
   --input: rgb(255 255 255 / 0.14);
-  --ring: rgb(255 255 255 / 0.45);
+  --ring: #edecec; /* solid focus ring, 14.6:1 on bg */
   --wash-hover: rgb(255 255 255 / 0.05);
   --wash-active: rgb(255 255 255 / 0.09);
   --wash-selected: rgb(255 255 255 / 0.075);
@@ -460,7 +460,7 @@ html:not(.news-dismissed):has(.news-banner) { --banner-h: 3.5rem; }
 
 /* 6. Base */
 @layer base {
-  * { @apply border-border outline-ring/50; }
+  * { @apply border-border outline-ring; }
   html {
     font-family: var(--font-sans);
     font-feature-settings: "ss01", "calt";
@@ -550,7 +550,7 @@ html:not(.news-dismissed):has(.news-banner) { --banner-h: 3.5rem; }
    supported; <ScrollMotionFallback> applies the same with Motion elsewhere.
    Transforms and opacity only. Off under reduced motion. */
 @keyframes reveal-in {
-  from { opacity: 0.001; transform: translateY(24px) scale(0.98); }
+  from { opacity: 0.001; transform: translateY(var(--reveal-from, 24px)) scale(0.98); }
 }
 @keyframes reveal-out {
   to { opacity: 0.85; transform: translateY(-12px); }
@@ -572,6 +572,15 @@ html:not(.news-dismissed):has(.news-banner) { --banner-h: 3.5rem; }
       animation: reveal-in linear both, reveal-out linear both;
       animation-timeline: view(), view();
       animation-range: entry 0% cover 25%, exit 0% exit 100%;
+    }
+    /* Phones: tall mocks would still be fading halfway up the screen, so the
+       entry is a fixed, shorter distance: done by the time the top edge is
+       75% down the viewport. */
+    @media (max-width: 767px) {
+      .reveal {
+        --reveal-from: 16px;
+        animation-range: entry 0% entry 25vh, exit 0% exit 100%;
+      }
     }
     /* Hatched plates drift 24px across their section. */
     .parallax {

@@ -61,7 +61,7 @@ export default async function OG() {
             <div style={{ width: 10, height: 10, borderRadius: 9999, background: "#0a0a0a" }} />
             <span>Book a strategy call</span>
           </div>
-          <span>bonggy.com</span>
+          <span>www.bonggy.com</span>
         </div>
       </div>
     ),

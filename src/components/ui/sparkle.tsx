@@ -15,26 +15,36 @@ export function Sparkle({ className, twinkle = false }: { className?: string; tw
   );
 }
 
-const COLORS = ["coral", "amber", "lime", "teal", "sky", "violet", "pink", "coral"] as const;
+const COLORS = ["coral", "amber", "lime", "teal", "sky", "violet", "pink"] as const;
+const SIZES = [6, 4, 8, 5, 3, 7];
 
 /**
- * A one-off burst of 8 dots in the bot palette around its parent (0.5s).
- * Remount (change `key`) to fire again. CSS transforms only.
+ * A one-off burst of dots in the bot palette around its parent. Default: 8
+ * even dots over 0.5s. `big`: 24 mixed-size dots and bits flung 28–70px over
+ * 1–1.2s. Remount (change `key`) to fire again. CSS transforms only; hidden
+ * under reduced motion.
  */
-export function Confetti({ className }: { className?: string }) {
+export function Confetti({ className, big = false }: { className?: string; big?: boolean }) {
+  const count = big ? 24 : 8;
   return (
     <span aria-hidden className={cn("pointer-events-none absolute inset-0", className)}>
-      {COLORS.map((c, i) => (
-        <span
-          key={i}
-          className="confetti-dot absolute left-1/2 top-1/2 size-1.5 rounded-full"
-          style={{
-            background: `var(--bot-${c}-disc)`,
-            ["--a" as string]: `${(i / COLORS.length) * 360 + 12}deg`,
-            ["--d" as string]: `${26 + (i % 3) * 8}px`,
-          }}
-        />
-      ))}
+      {Array.from({ length: count }, (_, i) => {
+        const size = big ? SIZES[i % SIZES.length] : 6;
+        return (
+          <span
+            key={i}
+            className={cn("confetti-dot absolute left-1/2 top-1/2", big && i % 4 === 3 ? "rounded-[1px]" : "rounded-full")}
+            style={{
+              width: size,
+              height: big && i % 4 === 3 ? size * 1.8 : size,
+              background: `var(--bot-${COLORS[i % COLORS.length]}-disc)`,
+              ["--a" as string]: `${(i / count) * 360 + (big ? (i % 3) * 7 : 12)}deg`,
+              ["--d" as string]: big ? `${28 + ((i * 17) % 43)}px` : `${26 + (i % 3) * 8}px`,
+              ...(big ? { animationDuration: `${1000 + (i % 5) * 50}ms` } : null),
+            }}
+          />
+        );
+      })}
     </span>
   );
 }

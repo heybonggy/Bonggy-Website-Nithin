@@ -64,7 +64,9 @@ export function StatusPill({
               : null;
   return (
     <motion.span
-      layout
+      // Size only: the width morphs when the label changes. Animating position
+      // misfires inside scrolled phone transcripts (the pill drifts off its row).
+      layout="size"
       transition={{ layout: SPRING.morph }}
       className={cn(
         "inline-flex shrink-0 items-center gap-1.5 overflow-hidden whitespace-nowrap rounded-full font-medium",

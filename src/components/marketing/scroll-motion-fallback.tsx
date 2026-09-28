@@ -18,9 +18,11 @@ export function ScrollMotionFallback() {
     const stops: (() => void)[] = [];
     const each = (sel: string, fn: (el: HTMLElement) => void) => document.querySelectorAll<HTMLElement>(sel).forEach(fn);
 
+    // Phones: a shorter rise that completes by 75% down the viewport (as in CSS).
+    const phone = window.matchMedia("(max-width: 767px)").matches;
     each(".reveal", (el) => {
       stops.push(
-        scroll(animate(el, { opacity: [0.001, 1], transform: ["translateY(24px) scale(0.98)", "none"] }, { ease: "linear" }), {
+        scroll(animate(el, { opacity: [0.001, 1], transform: [`translateY(${phone ? 16 : 24}px) scale(0.98)`, "none"] }, { ease: "linear" }), {
           target: el,
           offset: ["start end", "start 75%"],
         }),

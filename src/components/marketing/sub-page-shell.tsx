@@ -20,7 +20,7 @@ export function SubPageShell({
   eyebrow: string;
   title: string;
   titleAccent?: string;
-  lede?: string;
+  lede?: React.ReactNode;
   children: React.ReactNode;
   narrow?: boolean;
 }) {
@@ -28,7 +28,7 @@ export function SubPageShell({
   return (
     <>
       <Navbar />
-      <main className="flex flex-col">
+      <main id="main" tabIndex={-1} className="flex flex-col outline-none">
         <section className="px-4 pb-12 pt-32 sm:px-6 sm:pb-16 sm:pt-[148px]">
           <div className={cn("mx-auto w-full", column)}>
             <p className="text-ui-sm font-medium text-fg-3">{eyebrow}</p>

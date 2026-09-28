@@ -71,7 +71,12 @@ export const HANDOFF_GROUP = {
   members: ["echo", "unstick", "relay"],
 };
 
-export const VIEWER = { initials: "NR", name: "Nithin" };
+const VIEWER_NAME = "Nithin";
+/** The person using the mock. Initials always come from the name. */
+export const VIEWER = {
+  name: VIEWER_NAME,
+  initials: VIEWER_NAME.split(/\s+/).map((w) => w[0]).join("").slice(0, 2).toUpperCase(),
+};
 
 /* ---------------------------------- flows --------------------------------- */
 

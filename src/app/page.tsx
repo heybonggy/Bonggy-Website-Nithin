@@ -25,7 +25,7 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <main className="flex flex-col">
+      <main id="main" tabIndex={-1} className="flex flex-col outline-none">
         <Hero />
         <TeamsSection />
         <FlowsSection />

@@ -34,10 +34,10 @@ import { useLoopFocus } from "./loop-focus";
 /** Each loop types a different purpose; the bot picks its own name and look. */
 export const YOUR_BOT_TAKES: { purpose: string; name: string; look: BotLook; parts: string[] }[] = [
   {
-    purpose: "every Friday, find deals with no next step and nudge the owner",
-    name: "Nudge",
+    purpose: "every Friday, find deals with no next step and ping the owner",
+    name: "Chaser",
     look: { color: "violet", shape: "round", eyes: "dots", accessory: "none" },
-    parts: ["fridays 16:00", "open deals · crm", "find · draft · nudge", "you · before any message", "a nudge per owner", "q4 new pipeline"],
+    parts: ["fridays 16:00", "open deals · crm", "find · draft · remind", "you · before any message", "a reminder per owner", "q4 new pipeline"],
   },
   {
     purpose: "when a demo gets booked, brief the rep in #sales",
@@ -143,7 +143,7 @@ export function YourBotDemo({ onDone }: { onDone: () => void }) {
                 s.woke ? (
                   <span className="relative inline-flex">
                     <BotAvatar look={take.look} size={30} state={s.card ? "happy" : "celebrate"} />
-                    {!reduced ? <Confetti key="wake" /> : null}
+                    {!reduced ? <Confetti key="wake" big /> : null}
                   </span>
                 ) : (
                   <span className="inline-flex grayscale" style={{ opacity: 0.45 }}>
@@ -211,7 +211,7 @@ export function YourBotDemo({ onDone }: { onDone: () => void }) {
         >
           <span className="text-ui font-medium leading-snug">
             This one&apos;s yours.
-            <span className="block font-normal opacity-80">Build it on a strategy call</span>
+            <span className="block font-normal opacity-80">Book a strategy call</span>
           </span>
           <ArrowUpRight className="size-5 shrink-0" aria-hidden />
           <span className="sr-only"> (opens in a new tab)</span>

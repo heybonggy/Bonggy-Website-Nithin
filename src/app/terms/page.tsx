@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/metadata";
 import { SubPageShell } from "@/components/marketing/sub-page-shell";
+import { EmailLink } from "@/components/marketing/email-link";
 
 export const metadata: Metadata = pageMetadata({
   path: "/terms",
@@ -10,7 +11,7 @@ export const metadata: Metadata = pageMetadata({
   robots: { index: true, follow: true },
 });
 
-const SECTIONS = [
+const SECTIONS: { h: string; body: React.ReactNode }[] = [
   {
     h: "What you get",
     body: "Bonggy is an agent workspace for sales, RevOps and marketing teams. Your team builds bots and designs the flows they run; every flow ties to a revenue goal, and a person on your team approves anything a customer would see. What we don't do: send customer-facing messages without that approval, guarantee pipeline, or replace anyone."
@@ -33,7 +34,11 @@ const SECTIONS = [
   },
   {
     h: "Contact",
-    body: "Questions about these terms? founders@bonggy.com. We read every email.",
+    body: (
+      <>
+        Questions about these terms? <EmailLink />. We read every email.
+      </>
+    ),
   },
 ];
 

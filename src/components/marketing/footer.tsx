@@ -10,7 +10,7 @@ const COLUMNS: { heading: string; items: { label: string; href: string }[] }[] =
       { label: "Flows", href: "/#flows" },
       { label: "How it works", href: "/#how-it-works" },
       { label: "Pricing", href: "/#pricing" },
-      { label: "FAQ", href: "/faq" },
+      { label: "FAQ", href: "/#faq" },
     ],
   },
   {
@@ -69,7 +69,12 @@ export function Footer() {
 
         <div className="mt-12 flex flex-col gap-2 border-t border-border pt-6 text-caption text-fg-3 sm:flex-row sm:items-center sm:justify-between">
           <span>© {new Date().getFullYear()} Bonggy. All rights reserved.</span>
-          <span className="select-all">founders@bonggy.com</span>
+          <a
+            href="mailto:founders@bonggy.com"
+            className="inline-flex min-h-11 items-center self-start rounded-xs underline-offset-2 hover:text-foreground hover:underline sm:self-auto"
+          >
+            founders@bonggy.com
+          </a>
         </div>
 
       </div>

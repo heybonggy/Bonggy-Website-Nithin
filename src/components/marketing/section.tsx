@@ -74,7 +74,8 @@ export function SectionHeader({
         align === "center"
           ? "mx-auto max-w-2xl items-center text-center"
           : align === "right"
-            ? "ml-auto max-w-copy items-end text-right"
+            ? // Right-aligned only from md; narrower screens read it left-aligned.
+              "max-w-copy md:ml-auto md:items-end md:text-right"
             : "max-w-copy",
         className,
       )}

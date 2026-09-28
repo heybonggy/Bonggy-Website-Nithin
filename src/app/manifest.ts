@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { SITE_DESCRIPTION_SHORT } from "@/lib/metadata";
+import { SITE_DESCRIPTION_SHORT, THEME_COLORS } from "@/lib/metadata";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
@@ -8,8 +8,9 @@ export default function manifest(): MetadataRoute.Manifest {
     description: SITE_DESCRIPTION_SHORT,
     start_url: "/",
     display: "standalone",
-    background_color: "#ffffff",
-    theme_color: "#0a0a0a",
+    // Same colours the site paints its browser chrome with (light theme).
+    background_color: THEME_COLORS.light,
+    theme_color: THEME_COLORS.light,
     // The planet mark, monochrome (DESIGN.md §7.1). PNGs for launchers that
     // ignore SVG; the maskable one keeps the planet inside the safe zone.
     icons: [

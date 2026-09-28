@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://bonggy.com";
+import { SITE_URL } from "@/lib/metadata";
 
 type Entry = {
   path: string;

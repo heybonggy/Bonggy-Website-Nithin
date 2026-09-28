@@ -14,7 +14,7 @@ import { ThemeSegmented, ThemeToggle } from "./theme-toggle";
 type NavLink = { label: string; href: string };
 
 const PRODUCT: NavLink[] = [
-  { label: "Bots", href: "/#top" },
+  { label: "Bots", href: "/#agents" },
   { label: "Flows", href: "/#flows" },
   { label: "Approvals", href: "/#approvals" },
   { label: "Analytics", href: "/#analytics" },
@@ -28,12 +28,30 @@ const LINKS: NavLink[] = [
   { label: "FAQ", href: "/#faq" },
 ];
 
-// Links go from fg-2 to full ink on hover / focus-visible (150ms) with the
-// surface-2 pill; the section in view (scrollspy) gets the same treatment.
-const LINK_CLASS =
-  "inline-flex h-9 items-center gap-1 rounded-full px-3 text-ui-sm font-medium text-fg-2 transition-colors duration-150 hover:bg-surface-2 hover:text-foreground focus-visible:bg-surface-2 focus-visible:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring aria-[current=true]:bg-surface-2 aria-[current=true]:text-foreground";
+// The mobile sheet lists everything in the order it appears on the page.
+const MOBILE: NavLink[] = [
+  LINKS[0], // Teams
+  PRODUCT[1], // Flows
+  PRODUCT[0], // Bots
+  PRODUCT[4], // Make it yours
+  PRODUCT[2], // Approvals
+  PRODUCT[3], // Analytics
+  ...LINKS.slice(1), // How it works, Pricing, FAQ
+];
 
-const SPY_IDS = [...PRODUCT, ...LINKS].map((l) => hashOf(l.href)).filter((x): x is string => !!x);
+// Hover / focus-visible: ink text on the light surface-2 pill (150ms).
+// Active (the section in view): heavier weight and a small dot, no pill, so
+// the two never read as the same state.
+const LINK_CLASS =
+  "relative inline-flex h-9 items-center gap-1 rounded-full px-3 text-ui-sm font-medium text-fg-2 transition-colors duration-150 hover:bg-surface-2 hover:text-foreground focus-visible:bg-surface-2 focus-visible:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring aria-[current=true]:font-semibold aria-[current=true]:text-foreground after:absolute after:bottom-0.5 after:left-1/2 after:size-1 after:-translate-x-1/2 after:rounded-full after:bg-foreground after:opacity-0 after:transition-opacity after:content-[''] aria-[current=true]:after:opacity-100";
+
+// Sections without a link of their own (groups, context) are tracked too, so
+// Product stays lit through them instead of a stale link.
+const PRODUCT_ONLY_IDS = ["groups", "context"];
+const SPY_IDS = [
+  ...[...PRODUCT, ...LINKS].map((l) => hashOf(l.href)).filter((x): x is string => !!x),
+  ...PRODUCT_ONLY_IDS,
+];
 
 export function Navbar() {
   const active = useScrollSpy(SPY_IDS);
@@ -97,7 +115,7 @@ export function Navbar() {
             <div className="hidden items-center gap-2 lg:flex">
               <ThemeToggle />
               <CtaButton href={CAL_LINK} size="sm">
-                Strategy call
+                Book a strategy call
               </CtaButton>
             </div>
             <button
@@ -126,7 +144,7 @@ export function Navbar() {
             className="fixed inset-x-0 top-0 z-40 flex h-[100svh] flex-col bg-background px-4 pb-8 pt-[calc(5rem+var(--nav-top))] lg:hidden"
           >
             <nav aria-label="Mobile" className="flex flex-col">
-              {[...PRODUCT, ...LINKS].map((l) => (
+              {MOBILE.map((l) => (
                 <Link
                   key={l.href}
                   href={l.href}
@@ -179,7 +197,9 @@ function ProductMenu({ active }: { active: string | null }) {
         aria-controls={id}
         onClick={() => setOpen((v) => !v)}
         onMouseEnter={() => setOpen(true)}
-        aria-current={PRODUCT.some((l) => hashOf(l.href) === active) ? "true" : undefined}
+        aria-current={
+          active && (PRODUCT.some((l) => hashOf(l.href) === active) || PRODUCT_ONLY_IDS.includes(active)) ? "true" : undefined
+        }
         className={cn(LINK_CLASS, open && "text-foreground")}
       >
         Product
@@ -201,7 +221,7 @@ function ProductMenu({ active }: { active: string | null }) {
                   href={l.href}
                   onClick={() => setOpen(false)}
                   aria-current={active === hashOf(l.href) ? "true" : undefined}
-                  className="flex h-9 items-center rounded-md px-3 text-ui-sm font-medium text-fg-2 transition-colors duration-150 hover:bg-surface-2 hover:text-foreground focus-visible:bg-surface-2 focus-visible:text-foreground focus-visible:outline-2 focus-visible:outline-ring aria-[current=true]:bg-surface-2 aria-[current=true]:text-foreground"
+                  className="flex h-9 items-center rounded-md px-3 text-ui-sm font-medium text-fg-2 transition-colors duration-150 hover:bg-surface-2 hover:text-foreground focus-visible:bg-surface-2 focus-visible:text-foreground focus-visible:outline-2 focus-visible:outline-ring aria-[current=true]:font-semibold aria-[current=true]:text-foreground"
                 >
                   {l.label}
                 </Link>

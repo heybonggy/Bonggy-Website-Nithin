@@ -5,14 +5,18 @@ import { HeroDemo } from "./hero-demo";
 const HEADLINE = "Build the bots your GTM team needs.";
 const MUTED = "Running the flows you want, pointed at revenue.";
 
-/** Words reveal in CSS (not Motion) so the H1 paints before hydration. */
-function Words({ text, offset = 0 }: { text: string; offset?: number }) {
+/**
+ * Words reveal in CSS (not Motion) so the H1 paints before hydration.
+ * `still` on phones: the first line paints at full opacity immediately (it's
+ * the LCP element there); the rest still animates.
+ */
+function Words({ text, offset = 0, still = false }: { text: string; offset?: number; still?: boolean }) {
   return (
     <>
       {text.split(" ").map((w, i) => (
         <span
           key={i}
-          className="inline-block animate-word-in"
+          className={still ? "inline-block max-sm:animate-none sm:animate-word-in" : "inline-block animate-word-in"}
           style={{ animationDelay: `${100 + 55 * (offset + i)}ms` }}
         >
           {w}
@@ -34,17 +38,23 @@ export function Hero() {
           rel="noopener noreferrer"
           className="inline-flex min-h-11 animate-rise-in items-center"
         >
-          <span className="inline-flex h-7 items-center gap-1.5 rounded-full bg-surface-2 px-3 text-ui-sm text-fg-2 transition-colors duration-[var(--dur-fast)] hover:bg-surface-3">
-            <span className="font-medium text-foreground">Strategy call</span>
-            <span aria-hidden className="text-fg-3">·</span>
-            map your first flow with us
-            <ArrowUpRight className="size-3.5" aria-hidden />
+          <span className="inline-flex min-h-7 flex-wrap items-center justify-center gap-x-1.5 rounded-full bg-surface-2 px-3 py-1 text-ui-sm text-fg-2 transition-colors duration-[var(--dur-fast)] hover:bg-surface-3">
+            {/* Two unbreakable halves: on narrow phones it wraps at the dot,
+                never leaving the arrow on a line of its own. */}
+            <span className="inline-flex items-center gap-1.5 whitespace-nowrap">
+              <span className="font-medium text-foreground">Book a strategy call</span>
+              <span aria-hidden className="text-fg-3">·</span>
+            </span>
+            <span className="inline-flex items-center gap-1.5 whitespace-nowrap">
+              map your first flow with us
+              <ArrowUpRight className="size-3.5" aria-hidden />
+            </span>
           </span>
           <span className="sr-only"> (opens in a new tab)</span>
         </a>
 
         <h1 className="mt-4 max-w-[20ch] text-balance text-[2.125rem] font-medium leading-[1.08] tracking-[-0.02em] text-foreground [perspective:1200px] sm:mt-5 sm:text-display-xl lg:max-w-none">
-          <Words text={HEADLINE} />
+          <Words text={HEADLINE} still />
           {/* Two lines at lg: the muted clause starts its own line. */}
           <br aria-hidden className="hidden lg:block" />
           <span className="text-fg-3">

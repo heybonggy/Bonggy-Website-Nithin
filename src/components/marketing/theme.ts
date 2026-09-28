@@ -5,6 +5,7 @@ import * as React from "react";
 export type Theme = "light" | "dark";
 
 import { THEME_STORAGE_KEY } from "./theme-script";
+import { THEME_COLORS } from "@/lib/metadata";
 
 const listeners = new Set<() => void>();
 
@@ -27,6 +28,8 @@ function apply(theme: Theme) {
   el.classList.add("theme-switching");
   el.classList.toggle("dark", theme === "dark");
   el.style.colorScheme = theme;
+  // Browser chrome follows the site toggle, not only the system setting.
+  document.querySelector<HTMLMetaElement>('meta[name="theme-color"]')?.setAttribute("content", THEME_COLORS[theme]);
   requestAnimationFrame(() => requestAnimationFrame(() => el.classList.remove("theme-switching")));
   listeners.forEach((l) => l());
 }

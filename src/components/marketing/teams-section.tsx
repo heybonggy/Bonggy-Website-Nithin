@@ -65,10 +65,11 @@ function TeamBotRow({ bot, tick, offset, delay }: { bot: Bot; tick: number; offs
           {bot.name}
           <span className="sr-only">, customise its look</span>
         </span>
-        <span key={line} className="mt-1 flex animate-label-in items-center gap-2 lg:items-start">
-          <StatusPill status={status} label={PILL_LABEL[status]} />
-          {/* One line on phones; up to two on wide screens, so it isn't cut. */}
-          <span className="truncate text-ui-sm text-fg-2 lg:line-clamp-2 lg:whitespace-normal">{line}</span>
+        <span key={line} className="mt-1 flex animate-label-in items-start gap-2">
+          <StatusPill status={status} label={PILL_LABEL[status]} className="shrink-0" />
+          {/* Wraps to two lines instead of truncating. Two lines are always
+              reserved, so every row (and card) keeps one height as lines swap. */}
+          <span className="line-clamp-2 min-h-[2lh] text-ui-sm text-fg-2">{line}</span>
         </span>
       </span>
       </button>

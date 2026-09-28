@@ -7,6 +7,7 @@ import {
   SITE_DESCRIPTION,
   SITE_DESCRIPTION_SHORT,
   LOGO_URL,
+  THEME_COLORS,
 } from "@/lib/metadata";
 import { THEME_INIT_SCRIPT } from "@/components/marketing/theme-script";
 import { ScrollMotionFallback } from "@/components/marketing/scroll-motion-fallback";
@@ -81,10 +82,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#1b1b1b" },
-  ],
+  // No themeColor here: one <meta name="theme-color"> is rendered in <head>
+  // and the theme script keeps it in step with the site toggle.
   width: "device-width",
   initialScale: 1,
   // Tell mobile browsers to resize the LAYOUT viewport when the URL bar
@@ -107,6 +106,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
+        <meta name="theme-color" content={THEME_COLORS.light} />
         {/* Theme first, before any stylesheet, so there's no flash. */}
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
         {/* Hide a dismissed announcement before first paint (no layout shift). */}
@@ -137,6 +137,12 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-background text-foreground">
+        <a
+          href="#main"
+          className="fixed left-3 top-3 z-[100] -translate-y-[200%] rounded-full bg-surface-inverse px-4 py-2.5 text-ui font-medium text-fg-inverse focus:translate-y-0"
+        >
+          Skip to content
+        </a>
         <NewsBanner />
         {children}
         <ScrollMotionFallback />
