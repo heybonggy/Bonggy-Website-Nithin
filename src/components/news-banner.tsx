@@ -15,12 +15,11 @@ function PeekFace() {
  * A thin announcement strip above the navbar, linking to the current news
  * item (content/news.ts). Graphite in light, near-white in dark.
  *
- * No client component: dismissing and the navbar following the scroll are
- * handled by the inline NEWS_INIT_SCRIPT, so the banner adds no hydration
- * work before first paint (a client component in the root layout measurably
- * pushed mobile LCP out). Fixed heights per breakpoint, reserved through
- * <html class="news-on">, the pre-paint dismissal check, and CSS that hides
- * it on the news item's own page (NewsHere) keep CLS at 0.
+ * No client component: dismissing is handled by the inline NEWS_INIT_SCRIPT,
+ * so the banner adds no hydration work. It sits in flow with fixed heights
+ * per breakpoint; the sticky header after it follows in pure CSS. The
+ * pre-paint dismissal check and CSS that hides it on the news item's own
+ * page (NewsHere) keep CLS at 0.
  */
 export function NewsBanner() {
   if (!news.enabled) return null;

@@ -2,8 +2,7 @@
 
 import * as React from "react";
 import { LazyNumber } from "@/components/ui/lazy-number";
-import { AnimatePresence, motion } from "motion/react";
-import { EASE, SPRING, useEntrance } from "@/components/marketing/_motion";
+import { useEntrance } from "@/components/marketing/_motion";
 import { cn } from "@/lib/utils";
 import { BotAvatar, type Team } from "@/components/ui/mascot";
 import { ANALYTICS_ROWS, MEMORY_SOURCES, TEAM_LIST, botById, type AnalyticsRow } from "./data";
@@ -12,6 +11,26 @@ import { GoalTag } from "./tags";
 type Filter = "all" | Team;
 
 const FILTER_LABEL: Record<Filter, string> = { all: "All", sales: "Sales", revops: "RevOps", marketing: "Marketing" };
+
+/** A run bar: grows in with a CSS transform transition (compositor only). */
+function Bar({ pct, zero, delay }: { pct: number; zero: boolean; delay: number }) {
+  return (
+    <span
+      className="block h-full origin-left rounded-full bg-status-ink transition-transform duration-700 ease-out-expo motion-reduce:transition-none"
+      style={{ width: `${pct}%`, transform: zero ? "scaleX(0)" : "scaleX(1)", transitionDelay: `${delay}ms` }}
+    />
+  );
+}
+
+const subscribeWide = (cb: () => void) => {
+  const mq = window.matchMedia("(min-width: 640px)");
+  mq.addEventListener("change", cb);
+  return () => mq.removeEventListener("change", cb);
+};
+/** The table layout (sm and up) vs the phone cards. False on the server. */
+function useWide() {
+  return React.useSyncExternalStore(subscribeWide, () => window.matchMedia("(min-width: 640px)").matches, () => false);
+}
 
 /**
  * Analytics: runs, approvals and estimated hours per bot, with the revenue
@@ -35,6 +54,10 @@ export function AnalyticsView({ rows = ANALYTICS_ROWS, className }: { rows?: Ana
   }, [entrance]);
   const live = entrance === "go" || touched;
   const zero = entrance === "armed" || (entrance === "go" && !rolled);
+  // Only the totals roll (and only in the layout actually shown): mounting
+  // dozens of NumberFlows at once was a 100ms+ long task on phones. Row
+  // numbers are plain text with their real values from the start.
+  const wide = useWide();
   const n = (v: number) => (zero ? 0 : v);
   const withBots = rows.map((r) => ({ ...r, bot: botById(r.botId) }));
   const count = (f: Filter) => (f === "all" ? withBots.length : withBots.filter((r) => r.bot.team === f).length);
@@ -104,7 +127,7 @@ export function AnalyticsView({ rows = ANALYTICS_ROWS, className }: { rows?: Ana
                     <div key={label} className="min-w-0 rounded-xl bg-surface-raised px-2 py-2">
                       <dt className="whitespace-nowrap text-caption text-fg-3">{label}</dt>
                       <dd className="tabular text-title font-medium text-foreground">
-                        <LazyNumber live={live} value={n(v)} format={fmt} />
+                        <LazyNumber live={false} value={v} format={fmt} />
                       </dd>
                     </div>
                   ))}
@@ -112,13 +135,7 @@ export function AnalyticsView({ rows = ANALYTICS_ROWS, className }: { rows?: Ana
                 <div className="mt-3 flex flex-col gap-2">
                   <GoalTag goal={r.goal} className="self-start" />
                   <span aria-hidden className="block h-1 overflow-hidden rounded-full bg-status-track">
-                    <motion.span
-                      className="block h-full origin-left rounded-full bg-status-ink"
-                      style={{ width: `${(r.runs / maxRuns) * 100}%` }}
-                      initial={false}
-                      animate={{ scaleX: zero ? 0 : 1 }}
-                      transition={{ duration: 0.7, ease: EASE.outExpo, delay: entrance === "go" ? i * 0.06 : 0 }}
-                    />
+                    <Bar pct={(r.runs / maxRuns) * 100} zero={zero} delay={entrance === "go" ? i * 60 : 0} />
                   </span>
                 </div>
               </li>
@@ -134,7 +151,7 @@ export function AnalyticsView({ rows = ANALYTICS_ROWS, className }: { rows?: Ana
                   <div key={label}>
                     <dt className="whitespace-nowrap text-caption opacity-70">{label}</dt>
                     <dd className="tabular text-title font-medium">
-                      <LazyNumber live={live} value={n(v)} format={fmt} />
+                      <LazyNumber live={live && !wide} value={n(v)} format={fmt} />
                     </dd>
                   </div>
                 ))}
@@ -154,17 +171,9 @@ export function AnalyticsView({ rows = ANALYTICS_ROWS, className }: { rows?: Ana
               </tr>
             </thead>
             <tbody>
-              <AnimatePresence initial={false} mode="popLayout">
+              {/* Filtering remounts the rows with a CSS fade (no layout animation). */}
               {shown.map((r, i) => (
-                <motion.tr
-                  key={r.botId}
-                  layout
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ layout: SPRING.layout, opacity: { duration: 0.2 } }}
-                  className="border-b border-border align-top"
-                >
+                <tr key={`${filter}:${r.botId}`} className="border-b border-border align-top motion-safe:animate-[mount-fade_250ms_ease-out_both]">
                   <th scope="row" className="py-3 pr-2 font-normal">
                     <span className="flex items-center gap-2">
                       <BotAvatar botId={r.botId} size={24} />
@@ -174,44 +183,37 @@ export function AnalyticsView({ rows = ANALYTICS_ROWS, className }: { rows?: Ana
                       </span>
                     </span>
                     <span aria-hidden className="mt-2 block h-1 overflow-hidden rounded-full bg-status-track">
-                      <motion.span
-                        className="block h-full origin-left rounded-full bg-status-ink"
-                        style={{ width: `${(r.runs / maxRuns) * 100}%` }}
-                        initial={false}
-                        animate={{ scaleX: zero ? 0 : 1 }}
-                        transition={{ duration: 0.7, ease: EASE.outExpo, delay: entrance === "go" ? i * 0.06 : 0 }}
-                      />
+                      <Bar pct={(r.runs / maxRuns) * 100} zero={zero} delay={entrance === "go" ? i * 60 : 0} />
                     </span>
                   </th>
                   <td className="hidden py-3 text-fg-2 md:table-cell">{r.bot.team}</td>
                   <td className="tabular py-3 text-right text-foreground">
-                    <LazyNumber live={live} value={n(r.runs)} />
+                    <LazyNumber live={false} value={r.runs} />
                   </td>
                   <td className="tabular py-3 text-right text-foreground">
-                    <LazyNumber live={live} value={n(r.approved)} />
+                    <LazyNumber live={false} value={r.approved} />
                   </td>
                   <td className="tabular py-3 text-right text-foreground">
-                    <LazyNumber live={live} value={n(r.hours)} format={{ maximumFractionDigits: 1 }} />
+                    <LazyNumber live={false} value={r.hours} format={{ maximumFractionDigits: 1 }} />
                   </td>
                   <td className="hidden py-3 pl-6 lg:table-cell">
                     <GoalTag goal={r.goal} />
                   </td>
-                </motion.tr>
+                </tr>
               ))}
-              </AnimatePresence>
             </tbody>
             <tfoot>
               <tr className="text-foreground">
                 <th scope="row" className="py-3 font-medium">Total</th>
                 <td className="hidden md:table-cell" />
                 <td className="tabular py-3 text-right font-medium">
-                  <LazyNumber live={live} value={n(total.runs)} />
+                  <LazyNumber live={live && wide} value={n(total.runs)} />
                 </td>
                 <td className="tabular py-3 text-right font-medium">
-                  <LazyNumber live={live} value={n(total.approved)} />
+                  <LazyNumber live={live && wide} value={n(total.approved)} />
                 </td>
                 <td className="tabular py-3 text-right font-medium">
-                  <LazyNumber live={live} value={n(total.hours)} format={{ maximumFractionDigits: 1 }} />
+                  <LazyNumber live={live && wide} value={n(total.hours)} format={{ maximumFractionDigits: 1 }} />
                 </td>
                 <td className="hidden lg:table-cell" />
               </tr>

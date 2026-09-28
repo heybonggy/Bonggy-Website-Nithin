@@ -7,7 +7,6 @@ import { CaretDown, List, X } from "@phosphor-icons/react/dist/ssr";
 import { cn } from "@/lib/utils";
 import { Logo } from "@/components/ui/logo";
 import { CtaButton, CAL_LINK } from "./cta-button";
-import { SPRING } from "./_motion";
 import { hashOf, useScrollSpy } from "./scroll-spy";
 import { ThemeSegmented, ThemeToggle } from "./theme-toggle";
 
@@ -55,12 +54,24 @@ export function Navbar() {
   const active = useScrollSpy(SPY_IDS);
   const [scrolled, setScrolled] = React.useState(false);
   const [menuOpen, setMenuOpen] = React.useState(false);
+  const headerRef = React.useRef<HTMLElement>(null);
+  // Where the sheet's content starts: just under the header, wherever the
+  // header sits right now (under the banner, or at the top once it's gone).
+  const [sheetTop, setSheetTop] = React.useState(80);
+  const toggleMenu = () => {
+    if (!menuOpen) setSheetTop(Math.round((headerRef.current?.getBoundingClientRect().bottom ?? 64) + 16));
+    setMenuOpen((v) => !v);
+  };
 
+  // "Scrolled" = an 8px sentinel at the very top of the page has left the
+  // viewport. An observer, not a scroll listener: no work per scroll event.
+  const sentinelRef = React.useRef<HTMLSpanElement>(null);
   React.useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    const el = sentinelRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => setScrolled(!e.isIntersecting));
+    io.observe(el);
+    return () => io.disconnect();
   }, []);
 
   // Lock page scroll while the mobile sheet is open; Escape closes it.
@@ -79,13 +90,18 @@ export function Navbar() {
 
   return (
     <>
+      <span ref={sentinelRef} aria-hidden className="pointer-events-none absolute left-0 top-0 h-2 w-px" />
       <header
+        ref={headerRef}
         className={cn(
-          // Sits under the announcement banner until it scrolls away (--nav-top).
-          // A transform, not `top`, so following the scroll never counts as a
-          // layout shift.
-          "fixed inset-x-0 top-0 z-50 h-16 translate-y-[var(--nav-top)] transition-[background-color,backdrop-filter] duration-[var(--dur-quick)]",
-          scrolled || menuOpen ? "bg-background/85 backdrop-blur-[12px]" : "bg-transparent",
+          // Pure CSS, so it can't lag behind the scroll: sticky, straight
+          // after the in-flow announcement banner. It rides up with the
+          // banner, then sticks at the top. -mb-16 keeps it out of the flow
+          // (the page starts under it, as with a fixed header).
+          "sticky inset-x-0 top-0 z-50 -mb-16 h-16 transition-colors duration-[var(--dur-quick)]",
+          // Phones: near-opaque, no backdrop blur (it's costly to composite).
+          // The blur is never transitioned.
+          scrolled || menuOpen ? "bg-background/95 sm:bg-background/85 sm:backdrop-blur-[8px]" : "bg-transparent",
         )}
       >
         <div
@@ -121,7 +137,7 @@ export function Navbar() {
               aria-label={menuOpen ? "Close menu" : "Open menu"}
               aria-expanded={menuOpen}
               aria-controls="mobile-menu"
-              onClick={() => setMenuOpen((v) => !v)}
+              onClick={toggleMenu}
               className="flex size-11 items-center justify-center rounded-full bg-surface-2 text-foreground transition-colors hover:bg-surface-3 lg:hidden"
             >
               {menuOpen ? <X className="size-5" aria-hidden /> : <List className="size-5" aria-hidden />}
@@ -130,17 +146,17 @@ export function Navbar() {
         </div>
       </header>
 
-      <AnimatePresence>
-        {menuOpen ? (
-          <motion.div
-            id="mobile-menu"
-            key="sheet"
-            initial={{ y: "-100%" }}
-            animate={{ y: 0 }}
-            exit={{ y: "-100%" }}
-            transition={SPRING.layout}
-            className="fixed inset-x-0 top-0 z-40 flex h-[100svh] flex-col bg-background px-4 pb-8 pt-[calc(5rem+var(--nav-top))] lg:hidden"
-          >
+      {/* Always rendered (inert and off-screen while closed), so opening it
+          is a CSS transform, not a mount. */}
+      <div
+        id="mobile-menu"
+        inert={!menuOpen}
+        style={{ paddingTop: sheetTop }}
+        className={cn(
+          "fixed inset-x-0 top-0 z-40 flex h-[100svh] flex-col bg-background px-4 pb-8 transition-[transform,visibility] duration-[var(--dur-moderate)] ease-out-expo motion-reduce:transition-none lg:hidden",
+          menuOpen ? "visible translate-y-0" : "invisible -translate-y-full",
+        )}
+      >
             <nav aria-label="Mobile" className="flex flex-col">
               {MOBILE.map((l) => (
                 <Link
@@ -159,9 +175,7 @@ export function Navbar() {
                 Book a strategy call
               </CtaButton>
             </div>
-          </motion.div>
-        ) : null}
-      </AnimatePresence>
+      </div>
 
     </>
   );

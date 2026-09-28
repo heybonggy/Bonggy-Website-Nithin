@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { AnimatePresence, LayoutGroup, motion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import {
   FileText,
   HandPalm,
@@ -16,7 +16,7 @@ import { BotAvatar } from "@/components/ui/mascot";
 import { botColorVars } from "@/components/ui/bot-look";
 import { useBotLook } from "./bot-looks";
 import type { CharacterState } from "@/components/ui/bot-character";
-import { DUR, EASE, SPRING } from "@/components/marketing/_motion";
+import { DUR, EASE } from "@/components/marketing/_motion";
 import { FLOW_PARTS, type Bot, type FlowPart, type StatusKind } from "./data";
 import { StatusPill } from "./status-pill";
 import { GoalTag, LimitChip, TeamTag } from "./tags";
@@ -141,35 +141,23 @@ export function FlowCard({
       <FlowStripe botId={bot.id} />
       {state === "running" ? (
         <span aria-hidden className="absolute inset-x-0 top-0 h-0.5 overflow-hidden">
-          <span className="block h-full w-full animate-fill-sweep sweep [animation-iteration-count:infinite]" />
+          <span className="sweep sweep-loop block h-full w-full" />
         </span>
       ) : null}
       <div className="flex flex-wrap items-center gap-2">
         <BotAvatar botId={bot.id} size={compact ? 24 : 28} state={avatarState ?? (state === "running" ? "working" : state === "needs-you" ? "waiting" : "idle")} />
         <span className="text-ui font-semibold text-foreground">{bot.name}</span>
         {!compact ? <TeamTag team={bot.team} /> : null}
-        {/* Pill and switch move as one layout group, so the pill's width
-            change never slides it over the switch label. */}
-        <LayoutGroup>
-          <motion.span layout transition={{ layout: SPRING.morph }} className="ml-auto flex shrink-0 items-center gap-3">
-            <StatusPill status={status} label={statusLabel} className="shrink-0" />
-            <AnimatePresence initial={false}>
-              {!compact && state !== "draft" ? (
-                <motion.span
-                  key="switch"
-                  layout
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ layout: SPRING.morph, opacity: { duration: 0.2 } }}
-                  className="shrink-0"
-                >
-                  <OnOffSwitch on={state !== "off"} onChange={onToggle} label={`${bot.name} flow`} />
-                </motion.span>
-              ) : null}
-            </AnimatePresence>
-          </motion.span>
-        </LayoutGroup>
+        {/* Pill and switch sit in one flex group (the pill morphs its own
+            width). No layout animation: it measured layout on every step. */}
+        <span className="ml-auto flex shrink-0 items-center gap-3">
+          <StatusPill status={status} label={statusLabel} className="shrink-0" />
+          {!compact && state !== "draft" ? (
+            <span className="shrink-0 motion-safe:animate-[mount-fade_200ms_ease-out_both]">
+              <OnOffSwitch on={state !== "off"} onChange={onToggle} label={`${bot.name} flow`} />
+            </span>
+          ) : null}
+        </span>
       </div>
 
       <dl className={cn("flex flex-col", compact ? "mt-2" : "mt-4")}>
@@ -183,7 +171,7 @@ export function FlowCard({
               key={part}
               className={cn(
                 "relative grid grid-cols-[88px_1fr] gap-3 border-t border-border py-2.5 text-ui-sm",
-                isFresh && "animate-fill-sweep sweep",
+                isFresh && "sweep",
               )}
             >
               <dt className="flex items-center gap-1.5 self-start text-fg-3">

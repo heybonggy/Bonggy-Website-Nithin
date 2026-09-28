@@ -156,24 +156,25 @@ export function TypedText({
     setPhase(dotsMs ? "dots" : "typing");
     setCount(0);
     setCaret(false);
-    let raf = 0;
     let timer: ReturnType<typeof setTimeout> | undefined;
     let started = false;
 
     const type = () => {
       setPhase("typing");
       setCaret(true);
+      // One timer tick (and one React commit) per character, not per frame.
       const t0 = performance.now();
-      const step = (now: number) => {
-        const n = Math.min(total, Math.floor((now - t0) / CHAR_MS) + 1);
+      let n = 0;
+      const step = () => {
+        n = Math.min(total, Math.max(n + 1, Math.floor((performance.now() - t0) / CHAR_MS) + 1));
         setCount(n);
-        if (n < total) raf = requestAnimationFrame(step);
+        if (n < total) timer = setTimeout(step, CHAR_MS);
         else {
           setPhase("done");
           timer = setTimeout(() => setCaret(false), CARET_LINGER_MS);
         }
       };
-      raf = requestAnimationFrame(step);
+      step();
     };
     const start = () => {
       if (started) return;
@@ -191,7 +192,6 @@ export function TypedText({
     io.observe(el);
     return () => {
       io.disconnect();
-      cancelAnimationFrame(raf);
       clearTimeout(timer);
     };
     // `text` (via parts/total) restarts it; the rest are stable per mount.

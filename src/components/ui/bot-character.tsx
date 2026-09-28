@@ -8,10 +8,16 @@ import { usePrefersReducedMotion } from "@/components/marketing/_motion";
  * The character engine (DESIGN.md §8.1). Every bot on the page shares one
  * requestAnimationFrame loop. Each character has a set of critically damped
  * springs (rotation, offset, scale, blink, eye size, gaze, spin) whose
- * targets are rewritten every frame by its current state. The loop writes
- * the result to CSS custom properties on the character's element through a
- * ref, so there is no React render per frame. Off-screen characters and
- * hidden pages are skipped. Reduced motion: no loop, static poses only.
+ * targets are rewritten every frame by its current state.
+ *
+ * Cost control (measured: this was the page's biggest per-frame cost):
+ * - Only characters on screen animate, and at most MAX_LIVE of them (the
+ *   largest). The rest hold a static pose: no per-frame work at all.
+ * - A live character writes one transform string to its body and one each to
+ *   its eye and accessory, and only when the value actually changed. No
+ *   inherited custom properties, so nothing else restyles.
+ * - The loop stops when nothing is live (and rAF pauses in hidden tabs).
+ * - No React render per frame. Reduced motion: no loop, static poses only.
  */
 
 export type CharacterState =
@@ -43,6 +49,8 @@ type Char = {
   woke: number | null | undefined;
   visible: boolean;
   live: boolean;
+  /** Last transforms written (skip identical writes). */
+  out: { body: string; eye: string; acc: string };
   c: Record<"rot" | "x" | "y" | "s" | "open" | "eyeS" | "gx" | "gy" | "spin", Channel>;
   gaze: { x: number; y: number; next: number };
   blinkAt: number;
@@ -85,12 +93,33 @@ const FOLLOW: Partial<Record<CharacterState, [CharacterState, number]>> = {
   happy: ["idle", 3.2],
 };
 
-/** Live-character cap; past it, the smallest fall back to blink-only. */
-const MAX_LIVE = 24;
+/** Live-character cap; past it, the smallest hold a static pose. */
+const MAX_LIVE = 6;
+
+const bodyOf = (c: Char) => c.el.firstElementChild as HTMLElement | null;
+
+/** Back to the resting pose (CSS defaults), with no pending writes. */
+function rest(c: Char) {
+  const body = bodyOf(c);
+  if (body) {
+    body.style.transform = "";
+    body.style.willChange = "";
+  }
+  c.el.querySelectorAll<SVGElement>(".bot-eye, .bot-acc").forEach((e) => (e.style.transform = ""));
+  c.out = { body: "", eye: "", acc: "" };
+}
 
 function rebalance() {
-  const vis = [...registry].filter((c) => c.visible).sort((a, b) => b.size - a.size);
-  vis.forEach((c, i) => (c.live = i < MAX_LIVE));
+  const live = new Set([...registry].filter((c) => c.visible).sort((a, b) => b.size - a.size).slice(0, MAX_LIVE));
+  for (const c of registry) {
+    const next = live.has(c);
+    if (next === c.live) continue;
+    c.live = next;
+    if (next) {
+      const body = bodyOf(c);
+      if (body) body.style.willChange = "transform";
+    } else rest(c);
+  }
 }
 
 function step(c: Char, now: number) {
@@ -286,21 +315,32 @@ function integrate(c: Char, dt: number) {
   }
 }
 
+/**
+ * One transform per element, written only when it changed at the precision
+ * shown (sub-pixel noise doesn't trigger a restyle or repaint).
+ */
 function write(c: Char) {
   const k = c.c;
-  const st = c.el.style;
-  st.setProperty("--bot-rot", `${(k.rot.x + k.spin.x * 360).toFixed(2)}deg`);
-  st.setProperty("--bot-x", `${k.x.x.toFixed(2)}px`);
-  st.setProperty("--bot-y", `${k.y.x.toFixed(2)}px`);
-  st.setProperty("--bot-s", k.s.x.toFixed(4));
-  st.setProperty("--eye-open", Math.max(0.05, k.open.x).toFixed(3));
-  st.setProperty("--eye-s", k.eyeS.x.toFixed(3));
-  st.setProperty("--gaze-x", `${k.gx.x.toFixed(2)}px`);
-  st.setProperty("--gaze-y", `${k.gy.x.toFixed(2)}px`);
+  const body = bodyOf(c);
+  const b = `translate(${k.x.x.toFixed(1)}px,${k.y.x.toFixed(1)}px) rotate(${(k.rot.x + k.spin.x * 360).toFixed(1)}deg) scale(${k.s.x.toFixed(3)})`;
+  if (body && b !== c.out.body) {
+    body.style.transform = b;
+    c.out.body = b;
+  }
+  // Eyes: gaze and blink (px inside the SVG are viewBox units).
+  const es = k.eyeS.x;
+  const e = `translate(${k.gx.x.toFixed(1)}px,${k.gy.x.toFixed(1)}px) scale(${es.toFixed(2)},${(es * Math.max(0.05, k.open.x)).toFixed(2)})`;
+  if (e !== c.out.eye) {
+    c.el.querySelectorAll<SVGElement>(".bot-eye").forEach((n) => (n.style.transform = e));
+    c.out.eye = e;
+  }
   // Accessories trail the body a little (≈60ms), so antennas wobble on hops.
   const lag = Math.max(-15, Math.min(15, -(k.rot.v + k.spin.v * 360) * 0.06));
-  st.setProperty("--acc-rot", `${lag.toFixed(2)}deg`);
-  // (px inside the SVG are viewBox units.)
+  const a = `rotate(${lag.toFixed(1)}deg)`;
+  if (a !== c.out.acc) {
+    c.el.querySelectorAll<SVGElement>(".bot-acc").forEach((n) => (n.style.transform = a));
+    c.out.acc = a;
+  }
 }
 
 /** Dev instrumentation for the reduced-motion gate: frames run so far. */
@@ -312,30 +352,16 @@ function loop(now: number) {
   let any = false;
   if (document.visibilityState === "visible") {
     for (const c of registry) {
-      if (!c.visible) continue;
+      // Off screen, or past the cap: a static pose, no work.
+      if (!c.visible || !c.live) continue;
       any = true;
-      if (!c.live) {
-        // Blink-only fallback past the cap.
-        c.c.open.t = now < c.blinkUntil ? 0.08 : 1;
-        if (now >= c.blinkAt) {
-          c.blinkUntil = now + 160;
-          c.blinkAt = now + between(c.rng, 4.5, 10) * 1000;
-        }
-        for (let d = dt; d > 0; d -= SUB) {
-          const q = c.c.open;
-          q.v += (-2 * q.z * q.w * q.v - q.w * q.w * (q.x - q.t)) * Math.min(SUB, d);
-          q.x += q.v * Math.min(SUB, d);
-        }
-        c.el.style.setProperty("--eye-open", Math.max(0.05, c.c.open.x).toFixed(3));
-        continue;
-      }
       step(c, now);
       for (let d = dt; d > 0; d -= SUB) integrate(c, Math.min(SUB, d));
       write(c);
     }
   }
   engineStats.frames += 1;
-  // Stop when nothing is on screen; the observer restarts it.
+  // Stop when nothing is live; the observer restarts it.
   raf = any ? requestAnimationFrame(loop) : 0;
 }
 
@@ -359,7 +385,7 @@ function observer() {
         if (c.visible && !was && c.woke === undefined) c.woke = performance.now();
       }
       rebalance();
-      if ([...registry].some((c) => c.visible)) ensureLoop();
+      if ([...registry].some((c) => c.live)) ensureLoop();
     });
   }
   return io;
@@ -424,7 +450,8 @@ export function BotCharacter({
       since: now,
       woke: undefined,
       visible: false,
-      live: true,
+      live: false,
+      out: { body: "", eye: "", acc: "" },
       c: {
         rot: ch(0, 5, 0.9),
         x: ch(0, 3.5, 1),
@@ -455,6 +482,8 @@ export function BotCharacter({
       registry.delete(c);
       observer().unobserve(el);
       charRef.current = null;
+      // A freed slot goes to the next largest on-screen character.
+      rebalance();
     };
     // Size and seed are fixed for a mounted character; state flows in below.
     // eslint-disable-next-line react-hooks/exhaustive-deps

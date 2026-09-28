@@ -209,16 +209,8 @@
 }
 
 /* Announcement banner (news-banner.tsx). It sits in flow above the page;
-   --banner-h is its height while shown (0 when dismissed or absent), and the
-   fixed navbar sits at --nav-top, following the banner as it scrolls away. */
-:root {
-  --banner-h: 0px;
-  --nav-top: max(0px, calc(var(--banner-h) - var(--banner-scroll, 0px)));
-}
-html.news-on:not(.news-dismissed):not(:has([data-news-here])) { --banner-h: 3.5rem; }
-@media (min-width: 640px) {
-  html.news-on:not(.news-dismissed):not(:has([data-news-here])) { --banner-h: 2.5rem; }
-}
+   the sticky header right after it rides up with it, then sticks at the top
+   (navbar.tsx). No JS follows the scroll. */
 /* Hidden once dismissed, and on the news item's own page (<NewsHere />). */
 .news-dismissed .news-banner, html:has([data-news-here]) .news-banner { display: none; }
 
@@ -378,7 +370,6 @@ html.news-on:not(.news-dismissed):not(:has([data-news-here])) { --banner-h: 3.5r
   --animate-spin-slow: spin 2.4s linear infinite;
   --animate-mount-fade: mount-fade 1s var(--ease-out-expo) both;
   --animate-live-ring: live-ring 1.8s var(--ease-out-expo) infinite;
-  --animate-fill-sweep: fill-sweep 900ms var(--ease-out-expo) both;
   --animate-caret: caret 1s steps(1) infinite;
   --animate-word-in: word-in 650ms var(--ease-out-expo) both;
   --animate-rise-in: rise-in 700ms var(--ease-out-expo) both;
@@ -413,10 +404,6 @@ html.news-on:not(.news-dismissed):not(:has([data-news-here])) { --banner-h: 3.5r
   @keyframes live-ring {
     0% { transform: scale(1); opacity: 0.45; }
     100% { transform: scale(2.4); opacity: 0; }
-  }
-  @keyframes fill-sweep {
-    from { background-position: 100% 0; }
-    to { background-position: 0 0; }
   }
   /* Hero reveal runs in CSS so it paints before hydration (LCP). */
   @keyframes word-in {
@@ -496,18 +483,36 @@ html.news-on:not(.news-dismissed):not(:has([data-news-here])) { --banner-h: 3.5r
   mask-image: linear-gradient(to bottom, transparent, #000 36px);
 }
 
-/* Flow-card row sweep: a 12% ink wash that passes left to right. */
+/* Flow-card row sweep: a 12% ink wash that passes left to right once. A
+   transform on a pseudo-element (compositor work), not background-position
+   (a repaint every frame). `sweep-loop` repeats it. */
 @utility sweep {
-  background-image: linear-gradient(90deg, transparent 0%, var(--sweep-ink) 45%, transparent 55%, transparent 100%);
-  background-size: 250% 100%;
-  background-repeat: no-repeat;
+  position: relative;
+  overflow: hidden;
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: linear-gradient(90deg, transparent 0%, var(--sweep-ink) 45%, transparent 55%, transparent 100%);
+    transform: translateX(-100%);
+    animation: sweep-x 900ms var(--ease-out-expo) both;
+  }
+}
+.sweep-loop::after { animation-iteration-count: infinite; }
+@keyframes sweep-x {
+  to { transform: translateX(100%); }
 }
 
-/* Bot characters (bot-character.tsx): the engine writes these variables. */
+/* Bot characters (bot-character.tsx). Live characters get inline
+   transforms from the engine (and will-change only while live); these
+   variables are the static poses (reduced motion) and the resting default.
+   contain: layout style isolates each character; not paint, which would
+   clip hops, accessories and sparks that reach outside the box. */
+.bot-character { contain: layout style; }
 .bot-character > .bot-body {
   transform: translate(var(--bot-x, 0px), var(--bot-y, 0px)) rotate(var(--bot-rot, 0deg)) scale(var(--bot-s, 1));
   transform-origin: 50% 70%;
-  will-change: transform;
 }
 .bot-eye {
   transform-box: fill-box;
@@ -556,16 +561,6 @@ html.news-on:not(.news-dismissed):not(:has([data-news-here])) { --banner-h: 3.5r
 @keyframes reveal-out {
   to { opacity: 0.85; transform: translateY(-12px); }
 }
-@keyframes plate-drift {
-  from { transform: translateY(12px); }
-  to { transform: translateY(-12px); }
-}
-@keyframes band-in {
-  from { background-color: transparent; }
-}
-@keyframes hero-leave {
-  to { transform: scale(0.98); opacity: 0.9; }
-}
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
     /* Mocks and cards: enter over entry 0%–cover 25%, fade a little on exit. */
@@ -583,26 +578,25 @@ html.news-on:not(.news-dismissed):not(:has([data-news-here])) { --banner-h: 3.5r
         animation-range: entry 0% entry 25vh, exit 0% exit 100%;
       }
     }
-    /* Hatched plates drift 24px across their section. */
-    .parallax {
-      animation: plate-drift linear both;
-      animation-timeline: view();
-      animation-range: cover 0% cover 100%;
-    }
-    /* The full-width band fades its background in over its first 120px. */
-    .band-fade {
-      animation: band-in linear both;
-      animation-timeline: view();
-      animation-range: entry 0px entry 120px;
-    }
-    /* The hero window eases back as it leaves (never the H1 or sub). */
-    .hero-leave {
-      animation: hero-leave linear both;
-      animation-timeline: view();
-      animation-range: exit 0% exit 100%;
-    }
+    /* No plate parallax, band colour fade or hero exit scale: those moved
+       masked, repainting or heavily shadowed surfaces (measured cost). */
   }
 }
+
+/* Without scroll-driven animations (e.g. iOS before 26): a one-shot reveal.
+   ScrollMotionFallback adds .reveal-pending to cards below the fold and
+   removes it once, when they come into view. Compositor-only. */
+@supports not (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal { transition: opacity 600ms var(--ease-out-expo), transform 600ms var(--ease-out-expo); }
+    .reveal.reveal-pending { opacity: 0; transform: translateY(16px); }
+  }
+}
+
+/* Hero intro off when the page wasn't first shown at the top (reload,
+   back/forward, #hash, restored scroll): see INTRO_INIT_SCRIPT. */
+.no-intro .animate-word-in,
+.no-intro .animate-rise-in { animation: none; }
 
 /* Once-only entrances (useEntrance): pre-states apply only while "armed"
    (hydrated and off screen), so content is never hidden for crawlers. */
@@ -628,8 +622,16 @@ html.news-on:not(.news-dismissed):not(:has([data-news-here])) { --banner-h: 3.5r
 [data-stagger="go"] > :nth-child(11), [data-stagger-deep="go"] > * > :nth-child(11) { animation-delay: 600ms; }
 [data-stagger="go"] > :nth-child(12), [data-stagger-deep="go"] > * > :nth-child(12) { animation-delay: 660ms; }
 
-/* Offscreen demos pause their CSS animations. */
-[data-demo-offscreen] *, [data-demo-offscreen]::before, [data-demo-offscreen]::after {
+/* Off-screen regions pause their looping animations: demos
+   (data-demo-offscreen, from the demo player) and any section, the header or
+   the banner (data-offscreen, from MotionGate); everything while the tab is
+   hidden. The selectors name the looping classes only: a bare `*` would
+   restyle a region's whole subtree (hundreds of elements) each time it
+   entered or left the viewport. Add new loops here. */
+:is([data-demo-offscreen], [data-offscreen], .page-hidden)
+  :is(.animate-typing-dot, .animate-caret, .animate-live-ring, .animate-twinkle, .animate-bob, .animate-spin-slow),
+:is([data-demo-offscreen], [data-offscreen], .page-hidden) .sweep-loop::after,
+:is([data-offscreen], .page-hidden).news-banner .animate-bob {
   animation-play-state: paused !important;
 }
 

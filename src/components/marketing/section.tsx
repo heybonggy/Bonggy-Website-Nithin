@@ -26,7 +26,7 @@ export function Section({
   ...rest
 }: SectionProps) {
   return (
-    <section {...rest} className={cn("px-4 py-20 sm:px-6 sm:py-24", band && "band-fade bg-surface", className)}>
+    <section {...rest} className={cn("px-4 py-20 sm:px-6 sm:py-24", band && "bg-surface", className)}>
       <div
         className={cn(
           "relative mx-auto w-full",

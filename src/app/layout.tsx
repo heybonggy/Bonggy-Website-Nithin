@@ -8,10 +8,11 @@ import {
   SITE_DESCRIPTION_SHORT,
   LOGO_URL,
 } from "@/lib/metadata";
-import { THEME_INIT_SCRIPT } from "@/components/marketing/theme-script";
+import { INTRO_INIT_SCRIPT, THEME_INIT_SCRIPT } from "@/components/marketing/theme-script";
 import { ScrollMotionFallback } from "@/components/marketing/scroll-motion-fallback";
+import { MotionGate } from "@/components/marketing/motion-gate";
 import { NewsBanner } from "@/components/news-banner";
-import { NEWS_INIT_SCRIPT, news } from "@/content/news";
+import { NEWS_INIT_SCRIPT } from "@/content/news";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -86,11 +87,9 @@ export const viewport: Viewport = {
   // hydration add a second tag once the script had changed its content.)
   width: "device-width",
   initialScale: 1,
-  // Tell mobile browsers to resize the LAYOUT viewport when the URL bar
-  // appears/disappears, instead of leaving the layout untouched and only
-  // shifting the visual viewport. With the default ("resizes-visual") the
-  // browser performs an internal scrollY adjustment when the URL bar shows
-  // back at the page bottom — which manifests as the page jerking down once.
+  // On-screen keyboard only (not the URL bar): Chromium browsers resize the
+  // layout viewport when the keyboard opens, so the composers and forms
+  // stay in view. Safari ignores this key.
   interactiveWidget: "resizes-content",
 };
 
@@ -102,12 +101,14 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} antialiased${news.enabled ? " news-on" : ""}`}
+      className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       suppressHydrationWarning
     >
       <head>
         {/* Theme first, before any stylesheet, so there's no flash. */}
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+        {/* Hero intro only when first shown at the top (decided before paint). */}
+        <script dangerouslySetInnerHTML={{ __html: INTRO_INIT_SCRIPT }} />
         {/* Hide a dismissed announcement before first paint (no layout shift). */}
         <script dangerouslySetInnerHTML={{ __html: NEWS_INIT_SCRIPT }} />
         {/* Organization structured data , readable for AI agents + search */}
@@ -145,6 +146,7 @@ export default function RootLayout({
         <NewsBanner />
         {children}
         <ScrollMotionFallback />
+        <MotionGate />
       </body>
     </html>
   );

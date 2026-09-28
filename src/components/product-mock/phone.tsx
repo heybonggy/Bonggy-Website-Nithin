@@ -1,12 +1,12 @@
 "use client";
 
 import * as React from "react";
-import { AnimatePresence, motion } from "motion/react";
+import { motion } from "motion/react";
 import { BatteryFull, CaretLeft, WifiHigh } from "@phosphor-icons/react/dist/ssr";
 import { cn } from "@/lib/utils";
 import { BotAvatar } from "@/components/ui/mascot";
 import type { CharacterState } from "@/components/ui/bot-character";
-import { EASE, usePrefersReducedMotion } from "@/components/marketing/_motion";
+import { usePrefersReducedMotion } from "@/components/marketing/_motion";
 import type { StatusKind } from "./data";
 import { StatusPill } from "./status-pill";
 import { ChatComposer } from "./chat-composer";
@@ -30,7 +30,7 @@ export function PhoneFrame({
       {plate ? (
         <div
           aria-hidden
-          className="parallax hatch-faint absolute -inset-x-2 -top-4 bottom-[-40px] rounded-[40px] bg-surface sm:-inset-x-6 sm:-top-6"
+          className="hatch-faint absolute -inset-x-2 -top-4 bottom-[-40px] rounded-[40px] bg-surface sm:-inset-x-6 sm:-top-6"
           style={{ maskImage: "linear-gradient(#000 60%, transparent)", WebkitMaskImage: "linear-gradient(#000 60%, transparent)" }}
         />
       ) : null}
@@ -220,25 +220,26 @@ export function PhoneComposer({
   keyboard?: boolean;
   placeholder?: string;
 }) {
+  // The keyboard is always there, just below the composer (off the bottom of
+  // the screen). Showing it slides composer and keyboard up together with a
+  // transform, so nothing is laid out again: no layout shift, compositor only.
+  const kbRef = React.useRef<HTMLDivElement>(null);
+  const [kbH, setKbH] = React.useState(0);
+  React.useLayoutEffect(() => {
+    if (kbRef.current) setKbH(kbRef.current.offsetHeight);
+  }, []);
   return (
-    <div className="shrink-0 border-t-[0.5px] border-border bg-surface-raised">
-      <div className={cn("px-2.5 pt-2", keyboard ? "pb-2" : "pb-7")}>
+    <div
+      className="relative z-10 shrink-0 border-t-[0.5px] border-border bg-surface-raised transition-transform duration-[320ms] ease-out-expo motion-reduce:transition-none"
+      // The keyboard tucks under the composer's 20px home-indicator padding.
+      style={{ transform: keyboard && kbH ? `translateY(${-(kbH - 20)}px)` : undefined }}
+    >
+      <div className="px-2.5 pb-7 pt-2">
         <ChatComposer value={value} caret={caret} placeholder={placeholder} className="shadow-none" />
       </div>
-      <AnimatePresence initial={false}>
-        {keyboard ? (
-          <motion.div
-            key="kb"
-            initial={{ height: 0 }}
-            animate={{ height: "auto" }}
-            exit={{ height: 0 }}
-            transition={{ duration: 0.32, ease: EASE.outExpo }}
-            className="overflow-hidden"
-          >
-            <Keyboard />
-          </motion.div>
-        ) : null}
-      </AnimatePresence>
+      <div ref={kbRef} aria-hidden inert className="absolute inset-x-0 top-[calc(100%-20px)]">
+        <Keyboard />
+      </div>
     </div>
   );
 }
