@@ -26,6 +26,7 @@ import { Section, SectionHeader } from "./section";
 import { Stagger } from "./entrances";
 import { BotAvatar } from "@/components/ui/mascot";
 import { useLoopFocus } from "./loop-focus";
+import { typingDuration } from "@/components/ui/typed-text";
 
 const BRIGHT_LINES = [
   {
@@ -53,7 +54,8 @@ const INITIAL: State = { approval: "pending", cursor: CURSOR_IDLE };
 const patch = (s: State, a: Partial<State>): State => ({ ...s, ...a });
 
 const TIMELINE: Timeline<Partial<State>> = [
-  { action: {}, hold: 1800 },
+  // Let the draft type out (TypedText), then a beat to read it.
+  { action: {}, hold: CHAMPION_NOTE.body.reduce((ms, l) => ms + typingDuration(l), 0) + 1200 },
   { action: { cursor: { target: "approve", clicks: 0 } }, hold: CURSOR_HOP },
   { action: { cursor: { target: "approve", clicks: 1 }, approval: "sending" }, hold: SENDING_MS },
   { action: { approval: "approved", cursor: CURSOR_IDLE }, hold: 0 },

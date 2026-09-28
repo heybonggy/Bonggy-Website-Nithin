@@ -10,6 +10,7 @@ import { useBotLook } from "./bot-looks";
 import { TypingDots } from "@/components/ui/typing-dots";
 import { DUR, EASE } from "@/components/marketing/_motion";
 import { LimitChip } from "./tags";
+import { TypedText } from "@/components/ui/typed-text";
 
 const bubbleIn = {
   initial: { opacity: 0, y: 8, scale: 0.97 },
@@ -79,9 +80,15 @@ export function BotBubble({
   name,
   time,
   state,
+  typingDotsMs,
+  textKey,
   children,
   className,
 }: {
+  /** Typing dots for this long before the text types out. */
+  typingDotsMs?: number;
+  /** Change it to retype the same text (e.g. a repeated reply). */
+  textKey?: React.Key;
   /** A look not stored by id (e.g. a bot that just named itself). */
   look?: BotLook;
   /** @deprecated kept for call sites; the bot's look comes from botId. */
@@ -108,7 +115,8 @@ export function BotBubble({
         ) : null}
         {text ? (
           <p className="w-fit rounded-xl bg-bubble-bot px-3 py-2.5 text-ui text-bubble-bot-ink">
-            <RichText text={text} />
+            {/* Every bot types the same way (TypedText). */}
+            <TypedText key={textKey} rich text={text} dotsMs={typingDotsMs} />
           </p>
         ) : null}
         {children}

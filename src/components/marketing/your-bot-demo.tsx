@@ -28,6 +28,8 @@ import { Confetti } from "@/components/ui/sparkle";
 import { botColorVars, type BotLook } from "@/components/ui/bot-look";
 import { cn } from "@/lib/utils";
 import { CAL_LINK } from "./cta-button";
+import { YOUR_BOT_ID } from "@/components/product-mock/data";
+import { getYourBot, useBotLook } from "@/components/product-mock/bot-looks";
 import { EASE, SPRING, usePrefersReducedMotion } from "./_motion";
 import { useLoopFocus } from "./loop-focus";
 
@@ -55,6 +57,21 @@ export const YOUR_BOT_TAKES: { purpose: string; name: string; look: BotLook; par
 
 /** Plays a different purpose each time the tab comes round. */
 let takeCounter = 0;
+
+/** Flow chips for a visitor's own purpose (we can't know its specifics). */
+const YOUR_PARTS = ["when you say so", "the tools you connect", "research · draft", "you · before anything goes out", "a draft for review", "your revenue goal"];
+
+/**
+ * The visitor's own bot, if they gave it a purpose in Make it yours: same
+ * name, look and purpose here. Otherwise the next scripted take.
+ */
+function pickTake(yourLook: BotLook) {
+  const mine = getYourBot();
+  if (mine.purpose.trim()) {
+    return { purpose: mine.purpose.trim(), name: mine.name.trim() || "Your bot", look: yourLook, parts: YOUR_PARTS };
+  }
+  return YOUR_BOT_TAKES[takeCounter++ % YOUR_BOT_TAKES.length];
+}
 
 const PARTS: { label: string; icon: PhosphorIcon }[] = [
   { label: "Trigger", icon: Lightning },
@@ -97,7 +114,8 @@ function timelineFor(purpose: string): Timeline<Partial<State>> {
 export function YourBotDemo({ onDone }: { onDone: () => void }) {
   const frameRef = React.useRef<HTMLDivElement>(null);
   const phoneRef = React.useRef<HTMLDivElement>(null);
-  const [take] = React.useState(() => YOUR_BOT_TAKES[takeCounter++ % YOUR_BOT_TAKES.length]);
+  const yourLook = useBotLook(YOUR_BOT_ID);
+  const [take] = React.useState(() => pickTake(yourLook));
   const timeline = React.useMemo(() => timelineFor(take.purpose), [take]);
   const focused = useLoopFocus(frameRef);
   const reduced = usePrefersReducedMotion();

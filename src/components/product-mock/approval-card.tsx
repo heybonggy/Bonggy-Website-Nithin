@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "motion/react";
 import { Check, HandPalm } from "@phosphor-icons/react/dist/ssr";
 import { cn } from "@/lib/utils";
+import { TypedText, typingDuration } from "@/components/ui/typed-text";
 import { TypingDots } from "@/components/ui/typing-dots";
 import { DUR, EASE } from "@/components/marketing/_motion";
 import { GoalTag } from "./tags";
@@ -21,6 +22,7 @@ export function ApprovalCard({
   goal,
   state = "pending",
   approvedAt = "11:12",
+  typed = true,
   className,
 }: {
   strip: string;
@@ -30,6 +32,8 @@ export function ApprovalCard({
   goal?: string;
   state?: ApprovalState;
   approvedAt?: string;
+  /** Type the draft out (TypedText). Off where the take has no time for it. */
+  typed?: boolean;
   className?: string;
 }) {
   return (
@@ -82,8 +86,11 @@ export function ApprovalCard({
           </dl>
         ) : null}
         <div className="flex flex-col gap-1.5 text-ui-sm text-foreground">
-          {body.map((line) => (
-            <p key={line}>{line}</p>
+          {/* The bot's draft types out one paragraph after another. */}
+          {body.map((line, i) => (
+            <p key={line}>
+              {typed ? <TypedText text={line} delayMs={body.slice(0, i).reduce((ms, l) => ms + typingDuration(l), 0)} /> : line}
+            </p>
           ))}
         </div>
         {goal ? <GoalTag goal={goal} className="mt-3" /> : null}

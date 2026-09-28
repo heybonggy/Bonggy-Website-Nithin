@@ -139,7 +139,7 @@ export default function RootLayout({
       <body className="bg-background text-foreground">
         <a
           href="#main"
-          className="fixed left-3 top-3 z-[100] -translate-y-[200%] rounded-full bg-surface-inverse px-4 py-2.5 text-ui font-medium text-fg-inverse focus:translate-y-0"
+          className="fixed left-3 top-3 z-[100] -translate-y-[200%] rounded-full bg-surface-inverse px-4 py-2.5 text-ui font-medium text-fg-inverse opacity-0 focus:translate-y-0 focus:opacity-100"
         >
           Skip to content
         </a>

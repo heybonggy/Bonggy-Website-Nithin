@@ -53,7 +53,7 @@ function TeamBotRow({ bot, tick, offset, delay }: { bot: Bot; tick: number; offs
     window.dispatchEvent(new CustomEvent(CUSTOMISE_EVENT, { detail: bot.id }));
   };
   return (
-    <li className="rounded-2xl bg-surface-raised shadow-e1" title={`${bot.name} is a ${bot.role}`}>
+    <li className="rounded-2xl bg-surface-raised shadow-e1" title={bot.description}>
       <button
         type="button"
         onClick={open}

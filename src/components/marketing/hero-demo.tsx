@@ -228,6 +228,8 @@ export function HeroDemo() {
                     body={CHAMPION_NOTE.body}
                     goal={CHAMPION_NOTE.goal}
                     state={s.approval}
+                    // The hero take is kept short: the bubble types, the attached draft doesn't.
+                    typed={false}
                   />
                 </BotBubble>
               ) : null}

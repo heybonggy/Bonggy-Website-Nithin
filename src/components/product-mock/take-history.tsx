@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { SystemLine } from "./chat";
+import { TypingOff } from "@/components/ui/typed-text";
 
 /**
  * A finished take shown as chat history above a live one: it dims to 65%
@@ -13,7 +14,10 @@ export function TakeHistory({ label = "now", children }: { label?: string; child
     <>
       {/* Dims to 65% (take-history in globals.css), except the bot name chips,
           which keep full contrast. */}
-      <div className="take-history flex flex-col gap-3">{children}</div>
+      <div className="take-history flex flex-col gap-3">
+        {/* Already said: shown whole, never retyped. */}
+        <TypingOff>{children}</TypingOff>
+      </div>
       <SystemLine timestamp text={label} />
     </>
   );

@@ -25,6 +25,8 @@ export type Bot = {
   role: Role;
   /** One line on what the bot does (teams strip). */
   job: string;
+  /** What the bot does, in a sentence. The one description used wherever bots appear. */
+  description: string;
   status: StatusKind;
   statusLabel?: string;
   preview: string;
@@ -33,16 +35,16 @@ export type Bot = {
 };
 
 export const BOTS: Bot[] = [
-  { id: "dossier", name: "Dossier", team: "sales", role: "researcher", job: "A brief before every first call.", status: "done", statusLabel: "done · 1h ago", preview: "brief ready · northwind", time: "1h" },
-  { id: "unstick", name: "Unstick", team: "sales", role: "value generator", job: "Mondays: stuck deals and next steps.", status: "scheduled", statusLabel: "mondays 08:00", preview: "5 stuck deals flagged", time: "mon" },
-  { id: "draftsmith", name: "Draftsmith", team: "sales", role: "value generator", job: "Research into a follow-up draft, for approval.", status: "held", statusLabel: "held for you", preview: "1 draft held for you", time: "3h", unread: true },
-  { id: "compass", name: "Compass", team: "revops", role: "researcher", job: "Accounts drifting from the ICP, deals with no next step.", status: "done", statusLabel: "done · 2h ago", preview: "3 accounts off-icp", time: "2h" },
-  { id: "tidy", name: "Tidy", team: "revops", role: "value generator", job: "Missing fields and duplicates; proposes fixes, for approval.", status: "needs-you", statusLabel: "needs you", preview: "12 fixes to review", time: "4h" },
-  { id: "delta", name: "Delta", team: "revops", role: "modeller", job: "Before the weekly call: what changed and why.", status: "scheduled", statusLabel: "thursdays 16:00", preview: "next run thu 16:00", time: "thu" },
-  { id: "sweet-spot", name: "Sweet Spot", team: "marketing", role: "modeller", job: "Segments and which ones win.", status: "done", statusLabel: "done · 1d ago", preview: "mid-market is 40% of wins", time: "1d" },
-  { id: "echo", name: "Echo", team: "marketing", role: "researcher", job: "Pains and objections from recent calls.", status: "held", statusLabel: "held for you", preview: "post to #q4-campaign held", time: "3h" },
-  { id: "quill", name: "Quill", team: "marketing", role: "value generator", job: "Posts, pages and emails in your voice, for approval.", status: "off", statusLabel: "off", preview: "off", time: "5d" },
-  { id: "relay", name: "Relay", team: "marketing", role: "researcher", job: "Scores new leads against the ICP and briefs the right rep.", status: "needs-you", statusLabel: "needs you", preview: "2 leads to route", time: "12m" },
+  { id: "dossier", name: "Dossier", team: "sales", role: "researcher", job: "A brief before every first call.", description: "Digs into an account and its people so the rep walks in prepared.", status: "done", statusLabel: "done · 1h ago", preview: "brief ready · northwind", time: "1h" },
+  { id: "unstick", name: "Unstick", team: "sales", role: "value generator", job: "Mondays: stuck deals and next steps.", description: "Finds stalled deals and suggests the next step that moves them.", status: "scheduled", statusLabel: "mondays 08:00", preview: "5 stuck deals flagged", time: "mon" },
+  { id: "draftsmith", name: "Draftsmith", team: "sales", role: "value generator", job: "Research into a follow-up draft, for approval.", description: "Turns research into a brief or message a rep can actually use.", status: "held", statusLabel: "held for you", preview: "1 draft held for you", time: "3h", unread: true },
+  { id: "compass", name: "Compass", team: "revops", role: "researcher", job: "Accounts drifting from the ICP, deals with no next step.", description: "Watches the pipeline against the goal and nudges when it drifts.", status: "done", statusLabel: "done · 2h ago", preview: "3 accounts off-icp", time: "2h" },
+  { id: "tidy", name: "Tidy", team: "revops", role: "value generator", job: "Missing fields and duplicates; proposes fixes, for approval.", description: "Cleans up CRM records, fills gaps and flags what's off.", status: "needs-you", statusLabel: "needs you", preview: "12 fixes to review", time: "4h" },
+  { id: "delta", name: "Delta", team: "revops", role: "modeller", job: "Before the weekly call: what changed and why.", description: "Preps the forecast and explains what changed since last week.", status: "scheduled", statusLabel: "thursdays 16:00", preview: "next run thu 16:00", time: "thu" },
+  { id: "sweet-spot", name: "Sweet Spot", team: "marketing", role: "modeller", job: "Segments and which ones win.", description: "Maps the segments most worth your team's time.", status: "done", statusLabel: "done · 1d ago", preview: "mid-market is 40% of wins", time: "1d" },
+  { id: "echo", name: "Echo", team: "marketing", role: "researcher", job: "Pains and objections from recent calls.", description: "Pulls themes and pains out of calls and campaigns.", status: "held", statusLabel: "held for you", preview: "post to #q4-campaign held", time: "3h" },
+  { id: "quill", name: "Quill", team: "marketing", role: "value generator", job: "Posts, pages and emails in your voice, for approval.", description: "Drafts content in your team's voice, ready for review.", status: "off", statusLabel: "off", preview: "off", time: "5d" },
+  { id: "relay", name: "Relay", team: "marketing", role: "researcher", job: "Scores new leads against the ICP and briefs the right rep.", description: "Routes inbound leads to the right owner, fast.", status: "needs-you", statusLabel: "needs you", preview: "2 leads to route", time: "12m" },
 ];
 
 /** Any bot by id, including the one the hero creates (Boomerang). */
@@ -59,6 +61,7 @@ export const BOOMERANG: Bot = {
   team: "sales",
   role: "researcher",
   job: "Tells you when a lost deal's champion changes jobs.",
+  description: "Spots when a past champion lands at a new company and drafts the reopen.",
   status: "scheduled",
   statusLabel: "daily 07:00",
   preview: "watching closed-lost champions",
@@ -294,7 +297,12 @@ export const DEFAULT_LOOKS: Record<string, BotLook> = {
   "delta": { color: "amber", shape: "capsule", eyes: "visor", accessory: "none" },
   "sweet-spot": { color: "lime", shape: "blob", eyes: "visor", accessory: "antenna" },
   "quill": { color: "pink", shape: "capsule", eyes: "arcs", accessory: "beanie" },
+  // The visitor's own bot (Make it yours → Your bot, and the fifth agents
+  // tab): starts blank, like the bot the fifth tab wakes up.
+  "your-bot": { color: "graphite", shape: "pebble", eyes: "pill", accessory: "none" },
 };
+
+export const YOUR_BOT_ID = "your-bot";
 
 /** The bots the customiser offers. */
 export const CUSTOMISABLE_BOTS = ["boomerang", "unstick", "compass", "echo", "relay"];

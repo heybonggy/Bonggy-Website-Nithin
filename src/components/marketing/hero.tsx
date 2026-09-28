@@ -5,18 +5,14 @@ import { HeroDemo } from "./hero-demo";
 const HEADLINE = "Build the bots your GTM team needs.";
 const MUTED = "Running the flows you want, pointed at revenue.";
 
-/**
- * Words reveal in CSS (not Motion) so the H1 paints before hydration.
- * `still` on phones: the first line paints at full opacity immediately (it's
- * the LCP element there); the rest still animates.
- */
-function Words({ text, offset = 0, still = false }: { text: string; offset?: number; still?: boolean }) {
+/** Words reveal in CSS (not Motion) so the H1 paints before hydration. */
+function Words({ text, offset = 0 }: { text: string; offset?: number }) {
   return (
     <>
       {text.split(" ").map((w, i) => (
         <span
           key={i}
-          className={still ? "inline-block max-sm:animate-none sm:animate-word-in" : "inline-block animate-word-in"}
+          className="inline-block animate-word-in"
           style={{ animationDelay: `${100 + 55 * (offset + i)}ms` }}
         >
           {w}
@@ -54,7 +50,13 @@ export function Hero() {
         </a>
 
         <h1 className="mt-4 max-w-[20ch] text-balance text-[2.125rem] font-medium leading-[1.08] tracking-[-0.02em] text-foreground [perspective:1200px] sm:mt-5 sm:text-display-xl lg:max-w-none">
-          <Words text={HEADLINE} still />
+          {/* Phones: the first line is one plain, fully opaque text run from the
+              first frame, so the H1 itself is the LCP element; the muted
+              clause still animates. From sm up, word by word. */}
+          <span className="sm:hidden">{HEADLINE} </span>
+          <span className="hidden sm:inline">
+            <Words text={HEADLINE} />
+          </span>
           {/* Two lines at lg: the muted clause starts its own line. */}
           <br aria-hidden className="hidden lg:block" />
           <span className="text-fg-3">

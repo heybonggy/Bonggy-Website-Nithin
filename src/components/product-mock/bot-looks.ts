@@ -9,7 +9,7 @@ import {
   DEFAULT_LOOK,
   type BotLook,
 } from "@/components/ui/bot-look";
-import { DEFAULT_LOOKS } from "./data";
+import { DEFAULT_LOOKS, YOUR_BOT_ID } from "./data";
 
 /**
  * Per-bot looks, saved on this device. The server snapshot is the defaults,
@@ -148,4 +148,79 @@ export function resetBotLook(botId: string) {
 
 export function resetAllLooks() {
   write({});
+}
+
+/* ------------------------------ your bot -------------------------------- */
+
+/**
+ * The visitor's own bot: a name and a purpose, saved on this device next to
+ * the looks (its look is stored above under YOUR_BOT_ID). Shared by Make it
+ * yours and the agents section's "Your bot" tab.
+ */
+export type YourBot = { name: string; purpose: string };
+
+export const YOUR_BOT_LIMITS = { name: 16, purpose: 80 } as const;
+export const DEFAULT_YOUR_BOT: YourBot = { name: "Your bot", purpose: "" };
+
+const YOURS_KEY = "bonggy:your-bot:v1";
+let yoursCache: YourBot | null = null;
+
+function readYours(): YourBot {
+  if (yoursCache) return yoursCache;
+  try {
+    const raw = JSON.parse(localStorage.getItem(YOURS_KEY) || "null") as Partial<YourBot> | null;
+    yoursCache = {
+      name: typeof raw?.name === "string" ? raw.name.slice(0, YOUR_BOT_LIMITS.name) : DEFAULT_YOUR_BOT.name,
+      purpose: typeof raw?.purpose === "string" ? raw.purpose.slice(0, YOUR_BOT_LIMITS.purpose) : "",
+    };
+  } catch {
+    yoursCache = DEFAULT_YOUR_BOT;
+  }
+  return yoursCache;
+}
+
+const yoursListeners = new Set<() => void>();
+
+function onYoursStorage(e: StorageEvent) {
+  if (e.key !== YOURS_KEY) return;
+  yoursCache = null;
+  yoursListeners.forEach((l) => l());
+}
+
+function subscribeYours(cb: () => void) {
+  yoursListeners.add(cb);
+  if (yoursListeners.size === 1) window.addEventListener("storage", onYoursStorage);
+  return () => {
+    yoursListeners.delete(cb);
+    if (yoursListeners.size === 0) window.removeEventListener("storage", onYoursStorage);
+  };
+}
+
+export function useYourBot(): YourBot {
+  return React.useSyncExternalStore(subscribeYours, readYours, () => DEFAULT_YOUR_BOT);
+}
+
+/** Current value outside React (e.g. to pick the agents tab's take). */
+export const getYourBot = (): YourBot => readYours();
+
+export function setYourBot(patch: Partial<YourBot>) {
+  yoursCache = { ...readYours(), ...patch };
+  try {
+    localStorage.setItem(YOURS_KEY, JSON.stringify(yoursCache));
+  } catch {
+    // Private mode: lasts for this page only.
+  }
+  yoursListeners.forEach((l) => l());
+}
+
+/** Reset clears the name, the purpose and the look. */
+export function resetYourBot() {
+  yoursCache = DEFAULT_YOUR_BOT;
+  try {
+    localStorage.removeItem(YOURS_KEY);
+  } catch {
+    // ignore
+  }
+  yoursListeners.forEach((l) => l());
+  resetBotLook(YOUR_BOT_ID);
 }
