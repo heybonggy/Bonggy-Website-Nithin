@@ -3,6 +3,9 @@ import { pageMetadata } from "@/lib/metadata";
 import { SubPageShell } from "@/components/marketing/sub-page-shell";
 import { EmailLink } from "@/components/marketing/email-link";
 
+// TODO(legal review): draft wording, not yet reviewed by counsel. Claims on
+// AI training, approvals, read-only access and deletion must match /privacy,
+// /terms, /security and the FAQ word for word. See docs/legal-drafts.md.
 export const metadata: Metadata = pageMetadata({
   path: "/terms",
   title: "Terms of Service",
@@ -14,7 +17,7 @@ export const metadata: Metadata = pageMetadata({
 const SECTIONS: { h: string; body: React.ReactNode }[] = [
   {
     h: "What you get",
-    body: "Bonggy is an agent workspace for sales, RevOps and marketing teams. Your team builds bots and designs the flows they run; every flow ties to a revenue goal, and a person on your team approves anything a customer would see. What we don't do: send customer-facing messages without that approval, guarantee pipeline, or replace anyone."
+    body: "Bonggy is an agent workspace for sales, RevOps and marketing teams. Your team builds bots and designs the flows they run, and every flow ties to a revenue goal. Nothing customer-facing goes out without a person approving it. Bots are built to be read-only by default and write back only where a flow your team sets up allows it. We don't guarantee pipeline, and bots don't replace anyone.",
   },
   {
     h: "Acceptable use",
@@ -22,11 +25,11 @@ const SECTIONS: { h: string; body: React.ReactNode }[] = [
   },
   {
     h: "Billing",
-    body: "Flexible billing: monthly, quarterly, or annual. Cancel anytime. No surprise charges. If your team needs a different structure, talk to us.",
+    body: "Billing terms are set out in your order form or agreement with us.",
   },
   {
     h: "Data ownership",
-    body: "Your account data, contacts, activity and the work your bots produce are yours. You design the flows and approve what goes out; we run the workspace. Export anytime, leave anytime, no lock-in.",
+    body: "Your account data, contacts, activity and the work your bots produce are yours. You design the flows and approve what goes out; we run the workspace. No training on your data: we don't use it to train AI models. You can export your data while your account is active, and you can ask us to delete your data at any time.",
   },
   {
     h: "Limitation of liability",
@@ -48,7 +51,7 @@ export default function TermsPage() {
       eyebrow="Terms of Service"
       title="Plain English."
       titleAccent="No legalese tricks."
-      lede="Last updated: May 2026. Teams build bots in Bonggy, every flow ties to a revenue goal, and people approve what customers see. Here's what you get, what you can do, and what's on you."
+      lede="Last updated: 28 September 2026. Teams build bots in Bonggy, every flow ties to a revenue goal, and nothing customer-facing goes out without a person approving it. Here's what you get, what you can do, and what's on you."
       narrow
     >
       <div className="max-w-copy divide-y divide-border">

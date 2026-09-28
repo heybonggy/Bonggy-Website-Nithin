@@ -20,7 +20,7 @@ export const HOME_FAQ: FaqItem[] = [
   },
   {
     q: "What can bots do without approval?",
-    a: "Only internal work (briefs in chat, Slack summaries, reports) and only if your team allows it. Anything customer-facing waits for a person.",
+    a: "Only internal work (briefs in chat, Slack summaries, reports) and only if your team allows it. Nothing customer-facing goes out without a person approving it.",
   },
   {
     q: "Do marketing bots send campaigns?",
@@ -35,7 +35,7 @@ export const HOME_FAQ: FaqItem[] = [
     // TODO(security): confirm with engineering before stating specifics
     // (protocols, ciphers). Keep "not attained" until SOC 2 Type II is done.
     q: "How is my data handled?",
-    a: "Bonggy is built for read-scoped permissions, encryption in transit and at rest, and no training on your data. SOC 2 Type II: on the path, not attained.",
+    a: "Bots are built to be read-only by default and write back only where a flow your team sets up allows it. Bonggy is built for encryption in transit and at rest, there's no training on your data, and you can ask us to delete your data at any time. SOC 2 Type II: on the path, not attained.",
   },
   {
     q: "Who is it for?",

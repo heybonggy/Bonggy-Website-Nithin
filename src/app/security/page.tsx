@@ -2,12 +2,13 @@ import type { Metadata } from "next";
 import { ClipboardText, HandPalm, Lock, ShieldCheck } from "@phosphor-icons/react/dist/ssr";
 import { pageMetadata } from "@/lib/metadata";
 import { SubPageShell } from "@/components/marketing/sub-page-shell";
+import { EmailLink } from "@/components/marketing/email-link";
 
 export const metadata: Metadata = pageMetadata({
   path: "/security",
   title: "Security",
   description:
-    "How Bonggy handles your data: bots only use the permissions you connect, anything customer-facing needs a person's approval, every run leaves a receipt, and no training on your data.",
+    "How Bonggy handles your data: bots only use the permissions you connect, nothing customer-facing goes out without a person approving it, every run leaves a receipt, and no training on your data.",
   robots: { index: true, follow: true },
 });
 
@@ -18,12 +19,12 @@ const COMMITMENTS = [
   {
     Icon: HandPalm,
     title: "Approval by action",
-    body: "Anything customer-facing (emails, posts, sequencer pushes, published content) needs a person. Internal output (a brief in chat, a Slack summary) can run without approval if your team chooses.",
+    body: "Nothing customer-facing (emails, posts, sequencer pushes, published content) goes out without a person approving it. Internal output (a brief in chat, a Slack summary) can run without approval if your team chooses.",
   },
   {
     Icon: ShieldCheck,
     title: "Bots only use the permissions you connect",
-    body: "You choose which tools each bot can reach and what it's allowed to do there. Nothing beyond what you connect.",
+    body: "You choose which tools each bot can reach. Bots are built to be read-only by default and write back only where a flow your team sets up allows it. Nothing beyond what you connect.",
   },
   {
     // TODO(security): confirm run receipts and the approval log exist as described.
@@ -35,7 +36,7 @@ const COMMITMENTS = [
     // TODO(security): confirm with engineering/legal before stating specifics.
     Icon: Lock,
     title: "Built to protect your data",
-    body: "Bonggy is built for read-scoped permissions, encryption in transit and at rest, and no training on your data.",
+    body: "Bonggy is built for encryption in transit and at rest, and there's no training on your data: we don't use it to train AI models. You can ask us to delete your data at any time.",
   },
 ];
 
@@ -63,9 +64,7 @@ export default function SecurityPage() {
         {/* TODO(security): update once SOC 2 Type II is attained; keep "not attained" until then. */}
         <p className="mt-2 max-w-copy text-body text-fg-2">
           SOC 2 Type II: on the path, not attained. If your procurement needs documentation ahead of a pilot, email{" "}
-          <a href="mailto:founders@bonggy.com" className="text-foreground underline underline-offset-4">
-            founders@bonggy.com
-          </a>{" "}
+          <EmailLink />{" "}
           and we&apos;ll share where we are.
         </p>
       </div>

@@ -3,11 +3,14 @@ import { pageMetadata } from "@/lib/metadata";
 import { SubPageShell } from "@/components/marketing/sub-page-shell";
 import { EmailLink } from "@/components/marketing/email-link";
 
+// TODO(legal review): draft wording, not yet reviewed by counsel. Claims on
+// AI training, approvals, read-only access and deletion must match /privacy,
+// /terms, /security and the FAQ word for word. See docs/legal-drafts.md.
 export const metadata: Metadata = pageMetadata({
   path: "/privacy",
   title: "Privacy Policy",
   description:
-    "Bonggy privacy policy. We collect only what we need, we don't sell your data, and no training on your data: we don't use it to train AI models. Bots are read-scoped by default and write only when a flow allows it.",
+    "Bonggy privacy policy. We collect only what we need, we don't sell your data, and there's no training on your data. Bots are built to be read-only by default, and you can ask us to delete your data at any time.",
   robots: { index: true, follow: true },
 });
 
@@ -26,15 +29,15 @@ const SECTIONS: { h: string; body: React.ReactNode }[] = [
   },
   {
     h: "Data retention",
-    body: "We keep your data as long as you're a customer. If you cancel, we offer a 30-day grace period to export everything before deletion. You own your data — we're just the layer that makes it useful.",
+    body: "We keep your data while you're a customer, and you can ask us to delete your data at any time. You can export it while your account is active. Anything else about retention is set out in your agreement with us. You own your data; we're the layer that makes it useful.",
   },
   {
     h: "Third-party integrations",
-    body: "Bonggy connects to the tools your team already uses (CRM, email, calendar, Slack, call notes) through the permissions you grant. Bots are read-scoped by default. They write back only when a flow allows it, such as adding a CRM task, and anything a customer would see waits for a person on your team to approve it first.",
+    body: "Bonggy connects to the tools your team already uses (CRM, email, calendar, Slack, call notes) through the permissions you grant. Bots are built to be read-only by default and write back only where a flow your team sets up allows it, such as adding a CRM task. Nothing customer-facing goes out without a person approving it.",
   },
   {
     h: "Your choices",
-    body: "You can access, export, or request deletion of your data at any time. To opt out of product or marketing emails, use the unsubscribe link in any message or email us.",
+    body: "You can access your data, export it while your account is active, and ask us to delete your data at any time. To opt out of product or marketing emails, use the unsubscribe link in any message or email us.",
   },
   {
     h: "Contact",
@@ -52,7 +55,7 @@ export default function PrivacyPage() {
       eyebrow="Privacy Policy"
       title="What we collect,"
       titleAccent="and what we don't."
-      lede="Last updated: May 2026. Plain language. No tracking surprises. We collect only what we need to make Bonggy work for your team."
+      lede="Last updated: 28 September 2026. Plain language. No tracking surprises. We collect only what we need to make Bonggy work for your team."
       narrow
     >
       <div className="max-w-copy divide-y divide-border">

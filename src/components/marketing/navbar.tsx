@@ -19,6 +19,8 @@ const PRODUCT: NavLink[] = [
   { label: "Approvals", href: "/#approvals" },
   { label: "Analytics", href: "/#analytics" },
   { label: "Make it yours", href: "/#make-it-yours" },
+  { label: "Groups", href: "/#groups" },
+  { label: "Context", href: "/#context" },
 ];
 
 const LINKS: NavLink[] = [
@@ -34,8 +36,10 @@ const MOBILE: NavLink[] = [
   PRODUCT[1], // Flows
   PRODUCT[0], // Bots
   PRODUCT[4], // Make it yours
+  PRODUCT[5], // Groups
   PRODUCT[2], // Approvals
   PRODUCT[3], // Analytics
+  PRODUCT[6], // Context
   ...LINKS.slice(1), // How it works, Pricing, FAQ
 ];
 
@@ -45,13 +49,7 @@ const MOBILE: NavLink[] = [
 const LINK_CLASS =
   "relative inline-flex h-9 items-center gap-1 rounded-full px-3 text-ui-sm font-medium text-fg-2 transition-colors duration-150 hover:bg-surface-2 hover:text-foreground focus-visible:bg-surface-2 focus-visible:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring aria-[current=true]:font-semibold aria-[current=true]:text-foreground after:absolute after:bottom-0.5 after:left-1/2 after:size-1 after:-translate-x-1/2 after:rounded-full after:bg-foreground after:opacity-0 after:transition-opacity after:content-[''] aria-[current=true]:after:opacity-100";
 
-// Sections without a link of their own (groups, context) are tracked too, so
-// Product stays lit through them instead of a stale link.
-const PRODUCT_ONLY_IDS = ["groups", "context"];
-const SPY_IDS = [
-  ...[...PRODUCT, ...LINKS].map((l) => hashOf(l.href)).filter((x): x is string => !!x),
-  ...PRODUCT_ONLY_IDS,
-];
+const SPY_IDS = [...PRODUCT, ...LINKS].map((l) => hashOf(l.href)).filter((x): x is string => !!x);
 
 export function Navbar() {
   const active = useScrollSpy(SPY_IDS);
@@ -197,9 +195,7 @@ function ProductMenu({ active }: { active: string | null }) {
         aria-controls={id}
         onClick={() => setOpen((v) => !v)}
         onMouseEnter={() => setOpen(true)}
-        aria-current={
-          active && (PRODUCT.some((l) => hashOf(l.href) === active) || PRODUCT_ONLY_IDS.includes(active)) ? "true" : undefined
-        }
+        aria-current={PRODUCT.some((l) => hashOf(l.href) === active) ? "true" : undefined}
         className={cn(LINK_CLASS, open && "text-foreground")}
       >
         Product
