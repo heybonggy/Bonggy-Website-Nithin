@@ -63,12 +63,14 @@ function TypedLine({ value, caret, placeholder }: { value: string; caret: boolea
   return (
     <p ref={boxRef} className="min-h-7 min-w-0 flex-1 overflow-hidden whitespace-nowrap py-1 text-[14px] leading-5">
       {value ? (
-        <span ref={textRef} className="inline-block text-foreground" style={shift ? { transform: `translateX(${-shift}px)` } : undefined}>
+        // Keyed: typed text and placeholder are different nodes, so swapping
+        // them is a mount, never a "moved" element (CLS).
+        <span key="value" ref={textRef} className="inline-block text-foreground" style={shift ? { transform: `translateX(${-shift}px)` } : undefined}>
           {value}
           <span key={value.length} aria-hidden className="ml-px inline-block h-4 w-px translate-y-[3px] animate-caret bg-foreground" />
         </span>
       ) : (
-        <span className="block truncate text-fg-3">
+        <span key="placeholder" className="block truncate text-fg-3">
           {placeholder}
           {caret ? <span aria-hidden className="ml-px inline-block h-4 w-px translate-y-[3px] animate-caret bg-foreground" /> : null}
         </span>

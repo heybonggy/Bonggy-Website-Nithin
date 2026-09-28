@@ -649,6 +649,8 @@
   [data-slot="accordion-content"] {
     animation-duration: 0s !important;
   }
+  /* The hero intro is off entirely (not a 1ms fade from opacity 0). */
+  .animate-word-in, .animate-rise-in { animation: none !important; }
   /* static typing dots: stepped opacity so "working" still reads */
   .typing-dots > :nth-child(1) { opacity: 0.25; }
   .typing-dots > :nth-child(2) { opacity: 0.45; }

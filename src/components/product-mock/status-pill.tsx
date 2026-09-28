@@ -3,7 +3,7 @@
 import { AnimatePresence, motion } from "motion/react";
 import { Check, Clock, FileText, HandPalm, X } from "@phosphor-icons/react/dist/ssr";
 import { cn } from "@/lib/utils";
-import { EASE, SPRING } from "@/components/marketing/_motion";
+import { EASE, SPRING, usePrefersReducedMotion } from "@/components/marketing/_motion";
 import type { StatusKind } from "./data";
 
 /**
@@ -55,6 +55,7 @@ export function StatusPill({
   className?: string;
 }) {
   const text = label ?? DEFAULT_LABEL[status];
+  const reduced = usePrefersReducedMotion();
   const Icon =
     status === "scheduled" ? Clock
       : status === "needs-you" ? HandPalm
@@ -89,17 +90,22 @@ export function StatusPill({
       ) : (
         <StatusDot status={status} />
       )}
-      <AnimatePresence mode="popLayout" initial={false}>
-        <motion.span
-          key={text}
-          initial={{ opacity: 0, y: 5 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -5 }}
-          transition={{ duration: 0.35, ease: EASE.settle }}
-        >
-          {text}
-        </motion.span>
-      </AnimatePresence>
+      {reduced ? (
+        // Reduced motion: a plain swap (no pop-out exit that repositions).
+        <span key={text}>{text}</span>
+      ) : (
+        <AnimatePresence mode="popLayout" initial={false}>
+          <motion.span
+            key={text}
+            initial={{ opacity: 0, y: 5 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -5 }}
+            transition={{ duration: 0.35, ease: EASE.settle }}
+          >
+            {text}
+          </motion.span>
+        </AnimatePresence>
+      )}
     </motion.span>
   );
 }

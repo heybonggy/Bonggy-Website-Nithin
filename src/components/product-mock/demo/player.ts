@@ -78,11 +78,21 @@ export function useDemoPlayer<S, A>({
   const [visible, setVisible] = React.useState(true);
   const [skipped, setSkipped] = React.useState(false);
 
-  const effectiveIndex = reduced || skipped ? total : index;
-  const done = effectiveIndex >= total;
+  const posterIndex = poster === "end" ? total : (poster ?? 0);
+  // Reduced motion shows the end state, but only for demos that were off
+  // screen when it applied (right after hydration). One already on screen
+  // keeps its poster frame: jumping would be a visible layout shift.
+  const [holdPoster, setHoldPoster] = React.useState<boolean | null>(null);
+  React.useLayoutEffect(() => {
+    if (!reduced || holdPoster !== null) return;
+    const r = ref.current?.getBoundingClientRect();
+    setHoldPoster(!!r && r.height > 0 && r.top < window.innerHeight && r.bottom > 0);
+  }, [reduced, holdPoster, ref]);
+  const reducedIndex = holdPoster === false ? total : posterIndex;
+  const effectiveIndex = skipped ? total : reduced ? reducedIndex : index;
+  const done = reduced || effectiveIndex >= total;
 
   const phase: DemoPlayer<S>["phase"] = reduced ? "static" : started || skipped ? "live" : "poster";
-  const posterIndex = poster === "end" ? total : (poster ?? 0);
   const shownIndex = phase === "poster" ? posterIndex : effectiveIndex;
 
   const fold = React.useCallback(

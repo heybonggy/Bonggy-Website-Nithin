@@ -87,10 +87,9 @@ export const viewport: Viewport = {
   // hydration add a second tag once the script had changed its content.)
   width: "device-width",
   initialScale: 1,
-  // On-screen keyboard only (not the URL bar): Chromium browsers resize the
-  // layout viewport when the keyboard opens, so the composers and forms
-  // stay in view. Safari ignores this key.
-  interactiveWidget: "resizes-content",
+  // No interactiveWidget: it only concerns the on-screen keyboard (not the
+  // URL bar), Safari ignores it and logs a console error for it, and the
+  // default keyboard behaviour suits our forms.
 };
 
 export default function RootLayout({
