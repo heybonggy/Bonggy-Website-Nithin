@@ -1,51 +1,29 @@
-"use client";
-
-import * as React from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { X } from "@phosphor-icons/react/dist/ssr";
-import { Mascot } from "@/components/ui/mascot";
-import { NEWS_DISMISSED_KEY, news } from "@/content/news";
+import { news } from "@/content/news";
+
+/** Bong, drawn inline (static) so the banner needs no client component. */
+function PeekFace() {
+  return (
+    <svg viewBox="0 0 100 100" aria-hidden className="size-7 translate-y-2">
+      <path d="M50 4 C85 4 96 15 96 50 C96 85 85 96 50 96 C15 96 4 85 4 50 C4 15 15 4 50 4 Z" fill="var(--foreground-inverse)" />
+      <rect x={31} y={37.5} width={38} height={13} rx={6.5} fill="var(--foreground)" />
+    </svg>
+  );
+}
 
 /**
  * A thin announcement strip above the navbar, linking to the current news
- * item (content/news.ts). Graphite in light, near-white in dark. Fixed
- * heights per breakpoint and a pre-paint dismissal check keep CLS at 0. The
- * navbar follows it as it scrolls away (--banner-scroll).
+ * item (content/news.ts). Graphite in light, near-white in dark.
+ *
+ * No client component: dismissing and the navbar following the scroll are
+ * handled by the inline NEWS_INIT_SCRIPT, so the banner adds no hydration
+ * work before first paint (a client component in the root layout measurably
+ * pushed mobile LCP out). Fixed heights per breakpoint, reserved through
+ * <html class="news-on">, the pre-paint dismissal check, and CSS that hides
+ * it on the news item's own page (NewsHere) keep CLS at 0.
  */
 export function NewsBanner() {
-  const pathname = usePathname();
-  const hidden = !news.enabled || pathname === news.cta.href;
-
-  // Let the fixed navbar slide up as the banner scrolls away.
-  React.useEffect(() => {
-    if (hidden) return;
-    const root = document.documentElement;
-    let raf = 0;
-    const on = () => {
-      cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(() => root.style.setProperty("--banner-scroll", `${Math.min(window.scrollY, 80)}px`));
-    };
-    on();
-    window.addEventListener("scroll", on, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", on);
-      cancelAnimationFrame(raf);
-      root.style.removeProperty("--banner-scroll");
-    };
-  }, [hidden]);
-
-  if (hidden) return null;
-
-  const dismiss = () => {
-    try {
-      localStorage.setItem(NEWS_DISMISSED_KEY, news.id);
-    } catch {
-      // Private mode: hidden for this page view only.
-    }
-    document.documentElement.classList.add("news-dismissed");
-  };
-
+  if (!news.enabled) return null;
   return (
     <div
       role="region"
@@ -57,7 +35,7 @@ export function NewsBanner() {
         aria-hidden
         className="pointer-events-none absolute bottom-0 left-2 hidden -translate-x-[140%] transition-transform duration-500 ease-out-expo group-hover:translate-x-0 sm:motion-safe:block"
       >
-        <Mascot className="size-7 translate-y-2 text-fg-inverse [&_path]:fill-[var(--foreground-inverse)] [&_rect]:fill-[var(--foreground)]" />
+        <PeekFace />
       </span>
 
       <div className="mx-auto flex w-full min-w-0 max-w-wide items-center justify-center gap-2 pl-3 pr-11 text-[12px] leading-snug sm:gap-3 sm:px-12 sm:text-ui-sm">
@@ -65,7 +43,7 @@ export function NewsBanner() {
           {news.emoji}
         </span>
         <span className="line-clamp-2 min-w-0 sm:line-clamp-1">{news.text}</span>
-        <Link
+        <a
           href={news.cta.href}
           className="relative inline-flex h-7 shrink-0 items-center gap-1 rounded-full px-2.5 font-medium sm:px-3 ring-1 ring-fg-inverse/40 transition-colors hover:bg-fg-inverse/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fg-inverse after:absolute after:-inset-2 after:content-['']"
         >
@@ -74,12 +52,13 @@ export function NewsBanner() {
           </span>
           <span className="sr-only sm:not-sr-only">{news.cta.label}</span>
           <span aria-hidden className="hidden sm:inline">→</span>
-        </Link>
+        </a>
       </div>
 
+      {/* Handled by NEWS_INIT_SCRIPT's delegated click listener. */}
       <button
         type="button"
-        onClick={dismiss}
+        data-news-dismiss
         aria-label="Dismiss announcement"
         className="absolute right-1 top-1/2 inline-flex size-9 -translate-y-1/2 items-center justify-center rounded-full text-fg-inverse/80 transition-colors hover:bg-fg-inverse/10 hover:text-fg-inverse focus-visible:outline-2 focus-visible:outline-fg-inverse after:absolute after:-inset-1 after:content-['']"
       >
@@ -87,4 +66,9 @@ export function NewsBanner() {
       </button>
     </div>
   );
+}
+
+/** Rendered by the news item's own page: the banner hides there. */
+export function NewsHere() {
+  return <span data-news-here hidden />;
 }

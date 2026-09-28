@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/metadata";
 import { SubPageShell } from "@/components/marketing/sub-page-shell";
+import { NewsHere } from "@/components/news-banner";
 
 const SUBTITLE = "Why we built Bonggy, and the few things we will not do.";
 
@@ -27,6 +28,7 @@ const PARAGRAPHS = [
 export default function ANoteFromUsPage() {
   return (
     <SubPageShell eyebrow="Resources · Note" title="A note from us" lede={SUBTITLE} narrow>
+      <NewsHere />
       <article className="mx-auto w-full max-w-prose">
         <div className="space-y-5 text-body-lg text-fg-2">
           {PARAGRAPHS.map((p) => (

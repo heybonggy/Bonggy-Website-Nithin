@@ -215,11 +215,12 @@
   --banner-h: 0px;
   --nav-top: max(0px, calc(var(--banner-h) - var(--banner-scroll, 0px)));
 }
-html:not(.news-dismissed):has(.news-banner) { --banner-h: 3.5rem; }
+html.news-on:not(.news-dismissed):not(:has([data-news-here])) { --banner-h: 3.5rem; }
 @media (min-width: 640px) {
-  html:not(.news-dismissed):has(.news-banner) { --banner-h: 2.5rem; }
+  html.news-on:not(.news-dismissed):not(:has([data-news-here])) { --banner-h: 2.5rem; }
 }
-.news-dismissed .news-banner { display: none; }
+/* Hidden once dismissed, and on the news item's own page (<NewsHere />). */
+.news-dismissed .news-banner, html:has([data-news-here]) .news-banner { display: none; }
 
 /* One frame without transitions while the theme flips (theme.ts). */
 .theme-switching, .theme-switching *, .theme-switching *::before, .theme-switching *::after {

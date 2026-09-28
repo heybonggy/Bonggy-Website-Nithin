@@ -7,12 +7,11 @@ import {
   SITE_DESCRIPTION,
   SITE_DESCRIPTION_SHORT,
   LOGO_URL,
-  THEME_COLORS,
 } from "@/lib/metadata";
 import { THEME_INIT_SCRIPT } from "@/components/marketing/theme-script";
 import { ScrollMotionFallback } from "@/components/marketing/scroll-motion-fallback";
 import { NewsBanner } from "@/components/news-banner";
-import { NEWS_INIT_SCRIPT } from "@/content/news";
+import { NEWS_INIT_SCRIPT, news } from "@/content/news";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -82,8 +81,9 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  // No themeColor here: one <meta name="theme-color"> is rendered in <head>
-  // and the theme script keeps it in step with the site toggle.
+  // No themeColor here: the theme script creates <meta name="theme-color">
+  // and keeps it in step with the site toggle. (Rendering it from React made
+  // hydration add a second tag once the script had changed its content.)
   width: "device-width",
   initialScale: 1,
   // Tell mobile browsers to resize the LAYOUT viewport when the URL bar
@@ -102,11 +102,10 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} antialiased${news.enabled ? " news-on" : ""}`}
       suppressHydrationWarning
     >
       <head>
-        <meta name="theme-color" content={THEME_COLORS.light} />
         {/* Theme first, before any stylesheet, so there's no flash. */}
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
         {/* Hide a dismissed announcement before first paint (no layout shift). */}
