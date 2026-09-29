@@ -49,3 +49,6 @@ next-env.d.ts
 
 # Names that must never be committed; read by scripts/check-seo.mjs.
 .denylist
+
+# Local QA artifacts (contact sheets, scratch renders).
+tmp/
