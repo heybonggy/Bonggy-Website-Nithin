@@ -13,7 +13,7 @@ export function GET() {
     version: 1,
     updated: PAGES.bots.lastModified,
     source: absolute("/bots"),
-    bots: CATALOG.map((bot) => ({
+    bots: CATALOG.map(({ exampleFlow: { limit, ...flow }, ...bot }) => ({
       id: bot.slug,
       name: bot.name,
       team: bot.team,
@@ -22,12 +22,18 @@ export function GET() {
       description: bot.description,
       url: botUrl(bot.slug),
       markdown: absolute(botMdPath(bot.slug)),
+      // Absolute, like `url` and `markdown`: a consumer fetching this from
+      // somewhere else can't resolve a site-relative path.
       avatar: {
-        png: `/brand/bots/${bot.slug}-256.png`,
-        svg: `/brand/bots/${bot.slug}.svg`,
+        png: absolute(`/brand/bots/${bot.slug}-256.png`),
+        svg: absolute(`/brand/bots/${bot.slug}.svg`),
       },
       look: bot.look,
-      exampleFlow: bot.exampleFlow,
+      exampleFlow: {
+        ...flow,
+        // The spec calls it hardLimit; `limit` is the internal field name.
+        hardLimit: limit,
+      },
     })),
   };
 

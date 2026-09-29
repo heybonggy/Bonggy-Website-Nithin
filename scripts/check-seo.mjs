@@ -366,11 +366,20 @@ async function checkBotsJson() {
     for (const key of ["id", "name", "team", "role", "job", "description", "url", "markdown"]) {
       check(typeof bot[key] === "string" && bot[key].length > 0, at, `missing ${key}`);
     }
-    check(Boolean(bot.avatar?.png && bot.avatar?.svg), at, "missing avatar paths");
+    for (const key of ["png", "svg"]) {
+      const url = bot.avatar?.[key];
+      check(typeof url === "string", at, `missing avatar.${key}`);
+      check(
+        typeof url === "string" && url.startsWith(SITE_URL),
+        at,
+        `avatar.${key} is not absolute: ${url}`,
+      );
+    }
     check(Boolean(bot.look?.color), at, "missing look");
-    for (const part of ["trigger", "context", "steps", "approval", "output", "goal", "limit"]) {
+    for (const part of ["trigger", "context", "steps", "approval", "output", "goal", "hardLimit"]) {
       check(bot.exampleFlow?.[part] !== undefined, at, `exampleFlow is missing ${part}`);
     }
+    check(bot.exampleFlow?.limit === undefined, at, "exampleFlow still has the old `limit` key");
   }
 
   scanCopy(where, body);
