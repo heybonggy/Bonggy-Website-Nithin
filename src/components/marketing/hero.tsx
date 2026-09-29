@@ -12,7 +12,7 @@ function Words({ text, offset = 0 }: { text: string; offset?: number }) {
       {text.split(" ").map((w, i) => (
         <span
           key={i}
-          className="inline-block animate-word-in max-sm:animate-none max-sm:opacity-100"
+          className="inline-block animate-word-in max-sm:inline max-sm:animate-none max-sm:opacity-100"
           style={{ animationDelay: `${100 + 55 * (offset + i)}ms` }}
         >
           {w}
@@ -50,11 +50,14 @@ export function Hero() {
         </a>
 
         <h1 className="mt-4 max-w-[20ch] text-balance text-[2.125rem] font-medium leading-[1.08] tracking-[-0.02em] text-foreground [perspective:1200px] sm:mt-5 sm:text-display-xl lg:max-w-none">
-          {/* The headline is in the DOM once. On phones the words don't
-              animate: `max-sm:animate-none max-sm:opacity-100` paints them
-              opaque on the first frame, so the H1 is still the LCP element.
-              Rendering a second, duplicate copy for that did it at the cost of
-              telling every crawler the page says its headline twice. */}
+          {/* The headline is in the DOM once. Below sm the word spans are
+              plain inline and don't animate, so the browser sees one run of
+              text and the <h1> itself is the LCP candidate. As
+              `inline-block` each word was its own small candidate, and
+              Lighthouse picked the banner instead — LCP went from ~3.0s to
+              ~3.8s without the page drawing any differently.
+              Rendering a second, duplicate copy for this did it at the cost
+              of telling every crawler the page says its headline twice. */}
           <Words text={HERO_TITLE} />
           {/* Two lines at lg: the muted clause starts its own line. */}
           <br aria-hidden className="hidden lg:block" />
