@@ -5,13 +5,7 @@ import { SubPageShell } from "@/components/marketing/sub-page-shell";
 import { EmailLink } from "@/components/marketing/email-link";
 import { COMPLIANCE_LINE, SECURITY_LINE } from "@/content/site";
 
-export const metadata: Metadata = pageMetadata({
-  path: "/security",
-  title: "Security",
-  description:
-    "How Bonggy handles your data: bots only use the permissions you connect, nothing customer-facing goes out without a person approving it, every run leaves a receipt, and no training on your data.",
-  robots: { index: true, follow: true },
-});
+export const metadata: Metadata = pageMetadata({ slug: "security" });
 
 // TODO(security): none of these claims can be verified from this repo (it's
 // the marketing site only). Confirm each with engineering before launch, and

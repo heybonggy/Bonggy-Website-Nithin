@@ -5,11 +5,7 @@ import { NewsHere } from "@/components/news-banner";
 
 const SUBTITLE = "Why we built Bonggy, and the few things we will not do.";
 
-export const metadata: Metadata = pageMetadata({
-  path: "/resources/a-note-from-us",
-  title: "A note from us",
-  description: SUBTITLE,
-});
+export const metadata: Metadata = pageMetadata({ slug: "note" });
 
 /** The note, verbatim. One string per paragraph. */
 const PARAGRAPHS = [

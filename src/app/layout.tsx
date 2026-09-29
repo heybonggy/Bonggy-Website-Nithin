@@ -1,13 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import {
-  SITE_URL,
-  HOME_TITLE,
-  SITE_DESCRIPTION,
-  SITE_DESCRIPTION_SHORT,
-  LOGO_URL,
-} from "@/lib/metadata";
+import { SITE_URL, HOME_TITLE, SITE_DESCRIPTION } from "@/lib/metadata";
 import { INTRO_INIT_SCRIPT, THEME_INIT_SCRIPT } from "@/components/marketing/theme-script";
 import { ScrollMotionFallback } from "@/components/marketing/scroll-motion-fallback";
 import { MotionGate } from "@/components/marketing/motion-gate";
@@ -33,17 +27,6 @@ export const metadata: Metadata = {
     template: "%s · Bonggy",
   },
   description: SITE_DESCRIPTION,
-  keywords: [
-    "agent workspace for GTM teams",
-    "sales bots",
-    "RevOps bots",
-    "marketing bots",
-    "GTM workflows",
-    "account research",
-    "human-in-the-loop AI",
-    "revenue alignment",
-    "RevOps",
-  ],
   authors: [{ name: "Bonggy" }],
   creator: "Bonggy",
   publisher: "Bonggy",
@@ -54,13 +37,13 @@ export const metadata: Metadata = {
     locale: "en_US",
     siteName: "Bonggy",
     title: HOME_TITLE,
-    description: SITE_DESCRIPTION_SHORT,
+    description: SITE_DESCRIPTION,
   },
   twitter: {
+    // No `creator`: no X handle is confirmed yet (src/content/site.ts).
     card: "summary_large_image",
     title: HOME_TITLE,
-    description: SITE_DESCRIPTION_SHORT,
-    creator: "@bonggy",
+    description: SITE_DESCRIPTION,
   },
   robots: {
     index: true,
@@ -110,30 +93,6 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: INTRO_INIT_SCRIPT }} />
         {/* Hide a dismissed announcement before first paint (no layout shift). */}
         <script dangerouslySetInnerHTML={{ __html: NEWS_INIT_SCRIPT }} />
-        {/* Organization structured data , readable for AI agents + search */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "SoftwareApplication",
-              name: "Bonggy",
-              applicationCategory: "BusinessApplication",
-              operatingSystem: "Web",
-              description: SITE_DESCRIPTION,
-              url: SITE_URL,
-              // No `offers` until pricing is public (it previously claimed a
-              // free, in-stock product).
-              image: LOGO_URL,
-              creator: {
-                "@type": "Organization",
-                name: "Bonggy",
-                url: SITE_URL,
-                logo: LOGO_URL,
-              },
-            }),
-          }}
-        />
       </head>
       <body className="bg-background text-foreground">
         <a

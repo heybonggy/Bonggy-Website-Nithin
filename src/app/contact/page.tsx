@@ -4,12 +4,7 @@ import { pageMetadata } from "@/lib/metadata";
 import { SubPageCta, SubPageShell } from "@/components/marketing/sub-page-shell";
 import { CtaButton, CAL_LINK } from "@/components/marketing/cta-button";
 
-export const metadata: Metadata = pageMetadata({
-  path: "/contact",
-  title: "Contact",
-  description:
-    "Get in touch with the Bonggy team. A strategy call is the fastest way to map your first flow, and we read every email.",
-});
+export const metadata: Metadata = pageMetadata({ slug: "contact" });
 
 const card =
   "group/card flex flex-col gap-5 rounded-3xl bg-surface p-6 transition-colors duration-[var(--dur-fast)] hover:bg-surface-2 sm:p-7";

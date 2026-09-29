@@ -6,13 +6,7 @@ import { EmailLink } from "@/components/marketing/email-link";
 // TODO(legal review): draft wording, not yet reviewed by counsel. Claims on
 // AI training, approvals, read-only access and deletion must match /privacy,
 // /terms, /security and the FAQ word for word. See docs/legal-drafts.md.
-export const metadata: Metadata = pageMetadata({
-  path: "/terms",
-  title: "Terms of Service",
-  description:
-    "Bonggy terms of service. What you get, how you can use it, who owns the data, and what we're not liable for.",
-  robots: { index: true, follow: true },
-});
+export const metadata: Metadata = pageMetadata({ slug: "terms" });
 
 const SECTIONS: { h: string; body: React.ReactNode }[] = [
   {

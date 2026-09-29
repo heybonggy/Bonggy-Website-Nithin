@@ -6,13 +6,7 @@ import { EmailLink } from "@/components/marketing/email-link";
 // TODO(legal review): draft wording, not yet reviewed by counsel. Claims on
 // AI training, approvals, read-only access and deletion must match /privacy,
 // /terms, /security and the FAQ word for word. See docs/legal-drafts.md.
-export const metadata: Metadata = pageMetadata({
-  path: "/privacy",
-  title: "Privacy Policy",
-  description:
-    "Bonggy privacy policy. We collect only what we need, we don't sell your data, and there's no training on your data. Bots are built to be read-only by default, and you can ask us to delete your data at any time.",
-  robots: { index: true, follow: true },
-});
+export const metadata: Metadata = pageMetadata({ slug: "privacy" });
 
 const SECTIONS: { h: string; body: React.ReactNode }[] = [
   {

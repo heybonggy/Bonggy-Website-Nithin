@@ -3,12 +3,7 @@ import { pageMetadata } from "@/lib/metadata";
 import { SubPageCta, SubPageSection, SubPageShell } from "@/components/marketing/sub-page-shell";
 import { CtaButton } from "@/components/marketing/cta-button";
 
-export const metadata: Metadata = pageMetadata({
-  path: "/about",
-  title: "About",
-  description:
-    "We're building Bonggy, the agent workspace for sales, RevOps and marketing teams. Teams build bots from a sentence, every flow maps to a revenue goal, and people approve what customers see.",
-});
+export const metadata: Metadata = pageMetadata({ slug: "about" });
 
 const PRINCIPLES = [
   {

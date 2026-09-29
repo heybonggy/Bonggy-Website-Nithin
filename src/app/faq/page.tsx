@@ -6,12 +6,7 @@ import { EmailLink } from "@/components/marketing/email-link";
 import { FaqJsonLd, FaqList, type FaqItem } from "@/components/marketing/faq-list";
 import { HOME_FAQ } from "@/components/marketing/home-faq";
 
-export const metadata: Metadata = pageMetadata({
-  path: "/faq",
-  title: "FAQ",
-  description:
-    "Common questions about Bonggy, the agent workspace for sales, RevOps and marketing teams: bots, flows, hard limits, approvals, groups, data handling and pricing.",
-});
+export const metadata: Metadata = pageMetadata({ slug: "faq" });
 
 // The ten homepage answers are reused word for word so the two stay
 // consistent, with the longer questions after them.

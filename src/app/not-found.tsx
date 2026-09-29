@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 import { SubPageShell } from "@/components/marketing/sub-page-shell";
 import { CtaButton } from "@/components/marketing/cta-button";
+import { pageMetadata } from "@/lib/metadata";
 
+// A 404 has no canonical of its own, so pageMetadata leaves one out; the
+// noindex is this page's only override.
 export const metadata: Metadata = {
-  title: "Page not found",
+  ...pageMetadata({ slug: "not-found" }),
   robots: { index: false, follow: true },
 };
 

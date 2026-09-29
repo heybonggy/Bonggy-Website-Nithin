@@ -3,12 +3,7 @@ import { pageMetadata } from "@/lib/metadata";
 import { SubPageSection, SubPageShell } from "@/components/marketing/sub-page-shell";
 import { CareersForm } from "@/components/marketing/careers-form";
 
-export const metadata: Metadata = pageMetadata({
-  path: "/careers",
-  title: "Careers",
-  description:
-    "We're hiring people who want to fix GTM for real by building the agent workspace for sales, RevOps and marketing teams. Engineering, design and GTM roles open in waves as the team grows.",
-});
+export const metadata: Metadata = pageMetadata({ slug: "careers" });
 
 const PRINCIPLES = [
   {

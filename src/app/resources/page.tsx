@@ -3,12 +3,7 @@ import { pageMetadata } from "@/lib/metadata";
 import { SubPageShell } from "@/components/marketing/sub-page-shell";
 import { BlogPostCard } from "@/components/ui/blog-post-card";
 
-export const metadata: Metadata = pageMetadata({
-  path: "/resources",
-  title: "Resources",
-  description:
-    "Long-form thinking from the Bonggy team on GTM bots, the work before the conversation, and keeping people in charge of what customers see.",
-});
+export const metadata: Metadata = pageMetadata({ slug: "resources" });
 
 type Post = {
   slug: string;
