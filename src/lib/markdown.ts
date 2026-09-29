@@ -332,6 +332,15 @@ function brand() {
     BOILERPLATE[50],
     h3("100 words"),
     BOILERPLATE[100],
+    h2("Colour"),
+    "Ink #0a0a0a · Paper #ffffff · Graphite #1b1b1b (dark mode's page).",
+    "",
+    "The grey steps between them:",
+    ...BRAND_GREYS.map((g) => bullet(`${g.name} ${g.value}`)),
+    "",
+    "Bots only. Colour belongs to the bots.",
+    h2("Type"),
+    "Geist for everything. Geist Mono for receipts.",
     h2("Logo"),
     bullet(`Mark: ${absolute("/brand/logo/bonggy-mark-black.svg")}`),
     bullet(`Lockup: ${absolute("/brand/logo/bonggy-lockup-black.svg")}`),
@@ -347,6 +356,26 @@ function brand() {
     bullet(`LinkedIn: ${LINKEDIN_URL}`),
   );
 }
+
+/**
+ * The grey steps, mirroring /brand. Kept beside the boilerplate so the press
+ * kit and its markdown twin list the same palette.
+ */
+export const BRAND_GREYS = [
+  { name: "Gray 25", value: "#fafafa" },
+  { name: "Gray 50", value: "#f5f5f5" },
+  { name: "Gray 100", value: "#efefef" },
+  { name: "Gray 150", value: "#e8e8e8" },
+  { name: "Gray 200", value: "#e0e0e0" },
+  { name: "Gray 300", value: "#c7c7c7" },
+  { name: "Gray 400", value: "#a3a3a3" },
+  { name: "Gray 500", value: "#8f8f8f" },
+  { name: "Gray 600", value: "#6b6b6b" },
+  { name: "Gray 700", value: "#525252" },
+  { name: "Gray 800", value: "#2e2e2e" },
+  { name: "Gray 850", value: "#1f1f1f" },
+  { name: "Gray 900", value: "#171717" },
+];
 
 /** The three approved descriptions of Bonggy, at three lengths. */
 export const BOILERPLATE: Record<25 | 50 | 100, string> = {

@@ -3,12 +3,17 @@ import { SubPageShell } from "@/components/marketing/sub-page-shell";
 import { CtaButton } from "@/components/marketing/cta-button";
 import { pageMetadata } from "@/lib/metadata";
 
-// A 404 has no canonical of its own, so pageMetadata leaves one out; the
-// noindex is this page's only override.
-export const metadata: Metadata = {
-  ...pageMetadata({ slug: "not-found" }),
-  robots: { index: false, follow: true },
-};
+/**
+ * A 404 has no canonical of its own, so pageMetadata leaves one out.
+ *
+ * `robots: null` drops the tag this page would otherwise inherit from the
+ * layout. Next emits its own <meta name="robots" content="noindex"> for
+ * not-found and that one can't be turned off, so anything here is a second,
+ * contradicting tag: the layout's default rendered "index, follow" next to
+ * Next's "noindex". One tag, saying noindex, is the whole intent — a robots
+ * value with no "nofollow" already means follow.
+ */
+export const metadata: Metadata = { ...pageMetadata({ slug: "not-found" }), robots: null };
 
 export default function NotFound() {
   return (

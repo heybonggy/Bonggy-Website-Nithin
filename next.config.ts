@@ -29,15 +29,19 @@ const nextConfig: NextConfig = {
   },
 
   async headers() {
+    /**
+     * `Link: rel="describedby"` points the reader of a *page* at the
+     * machine-readable summary. On the summary itself, on the sitemap, on an
+     * image or on the IndexNow key file it is noise, and on a markdown twin it
+     * replaces that twin's own canonical Link.
+     *
+     * Every non-HTML route either ends in a file extension (.txt, .json, .xml,
+     * .md, .png, .svg, .ico, .webmanifest) or sits under /og/, which is the
+     * only one without one. No page route has a dot in it.
+     */
     return [
       {
-        /**
-         * Tell anything reading a page where the machine-readable summary is.
-         *
-         * HTML routes only: a markdown twin sets its own Link header naming the
-         * page it mirrors, and a second Link here replaces it.
-         */
-        source: "/((?!.*\\.md$).*)",
+        source: "/((?!og/|.*\\.[a-zA-Z0-9]+$).*)",
         headers: [{ key: "Link", value: '</llms.txt>; rel="describedby"' }],
       },
     ];

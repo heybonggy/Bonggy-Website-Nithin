@@ -1,14 +1,11 @@
 import { MARKDOWN_PATHS, markdownFor } from "@/lib/markdown";
-import { absolute } from "@/content/site";
 
 /** Every markdown twin in one file, for a crawler that would rather fetch once. */
 export const dynamic = "force-static";
 
 export function GET() {
-  const body = MARKDOWN_PATHS.map((path) => {
-    const md = markdownFor(path);
-    return md ? `Source: ${absolute(path)}\n\n${md}` : null;
-  })
+  // Each twin already opens with its own `Source:` line, so don't add a second.
+  const body = MARKDOWN_PATHS.map((path) => markdownFor(path))
     .filter(Boolean)
     .join("\n\n---\n\n");
 

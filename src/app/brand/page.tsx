@@ -7,7 +7,7 @@ import { StaticBotAvatar } from "@/components/marketing/bot-flow-list";
 import { JsonLd } from "@/components/json-ld";
 import { graphFor } from "@/lib/jsonld";
 import { pageMetadata } from "@/lib/metadata";
-import { BOILERPLATE } from "@/lib/markdown";
+import { BOILERPLATE, BRAND_GREYS } from "@/lib/markdown";
 import { EMAIL, LINKEDIN_URL } from "@/content/site";
 import { CATALOG, botPath } from "@/content/bots";
 import { BOT_PALETTE } from "@/content/bot-palette";
@@ -29,8 +29,10 @@ const LOGO_FILES = [
 const NEUTRALS = [
   { name: "Ink", value: "#0a0a0a", note: "Headlines and the mark" },
   { name: "Paper", value: "#ffffff", note: "The page" },
-  { name: "Graphite", value: "#1b1b1b", note: "Dark mode's page" },
 ];
+
+
+const GRAPHITE = { name: "Graphite", value: "#1b1b1b", note: "Dark mode's page" };
 
 const downloadLink =
   "inline-flex min-h-11 items-center rounded-full bg-surface-2 px-4 text-ui-sm font-medium text-foreground transition-colors duration-[var(--dur-fast)] hover:bg-surface-3";
@@ -88,7 +90,7 @@ export default function BrandPage() {
 
           <SubPageSection title="Colour">
             <ul className="flex flex-wrap gap-3">
-              {NEUTRALS.map((c) => (
+              {[...NEUTRALS, GRAPHITE].map((c) => (
                 <li key={c.name} className="flex items-center gap-2.5">
                   <span
                     className="size-8 shrink-0 rounded-full hairline"
@@ -98,6 +100,23 @@ export default function BrandPage() {
                   <span className="text-ui-sm">
                     <span className="font-medium text-foreground">{c.name}</span>{" "}
                     <span className="tabular text-fg-3">{c.value}</span>
+                  </span>
+                </li>
+              ))}
+            </ul>
+
+            <p className="text-ui-sm text-fg-3">The grey steps between them.</p>
+            <ul className="flex flex-wrap gap-2">
+              {BRAND_GREYS.map((c) => (
+                <li key={c.name} className="flex flex-col gap-1">
+                  <span
+                    className="size-12 rounded-lg hairline"
+                    style={{ background: c.value }}
+                    aria-hidden
+                  />
+                  <span className="text-caption text-fg-3">
+                    <span className="block font-medium text-foreground">{c.name}</span>
+                    <span className="tabular">{c.value}</span>
                   </span>
                 </li>
               ))}
