@@ -129,21 +129,29 @@ export default function BrandPage() {
               {CATALOG.map((bot) => (
                 <li key={bot.slug} className="flex items-center gap-3">
                   <StaticBotAvatar bot={bot} size={44} />
-                  <span className="min-w-0">
+                  <span className="flex min-w-0 flex-1 flex-wrap items-center gap-x-3">
                     <Link
                       href={botPath(bot.slug)}
-                      className="text-ui font-medium text-foreground underline-offset-4 hover:underline"
+                      className="inline-flex min-h-11 items-center text-ui font-medium text-foreground underline-offset-4 hover:underline"
                     >
                       {bot.name}
                     </Link>
-                    <span className="mt-0.5 flex gap-2 text-caption text-fg-3">
-                      <a href={`/brand/bots/${bot.slug}.svg`} download className="hover:text-foreground">
+                    {/* 44px targets: a download link the size of the word
+                        "SVG" is a miss on a phone. */}
+                    <span className="flex items-center gap-1">
+                      <a
+                        href={`/brand/bots/${bot.slug}.svg`}
+                        download
+                        aria-label={`Download ${bot.name} as SVG`}
+                        className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full px-2 text-caption text-fg-3 hover:text-foreground"
+                      >
                         SVG
                       </a>
                       <a
                         href={`/brand/bots/${bot.slug}-1024.png`}
                         download
-                        className="hover:text-foreground"
+                        aria-label={`Download ${bot.name} as PNG`}
+                        className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full px-2 text-caption text-fg-3 hover:text-foreground"
                       >
                         PNG
                       </a>
