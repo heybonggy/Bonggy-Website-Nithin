@@ -1,6 +1,7 @@
 import { Section, SectionHeader } from "./section";
 import { CtaButton } from "./cta-button";
 import { IncludedList } from "./included-list";
+import { PRICING_LINE } from "@/content/site";
 
 // TODO(pricing): no plans or numbers yet. Replace with real tiers once set
 // with our first teams. Keep JSON-LD free of offers/prices until then.
@@ -21,7 +22,7 @@ export function PricingTeaser() {
           <SectionHeader
             title={<span id="pricing-title">Pay for the bots you run.</span>}
             muted="Plus what they use."
-            intro="Pricing is based on active bots plus usage. Flow runs count toward usage. We're setting plans with our first teams, so there are no public numbers yet."
+            intro={PRICING_LINE}
           />
           <div className="mt-8 flex flex-wrap gap-3">
             <CtaButton size="lg" variant="primary">

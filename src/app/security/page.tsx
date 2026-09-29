@@ -3,6 +3,7 @@ import { ClipboardText, HandPalm, Lock, ShieldCheck } from "@phosphor-icons/reac
 import { pageMetadata } from "@/lib/metadata";
 import { SubPageShell } from "@/components/marketing/sub-page-shell";
 import { EmailLink } from "@/components/marketing/email-link";
+import { COMPLIANCE_LINE, SECURITY_LINE } from "@/content/site";
 
 export const metadata: Metadata = pageMetadata({
   path: "/security",
@@ -36,7 +37,7 @@ const COMMITMENTS = [
     // TODO(security): confirm with engineering/legal before stating specifics.
     Icon: Lock,
     title: "Built to protect your data",
-    body: "Bonggy is built for encryption in transit and at rest, and there's no training on your data: we don't use it to train AI models. You can ask us to delete your data at any time.",
+    body: `${SECURITY_LINE} We don't use it to train AI models, and you can ask us to delete your data at any time.`,
   },
 ];
 
@@ -63,7 +64,7 @@ export default function SecurityPage() {
         <h2 className="text-ui font-semibold text-foreground">Compliance</h2>
         {/* TODO(security): update once SOC 2 Type II is attained; keep "not attained" until then. */}
         <p className="mt-2 max-w-copy text-body text-fg-2">
-          SOC 2 Type II: on the path, not attained. If your procurement needs documentation ahead of a pilot, email{" "}
+          {COMPLIANCE_LINE} If your procurement needs documentation ahead of a pilot, email{" "}
           <EmailLink />{" "}
           and we&apos;ll share where we are.
         </p>
