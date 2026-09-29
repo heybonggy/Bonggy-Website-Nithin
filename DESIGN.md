@@ -276,6 +276,22 @@ Team ownership in mocks: Dossier, Unstick, Draftsmith, Boomerang (sales); Compas
 
 ## 12. Copy rules
 
+### Canonical strings
+
+These three live in [`src/content/site.ts`](src/content/site.ts). Quote them; don't paraphrase them.
+
+- **Category** (what Bonggy is): "Bonggy is the agent workspace for sales, RevOps and marketing teams."
+- **Explainer** (how it works): "Teams build bots from a sentence; each bot runs a six-part flow tied to a revenue goal, and a person approves anything customers see."
+- **Tagline**: "Bots draft. People approve."
+
+### Casing
+
+- **Bonggy**, capital B, one word. Lowercase only in URLs and handles.
+- **"sales, RevOps and marketing"**, in that order, every time. RevOps has a capital O; sales and marketing are lowercase mid-sentence.
+- **Flow part names are capitalised** when named as parts: Trigger, Context, Steps, Approval, Output, Goal. Lowercase when used as ordinary words ("the trigger fires daily").
+- The press kit at [`/brand`](src/app/brand/page.tsx) carries the boilerplate at 25, 50 and 100 words. Use those rather than writing a new description.
+
+
 - The bright lines, word for word: **Approval by action.** Anything customer-facing (emails, posts, sequencer pushes, published content) needs a person. Internal output (a brief in chat, a Slack summary) can run without approval if your team chooses. **No volume blasting.** Marketing bots draft and research; they don't mass-send. Campaign sends stay in your own tools, after approval. **No leaderboards.** Work is measured against revenue, never person against person. **Humans stay in charge.** Bots work only through the tools and permissions you connect.
 - Pricing, word for word: "Pricing is based on active bots plus usage. Flow runs count toward usage. We're setting plans with our first teams, so there are no public numbers yet." No prices in structured data.
 - Security until engineering confirms: "Built for read-scoped permissions, encryption in transit and at rest, and no training on your data" and "SOC 2 Type II: on the path, not attained". Don't name protocols or ciphers.
