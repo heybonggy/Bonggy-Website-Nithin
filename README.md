@@ -33,6 +33,46 @@ must be running; `CHROME_PATH` is optional):
 URL=http://localhost:3000 node scripts/screenshot.mjs
 ```
 
+### Brand assets
+
+Every icon, the press-kit logo files and the bot avatars are generated from the
+geometry the components draw (`src/lib/logo-geometry.ts`, `src/lib/bot-geometry.ts`).
+Nothing in `public/` is drawn by hand. Change the mark or a bot look, then:
+
+```bash
+npm run brand        # rewrites public/ and src/content/bot-palette.ts
+```
+
+### SEO checks
+
+Runs against a built site and exits non-zero on any failure: titles and
+descriptions within length and matching `src/content`, one `<h1>` per page and
+no repeats, absolute canonicals, OG images that are real 1200×630 PNGs, JSON-LD
+that parses with the expected types, markdown twins that resolve, the icon
+sizes, the robots tokens, and a scan for words the site doesn't use.
+
+```bash
+npm run build && npm start &
+npm run check:seo                      # defaults to http://localhost:3000
+BASE=https://www.bonggy.com npm run check:seo
+```
+
+Put any names that must never be committed in `.denylist` (one per line,
+gitignored); the scan picks them up without them ever entering the repo.
+
+### IndexNow
+
+Tells Bing and the other IndexNow participants that URLs changed. The key is a
+secret: it is never generated or committed here.
+
+```bash
+INDEXNOW_KEY=<key> npm run indexnow
+```
+
+Run it once with no key and it prints the setup steps. In short: generate a
+hex key, serve it at `public/<key>.txt`, and keep the value in Vercel's
+environment variables.
+
 ## Routes
 
 | Route | What's there |
@@ -45,8 +85,21 @@ URL=http://localhost:3000 node scripts/screenshot.mjs
 | `/security` | Bright lines and data handling (softened, pending engineering) |
 | `/resources`, `/resources/a-note-from-us` | Notes index and the team's essay |
 | `/privacy`, `/terms` | Legal pages (drafts for review in `docs/legal-drafts.md`) |
+| `/bots`, `/bots/<slug>` | All eleven bots by team, and a page each |
+| `/brand` | Press kit: logo, colours, bot avatars, boilerplate |
 
-`/fix` permanently redirects (308) to `/` (see `next.config.ts`).
+Machine-readable:
+
+| Route | What's there |
+|---|---|
+| `/llms.txt` | What Bonggy is, the key facts, and links to every markdown twin |
+| `/llms-full.txt` | Every twin in one file |
+| `<path>.md` | The markdown twin of any page (`/faq.md`, `/index.md`, `/bots/unstick.md`) |
+| `/bots.json` | The bot catalog as data (CORS-open) |
+| `/og/<slug>` | The OG image for a page or a bot |
+
+Redirects (308): `/fix` → `/`, `/pricing` → `/#pricing`, `/use-cases` →
+`/#teams` (see `next.config.ts`).
 
 ## Forms
 

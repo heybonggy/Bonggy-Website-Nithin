@@ -169,8 +169,8 @@ export default function BrandPage() {
           <SubPageSection title="Voice">
             <p>
               Sentence case, one idea per sentence, no exclamation marks. Bots speak lowercase and
-              end with what didn&apos;t happen (&ldquo;nothing sent.&rdquo;). Say &ldquo;Flows teams
-              have built&rdquo;, never &ldquo;templates&rdquo;.
+              end with what didn&apos;t happen (&ldquo;nothing sent.&rdquo;). Presets are always
+              &ldquo;Flows teams have built&rdquo;.
             </p>
           </SubPageSection>
 
