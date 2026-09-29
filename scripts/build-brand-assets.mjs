@@ -28,6 +28,7 @@ import {
   RING,
   logoSvgDocument,
   logoSvgInner,
+  logoSvgInnerTransparent,
   paperTileSvg,
 } from "../src/lib/logo-geometry.ts";
 import { botSvg } from "../src/lib/bot-geometry.ts";
@@ -193,7 +194,8 @@ async function lockupSvg(ink) {
     `width="${width.toFixed(2)}" height="${MARK}" role="img" aria-label="Bonggy">` +
     `<g transform="scale(${markScale})">` +
     // The mark is drawn at the lockup's small size, so it uses the heavier ring.
-    logoSvgInner({ ink, page: "none", ring: RING.ui }) +
+    // Transparent, with its own mask id so two lockups can share a page.
+    logoSvgInnerTransparent({ ink, ring: RING.ui, id: `lockup-${ink.replace("#", "")}` }) +
     `</g>` +
     `<path transform="translate(0 ${baseline.toFixed(2)})" d="${path.toPathData(2)}" fill="${ink}"/>` +
     `</svg>`
@@ -242,7 +244,7 @@ async function main() {
 
   /* The mark on its own, transparent, at the artwork's original ring. */
   for (const [name, ink] of [["black", INK], ["white", SNOW]]) {
-    const svg = logoSvgDocument({ ink, page: "none", ring: RING.art });
+    const svg = logoSvgDocument({ ink, ring: RING.art, id: `mark-${name}` });
     await write(`brand/logo/bonggy-mark-${name}.svg`, svgBuffer(svg));
     for (const size of [512, 1024]) {
       await write(

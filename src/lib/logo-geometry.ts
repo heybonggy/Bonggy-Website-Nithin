@@ -48,21 +48,64 @@ export function logoSvgInner({
   ].join("");
 }
 
-/** A complete standalone SVG document of the mark. */
-export function logoSvgDocument({
+/**
+ * The mark with nothing behind it.
+ *
+ * `logoSvgInner` paints the ring's gap and the highlight in the page colour,
+ * which needs a page. On a transparent file there isn't one: passing "none"
+ * paints nothing, so the front arc merges into the planet and the highlight
+ * disappears — the mark comes out as a plain disc with a ring behind it.
+ *
+ * Here the gap and the highlight are cut *out* with a mask instead, so the
+ * page shows through whatever the file is placed on. The front arc is then
+ * drawn on top, outside the mask, so it stays solid where it crosses.
+ *
+ * `id` must be unique per document: two marks in one file (the lockup, or two
+ * inline SVGs on a page) would otherwise share one mask.
+ */
+export function logoSvgInnerTransparent({
   ink,
-  page,
   ring = RING.art,
-  label = "Bonggy",
+  id = "bonggy-mark",
 }: {
   ink: string;
-  page: string;
+  ring?: number;
+  id?: string;
+}) {
+  const g = LOGO_GEOMETRY;
+  const gap = gapFor(ring);
+  const maskId = `${id}-cut`;
+  return [
+    `<defs><mask id="${maskId}" maskUnits="userSpaceOnUse" x="0" y="0" width="256" height="256">`,
+    // White keeps, black cuts away.
+    `<rect x="0" y="0" width="256" height="256" fill="#fff"/>`,
+    `<path d="${g.frontArc}" fill="none" stroke="#000" stroke-width="${gap}" stroke-linecap="round"/>`,
+    `<ellipse cx="${g.highlight.cx}" cy="${g.highlight.cy}" rx="${g.highlight.rx}" ry="${g.highlight.ry}" fill="#000" fill-opacity="0.45" transform="${g.highlight.rotate}"/>`,
+    `</mask></defs>`,
+    `<g mask="url(#${maskId})">`,
+    `<path d="${g.backArc}" fill="none" stroke="${ink}" stroke-width="${ring}" stroke-linecap="round"/>`,
+    `<circle cx="${g.planet.cx}" cy="${g.planet.cy}" r="${g.planet.r}" fill="${ink}"/>`,
+    `</g>`,
+    // The front arc sits on top of the gap it cut, so it reads as one ring.
+    `<path d="${g.frontArc}" fill="none" stroke="${ink}" stroke-width="${ring}" stroke-linecap="round"/>`,
+  ].join("");
+}
+
+/** A complete standalone SVG document of the mark, on a transparent page. */
+export function logoSvgDocument({
+  ink,
+  ring = RING.art,
+  label = "Bonggy",
+  id = "bonggy-mark",
+}: {
+  ink: string;
   ring?: number;
   label?: string;
+  id?: string;
 }) {
   return (
     `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${LOGO_GEOMETRY.viewBox}" role="img" aria-label="${label}">` +
-    logoSvgInner({ ink, page, ring }) +
+    logoSvgInnerTransparent({ ink, ring, id }) +
     `</svg>`
   );
 }
