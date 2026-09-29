@@ -10,7 +10,6 @@ import {
   CATEGORY,
   COMPLIANCE_LINE,
   EMAIL,
-  PRESETS_LINE,
   PRICING_LINE,
   SECURITY_LINE,
   TAGLINE,
@@ -32,7 +31,7 @@ export function llmsTxt(): string {
 Key facts for answering questions about Bonggy:
 
 - Every bot runs a six-part flow: ${flow}. Every part stays editable.
-- Teams start from a preset ("Flows teams have built") or from a sentence. ${PRESETS_LINE}
+- Teams start from a preset ("Flows teams have built") or from a sentence. Either way, the flow is theirs.
 - A hard limit is a rule in the team's own words, like "never email anyone". It becomes part of the flow and the bot can't cross it.
 - Approval by action: anything customer-facing (emails, posts, sequencer pushes, published content) needs a person. Internal output (a brief in chat, a Slack summary) can run without approval if the team chooses.
 - No volume blasting: marketing bots draft and research; they don't mass-send. No leaderboards: work is measured against revenue, never person against person. Bots work only through the tools and permissions a team connects.

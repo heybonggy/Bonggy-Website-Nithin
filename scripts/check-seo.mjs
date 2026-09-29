@@ -296,6 +296,23 @@ async function checkLlmsTxt() {
     check(target.status === 200, where, `${link} → ${target.status}`);
   }
 
+  /**
+   * No sentence twice.
+   *
+   * This file is assembled from constants, and one of them already ended with
+   * the sentence the bullet around it was also spelling out. Saying the same
+   * thing twice in a row is exactly the sort of thing a reader — or a model
+   * quoting us — notices and we don't.
+   */
+  const seen = new Map();
+  for (const sentence of body.match(/[^.!?\n]{25,}[.!?]/g) ?? []) {
+    const key = sentence.trim().toLowerCase();
+    if (seen.has(key)) {
+      check(false, where, `sentence appears twice: "${sentence.trim().slice(0, 70)}…"`);
+    }
+    seen.set(key, true);
+  }
+
   scanCopy(where, body);
 }
 
