@@ -1,30 +1,37 @@
+import { Fragment } from "react";
 import { ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
 import { CtaButton, CAL_LINK } from "./cta-button";
 import { HeroDemo } from "./hero-demo";
+import { HERO_LEDE, HERO_MUTED, HERO_TITLE } from "@/content/pages/home";
 
-const HEADLINE = "Build the bots your GTM team needs.";
-const MUTED = "Running the flows you want, pointed at revenue.";
+
 
 /** Words reveal in CSS (not Motion) so the H1 paints before hydration. */
 function Words({ text, offset = 0 }: { text: string; offset?: number }) {
   return (
     <>
       {text.split(" ").map((w, i) => (
-        <span
-          key={i}
-          className="inline-block animate-word-in"
-          style={{ animationDelay: `${100 + 55 * (offset + i)}ms` }}
-        >
-          {w}
-          {" "}
-        </span>
+        // The separator is an ordinary space, outside the span. It used to be a
+        // non-breaking space inside it, which was invisible while each span was
+        // its own inline-block box: the line broke between boxes. Once the
+        // spans went inline on phones the headline became one unbreakable run
+        // and the page scrolled sideways. A span now holds one word, nothing
+        // else, and the space between them can break like any other.
+        <Fragment key={i}>
+          <span
+            className="inline-block animate-word-in max-sm:inline max-sm:animate-none max-sm:opacity-100"
+            style={{ animationDelay: `${100 + 55 * (offset + i)}ms` }}
+          >
+            {w}
+          </span>{" "}
+        </Fragment>
       ))}
     </>
   );
 }
 
 export function Hero() {
-  const headWords = HEADLINE.split(" ").length;
+  const headWords = HERO_TITLE.split(" ").length;
   return (
     <section id="top" className="px-4 pb-16 pt-20 sm:px-6 sm:pb-24 sm:pt-28">
       <div className="mx-auto flex w-full max-w-wide flex-col items-center text-center">
@@ -50,17 +57,19 @@ export function Hero() {
         </a>
 
         <h1 className="mt-4 max-w-[20ch] text-balance text-[2.125rem] font-medium leading-[1.08] tracking-[-0.02em] text-foreground [perspective:1200px] sm:mt-5 sm:text-display-xl lg:max-w-none">
-          {/* Phones: the first line is one plain, fully opaque text run from the
-              first frame, so the H1 itself is the LCP element; the muted
-              clause still animates. From sm up, word by word. */}
-          <span className="sm:hidden">{HEADLINE} </span>
-          <span className="hidden sm:inline">
-            <Words text={HEADLINE} />
-          </span>
+          {/* The headline is in the DOM once. Below sm the word spans are
+              plain inline and don't animate, so the browser sees one run of
+              text and the <h1> itself is the LCP candidate. As
+              `inline-block` each word was its own small candidate, and
+              Lighthouse picked the banner instead — LCP went from ~3.0s to
+              ~3.8s without the page drawing any differently.
+              Rendering a second, duplicate copy for this did it at the cost
+              of telling every crawler the page says its headline twice. */}
+          <Words text={HERO_TITLE} />
           {/* Two lines at lg: the muted clause starts its own line. */}
           <br aria-hidden className="hidden lg:block" />
           <span className="text-fg-3">
-            <Words text={MUTED} offset={headWords} />
+            <Words text={HERO_MUTED} offset={headWords} />
           </span>
         </h1>
 
@@ -68,8 +77,7 @@ export function Hero() {
           className="mt-4 max-w-copy animate-rise-in text-body text-fg-2 sm:mt-5 sm:text-body-lg"
           style={{ animationDelay: "500ms" }}
         >
-          Bonggy is the agent workspace for sales, RevOps and marketing teams. Describe the work in a sentence; a bot
-          turns it into a flow tied to a revenue goal, and you approve what customers see.
+          {HERO_LEDE}
         </p>
 
         <div

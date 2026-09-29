@@ -19,6 +19,8 @@ Tokens live in [`src/app/globals.css`](src/app/globals.css) (Tailwind v4, CSS-fi
 
 Before merging, check for hue outside the `--bot-*` palette tokens and `--danger`: grep `src/` for `signal`, `emerald`, `green`, `#10b981`, raw hex with chroma and `oklch(` with non-zero chroma. Bot colour may only be reached through `--bot-*` variables (via `botColorVars`).
 
+One file is exempt: [`src/content/bot-palette.ts`](src/content/bot-palette.ts), which is **generated** from those same tokens by `npm run brand`. OG images and downloadable bot files are drawn outside the browser, where `var(--bot-disc)` means nothing, so they need the palette as literals. Don't edit it by hand, and don't add a second exemption: anything else with chroma in it is a bug.
+
 ---
 
 ## 2. Colour tokens
@@ -147,9 +149,11 @@ The Bonggy logo is the **planet mark** ([`ui/logo.tsx`](src/components/ui/logo.t
 - **Monochrome, always.** Planet and ring in `currentColor` (ink #0a0a0a in light, #edecec in dark). The highlight is the page colour at 45%, and a thin page-coloured gap separates the front arc from the planet so the ring reads in one colour. No glow and no green: colour is reserved for bots.
 - **Lockup.** The mark plus the "Bonggy" wordmark in Geist 500 (−0.02em), 10px apart. The navbar mark is 24px, the footer the same.
 - **Clear space.** At least half the mark's width on every side; nothing inside the ring's bounding box.
-- **Small sizes.** At 24px and under (the navbar and footer lockup, the favicon and icons) the ring is 12/256 instead of 4/256; the original 4/256 ring breaks into a dotted hairline that small. Larger marks keep the original artwork.
-- **Icons.** The favicon (`app/icon.svg`) and apple icon use the heavier ring so it survives at 16px. The favicon switches with `prefers-color-scheme` inside the SVG (ink on light tabs, #edecec on dark tabs). The apple icon is ink on white. Checked at 16, 32 and 180px.
-- **Where it appears.** Navbar, mobile menu, footer, favicon (`app/favicon.ico` at 16/32/48 plus `app/icon.svg`), apple icon, manifest PNGs (`public/icons/` 192, 512 and a maskable 512 with safe padding), OG image and `public/logo.svg` (the JSON-LD `logo`). All from the same geometry; regenerate them together if the mark changes.
+- **Small sizes.** The artwork's ring is 4/256 and breaks into a dotted hairline below about 32px, so smaller marks thicken it: 12/256 in the UI lockup (navbar, footer), 14/256 on icons at 48px and up, and 16/256 at 16 and 32, where a whole pixel of ring is at stake. Larger marks keep the original artwork.
+- **Icons: the paper tile.** Every raster icon is a **paper tile**: a full-bleed `#ffffff` square with the ink planet centred on it, at 84% of the tile (92% at 16 and 32). They are opaque on purpose — a transparent ink PNG disappears against a dark tab strip or launcher, which is what the old 48px favicon did. Only `icon.svg` stays adaptive, switching with `prefers-color-scheme` inside the SVG (ink on light tabs, #edecec on dark tabs), which a raster tile can't do.
+- **Where it appears.** Navbar, mobile menu, footer, and every file under `public/`: `favicon.ico` (16/32/48), `icon.svg`, `icon-96.png`, `icon-192.png`, `apple-touch-icon.png` (180), `icons/icon-512.png` and `icons/icon-512-maskable.png` (the planet inside the central 80%, so launchers can crop to any shape), `brand/logo/*` (the press-kit mark, lockup and PNGs) and the per-page OG images.
+- **They are generated, never drawn.** `npm run brand` (`scripts/build-brand-assets.mjs`) renders all of them from `src/lib/logo-geometry.ts`, the same module the components draw from, and the bot avatars from `src/lib/bot-geometry.ts`. Change the mark or a bot look, re-run it, and commit what it writes. Nothing in `public/` is hand-edited.
+- **Stable URLs.** Icons are declared in `layout.tsx` rather than found by file convention, so they keep hash-free URLs a search engine can cache. No query strings.
 - Don't recolour it, add effects, or put Bong in its place.
 
 ### 7.2 Bong, the bot character
@@ -271,6 +275,22 @@ Team ownership in mocks: Dossier, Unstick, Draftsmith, Boomerang (sales); Compas
 ---
 
 ## 12. Copy rules
+
+### Canonical strings
+
+These three live in [`src/content/site.ts`](src/content/site.ts). Quote them; don't paraphrase them.
+
+- **Category** (what Bonggy is): "Bonggy is the agent workspace for sales, RevOps and marketing teams."
+- **Explainer** (how it works): "Teams build bots from a sentence; each bot runs a six-part flow tied to a revenue goal, and a person approves anything customers see."
+- **Tagline**: "Bots draft. People approve."
+
+### Casing
+
+- **Bonggy**, capital B, one word. Lowercase only in URLs and handles.
+- **"sales, RevOps and marketing"**, in that order, every time. RevOps has a capital O; sales and marketing are lowercase mid-sentence.
+- **Flow part names are capitalised** when named as parts: Trigger, Context, Steps, Approval, Output, Goal. Lowercase when used as ordinary words ("the trigger fires daily").
+- The press kit at [`/brand`](src/app/brand/page.tsx) carries the boilerplate at 25, 50 and 100 words. Use those rather than writing a new description.
+
 
 - The bright lines, word for word: **Approval by action.** Anything customer-facing (emails, posts, sequencer pushes, published content) needs a person. Internal output (a brief in chat, a Slack summary) can run without approval if your team chooses. **No volume blasting.** Marketing bots draft and research; they don't mass-send. Campaign sends stay in your own tools, after approval. **No leaderboards.** Work is measured against revenue, never person against person. **Humans stay in charge.** Bots work only through the tools and permissions you connect.
 - Pricing, word for word: "Pricing is based on active bots plus usage. Flow runs count toward usage. We're setting plans with our first teams, so there are no public numbers yet." No prices in structured data.

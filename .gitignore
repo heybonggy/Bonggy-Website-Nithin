@@ -46,3 +46,9 @@ next-env.d.ts
 
 # build artifacts (Vite leftover)
 /dist/
+
+# Names that must never be committed; read by scripts/check-seo.mjs.
+.denylist
+
+# Local QA artifacts (contact sheets, scratch renders).
+tmp/

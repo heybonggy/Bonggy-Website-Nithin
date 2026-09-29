@@ -594,8 +594,9 @@
    removes it once, when they come into view. Compositor-only. */
 @supports not (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
-    .reveal { transition: opacity 600ms var(--ease-out-expo), transform 600ms var(--ease-out-expo); }
-    .reveal.reveal-pending { opacity: 0.4; transform: translateY(16px); }
+    /* Transform only: a pending card is shifted, never dimmed (see above). */
+    .reveal { transition: transform 600ms var(--ease-out-expo); }
+    .reveal.reveal-pending { transform: translateY(16px); }
     .reveal.reveal-now { transition: none; }
   }
 }
@@ -607,16 +608,23 @@
 
 /* Once-only entrances (useReveal): pre-states apply only while "armed"
    (hydrated and off screen), so content is never hidden for crawlers. */
-/* Entrances start at 40% opacity, never 0: a fast fling can carry an element
-   from below the fold to mid-screen within one frame, and it must be
-   readable there. Opacity is full within 220ms; the rise runs longer.
+/* The armed pre-state shifts an element down; it does NOT dim it. An armed
+   element is waiting, possibly forever — the observer may never fire, and a
+   page that is never scrolled never reveals its footer. Resting at 0.4
+   opacity made that text 2.2:1 against the page in both themes, which axe
+   reads (correctly) as unreadable.
+   The fade still happens: it runs inside the animation, from 40% to full
+   within 220ms, starting as the element crosses into view. Nobody sees the
+   difference, because an armed element is off screen by definition.
+   Never fade from 0: a fast fling can carry an element from below the fold to
+   mid-screen within one frame, and it must be readable there.
    Stagger steps are 40ms, capped at 160ms. */
 @keyframes fade-in { from { opacity: 0.4; } }
 @keyframes rise-16 { from { transform: translateY(16px); } }
 @keyframes rise-12 { from { transform: translateY(12px); } }
-[data-rise="armed"] { opacity: 0.4; transform: translateY(16px); }
+[data-rise="armed"] { transform: translateY(16px); }
 [data-rise="go"] { animation: fade-in 220ms ease-out both, rise-16 600ms var(--ease-out-expo) both; }
-[data-stagger="armed"] > *, [data-stagger-deep="armed"] > * > * { opacity: 0.4; transform: translateY(12px); }
+[data-stagger="armed"] > *, [data-stagger-deep="armed"] > * > * { transform: translateY(12px); }
 [data-stagger="go"] > *, [data-stagger-deep="go"] > * > * { animation: fade-in 220ms ease-out both, rise-12 450ms var(--ease-out-expo) both; }
 [data-stagger="go"] > :nth-child(2), [data-stagger-deep="go"] > * > :nth-child(2) { animation-delay: 40ms; }
 [data-stagger="go"] > :nth-child(3), [data-stagger-deep="go"] > * > :nth-child(3) { animation-delay: 80ms; }

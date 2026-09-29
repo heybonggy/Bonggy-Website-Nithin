@@ -1,21 +1,21 @@
 import type { Metadata } from "next";
 import { ArrowUpRight, Clock, EnvelopeSimple } from "@phosphor-icons/react/dist/ssr";
 import { pageMetadata } from "@/lib/metadata";
+import { JsonLd } from "@/components/json-ld";
+import { graphFor } from "@/lib/jsonld";
 import { SubPageCta, SubPageShell } from "@/components/marketing/sub-page-shell";
 import { CtaButton, CAL_LINK } from "@/components/marketing/cta-button";
 
-export const metadata: Metadata = pageMetadata({
-  path: "/contact",
-  title: "Contact",
-  description:
-    "Get in touch with the Bonggy team. A strategy call is the fastest way to map your first flow, and we read every email.",
-});
+export const metadata: Metadata = pageMetadata({ slug: "contact" });
 
 const card =
   "group/card flex flex-col gap-5 rounded-3xl bg-surface p-6 transition-colors duration-[var(--dur-fast)] hover:bg-surface-2 sm:p-7";
 
 export default function ContactPage() {
   return (
+    <>
+      <JsonLd graph={graphFor("contact")} />
+
     <SubPageShell
       eyebrow="Contact"
       title="We read every email."
@@ -60,5 +60,6 @@ export default function ContactPage() {
         <CtaButton size="lg">Book a strategy call</CtaButton>
       </SubPageCta>
     </SubPageShell>
+    </>
   );
 }

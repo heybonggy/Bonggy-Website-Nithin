@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
-import { pageMetadata, SITE_DESCRIPTION } from "@/lib/metadata";
+import { pageMetadata } from "@/lib/metadata";
+import { JsonLd } from "@/components/json-ld";
+import { graphFor } from "@/lib/jsonld";
 import { Navbar } from "@/components/marketing/navbar";
 import { Hero } from "@/components/marketing/hero";
 import { HowItWorks } from "@/components/marketing/how-it-works";
@@ -16,13 +18,13 @@ import { HomeFaq } from "@/components/marketing/home-faq";
 import { FinalCta } from "@/components/marketing/final-cta";
 import { Footer } from "@/components/marketing/footer";
 
-export const metadata: Metadata = pageMetadata({
-  path: "/",
-  description: SITE_DESCRIPTION,
-});
+export const metadata: Metadata = pageMetadata({ slug: "home" });
 
 export default function Home() {
   return (
+    <>
+      <JsonLd graph={graphFor("home")} />
+
     <>
       <Navbar />
       <main id="main" tabIndex={-1} className="flex flex-col outline-none">
@@ -41,6 +43,7 @@ export default function Home() {
         <FinalCta />
       </main>
       <Footer />
+    </>
     </>
   );
 }

@@ -33,6 +33,53 @@ must be running; `CHROME_PATH` is optional):
 URL=http://localhost:3000 node scripts/screenshot.mjs
 ```
 
+### Brand assets
+
+Every icon, the press-kit logo files and the bot avatars are generated from the
+geometry the components draw (`src/lib/logo-geometry.ts`, `src/lib/bot-geometry.ts`).
+Nothing in `public/` is drawn by hand. Change the mark or a bot look, then:
+
+```bash
+npm run brand        # rewrites public/ and src/content/bot-palette.ts
+```
+
+### SEO checks
+
+Runs against a built site and exits non-zero on any failure: titles and
+descriptions within length and matching `src/content`, one `<h1>` per page and
+no repeats, absolute canonicals, OG images that are real 1200×630 PNGs, JSON-LD
+that parses with the expected types, markdown twins that resolve, the icon
+sizes, the robots tokens, and a scan for words the site doesn't use.
+
+```bash
+npm run build && npm start &
+npm run check:seo                      # defaults to http://localhost:3000
+BASE=https://www.bonggy.com npm run check:seo
+```
+
+Put any names that must never be committed in `.denylist` (one per line,
+gitignored); the scan picks them up without them ever entering the repo.
+
+### IndexNow
+
+Tells Bing and the other IndexNow participants that URLs changed, so a new page
+is crawled in hours rather than whenever a bot next wanders past.
+
+```bash
+npm run indexnow
+```
+
+The key lives in `src/content/indexnow.ts` and is served from
+`public/<key>.txt`. It is **not** a secret — IndexNow requires it to be publicly
+readable at that path, which is how the endpoint proves we control the domain.
+All it grants is submitting URLs on this domain for recrawl.
+
+To rotate it: generate a new one
+(`node -e "console.log(require('crypto').randomBytes(16).toString('hex'))"`),
+write it to `public/<key>.txt`, update `INDEXNOW_KEY`, delete the old file, and
+deploy before submitting. `INDEXNOW_KEY=<key> npm run indexnow` overrides the
+committed value while rotating.
+
 ## Routes
 
 | Route | What's there |
@@ -45,8 +92,21 @@ URL=http://localhost:3000 node scripts/screenshot.mjs
 | `/security` | Bright lines and data handling (softened, pending engineering) |
 | `/resources`, `/resources/a-note-from-us` | Notes index and the team's essay |
 | `/privacy`, `/terms` | Legal pages (drafts for review in `docs/legal-drafts.md`) |
+| `/bots`, `/bots/<slug>` | All eleven bots by team, and a page each |
+| `/brand` | Press kit: logo, colours, bot avatars, boilerplate |
 
-`/fix` permanently redirects (308) to `/` (see `next.config.ts`).
+Machine-readable:
+
+| Route | What's there |
+|---|---|
+| `/llms.txt` | What Bonggy is, the key facts, and links to every markdown twin |
+| `/llms-full.txt` | Every twin in one file |
+| `<path>.md` | The markdown twin of any page (`/faq.md`, `/index.md`, `/bots/unstick.md`) |
+| `/bots.json` | The bot catalog as data (CORS-open) |
+| `/og/<slug>` | The OG image for a page or a bot |
+
+Redirects (308): `/fix` → `/`, `/pricing` → `/#pricing`, `/use-cases` →
+`/#teams` (see `next.config.ts`).
 
 ## Forms
 

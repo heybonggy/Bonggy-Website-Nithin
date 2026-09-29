@@ -27,25 +27,8 @@ import { Stagger } from "./entrances";
 import { BotAvatar } from "@/components/ui/mascot";
 import { useLoopFocus } from "./loop-focus";
 import { typingDuration } from "@/components/ui/typed-text";
+import { BRIGHT_LINES } from "@/content/site";
 
-const BRIGHT_LINES = [
-  {
-    title: "Approval by action.",
-    body: "Anything customer-facing (emails, posts, sequencer pushes, published content) needs a person. Internal output (a brief in chat, a Slack summary) can run without approval if your team chooses.",
-  },
-  {
-    title: "No volume blasting.",
-    body: "Marketing bots draft and research; they don't mass-send. Campaign sends stay in your own tools, after approval.",
-  },
-  {
-    title: "No leaderboards.",
-    body: "Work is measured against revenue, never person against person.",
-  },
-  {
-    title: "Humans stay in charge.",
-    body: "Bots work only through the tools and permissions you connect.",
-  },
-];
 
 type State = { approval: ApprovalState; cursor: CursorState };
 
@@ -151,7 +134,7 @@ export function ApprovalsSection() {
 
       <Stagger as="ul" className="mt-14 grid gap-x-10 gap-y-8 sm:grid-cols-2">
         {BRIGHT_LINES.map((l) => (
-          <li key={l.title} className="flex gap-3">
+          <li key={l.title} id={l.id} className="flex scroll-mt-28 gap-3">
             <span className="mt-0.5 inline-flex size-6 shrink-0 items-center justify-center rounded-full bg-surface-inverse text-fg-inverse">
               <Check weight="bold" className="size-3.5" aria-hidden />
             </span>

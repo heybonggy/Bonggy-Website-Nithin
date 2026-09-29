@@ -1,37 +1,24 @@
 import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/metadata";
+import { JsonLd } from "@/components/json-ld";
+import { graphFor } from "@/lib/jsonld";
 import { SubPageCta, SubPageSection, SubPageShell } from "@/components/marketing/sub-page-shell";
 import { CtaButton } from "@/components/marketing/cta-button";
+import { ABOUT_LEDE, ABOUT_PRINCIPLES, ABOUT_TITLE, ABOUT_TITLE_ACCENT } from "@/content/pages/about";
 
-export const metadata: Metadata = pageMetadata({
-  path: "/about",
-  title: "About",
-  description:
-    "We're building Bonggy, the agent workspace for sales, RevOps and marketing teams. Teams build bots from a sentence, every flow maps to a revenue goal, and people approve what customers see.",
-});
+export const metadata: Metadata = pageMetadata({ slug: "about" });
 
-const PRINCIPLES = [
-  {
-    title: "Alignment, not volume",
-    body: "We don't help your team send more. Every bot's work ties back to a revenue goal.",
-  },
-  {
-    title: "Humans approve",
-    body: "Bots research and draft. A person on your team approves anything a customer would see. The relationship stays human.",
-  },
-  {
-    title: "Shared, not weaponized",
-    body: "We measure work against revenue, never person against person. The same picture, rep to CRO. No leaderboard.",
-  },
-];
 
 export default function AboutPage() {
   return (
+    <>
+      <JsonLd graph={graphFor("about")} />
+
     <SubPageShell
       eyebrow="About"
-      title="Reps should spend their time"
-      titleAccent="in the conversation."
-      lede="Sales, RevOps and marketing teams do enormous work before every conversation: mapping the market, researching the account, cleaning the pipeline, writing the brief. Most of it is manual, and almost none of it connects to the number. We built Bonggy so teams can build bots for that work, keep people on every decision, and tie it all back to revenue."
+      title={ABOUT_TITLE}
+      titleAccent={ABOUT_TITLE_ACCENT}
+      lede={ABOUT_LEDE}
       narrow
     >
       <div className="flex flex-col gap-16">
@@ -61,7 +48,7 @@ export default function AboutPage() {
         </SubPageSection>
 
         <ul className="grid gap-3 sm:grid-cols-3">
-          {PRINCIPLES.map((p) => (
+          {ABOUT_PRINCIPLES.map((p) => (
             <li key={p.title} className="rounded-2xl bg-surface p-5">
               <h3 className="text-ui font-semibold text-foreground">{p.title}</h3>
               <p className="mt-2 text-ui-sm text-fg-2">{p.body}</p>
@@ -74,5 +61,6 @@ export default function AboutPage() {
         <CtaButton size="lg">Book a strategy call</CtaButton>
       </SubPageCta>
     </SubPageShell>
+    </>
   );
 }
