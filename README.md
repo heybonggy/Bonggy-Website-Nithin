@@ -62,16 +62,23 @@ gitignored); the scan picks them up without them ever entering the repo.
 
 ### IndexNow
 
-Tells Bing and the other IndexNow participants that URLs changed. The key is a
-secret: it is never generated or committed here.
+Tells Bing and the other IndexNow participants that URLs changed, so a new page
+is crawled in hours rather than whenever a bot next wanders past.
 
 ```bash
-INDEXNOW_KEY=<key> npm run indexnow
+npm run indexnow
 ```
 
-Run it once with no key and it prints the setup steps. In short: generate a
-hex key, serve it at `public/<key>.txt`, and keep the value in Vercel's
-environment variables.
+The key lives in `src/content/indexnow.ts` and is served from
+`public/<key>.txt`. It is **not** a secret — IndexNow requires it to be publicly
+readable at that path, which is how the endpoint proves we control the domain.
+All it grants is submitting URLs on this domain for recrawl.
+
+To rotate it: generate a new one
+(`node -e "console.log(require('crypto').randomBytes(16).toString('hex'))"`),
+write it to `public/<key>.txt`, update `INDEXNOW_KEY`, delete the old file, and
+deploy before submitting. `INDEXNOW_KEY=<key> npm run indexnow` overrides the
+committed value while rotating.
 
 ## Routes
 
