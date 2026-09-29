@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/metadata";
+import { JsonLd } from "@/components/json-ld";
+import { graphFor } from "@/lib/jsonld";
 import { SubPageCta, SubPageSection, SubPageShell } from "@/components/marketing/sub-page-shell";
 import { CtaButton } from "@/components/marketing/cta-button";
 
@@ -22,6 +24,9 @@ const PRINCIPLES = [
 
 export default function AboutPage() {
   return (
+    <>
+      <JsonLd graph={graphFor("about")} />
+
     <SubPageShell
       eyebrow="About"
       title="Reps should spend their time"
@@ -69,5 +74,6 @@ export default function AboutPage() {
         <CtaButton size="lg">Book a strategy call</CtaButton>
       </SubPageCta>
     </SubPageShell>
+    </>
   );
 }

@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/metadata";
+import { JsonLd } from "@/components/json-ld";
+import { graphFor } from "@/lib/jsonld";
 import { SubPageSection, SubPageShell } from "@/components/marketing/sub-page-shell";
 import { CareersForm } from "@/components/marketing/careers-form";
 
@@ -22,6 +24,9 @@ const PRINCIPLES = [
 
 export default function CareersPage() {
   return (
+    <>
+      <JsonLd graph={graphFor("careers")} />
+
     <SubPageShell
       eyebrow="Careers"
       title="Fix GTM."
@@ -55,5 +60,6 @@ export default function CareersPage() {
         <CareersForm />
       </div>
     </SubPageShell>
+    </>
   );
 }

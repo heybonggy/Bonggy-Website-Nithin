@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { ClipboardText, HandPalm, Lock, ShieldCheck } from "@phosphor-icons/react/dist/ssr";
 import { pageMetadata } from "@/lib/metadata";
+import { JsonLd } from "@/components/json-ld";
+import { graphFor } from "@/lib/jsonld";
 import { SubPageShell } from "@/components/marketing/sub-page-shell";
 import { EmailLink } from "@/components/marketing/email-link";
 import { COMPLIANCE_LINE, SECURITY_LINE } from "@/content/site";
@@ -37,6 +39,9 @@ const COMMITMENTS = [
 
 export default function SecurityPage() {
   return (
+    <>
+      <JsonLd graph={graphFor("security")} />
+
     <SubPageShell
       eyebrow="Security"
       title="Built for the rep,"
@@ -64,5 +69,6 @@ export default function SecurityPage() {
         </p>
       </div>
     </SubPageShell>
+    </>
   );
 }

@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/metadata";
+import { JsonLd } from "@/components/json-ld";
+import { graphFor } from "@/lib/jsonld";
 import { SubPageShell } from "@/components/marketing/sub-page-shell";
 import { BlogPostCard } from "@/components/ui/blog-post-card";
 
@@ -35,6 +37,9 @@ export default function ResourcesPage() {
   const rest = POSTS.filter((p) => !p.featured);
 
   return (
+    <>
+      <JsonLd graph={graphFor("resources")} />
+
     <SubPageShell
       eyebrow="Resources"
       title="What we've been"
@@ -72,5 +77,6 @@ export default function ResourcesPage() {
         </div>
       )}
     </SubPageShell>
+    </>
   );
 }

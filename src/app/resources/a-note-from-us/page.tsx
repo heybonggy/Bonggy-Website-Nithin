@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/metadata";
+import { JsonLd } from "@/components/json-ld";
+import { graphFor } from "@/lib/jsonld";
 import { SubPageShell } from "@/components/marketing/sub-page-shell";
 import { NewsHere } from "@/components/news-banner";
 
@@ -23,6 +25,9 @@ const PARAGRAPHS = [
 
 export default function ANoteFromUsPage() {
   return (
+    <>
+      <JsonLd graph={graphFor("note")} />
+
     <SubPageShell eyebrow="Resources · Note" title="A note from us" lede={SUBTITLE} narrow>
       <NewsHere />
       <article className="mx-auto w-full max-w-prose">
@@ -34,5 +39,6 @@ export default function ANoteFromUsPage() {
         <p className="mt-12 text-body-lg italic text-fg-2 sm:mt-14">The Bonggy team</p>
       </article>
     </SubPageShell>
+    </>
   );
 }

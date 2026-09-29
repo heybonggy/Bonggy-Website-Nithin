@@ -26,23 +26,3 @@ export function FaqList({
     </Stagger>
   );
 }
-
-/** FAQPage structured data for a list of questions. */
-export function FaqJsonLd({ items }: { items: FaqItem[] }) {
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{
-        __html: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "FAQPage",
-          mainEntity: items.map((q) => ({
-            "@type": "Question",
-            name: q.q,
-            acceptedAnswer: { "@type": "Answer", text: q.a },
-          })),
-        }),
-      }}
-    />
-  );
-}

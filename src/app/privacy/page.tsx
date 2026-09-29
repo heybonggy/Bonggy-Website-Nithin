@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/metadata";
+import { JsonLd } from "@/components/json-ld";
+import { graphFor } from "@/lib/jsonld";
 import { SubPageShell } from "@/components/marketing/sub-page-shell";
 import { EmailLink } from "@/components/marketing/email-link";
 
@@ -45,6 +47,9 @@ const SECTIONS: { h: string; body: React.ReactNode }[] = [
 
 export default function PrivacyPage() {
   return (
+    <>
+      <JsonLd graph={graphFor("privacy")} />
+
     <SubPageShell
       eyebrow="Privacy Policy"
       title="What we collect,"
@@ -70,5 +75,6 @@ export default function PrivacyPage() {
         ))}
       </div>
     </SubPageShell>
+    </>
   );
 }

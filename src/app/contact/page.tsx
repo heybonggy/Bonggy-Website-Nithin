@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { ArrowUpRight, Clock, EnvelopeSimple } from "@phosphor-icons/react/dist/ssr";
 import { pageMetadata } from "@/lib/metadata";
+import { JsonLd } from "@/components/json-ld";
+import { graphFor } from "@/lib/jsonld";
 import { SubPageCta, SubPageShell } from "@/components/marketing/sub-page-shell";
 import { CtaButton, CAL_LINK } from "@/components/marketing/cta-button";
 
@@ -11,6 +13,9 @@ const card =
 
 export default function ContactPage() {
   return (
+    <>
+      <JsonLd graph={graphFor("contact")} />
+
     <SubPageShell
       eyebrow="Contact"
       title="We read every email."
@@ -55,5 +60,6 @@ export default function ContactPage() {
         <CtaButton size="lg">Book a strategy call</CtaButton>
       </SubPageCta>
     </SubPageShell>
+    </>
   );
 }

@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/metadata";
+import { JsonLd } from "@/components/json-ld";
+import { graphFor } from "@/lib/jsonld";
 import { SubPageCta, SubPageShell } from "@/components/marketing/sub-page-shell";
 import { CtaButton } from "@/components/marketing/cta-button";
 import { EmailLink } from "@/components/marketing/email-link";
-import { FaqJsonLd, FaqList, type FaqItem } from "@/components/marketing/faq-list";
+import { FaqList, type FaqItem } from "@/components/marketing/faq-list";
 import { HOME_FAQ } from "@/components/marketing/home-faq";
 
 export const metadata: Metadata = pageMetadata({ slug: "faq" });
@@ -33,7 +35,7 @@ const QUESTIONS: FaqItem[] = [
 export default function FaqPage() {
   return (
     <>
-      <FaqJsonLd items={QUESTIONS} />
+      <JsonLd graph={graphFor("faq", { faq: QUESTIONS })} />
       <SubPageShell
         eyebrow="FAQ"
         title="The questions"

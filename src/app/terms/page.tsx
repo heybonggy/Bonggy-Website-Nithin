@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/metadata";
+import { JsonLd } from "@/components/json-ld";
+import { graphFor } from "@/lib/jsonld";
 import { SubPageShell } from "@/components/marketing/sub-page-shell";
 import { EmailLink } from "@/components/marketing/email-link";
 
@@ -41,6 +43,9 @@ const SECTIONS: { h: string; body: React.ReactNode }[] = [
 
 export default function TermsPage() {
   return (
+    <>
+      <JsonLd graph={graphFor("terms")} />
+
     <SubPageShell
       eyebrow="Terms of Service"
       title="Plain English."
@@ -66,5 +71,6 @@ export default function TermsPage() {
         ))}
       </div>
     </SubPageShell>
+    </>
   );
 }
