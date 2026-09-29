@@ -5,7 +5,9 @@
  *   node scripts/mobile-qa.mjs [baseUrl] [--engines=webkit,chromium] [--frames=dir]
  *
  * baseUrl defaults to http://localhost:3000 (run `next build && next start`
- * first), or pass a Vercel preview URL. Chromium uses Playwright's bundled
+ * first), or pass a Vercel preview URL. Protected previews need
+ * VERCEL_BYPASS=<Protection Bypass for Automation secret> (Vercel project
+ * settings → Deployment Protection). Chromium uses Playwright's bundled
  * build, or CHROMIUM_PATH if set. Prints one JSON line per check and exits
  * non-zero if any check fails. Emulation doesn't reproduce iOS toolbar
  * behaviour; see the PR's "verify on a real iPhone" list for that.
@@ -39,7 +41,10 @@ function ctxOptions(engine, { width = 390, height = 664, scheme = "light", reduc
       : engine === "webkit"
         ? { ...devices["iPhone 14"], viewport: { width, height } }
         : { viewport: { width, height }, isMobile: true, hasTouch: true, deviceScaleFactor: 3 };
-  return { ...base, colorScheme: scheme, reducedMotion: reduce ? "reduce" : "no-preference" };
+  const bypass = process.env.VERCEL_BYPASS
+    ? { extraHTTPHeaders: { "x-vercel-protection-bypass": process.env.VERCEL_BYPASS, "x-vercel-set-bypass-cookie": "samesitenone" } }
+    : {};
+  return { ...base, ...bypass, colorScheme: scheme, reducedMotion: reduce ? "reduce" : "no-preference" };
 }
 
 /** Per-frame probe, installed before any page script runs. */
