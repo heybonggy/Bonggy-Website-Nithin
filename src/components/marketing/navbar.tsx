@@ -53,15 +53,10 @@ const SPY_IDS = [...PRODUCT, ...LINKS].map((l) => hashOf(l.href)).filter((x): x 
 export function Navbar() {
   const active = useScrollSpy(SPY_IDS);
   const [scrolled, setScrolled] = React.useState(false);
-  const [menuOpen, setMenuOpen] = React.useState(false);
   const headerRef = React.useRef<HTMLElement>(null);
-  // Where the sheet's content starts: just under the header, wherever the
-  // header sits right now (under the banner, or at the top once it's gone).
-  const [sheetTop, setSheetTop] = React.useState(80);
-  const toggleMenu = () => {
-    if (!menuOpen) setSheetTop(Math.round((headerRef.current?.getBoundingClientRect().bottom ?? 64) + 16));
-    setMenuOpen((v) => !v);
-  };
+  const toggleRef = React.useRef<HTMLButtonElement>(null);
+  const sheet = useSheet(headerRef, toggleRef);
+  const menuOpen = sheet.open;
 
   // "Scrolled" = an 8px sentinel at the very top of the page has left the
   // viewport. An observer, not a scroll listener: no work per scroll event.
@@ -74,42 +69,32 @@ export function Navbar() {
     return () => io.disconnect();
   }, []);
 
-  // Lock page scroll while the mobile sheet is open; Escape closes it.
-  React.useEffect(() => {
-    if (!menuOpen) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setMenuOpen(false);
-    document.addEventListener("keydown", onKey);
-    return () => {
-      document.body.style.overflow = prev;
-      document.removeEventListener("keydown", onKey);
-    };
-  }, [menuOpen]);
-
 
   return (
     <>
       <span ref={sentinelRef} aria-hidden className="pointer-events-none absolute left-0 top-0 h-2 w-px" />
       <header
         ref={headerRef}
-        className={cn(
-          // Pure CSS, so it can't lag behind the scroll: sticky, straight
-          // after the in-flow announcement banner. It rides up with the
-          // banner, then sticks at the top. -mb-16 keeps it out of the flow
-          // (the page starts under it, as with a fixed header).
-          "sticky inset-x-0 top-0 z-50 -mb-16 h-16 transition-colors duration-[var(--dur-quick)]",
-          // Phones: near-opaque, no backdrop blur (it's costly to composite).
-          // The blur is never transitioned.
-          scrolled || menuOpen ? "bg-background/95 sm:bg-background/85 sm:backdrop-blur-[8px]" : "bg-transparent",
-        )}
+        // Pure CSS, so it can't lag behind the scroll: sticky, straight after
+        // the in-flow announcement banner. It rides up with the banner, then
+        // sticks at the top. -mb-16 keeps it out of the flow (the page starts
+        // under it, as with a fixed header). The sticky element itself has no
+        // background: iOS Safari samples it for the status-bar tint.
+        className="sticky inset-x-0 top-0 z-50 -mb-16 h-16"
       >
+        {/* The background is a child, swapped instantly (no colour
+            transition), so nothing flickers when fast scrolling passes the
+            top. Phones: near-opaque, no backdrop blur. */}
         <div
           aria-hidden
           className={cn(
-            "absolute inset-x-0 bottom-0 h-px bg-border transition-opacity duration-[var(--dur-quick)]",
-            scrolled && !menuOpen ? "opacity-100" : "opacity-0",
+            "absolute inset-0 -z-10",
+            scrolled || menuOpen ? "bg-background/95 sm:bg-background/85 sm:backdrop-blur-[8px]" : "hidden",
           )}
+        />
+        <div
+          aria-hidden
+          className={cn("absolute inset-x-0 bottom-0 h-px bg-border", scrolled && !menuOpen ? "block" : "hidden")}
         />
         <div className="mx-auto flex h-full w-full max-w-wide items-center justify-between gap-4 px-4 lg:px-6">
           <Link href="/" aria-label="Bonggy, home" className="flex min-h-11 items-center gap-2 rounded-full pr-2">
@@ -133,11 +118,12 @@ export function Navbar() {
               </CtaButton>
             </div>
             <button
+              ref={toggleRef}
               type="button"
               aria-label={menuOpen ? "Close menu" : "Open menu"}
               aria-expanded={menuOpen}
               aria-controls="mobile-menu"
-              onClick={toggleMenu}
+              onClick={() => (menuOpen ? sheet.close("button") : sheet.openSheet())}
               className="flex size-11 items-center justify-center rounded-full bg-surface-2 text-foreground transition-colors hover:bg-surface-3 lg:hidden"
             >
               {menuOpen ? <X className="size-5" aria-hidden /> : <List className="size-5" aria-hidden />}
@@ -146,37 +132,46 @@ export function Navbar() {
         </div>
       </header>
 
-      {/* Always rendered (inert and off-screen while closed), so opening it
-          is a CSS transform, not a mount. */}
+      {/* Mounted once and kept (opening is not a mount). Closed means
+          display:none: nothing can paint or be sampled for the iOS status-bar
+          tint. The links scroll inside the sheet; the theme switch and the CTA
+          stay pinned at the bottom, so they are always in view. */}
       <div
         id="mobile-menu"
         inert={!menuOpen}
-        style={{ paddingTop: sheetTop }}
+        hidden={sheet.phase === "closed"}
+        onClick={(e) => {
+          // A tap on the sheet's empty area closes it.
+          if (e.target === e.currentTarget) sheet.close("backdrop");
+        }}
+        onTransitionEnd={sheet.onTransitionEnd}
+        style={{ paddingTop: sheet.top }}
         className={cn(
-          "fixed inset-x-0 top-0 z-40 flex h-[100svh] flex-col bg-background px-4 pb-8 transition-[transform,visibility] duration-[var(--dur-moderate)] ease-out-expo motion-reduce:transition-none lg:hidden",
-          menuOpen ? "visible translate-y-0" : "invisible -translate-y-full",
+          "sheet-h fixed inset-x-0 top-0 z-40 flex flex-col overflow-hidden bg-background px-4 pb-[max(1.5rem,env(safe-area-inset-bottom))] lg:hidden",
+          "transition-[translate,opacity] ease-out-expo motion-reduce:transition-none",
+          sheet.shown ? "translate-y-0 opacity-100 duration-[250ms]" : "-translate-y-2 opacity-0 duration-[180ms]",
         )}
       >
-            <nav aria-label="Mobile" className="flex flex-col">
-              {MOBILE.map((l) => (
-                <Link
-                  key={l.href}
-                  href={l.href}
-                  onClick={() => setMenuOpen(false)}
-                  className="flex min-h-12 items-center border-b border-border text-title text-foreground"
-                >
-                  {l.label}
-                </Link>
-              ))}
-            </nav>
-            <div className="mt-auto grid gap-3">
-              <ThemeSegmented className="mb-2" />
-              <CtaButton href={CAL_LINK} size="lg" className="w-full">
-                Book a strategy call
-              </CtaButton>
-            </div>
+        <nav aria-label="Mobile" className="-mx-4 flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain px-4">
+          {MOBILE.map((l) => (
+            <Link
+              key={l.href}
+              href={l.href}
+              // Release the scroll lock before Next scrolls to the hash.
+              onClick={() => sheet.close("link")}
+              className="flex min-h-12 shrink-0 items-center border-b border-border text-title text-foreground"
+            >
+              {l.label}
+            </Link>
+          ))}
+        </nav>
+        <div className="grid shrink-0 gap-3 pt-4">
+          <ThemeSegmented />
+          <CtaButton href={CAL_LINK} size="lg" className="w-full">
+            Book a strategy call
+          </CtaButton>
+        </div>
       </div>
-
     </>
   );
 }
@@ -242,4 +237,91 @@ function ProductMenu({ active }: { active: string | null }) {
       </AnimatePresence>
     </div>
   );
+}
+
+type CloseReason = "button" | "escape" | "link" | "backdrop";
+
+/**
+ * The mobile sheet: closed (display:none) → open → closing → closed.
+ * - Open: unhide, then apply the open classes on the next frame so the
+ *   fade/slide actually transitions.
+ * - Close: drop the open classes; hide on transitionend (or a timeout
+ *   fallback). Reduced motion hides at once.
+ * - Scroll lock on <html> and <body> (overflow: hidden) while open, with the
+ *   scroll position restored on unlock if iOS moved it. For link taps the
+ *   lock is released synchronously, before Next scrolls to the hash.
+ * - Escape closes. After a close by the button or Escape, focus returns to
+ *   the toggle; after a link, focus is left alone.
+ */
+function useSheet(headerRef: React.RefObject<HTMLElement | null>, toggleRef: React.RefObject<HTMLButtonElement | null>) {
+  const [phase, setPhase] = React.useState<"closed" | "open" | "closing">("closed");
+  const [shown, setShown] = React.useState(false);
+  // Where the content starts: just under the header, wherever it sits now.
+  const [top, setTop] = React.useState(80);
+  const lock = React.useRef<{ y: number; html: string; body: string } | null>(null);
+  const fallback = React.useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+
+  const unlock = React.useCallback((restore: boolean) => {
+    const l = lock.current;
+    if (!l) return;
+    lock.current = null;
+    document.documentElement.style.overflow = l.html;
+    document.body.style.overflow = l.body;
+    if (restore && window.scrollY !== l.y) window.scrollTo({ top: l.y, behavior: "instant" });
+  }, []);
+
+  const finish = React.useCallback(() => {
+    clearTimeout(fallback.current);
+    setPhase((p) => (p === "closing" ? "closed" : p));
+  }, []);
+
+  const openSheet = React.useCallback(() => {
+    clearTimeout(fallback.current);
+    setTop(Math.round((headerRef.current?.getBoundingClientRect().bottom ?? 64) + 16));
+    if (!lock.current) {
+      lock.current = { y: window.scrollY, html: document.documentElement.style.overflow, body: document.body.style.overflow };
+      document.documentElement.style.overflow = "hidden";
+      document.body.style.overflow = "hidden";
+    }
+    setPhase("open");
+    // Next frame: from the hidden pose to the open one, so it transitions.
+    requestAnimationFrame(() => requestAnimationFrame(() => setShown(true)));
+  }, [headerRef]);
+
+  const close = React.useCallback(
+    (reason: CloseReason) => {
+      unlock(reason !== "link");
+      setShown(false);
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduced) setPhase("closed");
+      else {
+        setPhase("closing");
+        const ms = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--dur-moderate")) || 420;
+        clearTimeout(fallback.current);
+        fallback.current = setTimeout(finish, ms + 50);
+      }
+      if (reason === "button" || reason === "escape") toggleRef.current?.focus();
+    },
+    [unlock, finish, toggleRef],
+  );
+
+  const onTransitionEnd = (e: React.TransitionEvent) => {
+    if (e.target === e.currentTarget && e.propertyName === "opacity" && !shown) finish();
+  };
+
+  const open = phase === "open";
+  React.useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && close("escape");
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [open, close]);
+
+  // Unmount safety: never leave the page locked.
+  React.useEffect(() => () => {
+    clearTimeout(fallback.current);
+    unlock(false);
+  }, [unlock]);
+
+  return { phase, shown, open, top, openSheet, close, onTransitionEnd };
 }
