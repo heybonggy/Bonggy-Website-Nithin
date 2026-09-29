@@ -6,6 +6,7 @@ const COLUMNS: { heading: string; items: { label: string; href: string }[] }[] =
   {
     heading: "Product",
     items: [
+      { label: "Bots", href: "/bots" },
       { label: "Teams", href: "/#teams" },
       { label: "Flows", href: "/#flows" },
       { label: "How it works", href: "/#how-it-works" },
@@ -17,6 +18,7 @@ const COLUMNS: { heading: string; items: { label: string; href: string }[] }[] =
     heading: "Company",
     items: [
       { label: "About", href: "/about" },
+      { label: "Brand", href: "/brand" },
       { label: "Contact", href: "/contact" },
       { label: "Careers", href: "/careers" },
       // Resources live on /resources; the note is the one exception, as its

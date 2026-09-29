@@ -1,7 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { Check } from "@phosphor-icons/react/dist/ssr";
+import Link from "next/link";
+import { Check, ArrowRight } from "@phosphor-icons/react/dist/ssr";
 import {
   BotBubble,
   CURSOR_HOP,
@@ -345,6 +346,14 @@ export function BotJobsSection() {
           </AnimatePresence>
         </div>
       </div>
+
+      <Link
+        href="/bots"
+        className="mt-10 inline-flex min-h-11 items-center gap-1.5 text-ui font-medium text-foreground"
+      >
+        See all bots
+        <ArrowRight className="size-4" aria-hidden />
+      </Link>
       </div>
     </Section>
   );
