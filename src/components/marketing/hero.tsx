@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
 import { CtaButton, CAL_LINK } from "./cta-button";
 import { HeroDemo } from "./hero-demo";
@@ -10,14 +11,20 @@ function Words({ text, offset = 0 }: { text: string; offset?: number }) {
   return (
     <>
       {text.split(" ").map((w, i) => (
-        <span
-          key={i}
-          className="inline-block animate-word-in max-sm:inline max-sm:animate-none max-sm:opacity-100"
-          style={{ animationDelay: `${100 + 55 * (offset + i)}ms` }}
-        >
-          {w}
-          {" "}
-        </span>
+        // The separator is an ordinary space, outside the span. It used to be a
+        // non-breaking space inside it, which was invisible while each span was
+        // its own inline-block box: the line broke between boxes. Once the
+        // spans went inline on phones the headline became one unbreakable run
+        // and the page scrolled sideways. A span now holds one word, nothing
+        // else, and the space between them can break like any other.
+        <Fragment key={i}>
+          <span
+            className="inline-block animate-word-in max-sm:inline max-sm:animate-none max-sm:opacity-100"
+            style={{ animationDelay: `${100 + 55 * (offset + i)}ms` }}
+          >
+            {w}
+          </span>{" "}
+        </Fragment>
       ))}
     </>
   );

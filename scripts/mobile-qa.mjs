@@ -353,6 +353,35 @@ async function checkBanner(browser, engine) {
   }
 }
 
+/**
+ * Nothing overflows the viewport on a phone.
+ *
+ * The home H1 is a row of per-word spans. While each was its own inline-block
+ * box the line broke between boxes, which hid a non-breaking space inside
+ * them; the day the spans went inline the headline became one unbreakable run
+ * and the page scrolled sideways at every phone width. A headline that can't
+ * wrap is invisible to a unit test and obvious to anyone holding a phone.
+ */
+async function checkNoHorizontalScroll(browser, engine) {
+  for (const width of [320, 375, 390]) {
+    const { ctx, page } = await newPage(browser, engine, { width, height: 720 });
+    await page.goto(BASE + "/", { waitUntil: "networkidle" });
+    const m = await page.evaluate(() => ({
+      scrollWidth: document.documentElement.scrollWidth,
+      innerWidth: window.innerWidth,
+      h1: document.querySelector("h1")?.scrollWidth ?? 0,
+    }));
+    report({
+      check: "no-h-scroll",
+      engine,
+      width,
+      ...m,
+      pass: m.scrollWidth === m.innerWidth && m.h1 <= m.innerWidth,
+    });
+    await ctx.close();
+  }
+}
+
 async function checkRefresh(browser, engine, scheme, reduce) {
   const { ctx, page, errors } = await newPage(browser, engine, { scheme, reduce });
   await page.goto(BASE + "/", { waitUntil: "networkidle" });
@@ -405,6 +434,7 @@ for (const engine of ENGINES) {
       await checkRefresh(browser, engine, scheme, true);
     }
   }
+  if (want("no-h-scroll")) await checkNoHorizontalScroll(browser, engine);
   if (want("menu")) await checkMenu(browser, engine, "light", true);
   if (want("menu")) await checkCtaSizes(browser, engine);
   if (want("banner")) await checkBanner(browser, engine);
