@@ -56,12 +56,24 @@ export const metadata: Metadata = {
       "max-video-preview": -1,
     },
   },
-  // Icons + manifest are auto-detected by Next.js from:
-  //   src/app/icon.svg            → favicon (browser tabs)
-  //   src/app/apple-icon.tsx      → /apple-icon (iOS home-screen PNG)
-  //   src/app/opengraph-image.tsx → /opengraph-image (link previews)
-  //   src/app/manifest.ts         → /manifest.webmanifest
-  // No explicit `icons` field needed.
+  /**
+   * Icons are declared, not file-convention-detected, so their URLs are stable
+   * and have no build hash on them: a favicon Google has cached under one URL
+   * should stay at that URL (DESIGN.md §7.1).
+   *
+   * Order matters. A browser takes the last format it understands, so the ICO
+   * comes first for the ones that only read ICO, then the adaptive SVG, then
+   * the PNGs for everything else.
+   */
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "48x48" },
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/icon-96.png", sizes: "96x96", type: "image/png" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+  },
 };
 
 export const viewport: Viewport = {
