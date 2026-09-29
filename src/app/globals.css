@@ -450,6 +450,11 @@
 @layer base {
   * { @apply border-border outline-ring; }
   html {
+    /* On <html>: that's what governs the viewport's overscroll. The explicit
+       background means no white/black flash above the banner when iOS
+       rubber-bands in dark mode. */
+    overscroll-behavior-y: none;
+    background-color: var(--background);
     font-family: var(--font-sans);
     font-feature-settings: "ss01", "calt";
     -webkit-font-smoothing: antialiased;
@@ -457,7 +462,6 @@
   }
   body {
     @apply bg-background text-foreground;
-    overscroll-behavior-y: none;
   }
   h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; }
   p { text-wrap: pretty; }
@@ -467,6 +471,8 @@
 }
 
 /* 7. Utilities */
+/* Mobile sheet height: the dynamic viewport where supported. */
+.sheet-h { height: 100svh; height: 100dvh; }
 @utility hairline { box-shadow: inset 0 0 0 1px var(--border); }
 @utility hairline-strong { box-shadow: inset 0 0 0 1px var(--border-strong); }
 @utility hatch { background-image: var(--hatch); }
@@ -590,6 +596,7 @@
   @media (prefers-reduced-motion: no-preference) {
     .reveal { transition: opacity 600ms var(--ease-out-expo), transform 600ms var(--ease-out-expo); }
     .reveal.reveal-pending { opacity: 0; transform: translateY(16px); }
+    .reveal.reveal-now { transition: none; }
   }
 }
 
@@ -598,29 +605,21 @@
 .no-intro .animate-word-in,
 .no-intro .animate-rise-in { animation: none; }
 
-/* Once-only entrances (useEntrance): pre-states apply only while "armed"
+/* Once-only entrances (useReveal): pre-states apply only while "armed"
    (hydrated and off screen), so content is never hidden for crawlers. */
-@keyframes fade-rise {
-  from { opacity: 0; transform: translateY(16px); }
-}
-@keyframes fade-rise-sm {
-  from { opacity: 0; transform: translateY(12px); }
-}
+/* Opacity reaches full within 220ms (content is readable almost at once);
+   the rise runs longer. Stagger steps are 40ms, capped at 160ms. */
+@keyframes fade-in { from { opacity: 0; } }
+@keyframes rise-16 { from { transform: translateY(16px); } }
+@keyframes rise-12 { from { transform: translateY(12px); } }
 [data-rise="armed"] { opacity: 0; transform: translateY(16px); }
-[data-rise="go"] { animation: fade-rise 600ms var(--ease-out-expo) both; }
+[data-rise="go"] { animation: fade-in 220ms ease-out both, rise-16 600ms var(--ease-out-expo) both; }
 [data-stagger="armed"] > *, [data-stagger-deep="armed"] > * > * { opacity: 0; transform: translateY(12px); }
-[data-stagger="go"] > *, [data-stagger-deep="go"] > * > * { animation: fade-rise-sm 450ms var(--ease-out-expo) both; }
-[data-stagger="go"] > :nth-child(2), [data-stagger-deep="go"] > * > :nth-child(2) { animation-delay: 60ms; }
-[data-stagger="go"] > :nth-child(3), [data-stagger-deep="go"] > * > :nth-child(3) { animation-delay: 120ms; }
-[data-stagger="go"] > :nth-child(4), [data-stagger-deep="go"] > * > :nth-child(4) { animation-delay: 180ms; }
-[data-stagger="go"] > :nth-child(5), [data-stagger-deep="go"] > * > :nth-child(5) { animation-delay: 240ms; }
-[data-stagger="go"] > :nth-child(6), [data-stagger-deep="go"] > * > :nth-child(6) { animation-delay: 300ms; }
-[data-stagger="go"] > :nth-child(7), [data-stagger-deep="go"] > * > :nth-child(7) { animation-delay: 360ms; }
-[data-stagger="go"] > :nth-child(8), [data-stagger-deep="go"] > * > :nth-child(8) { animation-delay: 420ms; }
-[data-stagger="go"] > :nth-child(9), [data-stagger-deep="go"] > * > :nth-child(9) { animation-delay: 480ms; }
-[data-stagger="go"] > :nth-child(10), [data-stagger-deep="go"] > * > :nth-child(10) { animation-delay: 540ms; }
-[data-stagger="go"] > :nth-child(11), [data-stagger-deep="go"] > * > :nth-child(11) { animation-delay: 600ms; }
-[data-stagger="go"] > :nth-child(12), [data-stagger-deep="go"] > * > :nth-child(12) { animation-delay: 660ms; }
+[data-stagger="go"] > *, [data-stagger-deep="go"] > * > * { animation: fade-in 220ms ease-out both, rise-12 450ms var(--ease-out-expo) both; }
+[data-stagger="go"] > :nth-child(2), [data-stagger-deep="go"] > * > :nth-child(2) { animation-delay: 40ms; }
+[data-stagger="go"] > :nth-child(3), [data-stagger-deep="go"] > * > :nth-child(3) { animation-delay: 80ms; }
+[data-stagger="go"] > :nth-child(4), [data-stagger-deep="go"] > * > :nth-child(4) { animation-delay: 120ms; }
+[data-stagger="go"] > :nth-child(n + 5), [data-stagger-deep="go"] > * > :nth-child(n + 5) { animation-delay: 160ms; }
 
 /* Off-screen regions pause their looping animations: demos
    (data-demo-offscreen, from the demo player) and any section, the header or

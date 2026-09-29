@@ -1,12 +1,13 @@
 "use client";
 
 import * as React from "react";
-import { useEntrance } from "./_motion";
+import { useReveal } from "./_motion";
 
 /**
- * Fade-and-rise once when scrolled into view (y 16 → 0, 0.6s outExpo).
- * Uses useEntrance, so content is never hidden before hydration, for
- * crawlers, or under reduced motion.
+ * Fade-and-rise once as it comes into view (y 16 → 0). Uses useReveal: it
+ * starts just before the element arrives, shows at once if a fast scroll
+ * outran it, and never hides content before hydration, for crawlers, or
+ * under reduced motion.
  */
 export function Rise({
   as: Tag = "div",
@@ -23,7 +24,9 @@ export function Rise({
   children: React.ReactNode;
 } & Omit<React.HTMLAttributes<HTMLElement>, "children">) {
   const ref = React.useRef<HTMLElement>(null);
-  const state = useEntrance(ref, amount);
+  // `amount` is kept for callers; reveals now trigger ahead of the viewport.
+  void amount;
+  const state = useReveal(ref);
   return (
     <Tag
       ref={ref}
@@ -39,7 +42,7 @@ export function Rise({
 
 /**
  * A container whose children (or grandchildren with `deep`) rise in once,
- * 60ms apart (y 12 → 0, 0.45s), when 25% of it is in view.
+ * 40ms apart (capped at 160ms), as it comes into view (useReveal).
  */
 export function Stagger({
   as: Tag = "div",
@@ -54,7 +57,7 @@ export function Stagger({
   children: React.ReactNode;
 } & Omit<React.HTMLAttributes<HTMLElement>, "children">) {
   const ref = React.useRef<HTMLElement>(null);
-  const state = useEntrance(ref, 0.25);
+  const state = useReveal(ref);
   const attr = state === "static" ? undefined : state;
   return (
     <Tag ref={ref} className={className} {...(deep ? { "data-stagger-deep": attr } : { "data-stagger": attr })} {...rest}>
