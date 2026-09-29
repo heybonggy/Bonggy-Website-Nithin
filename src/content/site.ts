@@ -4,8 +4,9 @@
  * Titles, descriptions, OG lines and the verbatim rules (DESIGN.md §12) live
  * here so a page, its metadata, its OG image, its JSON-LD and its markdown twin
  * can never drift from one another. Nothing here is generated at request time:
- * `lastModified` is a literal, taken from the page file's last commit, because
- * `new Date()` would tell crawlers every page changed on every build.
+ * `lastModified` is a literal, taken from the last commit across everything
+ * the page renders from, because `new Date()` would tell crawlers every page
+ * changed on every build.
  */
 
 /** www is the served host; the apex redirects to it. */
@@ -108,8 +109,12 @@ export type PageEntry = {
   /** The markdown twin, or `null` where there is none. */
   md: string | null;
   /**
-   * The page file's last commit date (`git log -1 --format=%cI -- <file>`),
-   * written in as a literal so a rebuild doesn't re-date the whole sitemap.
+   * When this page's content last changed: the latest commit date across the
+   * page file *and* everything it renders from — its content module and, for
+   * the home page, its section components. A page whose copy moved into
+   * src/content would otherwise look untouched forever.
+   *
+   * A literal, not `new Date()`: a rebuild must not re-date the whole sitemap.
    */
   lastModified: string;
 };
@@ -127,7 +132,7 @@ export const PAGES: Record<PageSlug, PageEntry> = {
       grey: "Bots draft. People approve.",
     },
     md: "/index.md",
-    lastModified: "2026-09-28T12:47:50+05:30",
+    lastModified: "2026-09-29T23:40:36+05:30",
   },
   bots: {
     path: "/bots",
@@ -140,7 +145,7 @@ export const PAGES: Record<PageSlug, PageEntry> = {
       grey: "Each one answers to a revenue goal.",
     },
     md: "/bots.md",
-    lastModified: "2026-09-29T00:00:00+05:30",
+    lastModified: "2026-09-29T22:16:01+05:30",
   },
   faq: {
     path: "/faq",
@@ -153,7 +158,7 @@ export const PAGES: Record<PageSlug, PageEntry> = {
       grey: "Bots, flows, approvals, data and pricing.",
     },
     md: "/faq.md",
-    lastModified: "2026-09-28T12:47:50+05:30",
+    lastModified: "2026-09-29T22:33:38+05:30",
   },
   security: {
     path: "/security",
@@ -166,7 +171,7 @@ export const PAGES: Record<PageSlug, PageEntry> = {
       grey: "Every run leaves a receipt.",
     },
     md: "/security.md",
-    lastModified: "2026-09-28T13:38:57+05:30",
+    lastModified: "2026-09-29T22:33:38+05:30",
   },
   about: {
     path: "/about",
@@ -179,7 +184,7 @@ export const PAGES: Record<PageSlug, PageEntry> = {
       grey: "Alignment was.",
     },
     md: "/about.md",
-    lastModified: "2026-09-27T23:16:45+05:30",
+    lastModified: "2026-09-29T22:24:58+05:30",
   },
   contact: {
     path: "/contact",
@@ -192,7 +197,7 @@ export const PAGES: Record<PageSlug, PageEntry> = {
       grey: "A call is faster.",
     },
     md: "/contact.md",
-    lastModified: "2026-09-27T23:16:45+05:30",
+    lastModified: "2026-09-29T22:24:58+05:30",
   },
   careers: {
     path: "/careers",
@@ -205,7 +210,7 @@ export const PAGES: Record<PageSlug, PageEntry> = {
       grey: "Build the agent workspace.",
     },
     md: "/careers.md",
-    lastModified: "2026-09-27T23:16:44+05:30",
+    lastModified: "2026-09-29T22:33:38+05:30",
   },
   resources: {
     path: "/resources",
@@ -218,7 +223,7 @@ export const PAGES: Record<PageSlug, PageEntry> = {
       grey: "Notes on GTM bots.",
     },
     md: "/resources.md",
-    lastModified: "2026-09-28T12:36:56+05:30",
+    lastModified: "2026-09-29T22:33:38+05:30",
   },
   note: {
     path: "/resources/a-note-from-us",
@@ -232,7 +237,7 @@ export const PAGES: Record<PageSlug, PageEntry> = {
       grey: "Now it has somewhere to go.",
     },
     md: "/resources/a-note-from-us.md",
-    lastModified: "2026-09-28T13:29:48+05:30",
+    lastModified: "2026-09-29T22:24:58+05:30",
   },
   brand: {
     path: "/brand",
@@ -245,7 +250,7 @@ export const PAGES: Record<PageSlug, PageEntry> = {
       grey: "Everything you need to write about Bonggy.",
     },
     md: "/brand.md",
-    lastModified: "2026-09-29T00:00:00+05:30",
+    lastModified: "2026-09-29T22:43:22+05:30",
   },
   privacy: {
     path: "/privacy",
@@ -258,7 +263,7 @@ export const PAGES: Record<PageSlug, PageEntry> = {
       grey: "and what we don't.",
     },
     md: "/privacy.md",
-    lastModified: "2026-09-28T13:38:57+05:30",
+    lastModified: "2026-09-29T23:33:51+05:30",
   },
   terms: {
     path: "/terms",
@@ -271,7 +276,7 @@ export const PAGES: Record<PageSlug, PageEntry> = {
       grey: "No legalese tricks.",
     },
     md: "/terms.md",
-    lastModified: "2026-09-28T13:38:57+05:30",
+    lastModified: "2026-09-29T23:33:51+05:30",
   },
   "not-found": {
     path: null,
@@ -284,7 +289,7 @@ export const PAGES: Record<PageSlug, PageEntry> = {
       grey: "Bots draft. People approve.",
     },
     md: null,
-    lastModified: "2026-09-28T12:47:50+05:30",
+    lastModified: "2026-09-29T22:01:16+05:30",
   },
 };
 
