@@ -134,7 +134,7 @@ export function ApprovalsSection() {
 
       <Stagger as="ul" className="mt-14 grid gap-x-10 gap-y-8 sm:grid-cols-2">
         {BRIGHT_LINES.map((l) => (
-          <li key={l.title} className="flex gap-3">
+          <li key={l.title} id={l.id} className="flex scroll-mt-28 gap-3">
             <span className="mt-0.5 inline-flex size-6 shrink-0 items-center justify-center rounded-full bg-surface-inverse text-fg-inverse">
               <Check weight="bold" className="size-3.5" aria-hidden />
             </span>

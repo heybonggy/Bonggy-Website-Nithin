@@ -5,6 +5,7 @@ import { graphFor } from "@/lib/jsonld";
 import { SubPageShell } from "@/components/marketing/sub-page-shell";
 import { LinkifyEmail } from "@/components/marketing/linkify-email";
 import { TERMS_SECTIONS } from "@/content/pages/legal";
+import { slug } from "@/lib/slug";
 
 // TODO(legal review): draft wording, not yet reviewed by counsel. Claims on
 // AI training, approvals, read-only access and deletion must match /privacy,
@@ -26,7 +27,7 @@ export default function TermsPage() {
     >
       <div className="max-w-copy divide-y divide-border">
         {TERMS_SECTIONS.map((s, i) => (
-          <section key={s.h} className="py-8 first:pt-0">
+          <section key={s.h} id={slug(s.h)} className="scroll-mt-28 py-8 first:pt-0">
             <div className="flex items-baseline gap-3">
               <span className="tabular text-ui-sm text-fg-3">
                 {String(i + 1).padStart(2, "0")}

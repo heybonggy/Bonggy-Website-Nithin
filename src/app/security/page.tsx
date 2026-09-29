@@ -6,6 +6,7 @@ import { graphFor } from "@/lib/jsonld";
 import { SubPageShell } from "@/components/marketing/sub-page-shell";
 import { EmailLink } from "@/components/marketing/email-link";
 import { COMPLIANCE_LINE } from "@/content/site";
+import { slug } from "@/lib/slug";
 import {
   SECURITY_COMMITMENTS,
   SECURITY_LEDE,
@@ -33,7 +34,7 @@ export default function SecurityPage() {
     >
       <ul className="grid gap-4 sm:grid-cols-2">
         {SECURITY_COMMITMENTS.map((c, i) => (
-          <li key={c.title} className="rounded-3xl bg-surface p-6 sm:p-7">
+          <li key={c.title} id={slug(c.title)} className="scroll-mt-28 rounded-3xl bg-surface p-6 sm:p-7">
             {(() => { const Icon = ICONS[i]; return <Icon className="size-6 text-fg-2" aria-hidden />; })()}
             <h2 className="mt-4 text-title font-medium text-foreground">{c.title}</h2>
             <p className="mt-2 text-ui text-fg-2">{c.body}</p>
@@ -42,7 +43,7 @@ export default function SecurityPage() {
       </ul>
 
       <div className="mt-12 rounded-3xl border border-dashed border-border-strong p-6 sm:p-8">
-        <h2 className="text-ui font-semibold text-foreground">Compliance</h2>
+        <h2 id="compliance" className="text-ui font-semibold text-foreground">Compliance</h2>
         {/* TODO(security): update once SOC 2 Type II is attained; keep "not attained" until then. */}
         <p className="mt-2 max-w-copy text-body text-fg-2">
           {COMPLIANCE_LINE} If your procurement needs documentation ahead of a pilot, email{" "}

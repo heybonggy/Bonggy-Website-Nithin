@@ -9,6 +9,7 @@ export type Post = {
   kind: string;
   featured?: boolean;
   imageUrl?: string;
+  imageAlt?: string;
 };
 
 export const RESOURCES_LEDE =
@@ -25,5 +26,6 @@ export const RESOURCE_POSTS: Post[] = [] = [
     featured: true,
     // Unsplash photo 1522071820081-009f0129c71c, served locally.
     imageUrl: "/images/resources/a-note-from-us.jpg",
+    imageAlt: "A note from us: why we built Bonggy",
   },
 ];

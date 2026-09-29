@@ -20,7 +20,7 @@ export const CAREERS_PRINCIPLES: Principle[] = [
     body: "We don't chase feature parity or activity counts. Every flow has to point at revenue.",
   },
   {
-    title: "Bots draft. People decide.",
+    title: "Bots draft. People approve.",
     body: "Nothing customer-facing goes out without a person approving it. The product reflects that.",
   },
 ];

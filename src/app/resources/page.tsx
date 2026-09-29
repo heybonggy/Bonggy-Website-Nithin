@@ -33,6 +33,7 @@ export default function ResourcesPage() {
             title={featured.title}
             description={featured.excerpt}
             imageUrl={featured.imageUrl}
+            imageAlt={featured.imageAlt}
             href={`/resources/${featured.slug}`}
             readMoreText="Read"
           />

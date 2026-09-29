@@ -47,6 +47,8 @@ export interface BlogPostCardProps
   title: string;
   description: string;
   imageUrl?: string;
+  /** Describes the image. Falls back to the title when the art is the piece. */
+  imageAlt?: string;
   href: string;
   readMoreText?: string;
 }
@@ -61,6 +63,7 @@ const BlogPostCard = React.forwardRef<HTMLDivElement, BlogPostCardProps>(
       title,
       description,
       imageUrl,
+      imageAlt,
       href,
       readMoreText = "Read the essay",
       ...props
@@ -88,7 +91,7 @@ const BlogPostCard = React.forwardRef<HTMLDivElement, BlogPostCardProps>(
             <div className="relative aspect-[16/10] w-full overflow-hidden md:aspect-auto md:w-1/2 lg:w-3/5">
               <Image
                 src={imageUrl}
-                alt={title}
+                alt={imageAlt ?? title}
                 fill
                 // The featured cover is the page's largest paint: load it first.
                 preload

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Logo } from "@/components/ui/logo";
 import { Stagger } from "./entrances";
+import { LINKEDIN_URL, TAGLINE } from "@/content/site";
 
 const COLUMNS: { heading: string; items: { label: string; href: string }[] }[] = [
   {
@@ -50,11 +51,17 @@ export function Footer() {
             <p className="mt-1 max-w-xs text-ui text-fg-2">
               The agent workspace for sales, RevOps and marketing teams.
             </p>
+            <p className="mt-1 text-ui text-fg-2">{TAGLINE}</p>
           </div>
 
+          {/* The column labels name a group of links, not a section of the
+              document: as h2s they put "Product", "Company" and "Legal" into
+              the outline of every page, above that page's own headings. A <p>
+              and a labelled <nav> say the same thing to a screen reader
+              without the false structure. */}
           {COLUMNS.map((col) => (
-            <div key={col.heading}>
-              <h2 className="text-ui-sm font-medium text-foreground">{col.heading}</h2>
+            <nav key={col.heading} aria-label={col.heading}>
+              <p className="text-ui-sm font-medium text-foreground">{col.heading}</p>
               <ul className="mt-2 grid pointer-fine:mt-3 pointer-fine:gap-1">
                 {col.items.map((it) => (
                   <li key={it.label}>
@@ -67,18 +74,28 @@ export function Footer() {
                   </li>
                 ))}
               </ul>
-            </div>
+            </nav>
           ))}
         </Stagger>
 
         <div className="mt-12 flex flex-col gap-2 border-t border-border pt-6 text-caption text-fg-3 sm:flex-row sm:items-center sm:justify-between">
           <span>© {new Date().getFullYear()} Bonggy. All rights reserved.</span>
+          <span className="flex flex-wrap items-center gap-x-4">
+          <a
+            href={LINKEDIN_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex min-h-11 items-center rounded-xs underline-offset-2 hover:text-foreground hover:underline"
+          >
+            LinkedIn
+          </a>
           <a
             href="mailto:founders@bonggy.com"
             className="inline-flex min-h-11 items-center self-start rounded-xs underline-offset-2 hover:text-foreground hover:underline sm:self-auto"
           >
             founders@bonggy.com
           </a>
+          </span>
         </div>
 
       </div>
