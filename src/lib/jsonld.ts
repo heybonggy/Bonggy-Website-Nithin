@@ -31,7 +31,14 @@ const SITE_ID = `${SITE_URL}/#website`;
 const SOFTWARE_ID = `${SITE_URL}/#software`;
 
 const ref = (id: string) => ({ "@id": id });
-const pageId = (path: string) => `${absolute(path)}#webpage`;
+/**
+ * `absolute("/")` drops the trailing slash, so the home page's id would be
+ * `https://www.bonggy.com#webpage` while every other id carries a slash.
+ * Same page either way, but an id that doesn't match its siblings is the kind
+ * of thing that trips a parser comparing strings.
+ */
+const pageId = (path: string) =>
+  path === "/" ? `${SITE_URL}/#webpage` : `${absolute(path)}#webpage`;
 
 /** What the product does, in the words the site uses for each. */
 const FEATURES = [
@@ -127,8 +134,14 @@ export type FaqEntry = { q: string; a: string };
 /**
  * The graph for one page.
  *
- * The home page carries the organization, website and software nodes; every
- * other page references them by id rather than repeating them.
+ * Every page carries the organization and website nodes, and the pages that
+ * reference the software carry that too — the same objects, under the same
+ * @ids, repeated per page.
+ *
+ * Repeating them is the point. A parser reads one page at a time, so a
+ * reference to `#organization` from a page that doesn't define it resolves to
+ * nothing: the note's BlogPosting had an author and a publisher with no name.
+ * The shared @ids are what let a crawler reconcile them across pages.
  */
 export function graphFor(
   slug: PageSlug,
@@ -142,6 +155,10 @@ export function graphFor(
     nodes.push(webPage("home", "WebPage", { about: ref(SOFTWARE_ID) }));
     return { "@context": "https://schema.org", "@graph": nodes };
   }
+
+  // Everything below references these, so every page defines them.
+  nodes.push(organization, website);
+  if (slug === "bots") nodes.push(software);
 
   switch (slug) {
     case "faq": {
@@ -214,6 +231,10 @@ export function graphForBot(slug: string): Node {
   return {
     "@context": "https://schema.org",
     "@graph": [
+      // A bot page references all three, so it defines all three.
+      organization,
+      website,
+      software,
       {
         "@type": "WebPage",
         "@id": pageId(path),

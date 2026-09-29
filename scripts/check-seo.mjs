@@ -219,10 +219,34 @@ async function checkPage(path, expected) {
       fail(where, `JSON-LD doesn't parse: ${error.message}`);
       continue;
     }
-    const types = (parsed["@graph"] ?? []).map((node) => node["@type"]);
+    const graph = parsed["@graph"] ?? [];
+    const types = graph.map((node) => node["@type"]);
     check(types.length > 0, where, "JSON-LD @graph is empty");
     for (const wanted of expected.types ?? []) {
       check(types.includes(wanted), where, `JSON-LD has no ${wanted} (has ${types.join(", ")})`);
+    }
+
+    /**
+     * Every {"@id": …} reference resolves inside this page's own graph.
+     *
+     * A parser reads one page at a time. A reference to a node defined only on
+     * the home page is a dangling pointer: the note's BlogPosting had an author
+     * and a publisher that resolved to nothing at all.
+     */
+    const defined = new Set(
+      graph.filter((node) => Object.keys(node).length > 1).map((node) => node["@id"]),
+    );
+    const referenced = [];
+    const walk = (value) => {
+      if (Array.isArray(value)) return value.forEach(walk);
+      if (!value || typeof value !== "object") return;
+      const keys = Object.keys(value);
+      if (keys.length === 1 && keys[0] === "@id") referenced.push(value["@id"]);
+      else for (const key of keys) walk(value[key]);
+    };
+    walk(graph);
+    for (const id of new Set(referenced)) {
+      check(defined.has(id), where, `JSON-LD references ${id}, which this page doesn't define`);
     }
   }
 
