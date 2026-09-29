@@ -106,3 +106,40 @@ export function useEntrance(ref: React.RefObject<Element | null>, amount = 0.35)
   }, [ref, amount, reduced]);
   return reduced ? "static" : phase;
 }
+
+/**
+ * Entrance state for headings, ledes and card stacks (Rise, Stagger), tuned
+ * for fast flings: content must never sit on screen invisible.
+ * - Triggers early: once the element is within 15% of a viewport below the
+ *   fold (IntersectionObserver, threshold 0), so it's already animating as
+ *   it arrives.
+ * - If it's already well inside the viewport when the observer reports (a
+ *   fast scroll outran it), it's shown at once ("static"), no animation.
+ * - Plays once; never replays on scroll-back. Same server/reduced-motion
+ *   rules as useEntrance.
+ */
+export function useReveal(ref: React.RefObject<Element | null>): "static" | "armed" | "go" {
+  const reduced = usePrefersReducedMotion();
+  const [phase, setPhase] = React.useState<"static" | "armed" | "go">("static");
+  React.useEffect(() => {
+    const el = ref.current;
+    if (!el || reduced) return;
+    const r = el.getBoundingClientRect();
+    if (r.top < window.innerHeight && r.bottom > 0) return; // on screen at mount
+    if (r.bottom <= 0) return; // above the fold (e.g. a restored scroll): never hide it
+    setPhase("armed");
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (!e.isIntersecting) return;
+        io.disconnect();
+        // rootBounds includes the 15% margin.
+        const vh = e.rootBounds ? e.rootBounds.height / 1.15 : window.innerHeight;
+        setPhase(e.boundingClientRect.top < vh * 0.85 ? "static" : "go");
+      },
+      { threshold: 0, rootMargin: "0px 0px 15% 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [ref, reduced]);
+  return reduced ? "static" : phase;
+}

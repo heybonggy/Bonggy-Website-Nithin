@@ -37,29 +37,43 @@ export function NewsBanner() {
         <PeekFace />
       </span>
 
-      <div className="mx-auto flex w-full min-w-0 max-w-wide items-center justify-center gap-2 pl-3 pr-11 text-[12px] leading-snug sm:gap-3 sm:px-12 sm:text-ui-sm">
+      {/* Phones: the whole message is the link (one big target). It ends
+          56px from the right edge, leaving 8px of dead space before the
+          dismiss button's own 44x44 target, so a slightly-off tap on "Read"
+          can't dismiss. */}
+      <a
+        href={news.cta.href}
+        className="flex h-full min-w-0 flex-1 items-center justify-center gap-2 pl-3 pr-14 text-[12px] leading-snug focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-fg-inverse sm:hidden"
+      >
         <span aria-hidden className="inline-block shrink-0 animate-bob text-[15px] leading-none">
           {news.emoji}
         </span>
-        <span className="line-clamp-2 min-w-0 sm:line-clamp-1">{news.text}</span>
+        <span className="line-clamp-2 min-w-0">
+          {news.text} <span className="whitespace-nowrap font-medium underline underline-offset-2">Read&nbsp;→</span>
+        </span>
+      </a>
+
+      <div className="mx-auto hidden w-full min-w-0 max-w-wide items-center justify-center gap-3 px-14 text-ui-sm sm:flex">
+        <span aria-hidden className="inline-block shrink-0 animate-bob text-[15px] leading-none">
+          {news.emoji}
+        </span>
+        <span className="line-clamp-1 min-w-0">{news.text}</span>
         <a
           href={news.cta.href}
-          className="relative inline-flex h-7 shrink-0 items-center gap-1 rounded-full px-2.5 font-medium sm:px-3 ring-1 ring-fg-inverse/40 transition-colors hover:bg-fg-inverse/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fg-inverse after:absolute after:-inset-2 after:content-['']"
+          className="inline-flex h-7 shrink-0 items-center gap-1 rounded-full px-3 font-medium ring-1 ring-fg-inverse/40 transition-colors hover:bg-fg-inverse/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fg-inverse"
         >
-          <span className="sm:hidden" aria-hidden>
-            Read
-          </span>
-          <span className="sr-only sm:not-sr-only">{news.cta.label}</span>
-          <span aria-hidden className="hidden sm:inline">→</span>
+          {news.cta.label}
+          <span aria-hidden>→</span>
         </a>
       </div>
 
-      {/* Handled by NEWS_INIT_SCRIPT's delegated click listener. */}
+      {/* Its own 44x44 target, no extended hit area. Handled by
+          NEWS_INIT_SCRIPT's delegated click listener. */}
       <button
         type="button"
         data-news-dismiss
         aria-label="Dismiss announcement"
-        className="absolute right-1 top-1/2 inline-flex size-9 -translate-y-1/2 items-center justify-center rounded-full text-fg-inverse/80 transition-colors hover:bg-fg-inverse/10 hover:text-fg-inverse focus-visible:outline-2 focus-visible:outline-fg-inverse after:absolute after:-inset-1 after:content-['']"
+        className="absolute right-1 top-1/2 inline-flex size-11 -translate-y-1/2 items-center justify-center rounded-full text-fg-inverse/80 transition-colors hover:bg-fg-inverse/10 hover:text-fg-inverse focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-fg-inverse"
       >
         <X className="size-4" weight="bold" aria-hidden />
       </button>

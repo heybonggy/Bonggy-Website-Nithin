@@ -19,8 +19,10 @@ const COLUMNS: { heading: string; items: { label: string; href: string }[] }[] =
       { label: "About", href: "/about" },
       { label: "Contact", href: "/contact" },
       { label: "Careers", href: "/careers" },
-      // Individual resources live on /resources, not in the footer.
+      // Resources live on /resources; the note is the one exception, as its
+      // mobile entry point besides the (dismissible) banner.
       { label: "All resources", href: "/resources" },
+      { label: "A note from us", href: "/resources/a-note-from-us" },
     ],
   },
   {
