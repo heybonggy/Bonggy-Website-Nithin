@@ -26,6 +26,7 @@ const SECTIONS = [
 const PAGES = [
   "about", "contact", "careers", "security", "faq", "resources",
   "resources/a-note-from-us", "privacy", "terms",
+  "bots", "bots/unstick", "brand",
 ];
 
 async function shoot(width, reduce, theme) {
