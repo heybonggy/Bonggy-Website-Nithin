@@ -4,37 +4,15 @@ import { JsonLd } from "@/components/json-ld";
 import { graphFor } from "@/lib/jsonld";
 import { SubPageShell } from "@/components/marketing/sub-page-shell";
 import { BlogPostCard } from "@/components/ui/blog-post-card";
+import { RESOURCE_POSTS } from "@/content/pages/resources";
 
 export const metadata: Metadata = pageMetadata({ slug: "resources" });
 
-type Post = {
-  slug: string;
-  title: string;
-  excerpt: string;
-  readTime: string;
-  date: string;
-  kind: string;
-  featured?: boolean;
-  imageUrl?: string;
-};
 
-const POSTS: Post[] = [
-  {
-    slug: "a-note-from-us",
-    title: "A note from us",
-    excerpt: "Why we built Bonggy, and the few things we will not do.",
-    readTime: "3 min read",
-    date: "",
-    kind: "Note",
-    featured: true,
-    // Unsplash photo 1522071820081-009f0129c71c, served locally.
-    imageUrl: "/images/resources/a-note-from-us.jpg",
-  },
-];
 
 export default function ResourcesPage() {
-  const featured = POSTS.find((p) => p.featured);
-  const rest = POSTS.filter((p) => !p.featured);
+  const featured = RESOURCE_POSTS.find((p) => p.featured);
+  const rest = RESOURCE_POSTS.filter((p) => !p.featured);
 
   return (
     <>

@@ -1,42 +1,25 @@
 import type { MetadataRoute } from "next";
 
-import { SITE_URL } from "@/lib/metadata";
+import { ROUTED_PAGES, absolute } from "@/content/site";
+import { CATALOG, botPath } from "@/content/bots";
+import { PAGES } from "@/content/site";
 
-type Entry = {
-  path: string;
-  priority: number;
-  changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"];
-};
-
-// Real routes that exist as Next.js pages. Hash-anchor sections of the
-// homepage aren't listed separately — search engines treat /#section and /
-// as the same URL.
-const ROUTES: Entry[] = [
-  // Home
-  { path: "/",          priority: 1.0, changeFrequency: "weekly" },
-
-  // Marketing
-  { path: "/about",     priority: 0.8, changeFrequency: "monthly" },
-  { path: "/contact",   priority: 0.7, changeFrequency: "monthly" },
-  { path: "/faq",       priority: 0.7, changeFrequency: "monthly" },
-  { path: "/careers",   priority: 0.7, changeFrequency: "weekly" },
-
-  // Resources index + posts
-  { path: "/resources",                       priority: 0.8, changeFrequency: "weekly" },
-  { path: "/resources/a-note-from-us",        priority: 0.7, changeFrequency: "monthly" },
-
-  // Legal / trust
-  { path: "/privacy",   priority: 0.4, changeFrequency: "yearly" },
-  { path: "/terms",     priority: 0.4, changeFrequency: "yearly" },
-  { path: "/security",  priority: 0.5, changeFrequency: "yearly" },
-];
-
+/**
+ * Every page with a URL, plus the eleven bots.
+ *
+ * No priority and no changeFrequency: Google has said for years that it
+ * ignores both, and a made-up 0.7 tells nobody anything. lastModified is the
+ * page's own literal, so a rebuild doesn't re-date the whole site.
+ */
 export default function sitemap(): MetadataRoute.Sitemap {
-  const now = new Date();
-  return ROUTES.map(({ path, priority, changeFrequency }) => ({
-    url: `${SITE_URL}${path}`,
-    lastModified: now,
-    changeFrequency,
-    priority,
-  }));
+  return [
+    ...ROUTED_PAGES.map((page) => ({
+      url: absolute(page.path),
+      lastModified: page.lastModified,
+    })),
+    ...CATALOG.map((bot) => ({
+      url: absolute(botPath(bot.slug)),
+      lastModified: PAGES.bots.lastModified,
+    })),
+  ];
 }

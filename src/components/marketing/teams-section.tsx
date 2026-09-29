@@ -8,6 +8,7 @@ import { BOTS, TEAM_LIST, type Bot, type StatusKind } from "@/components/product
 import { Section, SectionHeader } from "./section";
 import { Stagger } from "./entrances";
 import { CUSTOMISE_EVENT } from "./make-it-yours";
+import { TEAMS_SECTION } from "@/content/pages/home";
 
 const TEAM_NAME = { sales: "Sales", revops: "RevOps", marketing: "Marketing" } as const;
 
@@ -104,8 +105,8 @@ export function TeamsSection() {
       {/* Old links to #what-we-do still land here. */}
       <span id="what-we-do" aria-hidden className="block" />
       <SectionHeader
-        title={<span id="teams-title">One workspace. Three teams.</span>}
-        intro="Sales, RevOps and marketing teams each build bots for their own work. Every bot answers to a revenue goal."
+        title={<span id="teams-title">{TEAMS_SECTION.title}</span>}
+        intro={TEAMS_SECTION.intro}
       />
       <Stagger className="mt-10 grid gap-4 lg:grid-cols-3">
         {TEAM_LIST.map((t) => (

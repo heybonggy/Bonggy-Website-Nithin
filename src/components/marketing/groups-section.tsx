@@ -29,6 +29,7 @@ import { PushPin } from "@phosphor-icons/react/dist/ssr";
 import { GroupAvatar } from "@/components/ui/mascot";
 import { Section, SectionHeader } from "./section";
 import { useLoopFocus } from "./loop-focus";
+import { GROUPS_SECTION } from "@/content/pages/home";
 
 const RESEARCH = "top pains from 24 calls: slow onboarding, manual quotes, no forecast view. sharing with unstick. no copy drafted.";
 const COACH = "got it. i'll add the matching pain to each stuck deal's next-step note. nothing sent.";
@@ -155,8 +156,8 @@ export function GroupsSection() {
     <Section id="groups" card aria-labelledby="groups-title">
       <SectionHeader
         align="right"
-        title={<span id="groups-title">Bots hand off work.</span>}
-        intro="Put bots from different teams in one group. Marketing's research reaches sales without anyone copying it across."
+        title={<span id="groups-title">{GROUPS_SECTION.title}</span>}
+        intro={GROUPS_SECTION.intro}
       />
       <div ref={frameRef} className="reveal mt-10">
       <DemoFrame

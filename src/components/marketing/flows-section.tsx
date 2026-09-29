@@ -33,6 +33,7 @@ import {
 import { Section, SectionHeader } from "./section";
 import { BotAvatar } from "@/components/ui/mascot";
 import { useLoopFocus } from "./loop-focus";
+import { FLOWS_SECTION } from "@/content/pages/home";
 
 type State = {
   edits: Partial<Record<FlowPart, FlowEdit>>;
@@ -104,8 +105,8 @@ export function FlowsSection() {
     <Section id="flows" card peek={<BotAvatar botId="compass" size={48} state="idle" interactive />} aria-labelledby="flows-title">
       <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-end">
         <SectionHeader
-          title={<span id="flows-title">Every bot runs a flow you design.</span>}
-          intro="Six parts: trigger, context, steps, approval, output and goal. Change any of them, any time."
+          title={<span id="flows-title">{FLOWS_SECTION.title}</span>}
+          intro={FLOWS_SECTION.intro}
         />
         <p className="max-w-[34ch] text-body font-medium text-foreground lg:text-right">
           Start from a preset, or from a sentence. Either way, the flow is yours.
