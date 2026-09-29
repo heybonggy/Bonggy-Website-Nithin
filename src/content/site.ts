@@ -190,7 +190,7 @@ export const PAGES: Record<PageSlug, PageEntry> = {
     path: "/contact",
     title: "Contact: book a strategy call",
     description:
-      "Book a strategy call to map your first flow with us on real work, or email founders@bonggy.com. We read every email.",
+      "Book a 30-minute strategy call to map your first Bonggy flow on real work from your team, or email founders@bonggy.com. We read every email.",
     og: {
       kicker: "Contact",
       ink: "We read every email.",
@@ -282,7 +282,7 @@ export const PAGES: Record<PageSlug, PageEntry> = {
     path: null,
     title: "Page not found",
     description:
-      "This page drifted. Head back to Bonggy, the agent workspace for sales, RevOps and marketing teams.",
+      "This page drifted. Head back to Bonggy, the agent workspace where sales, RevOps and marketing teams build bots and people approve what customers see.",
     og: {
       kicker: "The agent workspace for sales, RevOps and marketing",
       ink: "Build the bots your GTM team needs.",
