@@ -5,6 +5,7 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "motion/react";
 import { CaretDown, List, X } from "@phosphor-icons/react/dist/ssr";
 import { cn } from "@/lib/utils";
+import { news } from "@/content/news";
 import { Logo } from "@/components/ui/logo";
 import { CtaButton, CAL_LINK } from "./cta-button";
 import { hashOf, useScrollSpy } from "./scroll-spy";
@@ -40,6 +41,9 @@ const MOBILE: NavLink[] = [
   PRODUCT[3], // Analytics
   PRODUCT[6], // Context
   ...LINKS.slice(1), // How it works, Pricing, FAQ
+  // The note's other way in on phones (besides the banner, which can be
+  // dismissed or scrolled past).
+  { label: "A note from us", href: news.cta.href },
 ];
 
 // Hover / focus-visible: ink text on the light surface-2 pill (150ms).
