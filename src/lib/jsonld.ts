@@ -22,13 +22,14 @@ import {
   type PageSlug,
 } from "@/content/site";
 import { CATALOG, botUrl } from "@/content/bots";
-import { LOGO_URL } from "@/lib/metadata";
+import { LOGO_URL, ogPath } from "@/lib/metadata";
 
 type Node = Record<string, unknown>;
 
 const ORG_ID = `${SITE_URL}/#organization`;
 const SITE_ID = `${SITE_URL}/#website`;
 const SOFTWARE_ID = `${SITE_URL}/#software`;
+const FOUNDER_ID = `${SITE_URL}/#founder`;
 
 const ref = (id: string) => ({ "@id": id });
 /**
@@ -51,6 +52,15 @@ const FEATURES = [
   "Analytics against a revenue goal",
 ];
 
+const founder: Node = {
+  "@type": "Person",
+  "@id": FOUNDER_ID,
+  name: "Rahul Bagur",
+  jobTitle: "Founder",
+  url: "https://www.linkedin.com/in/rahulbagur/",
+  sameAs: ["https://www.linkedin.com/in/rahulbagur/"],
+};
+
 const organization: Node = {
   "@type": "Organization",
   "@id": ORG_ID,
@@ -64,6 +74,7 @@ const organization: Node = {
   },
   description: CATEGORY,
   email: EMAIL,
+  founder: ref(FOUNDER_ID),
   address: {
     "@type": "PostalAddress",
     addressLocality: "Bengaluru",
@@ -151,13 +162,13 @@ export function graphFor(
   const nodes: Node[] = [];
 
   if (slug === "home") {
-    nodes.push(organization, website, software);
+    nodes.push(founder, organization, website, software);
     nodes.push(webPage("home", "WebPage", { about: ref(SOFTWARE_ID) }));
     return { "@context": "https://schema.org", "@graph": nodes };
   }
 
   // Everything below references these, so every page defines them.
-  nodes.push(organization, website);
+  nodes.push(founder, organization, website);
   if (slug === "bots") nodes.push(software);
 
   switch (slug) {
@@ -205,13 +216,19 @@ export function graphFor(
         "@id": pageId(page.path as string),
         headline: page.absoluteTitle ?? page.title,
         description: page.description,
-        author: ref(ORG_ID),
+        author: ref(FOUNDER_ID),
         publisher: ref(ORG_ID),
         mainEntityOfPage: absolute(page.path as string),
         isPartOf: ref(SITE_ID),
         inLanguage: "en",
-        // No datePublished: we don't have a date we can stand behind, and a
-        // made-up one is worse than none.
+        datePublished: "2026-05-31",
+        dateModified: page.lastModified,
+        image: {
+          "@type": "ImageObject",
+          url: absolute(ogPath("note")),
+          width: 1200,
+          height: 630,
+        },
       });
       break;
     default:
@@ -232,6 +249,7 @@ export function graphForBot(slug: string): Node {
     "@context": "https://schema.org",
     "@graph": [
       // A bot page references all three, so it defines all three.
+      founder,
       organization,
       website,
       software,
