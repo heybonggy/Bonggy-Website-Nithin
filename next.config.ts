@@ -25,6 +25,24 @@ const nextConfig: NextConfig = {
       // sections of the homepage, not pages.
       { source: "/pricing", destination: "/#pricing", permanent: true },
       { source: "/use-cases", destination: "/#teams", permanent: true },
+
+      /**
+       * URLs the old static site served, which Google still has on record and
+       * which currently 404 (Search Console, "Not found (404)").
+       *
+       * The note is the same piece under a new path: the site's own banner
+       * calls /resources/a-note-from-us "A note from us: why we built Bonggy".
+       * /pages/ reaches /pages through Next's trailing-slash redirect and is
+       * caught here.
+       */
+      { source: "/privacy.html", destination: "/privacy", permanent: true },
+      { source: "/terms.html", destination: "/terms", permanent: true },
+      {
+        source: "/resources/why-we-built-bonggy",
+        destination: "/resources/a-note-from-us",
+        permanent: true,
+      },
+      { source: "/pages", destination: "/", permanent: true },
     ];
   },
 
