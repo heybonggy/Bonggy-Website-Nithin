@@ -22,7 +22,7 @@ import {
   type PageSlug,
 } from "@/content/site";
 import { CATALOG, botUrl } from "@/content/bots";
-import { LOGO_URL } from "@/lib/metadata";
+import { LOGO_URL, ogPath } from "@/lib/metadata";
 
 type Node = Record<string, unknown>;
 
@@ -210,8 +210,22 @@ export function graphFor(
         mainEntityOfPage: absolute(page.path as string),
         isPartOf: ref(SITE_ID),
         inLanguage: "en",
-        // No datePublished: we don't have a date we can stand behind, and a
-        // made-up one is worse than none.
+        /**
+         * When the page last changed, which we do know: it is the same literal
+         * the sitemap advertises, so the two can't disagree.
+         *
+         * Still no `datePublished`. Google's Article guidance asks for it and
+         * answer engines weigh freshness by it, but we don't have a date for
+         * when the note went live that anyone can stand behind, and inventing
+         * one to fill the field is worse than leaving it out.
+         */
+        dateModified: page.lastModified,
+        image: {
+          "@type": "ImageObject",
+          url: absolute(ogPath("note")),
+          width: 1200,
+          height: 630,
+        },
       });
       break;
     default:
