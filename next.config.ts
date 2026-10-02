@@ -62,6 +62,29 @@ const nextConfig: NextConfig = {
         source: "/((?!og/|.*\\.[a-zA-Z0-9]+$).*)",
         headers: [{ key: "Link", value: '</llms.txt>; rel="describedby"' }],
       },
+      {
+        /**
+         * Not SEO. The site has a /security page, and the first thing anyone
+         * doing diligence on a vendor does is look at its headers.
+         *
+         * No `preload` on HSTS: that submits the domain to a list baked into
+         * browsers, removal takes months, and every subdomain must then be
+         * HTTPS forever. Two years of max-age is the commitment; preload is a
+         * separate decision for when someone actually wants it.
+         *
+         * No Content-Security-Policy yet either. The theme script is inline
+         * and runs before first paint to avoid a flash, so a CSP needs nonces
+         * or hashes and a preview deploy to test against.
+         */
+        source: "/:path*",
+        headers: [
+          { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains" },
+          { key: "X-Frame-Options", value: "DENY" },
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
+        ],
+      },
     ];
   },
 };
